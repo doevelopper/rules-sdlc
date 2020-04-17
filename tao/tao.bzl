@@ -1,4 +1,19 @@
 
+TAO_VERSIONING_IDL_FLAGS = [
+    "-Wb,versioning_begin=TAO_BEGIN_VERSIONED_NAMESPACE_DECL",
+    "-Wb,versioning_end=TAO_END_VERSIONED_NAMESPACE_DECL",
+    "-Sg",
+    "-TS 4",
+    "-Wb,pre_include=ace/pre.h",
+    "-Wb,post_include=ace/post.h",
+    "--idl-version 4",
+    "--unknown-annotations ignore",
+#    "-I${TAO_INCLUDE_DIR}",
+#    "-I${GEN_DIR}",
+]
+
+
+
 def _file_name(filePathName):
     if '/' in filePathName:
         return filePathName.rsplit('/', -1)[1]
@@ -27,7 +42,7 @@ def tao_idl_gen(name, src, **kwargs):
                  "%S.cpp" % base_name,
                  "%S.h" % base_name,
             ],
-            cmd = "/opt/dds/opendds/bin/tao_idl $@ -o $(GENDIR)/cfs/com",
+            cmd = "/usr/local/bin/tao_idl $@ -o $(GENDIR)/cfs/com",
         **kwargs
     )
 """
