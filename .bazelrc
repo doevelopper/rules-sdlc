@@ -1,0 +1,12 @@
+# Import legacy .bazelrc file.
+#
+try-import %workspace%/src/main/resources/bazel/bazel.rc
+
+# Import environment-specific configuration. required once CI is configured to always run
+# `install_prereqs_user_environment`.
+try-import %workspace%/src/main/resources/bazel/environment.bazelrc
+try-import %workspace%/gen/environment.bazelrc
+
+# Try to import user-specific configuration local to workspace.
+try-import %workspace%/user.bazelrc
+
