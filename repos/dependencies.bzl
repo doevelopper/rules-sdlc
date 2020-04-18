@@ -1,9 +1,11 @@
+"""All development and production dependencies of rules_sdlc."""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 def dependencies_repositories():
-    """Declares external repositories that project depends on. This
+    """Macro to include the differential privacy library's critical dependencies in a WORKSPACE.
+    Declares external repositories that project depends on. This
     function should be loaded and called from WORKSPACE files."""
 
     # Based on https://github.com/tensorflow/tensorflow/blob/master/third_party/eigen.BUILD
@@ -47,6 +49,32 @@ def dependencies_repositories():
         strip_prefix = "protobuf-master",
         urls = ["https://github.com/protocolbuffers/protobuf/archive/master.zip"],
         sha256 = "934e5beeb9178437d86943a88f9e8e4d037372dd34cf03c3f31e35bb5df9614f",
+    )
+
+    _maybe(
+        http_archive,
+        name = "tink_base",
+        urls = ["https://github.com/google/tink/archive/master.zip"],
+         strip_prefix = "tink-master/",
+    )
+
+    _maybe(
+        git_repository,
+        name = "com_google_absl",
+        remote = "https://github.com/abseil/abseil-cpp",
+    )
+    _maybe(
+        git_repository,
+        name = "com_github_gflags_gflags",
+        commit = "e171aa2",  # release v2.2.2
+        remote = "https://github.com/gflags/gflags.git",
+     )
+
+    _maybe(
+       git_repository,
+       name = "com_github_glog_glog",
+       commit = "96a2f23",  # release v0.4.0
+       remote = "https://github.com/google/glog.git",
     )
 
 def _maybe(repo_rule, name, **kwargs):

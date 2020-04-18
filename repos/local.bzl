@@ -1,12 +1,35 @@
 
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load(
+    "@bazel_tools//tools/build_defs/repo:http.bzl",
+    "http_archive"
+)
+
+load(
+    "@bazel_tools//tools/build_defs/repo:git.bzl",
+    "git_repository",
+    "new_git_repository",
+)
+
+def github_archive(name, repo_name, commit, sha256 = None, kind = "zip"):
+    """Defines a GitHub commit-based repository rule."""
+    project = repo_name[repo_name.index("/"):]
+    http_archive(
+       name = name,
+       sha256 = sha256,
+       strip_prefix = "{project}-{commit}".format(project = project, commit = commit),
+       urls = [u.format(commit = commit, repo_name = repo_name, kind = kind) for u in [
+			"https://mirror.bazel.build/github.com/{repo_name}/archive/{commit}.{kind}",
+			"https://github.com/{repo_name}/archive/{commit}.{kind}",
+			]
+		],
+    )
 
 def usr_local_bin_repository():
     _maybe(
         native.new_local_repository,
-        name = "tao_dds_bin",
-        path = "/usr/include",
+        name = "usr_local",
+        path = "/usr/local",
         build_file = "@io_rules_sdlc//third_party:BUILD.opendds",
         # build_file: path to the BUILD file, here in the same directory that the main WORKSPACE one
         #build_file = __workspace_dir__ + "ace_tao_dds.BUILD",
@@ -41,4 +64,5 @@ def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         repo_rule(name = name, **kwargs)
+
 
