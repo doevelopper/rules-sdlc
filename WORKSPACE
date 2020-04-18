@@ -23,7 +23,6 @@ load("@io_rules_sdlc//utils:pkg_config.bzl", "pkg_config_repository")
 load("@io_rules_sdlc//repos:local.bzl","usr_local_bin_repository")
 usr_local_bin_repository()
 
-
 #load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 
 #buildifier(
