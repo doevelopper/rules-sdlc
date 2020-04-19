@@ -20,8 +20,14 @@ dependencies_repositories()
 
 load("@io_rules_sdlc//utils:pkg_config.bzl", "pkg_config_repository")
 
-load("@io_rules_sdlc//repos:local.bzl","usr_local_bin_repository")
-usr_local_bin_repository()
+#load("@io_rules_sdlc//repos:local.bzl","usr_local_bin_repository")
+#usr_local_bin_repository()
+
+new_local_repository(
+    name = "usr_local",
+    path = "/usr/local",
+    build_file = "@io_rules_sdlc//third_party:BUILD.opendds",
+)
 
 #load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 

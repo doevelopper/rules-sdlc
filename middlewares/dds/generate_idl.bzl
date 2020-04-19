@@ -34,6 +34,7 @@ TAO_IDL_OPTS = select({
         "-I$$TAO_ROOT",
         "-I$$DDS_ROOT",
         "-I$$ACE_ROOT",
+        "-Sg",
         "-in",
         "-Gstl",
         "-hc Client.hpp",

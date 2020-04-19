@@ -22,10 +22,19 @@ config_setting(
     visibility = ["//visibility:public"],
 )
 
+config_setting(
+    name = "with_omniorb",
+    define_values = {"with_omniorb": "true"},
+    visibility = ["//visibility:public"],
+)
 
 #sh_binary(
 #    name = "tao_idl_bin",
-#    srcs = ["@usr_local//:bin/tao_idl"],
+    #srcs = ["@usr_local//:bin/tao_idl"],
+#    srcs = ["/usr/local/bin/tao_idl"],
+#    srcs = select({
+
+#    }),
 #    visibility = ["//visibility:public"],
 #)
 

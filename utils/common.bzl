@@ -2,6 +2,32 @@
     https://github.com/RobotLocomotion/drake/blob/master/tools/workspace/
 """
 
+def _is_linux(ctxt):
+    return ctxt.os.name == "linux"
+
+def _is_arch(ctxt, arch):
+    res = ctxt.execute(["uname", "-m"])
+    return arch in res.stdout
+
+def _is_linux_ppc(ctxt):
+    return _is_linux(ctxt) and _is_arch(ctxt, "ppc")
+
+def _is_linux_x86_64(ctxt):
+    return _is_linux(ctxt) and _is_arch(ctxt, "x86_64")
+
+def _is_windows(repository_ctx):
+    """Returns true if the host operating system is windows."""
+    os_name = repository_ctx.os.name.lower()
+    if os_name.find("windows") != -1:
+        return True
+    return False
+
+def _fail_msg(msg):
+    """Output failure message when  fails."""
+    red = "\033[0;31m"
+    no_color = "\033[0m"
+    fail("\n%s Error: %s %s\n" % (red, no_color, msg))
+
 def full_path_file_name(filePathName):
     if '/' in filePathName:
         return filePathName.rsplit('/', -1)[1]
@@ -127,5 +153,17 @@ def exec_using_which(repository_ctx, command):
 # Sanitize a dependency so that it works correctly from code that includes it as a submodule.
 def clean_dep(dep):
     return str(Label(dep))
+
+def find_binary_path(repository_ctx, binary_name):
+    bin_path = repository_ctx.which(binary_name)
+    if bin_path == None:
+        fail(("Cannot find {}, either correct your path or set the /usr/local/bin/{}" +
+            " environment variable").format(binary_name, binary_name))
+
+    result = repository_ctx.execute([str(bin_path),"--version"])
+    if result.stderr:
+        _fail_msg("Error running  --version: %s" % result.stderr)
+
+    return bin_path
 
 
