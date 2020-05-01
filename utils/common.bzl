@@ -164,6 +164,7 @@ def find_binary_path(repository_ctx, binary_name):
     if result.stderr:
         _fail_msg("Error running  --version: %s" % result.stderr)
 
-    return bin_path
+    #return bin_path
+    return str(bin_path)
 
 

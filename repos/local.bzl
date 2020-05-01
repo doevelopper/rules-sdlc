@@ -28,15 +28,6 @@ def github_archive(name, repo_name, commit, sha256 = None, kind = "zip"):
 def usr_local_bin_repository():
     _maybe(
         native.new_local_repository,
-        name = "usr_local",
-        path = "/usr/local",
-        build_file = "@io_rules_sdlc//third_party:BUILD.opendds",
-        # build_file: path to the BUILD file, here in the same directory that the main WORKSPACE one
-        #build_file = __workspace_dir__ + "ace_tao_dds.BUILD",
-        #build_file = __workspace_dir__ + "/src/main/resources/bazel/ace_tao_dds.BUILD",
-    )
-    _maybe(
-        native.new_local_repository,
         name = "python_system",
         build_file = "@io_rules_sdlc//third_party:python.BUILD",
         path = "/usr",
@@ -58,6 +49,41 @@ def usr_local_bin_repository():
         sha256 = "36658cb768a54c1d4dec43c3116c27ed893e88b02ecfcb44f2166f9c0b7f2a0d",
         strip_prefix = "zlib-1.2.8",
         url = "http://zlib.net/zlib-1.2.8.tar.gz",
+    )
+
+def qt_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "qt514",
+        build_file = "@io_rules_sdlc//third_party/qt.BUILD",
+        path = "/opt/Qt/5.14.2/gcc_64",
+    )
+
+def eprosima_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "fastrtps",
+        build_file = "@io_rules_sdlc//third_party/fastrtps.BUILD",
+        path = "/opt/eprosima",
+    )
+
+def omg_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "opendds",
+        path = "/usr/local",
+        build_file = "@io_rules_sdlc//third_party:opendds.BUILD",
+        # build_file: path to the BUILD file, here in the same directory that the main WORKSPACE one
+        #build_file = __workspace_dir__ + "ace_tao_dds.BUILD",
+        #build_file = __workspace_dir__ + "/src/main/resources/bazel/ace_tao_dds.BUILD",
+    )
+
+def cuda_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "cuda",
+        build_file = "@io_rules_sdlc//third_party/cuda.BUILD",
+        path = "/opt/cuda",
     )
 
 def _maybe(repo_rule, name, **kwargs):

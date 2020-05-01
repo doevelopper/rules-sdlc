@@ -12,3 +12,4 @@ try-import %workspace%/user.bazelrc
 
 build --show_timestamps --color=yes
 build:default --verbose_failures
+build --test_tmpdir=/tmp/ --verbose_failures
