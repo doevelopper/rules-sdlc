@@ -16,20 +16,16 @@
     permissions and limitations under the License.
  */
 
-#ifndef COMPUTER_SCIENCE_DUMMY_HPP
-#define COMPUTER_SCIENCE_DUMMY_HPP
+#ifndef STD_DUMMY_HPP
+#define STD_DUMMY_HPP
 
-#include <computer/science/LoggingService.hpp>
-
-namespace computer::science
+namespace st
 {
     /*!
      * @brief The Dummy class used as walking Skeleton class for the unit, spec and feature tests of the template
      */
     class Dummy
     {
-        static log4cxx::LoggerPtr logger;
-
         public:
 
             Dummy();

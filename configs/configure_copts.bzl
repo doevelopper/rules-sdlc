@@ -7,6 +7,7 @@ load(
 )
 
 DEFAULT_COPTS = select({
+    ":msvc": [],
     "//conditions:default": GCC_FLAGS,
 })
 

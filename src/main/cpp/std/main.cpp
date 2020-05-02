@@ -19,16 +19,9 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <computer/science/LoggingService.hpp>
-#include <computer/science/pluralsight/mocking/APIKEy.hpp>
-#include <computer/science/pluralsight/mocking/TheMovieDbRepository.hpp>
-#include <computer/science/pluralsight/mocking/TheMovieDbDataFactory.hpp>
-#include <computer/science/pluralsight/mocking/RestApiClient.hpp>
-#include <computer/science/pluralsight/mocking/MetaDataProcessor.hpp>
+#include <std/LoggingService.hpp>
 
-using namespace computer::science;
-using namespace computer::science::pluralsight;
-using namespace computer::science::pluralsight::mocking;
+using namespace st;
 
 int main(int argc, char**argv)
 {
@@ -38,26 +31,7 @@ int main(int argc, char**argv)
     LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "A Few Things All Freshmen Should Know...");
     LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
                   "The course is current to ANSI standard C++ and is designed so that it can be taught in any environment with an ANSI C++ compiler.");
-    /*
-        {
-            TheMovieDbDataFactory dataFactory;
-            RestApiClient client;
-            TheMovieDbRepository repository(MY_API_KEY, dataFactory, client);
-            MetaDataProcessor processor(repository);
 
-            Movies result;
-            processor.processMovies({ "Batman Begins" }, result);
-
-            for (auto movie : result)
-            {
-                std::cout << "Title: " << movie->getTitle() << std::endl;
-                std::cout << "IMDB Id: " << movie->getImdbId() << std::endl << std::endl;
-                std::cout << movie->getPlot() << std::endl << std::endl;
-                std::cout << "Length (min.) " << movie->getLengthMin() << std::endl << std::endl;
-                std::cout << "----------------------------------------" << std::endl;
-            }
-        }//  Scopew to guarantee that static object are destroying logger used by these object on their destruiion
-     */
     if(loggingService)
     {
         delete loggingService;

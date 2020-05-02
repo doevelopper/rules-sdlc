@@ -86,6 +86,30 @@ def cuda_local_repository():
         path = "/opt/cuda",
     )
 
+def rti_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "rti",
+        build_file = "@io_rules_sdlc//third_party/rti.BUILD",
+        path = "/opt/rti",
+    )
+
+def ospl_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "opensplice",
+        build_file = "@io_rules_sdlc//third_party/cuda.BUILD",
+        path = "/opt/HDE",
+    )
+
+def omniorb_local_repository():
+    _maybe(
+        native.new_local_repository,
+        name = "omniorb",
+        build_file = "@io_rules_sdlc//third_party/omniorb.BUILD",
+        path = "/opt/omniorb",
+    )
+
 def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():

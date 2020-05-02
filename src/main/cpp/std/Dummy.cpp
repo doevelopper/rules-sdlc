@@ -17,11 +17,11 @@
  */
 
 #include <string>
-#include <computer/science/Dummy.hpp>
+#include <Dummy.hpp>
 
-using namespace computer::science;
+using namespace st;
 
-log4cxx::LoggerPtr Dummy::logger = log4cxx::Logger::getLogger(std::string("computer.science.Dummy"));
+log4cxx::LoggerPtr Dummy::logger = log4cxx::Logger::getLogger(std::string("Dummy"));
 
 Dummy::Dummy()
 {

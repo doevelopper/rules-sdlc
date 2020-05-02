@@ -1,30 +1,41 @@
 config_setting(
     name = "with_opendds",
-    define_values = {"with_opendds": "true"},
+    define_values = {
+        "with_opendds": "true",
+    },
     visibility = ["//visibility:public"],
 )
 
 config_setting(
     name = "with_fastrtps",
-    define_values = {"with_fastrtps": "true"},
+    define_values = {
+        "with_fastrtps": "true",
+    },
     visibility = ["//visibility:public"],
 )
 
 config_setting(
     name = "with_vortexdds",
-    define_values = {"with_vortexdds": "true"},
+    define_values = {
+        "with_vortexdds": "true",
+    },
     visibility = ["//visibility:public"],
 )
 
 config_setting(
     name = "with_rtidds",
-    define_values = {"with_rtidds": "true"},
+    define_values = {
+        "with_rtidds": "true",
+    },
     visibility = ["//visibility:public"],
 )
 
 config_setting(
     name = "with_omniorb",
-    define_values = {"with_omniorb": "true"},
+    define_values = {
+        "with_omniorb": "true",
+        "MDLWR":"CORBA"
+    },
     visibility = ["//visibility:public"],
 )
 
