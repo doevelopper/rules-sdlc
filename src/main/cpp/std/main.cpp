@@ -21,11 +21,9 @@
 #include <cstdlib>
 #include <std/LoggingService.hpp>
 
-using namespace st;
-
 int main(int argc, char**argv)
 {
-    LoggingService * loggingService = new LoggingService();
+    st::LoggingService * loggingService = new st::LoggingService();
 
     LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "CPP-101: C++ Object Oriented Programming!");
     LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "A Few Things All Freshmen Should Know...");

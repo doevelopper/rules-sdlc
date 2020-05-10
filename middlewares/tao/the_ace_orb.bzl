@@ -173,6 +173,7 @@ def _generate_idl2cpp(ctx):
                 execution_requirements = None,
                 input_manifests = None,
             )
+
     return [DefaultInfo(files = depset(files))]
 
 tao_idl2cpp = rule(
@@ -203,4 +204,3 @@ tao_idl2cpp = rule(
 
     implementation = _generate_idl2cpp,
 )
-

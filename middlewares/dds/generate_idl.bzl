@@ -2,7 +2,6 @@
 # https://docs.bazel.build/versions/master/skylark/lib/actions.html
 
 TAO_IDL_BIN = select({
-    #    "//conditions:default": "/usr/local/bin/tao_idl",
     "//conditions:default": "@io_rules_sdlc//:tao-idl-bin",
 })
 
@@ -27,7 +26,7 @@ IDL_GENERIC_OPTS = select({
     ],
 })
 
-TAO_IDL_OPTS = select({
+TAO_IDL_OPTS = IDL_GENERIC_OPTS + select({
     "//conditions:default": [
         "-Wb,pre_include=ace/pre.h",
         "-Wb,post_include=ace/post.h",
@@ -46,7 +45,7 @@ TAO_IDL_OPTS = select({
     ],
 })
 
-OPENDDS_IDL_OPTS = select({
+OPENDDS_IDL_OPTS = IDL_GENERIC_OPTS + select({
     "//conditions:default": [
         "-Sa",
         "-St",

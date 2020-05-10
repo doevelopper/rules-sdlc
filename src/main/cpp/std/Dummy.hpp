@@ -19,6 +19,8 @@
 #ifndef STD_DUMMY_HPP
 #define STD_DUMMY_HPP
 
+#include <LoggingService.hpp>
+
 namespace st
 {
     /*!
@@ -26,6 +28,8 @@ namespace st
      */
     class Dummy
     {
+        LOG4CXX_DECLARE_STATIC_LOGGER
+
         public:
 
             Dummy();

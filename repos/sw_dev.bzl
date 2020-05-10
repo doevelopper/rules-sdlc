@@ -84,15 +84,15 @@ def dev_repositories():
         name = "rules_cc",
         strip_prefix = "rules_cc-master",
         urls = ["https://github.com/bazelbuild/rules_cc/archive/master.zip"],
-        sha256 = "20e134e1348022090fd38bcf354dd88f4d95808ad905c62cb1a359b03c4ad058",
+        #sha256 = "c91e22d4d522cba1cd14edf062183a7036ed476ee63551267c2857e19c0b64b9",
     )
 
     _maybe(
         http_archive,
         name = "com_github_google_rules_install",
-        urls = ["https://github.com/google/bazel_rules_install/releases/download/0.3/bazel_rules_install-0.3.tar.gz"],
-        sha256 = "ea2a9f94fed090859589ac851af3a1c6034c5f333804f044f8f094257c33bdb3",
-        strip_prefix = "bazel_rules_install-0.3",
+        urls = ["https://github.com/google/bazel_rules_install/releases/download/0.4/bazel_rules_install-0.4.tar.gz"],
+        sha256 = "ac2c9c53aa022a110273c0e510d191a4c04c6adafefa069a5eeaa16313edc9b9",
+        strip_prefix = "bazel_rules_install-0.4",
     )
 
     _maybe(
@@ -145,11 +145,11 @@ def dev_repositories():
         urls = ["https://github.com/tweag/rules_sh/archive/v0.2.0.tar.gz"],
     )
 
-
     _maybe(
         http_archive,
         name = "build_bazel_integration_testing",
-        url = "https://github.com/bazelbuild/bazel-integration-testing/archive/3a6136e8f6287b04043217d94d97ba17edcb7feb.zip",
+        #url = "https://github.com/bazelbuild/bazel-integration-testing/archive/3a6136e8f6287b04043217d94d97ba17edcb7feb.zip",
+        url = "https://github.com/bazelbuild/bazel-integration-testing/archive/master.zip",
         type = "zip",
         strip_prefix= "bazel-integration-testing-3a6136e8f6287b04043217d94d97ba17edcb7feb",
         sha256 = "bfc43a94d42e08c89a26a4711ea396a0a594bd5d55394d76aae861b299628dca",
@@ -159,6 +159,3 @@ def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         repo_rule(name = name, **kwargs)
-
-
-

@@ -48,7 +48,7 @@ def dependencies_repositories():
         name = "com_google_protobuf",
         strip_prefix = "protobuf-master",
         urls = ["https://github.com/protocolbuffers/protobuf/archive/master.zip"],
-        sha256 = "934e5beeb9178437d86943a88f9e8e4d037372dd34cf03c3f31e35bb5df9614f",
+        #sha256 = "934e5beeb9178437d86943a88f9e8e4d037372dd34cf03c3f31e35bb5df9614f",
     )
 
     _maybe(
@@ -63,6 +63,7 @@ def dependencies_repositories():
         name = "com_google_absl",
         remote = "https://github.com/abseil/abseil-cpp",
     )
+
     _maybe(
         git_repository,
         name = "com_github_gflags_gflags",
@@ -77,8 +78,34 @@ def dependencies_repositories():
        remote = "https://github.com/google/glog.git",
     )
 
+    _maybe(
+        http_archive,
+        name = "png_archive",
+        build_file = "@io_rules_sdlc//third_party:png.BUILD",
+        sha256 = "c35bcc6387495ee6e757507a68ba036d38ad05b415c2553b3debe2a57647a692",
+        strip_prefix = "libpng-1.2.53",
+        url = "http://github.com/glennrp/libpng/archive/v1.2.53.zip",
+    )
+
+    _maybe(
+        http_archive,
+        name = "zlib_archive",
+        build_file = "zlib.BUILD",
+        sha256 = "36658cb768a54c1d4dec43c3116c27ed893e88b02ecfcb44f2166f9c0b7f2a0d",
+        strip_prefix = "zlib-1.2.8",
+        url = "http://zlib.net/zlib-1.2.8.tar.gz",
+    )
+
+    _maybe(
+        http_archive,
+        name = "six_archive",
+        url = "https://bitbucket.org/gutworth/six/get/1.10.0.zip",
+        sha256 = "016c8313d1fe8eefe706d5c3f88ddc51bd78271ceef0b75e0a9b400b6a8998a9",
+        strip_prefix = "gutworth-six-e5218c3f66a2",
+        build_file = clean_dep("@io_rules_sdlc//third_party:six.BUILD"),
+    )
+
 def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         repo_rule(name = name, **kwargs)
-

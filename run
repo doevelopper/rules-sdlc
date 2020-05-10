@@ -99,7 +99,27 @@ select_container () {
 # }
 
 run_container() {
-	docker run --rm --volume /etc/passwd:/etc/passwd:ro --volume /etc/group:/etc/group:ro --volume /etc/sudoers.d:/etc/sudoers.d:ro --volume ${HOME}/.ssh:/home/${USER}/.ssh --volume ${HOME}/.cache:/home/${USER}/.cache --volume ${HOME}/.conan:/home/${USER}/.conan --volume ${HOME}/.m2:/home/${USER}/.m2 --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vim:/home/${USER}/.vim --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vimrc:/home/${USER}/.vimrc  --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.aliases:/home/${USER}/.aliases --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.env:/home/${USER}/.env --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.functions:/home/${USER}/.functions  --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.bashrc:/home/${USER}/.bashrc --workdir "/home/${USER}/$(basename ${PWD})" --volume ${PWD}:/home/${USER}/$(basename ${PWD}) --user $(id -u ${USER}):$(id -g ${USER}) --name=$(whoami) --hostname="$(basename ${PWD})-${RND_NS}" --tty --interactive ${CONTAINER}:latest
+	docker run --rm \
+	    --volume /etc/passwd:/etc/passwd:ro \
+		--volume /etc/group:/etc/group:ro \
+		--volume /etc/sudoers.d:/etc/sudoers.d:ro \
+		--volume ${HOME}/.ssh:/home/${USER}/.ssh \
+		--volume ${HOME}/.cache:/home/${USER}/.cache \
+		--volume ${HOME}/.conan:/home/${USER}/.conan \
+		--volume ${HOME}/.m2:/home/${USER}/.m2 \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vim:/home/${USER}/.vim \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vimrc:/home/${USER}/.vimrc  \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.aliases:/home/${USER}/.aliases \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.env:/home/${USER}/.env \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.functions:/home/${USER}/.functions \
+		--volume $GIT_ROOTDIR/src/main/resources/dotfiles/.bashrc:/home/${USER}/.bashrc \
+		--workdir "/home/${USER}/$(basename ${PWD})" \
+		--volume ${PWD}:/home/${USER}/$(basename ${PWD}) \
+		--user $(id -u ${USER}):$(id -g ${USER}) \
+		--name=$(whoami) \
+		--hostname="$(basename ${PWD})-${RND_NS}" \
+		--tty \
+		--interactive ${CONTAINER}:latest
 }
 
 

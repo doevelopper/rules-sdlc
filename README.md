@@ -14,13 +14,12 @@ http_archive(
 )
 ```
 
-Then, in your `BUILD` files, import and use the rules:
+Then, in your `BUILD.bazel` files, import and use the rules:
 
 
 ```starlark
-load("@io_rules_sdlc//<dir>/<dir>:<file>.bzl", "cc_library")
+load("@io_rules_sdlc//<dir>/<dir>:<file>.bzl", "sdlc_cc_library")
 
-parents_rule_repositories()
+sdlc_rule_repositories()
 or ...
 ```
-

@@ -24,13 +24,13 @@ sdlc_cpp_library(
 
     srcs = [
         "LoggingService.cpp",
-#        "Dummy.cpp",
+        "Dummy.cpp",
 
     ],
 
     hdrs = [
         "LoggingService.hpp",
-#        "Dummy.hpp",
+        "Dummy.hpp",
 
     ],
 
