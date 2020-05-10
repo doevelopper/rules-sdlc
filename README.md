@@ -2,6 +2,11 @@
 
 Bazel rules and resources used for all projects of the
 
+- cpp [proto|idl|grpc]
+- pyhton [proto|idl]
+- java [proto|idl|grpc]
+- sh
+- kotlin [proto]
 
 ```starlark
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
