@@ -37,6 +37,9 @@ def full_path_file_name(filePathName):
 def file_base_name(fileName):
     return fileName.split('.')[0]
 
+def strip_extension(file_name):
+    return file_name[0:-2]
+
 def _get_runfile_path(ctx, f):
   """Return the path to f, relative to runfiles."""
   if ctx.workspace_name:
@@ -168,3 +171,22 @@ def find_binary_path(repository_ctx, binary_name):
     return str(bin_path)
 
 
+def sdlc_binary_alias(executable_name):
+    native.alias(
+        name = executable_name,
+        actual = select({
+            # "@bazel_tools//src/conditions:linux_x86_64": "",
+            "@bazel_tools//src/conditions:darwin_x86_64": "@io_rules_sdlc//:bin/{}".format(executable_name),
+            "@bazel_tools//src/conditions:darwin": "@io_rules_sdlc//:bin/{}".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows": "@io_rules_sdlc//:{}.exe".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows_msvc": "@io_rules_sdlc//:{}.exe".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows_msys": "@io_rules_sdlc//:{}.exe".format(executable_name),
+        }),
+    )
+
+def sdlc__library_alias(name):
+    return {
+        "@bazel_tools//toolchain:windows_x86_64": ["{}.dll".format(name)],
+        "@bazel_tools//toolchain:macos_x86_64": ["lib{}.dylib".format(name)],
+        "//conditions:default": ["lib{}.so".format(name)],
+    }

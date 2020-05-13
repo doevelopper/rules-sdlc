@@ -1,6 +1,8 @@
 # -*- python -*-
 
 def _make_identifier(s):
+    """ bla
+    """
     result = ""
     for i in range(len(s)):
         result += s[i] if s[i].isalnum() else "_"

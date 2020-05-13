@@ -53,7 +53,7 @@ def omg_local_repository():
     _maybe(
         native.new_local_repository,
         name = "opendds",
-        path = "/usr/local",
+        path = "/usr/local/",
         build_file = "@io_rules_sdlc//third_party:opendds.BUILD",
         # build_file: path to the BUILD file, here in the same directory that the main WORKSPACE one
         #build_file = __workspace_dir__ + "ace_tao_dds.BUILD",
@@ -96,5 +96,3 @@ def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         repo_rule(name = name, **kwargs)
-
-

@@ -4,6 +4,9 @@
 # but separate aliases are used so they can map to different package groups
 # within google.
 
+"""
+.
+"""
 PUBLIC_PROTO_VISIBILITY = "//visibility:public"
 
 PUBLIC_VISIBILITY = "//visibility:public"

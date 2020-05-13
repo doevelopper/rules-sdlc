@@ -62,4 +62,3 @@ cc_binary(
     data = [":logo_miniature"],
 )
 """
-

@@ -1,5 +1,5 @@
 
-def open_repository():
+def openssl_repository():
     return native.new_local_repository(
         name = "openssl_shared",
         build_file_content = """
@@ -18,7 +18,7 @@ def open_repository():
         path = "/usr/loal/lib", # pkg-config --variable=libdir ssl
     )
 
-def cc_openssl_library(name, deps = [], **kwargs):
+def openssl_cc_library(name, deps = [], **kwargs):
     native.cc_library(
         name = name,
         deps = deps,

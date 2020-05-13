@@ -10,8 +10,9 @@ def clean_dep(dep):
 cpplint_version = "1.4.5"
 
 def qa_repositories():
-    """Declares external repositories that project depends on. This
-    function should be loaded and called from WORKSPACE files."""
+    """Declares external repositories that project depends on.
+
+    This function should be loaded and called from WORKSPACE files."""
 
     _maybe(
         http_archive,
@@ -46,12 +47,10 @@ def qa_repositories():
         remote = "https://github.com/google/benchmark",
     )
 
-
 def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         repo_rule(name = name, **kwargs)
-
 
 def cc_googletest(name, deps = [], out_format = "json", **kwargs):
     native.cc_test(
@@ -59,4 +58,3 @@ def cc_googletest(name, deps = [], out_format = "json", **kwargs):
        deps = deps + ["@com_google_googletest//libraries:gtest"],
        **kwargs
     )
-

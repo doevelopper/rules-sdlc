@@ -41,11 +41,11 @@ config_setting(
 
 #sh_binary(
 #    name = "tao_idl_bin",
-    #srcs = ["@usr_local//:bin/tao_idl"],
-#    srcs = ["/usr/local/bin/tao_idl"],
-#    srcs = select({
-
-#    }),
+#    srcs = [":/usr/local/bin/opendds_idl"],
+##    srcs = ["@opendds//:bin/tao_idl"],
+# #   srcs = select({
+##        "//conditions:default": "/usr/local/bin/opendds_idl",
+##    }),
 #    visibility = ["//visibility:public"],
 #)
 
@@ -120,4 +120,3 @@ config_setting(
 #    srcs = ["bin/idlj"],
 #    visibility = ["//visibility:public"],
 #)
-

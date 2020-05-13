@@ -4,7 +4,7 @@ Helper wrapper functions
 
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 load("@com_google_protobuf//:protobuf.bzl", "cc_proto_library", "py_proto_library")
-load("@rules_python//python:defs.bzl", "py_library")
+load("@rules_python//python:defs.bzl", "py_library","py_binary","py_test")
 
 def msvc_cpp_build_copts():
     return [
@@ -212,6 +212,7 @@ SDLC_LINKOPTS = select({
     "//conditions:default": [
         "-pthread",
         "-lm",
+        "-lrt",
     ],
 })
 

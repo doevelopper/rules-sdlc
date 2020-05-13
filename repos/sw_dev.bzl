@@ -5,8 +5,9 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 bzl_tc_version = "3.0.1"
 
 def dev_repositories():
-    """Declares external repositories that project depends on. This
-    function should be loaded and called from WORKSPACE files."""
+    """Declares external repositories that project depends on.
+
+    This function should be loaded and called from WORKSPACE files."""
 
     _maybe(
         http_archive,
@@ -84,7 +85,7 @@ def dev_repositories():
         name = "rules_cc",
         strip_prefix = "rules_cc-master",
         urls = ["https://github.com/bazelbuild/rules_cc/archive/master.zip"],
-        #sha256 = "c91e22d4d522cba1cd14edf062183a7036ed476ee63551267c2857e19c0b64b9",
+        sha256 = "4d32debb2de7e3d0a96b59859d3effc9860f8d1d1dedc0eae8e74bef86295b26",
     )
 
     _maybe(
@@ -149,10 +150,11 @@ def dev_repositories():
         http_archive,
         name = "build_bazel_integration_testing",
         #url = "https://github.com/bazelbuild/bazel-integration-testing/archive/3a6136e8f6287b04043217d94d97ba17edcb7feb.zip",
+        #strip_prefix= "bazel-integration-testing-3a6136e8f6287b04043217d94d97ba17edcb7feb",
         url = "https://github.com/bazelbuild/bazel-integration-testing/archive/master.zip",
         type = "zip",
-        strip_prefix= "bazel-integration-testing-3a6136e8f6287b04043217d94d97ba17edcb7feb",
-        sha256 = "bfc43a94d42e08c89a26a4711ea396a0a594bd5d55394d76aae861b299628dca",
+        strip_prefix= "bazel-integration-testing-master",
+        #sha256 = "bfc43a94d42e08c89a26a4711ea396a0a594bd5d55394d76aae861b299628dca",
     )
 
 def _maybe(repo_rule, name, **kwargs):

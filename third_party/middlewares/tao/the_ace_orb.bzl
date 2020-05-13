@@ -153,8 +153,8 @@ def _generate_idl2cpp(ctx):
             files.append(ts_clt_src)
             files.append(ts_srv_hdr)
             files.append(ts_srv_src)
-			tao_idl_args.add(generated_typesupport_idl)
-			tao_idl_args.add("-I{}/{}".format(ctx.label.package, idl_file_path))
+            tao_idl_args.add(generated_typesupport_idl)
+            tao_idl_args.add("-I{}/{}".format(ctx.label.package, idl_file_path))
             ctx.actions.run(
                 outputs = [
                     ts_hdr_inl,
@@ -173,10 +173,9 @@ def _generate_idl2cpp(ctx):
                 execution_requirements = None,
                 input_manifests = None,
             )
-
     return [DefaultInfo(files = depset(files))]
 
-tao_idl2cpp = rule(
+tao_idl2cpp = rule (
     attrs = {
         "idls": attr.label_list(
             allow_files = [".idl"],
@@ -186,8 +185,8 @@ tao_idl2cpp = rule(
         "_tao_idl_bin": attr.label(
             executable = True,
             cfg = "host",
-            default = Label("@io_rules_sdlc//middlewares:tao_idl_bin"),
-            # default = None if is_windows else Label("@io_rules_sdlc//middlewares:tao_idl_bin"),
+            #default = Label("@io_rules_sdlc//middlewares:tao_idl_bin"),
+            default = None if is_windows else Label("@io_rules_sdlc//middlewares:tao_idl_bin"),
         ),
         "is_type_support_idl": attr.bool(),
     },
