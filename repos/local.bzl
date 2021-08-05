@@ -36,7 +36,7 @@ def usr_local_bin_repository():
 def qt_local_repository():
     _maybe(
         native.new_local_repository,
-        name = "qt514",
+        name = "qt5142",
         build_file = "@io_rules_sdlc//third_party/qt.BUILD",
         path = "/opt/Qt/5.14.2/gcc_64",
     )

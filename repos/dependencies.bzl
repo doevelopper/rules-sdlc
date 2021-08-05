@@ -64,14 +64,10 @@ dependencies_archives = {
 
 
     "com_googlesource_code_cctz": {
-        "build_file": "@io_rules_sdlc//third_party:png.BUILD",
+        #"build_file": "@io_rules_sdlc//third_party:png.BUILD",
         #"sha256": "todo",
-         "strip_prefix": "libpng-1.2.53",
-        "urls": [
-#            "https://freefr.dl.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz",
-            "https://freefr.dl.sourceforge.net/project/libpng/libpng16/1.6.35/libpng-1.6.35.tar.gz",
-            "https://github.com/glennrp/libpng/archive/v1.6.35.tar.gz",
-        ],
+        "strip_prefix" : "cctz-master",
+        "urls": ["https://github.com/google/cctz/archive/master.zip"],
     },
 
 }

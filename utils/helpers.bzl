@@ -8,6 +8,7 @@ load("@rules_python//python:defs.bzl", "py_library","py_binary","py_test")
 
 def msvc_cpp_build_copts():
     return [
+        "/std:c++17",  # This MUST match all other compilation units
         "-WX",
         "-DWIN32",
         "-DWIN32_LEAN_AND_MEAN",
@@ -157,7 +158,71 @@ def cpp_build_copts():
         "-Wvla",  # variable-length array
         "-Wsign-promo",
 
-    ]
+    ] + select({
+        ":with_glog": ["-DBRPCG=1"],
+        "//conditions:default": ["-DBRPC=0"],
+    }) + select({
+        ":with_opendds": ["-DBRPC=1"]
+            + select({
+                ":linux_x86_64": [
+                    "-DLINUX_UNIX",
+                ],
+                ":linux_aarch64": [
+                    "-fpic",
+                ],
+                "//conditions:default": ["-DBRPC=0"],
+            }),
+        "//conditions:default": ["-DBRPC=0"],
+    }) + select({
+        ":with_fastrtps": ["-DUSE_MESALINK"]
+            + select({
+                ":linux_x86_64": [
+                    "-DLINUX_UNIX",
+                ],
+                ":linux_aarch64": [
+                    "-fpic",
+                ],
+                "//conditions:default": ["-DBRPC=0"],
+            }),
+        "//conditions:default": [""],
+    }) + select({
+        ":with_vortexdds": ["-DVORTEX_DDS=1",]
+            + select({
+                ":linux_x86_64": [
+                    "-DLINUX_UNIX",
+                ],
+                ":linux_aarch64": [
+                    "-fpic",
+                ],
+                "//conditions:default": ["-DBRPC_WITH_GLOG=0"],
+            }),
+        "//conditions:default": [""],
+    }) + select({
+        ":with_rtidds": [
+                "-DRTI_DDS=1",
+        ] + select({
+                ":linux_x86_64": [
+                    "-DRTI_UNIX",
+                    "-DRTI_LINUX",
+                    "-DRTI_64BIT",
+                    "-DNDDSHOME=/opt/rti_connext_dds-5.3.1",
+                    "-DCONNEXTDDS_ARCH=x64Linux3gcc5.4.0",
+                    "-DRTICODEGEN_DIR=$NDDSHOME/bin",
+                ],
+                ":linux_aarch64": [
+                    "-DRTI_UNIX",
+                    "-DRTI_LINUX",
+                    "-DRTI_64BIT",
+                    "-fpic",
+                ],
+                "//conditions:default": ["-DBRPC_WITH_GLOG=0"],
+#            "RTI_UNIX",
+#            "RTI_DARWIN",
+#            "RTI_DARWIN10",
+#            "RTI_64BIT",
+            }),
+        "//conditions:default": [""],
+    })
 
 def gcc_cpp_test_build_copts():
     return [
@@ -186,19 +251,35 @@ def cpp_memory_flags():
         "-fsanitize=dataflow",
     ]
 
-SDLC_COPTS = select({
-    "@bazel_tools//toolchain:windows_x86_64": [
-        "/std:c++17",  # This MUST match all other compilation units
-        "/Zc:__cplusplus",
-        "/Zc:inline",
-        "/Zc:strictStrings",
-        "/DWIN32_LEAN_AND_MEAN",
-    ],
-    "//conditions:default": [
-        "-std=c++17",
-        "-Werror",
-    ],
-})
+def sdlc_copts():
+    return [
+        "",
+    ] + select({
+        #"@bazel_tools//src/conditions:host_windows": "@rules_sdlc//:bin/protoc.bat"
+        "@bazel_tools//src/conditions:windows": msvc_cpp_build_copts(),
+        "@bazel_tools//src/conditions:windows_msvc": msvc_cpp_build_copts(),
+        "@bazel_tools//src/conditions:windows_msys": msvc_cpp_build_copts(),
+        "@bazel_tools//toolchain:windows_x86_64": [
+            "/Zc:__cplusplus",
+            "/Zc:inline",
+            "/Zc:strictStrings",
+            "/DWIN32_LEAN_AND_MEAN",
+        ] + msvc_cpp_build_copts(),
+        "//conditions:default": [
+            "-std=c++17",
+        ],
+    })
+
+def sdlc_cpp_deps():
+    return [
+        "@com_github_gflags_gflags//:gflags",
+        "@com_google_protobuf//:protobuf",
+    ] + select({
+        ":with_glog": ["@com_github_google_glog//:glog"],
+        "//conditions:default": [],
+    })
+
+#def _sdlc_platform_tag():
 
 PLATFORM_TAGS = {
     "@bazel_tools//toolchain:windows_x86_64": ["msvc"],
@@ -206,15 +287,25 @@ PLATFORM_TAGS = {
     "//conditions:default": ["linux"],
 }
 
-SDLC_LINKOPTS = select({
-    "@com_intel_plaidml//toolchain:windows_x86_64": [],
-    "@com_intel_plaidml//toolchain:macos_x86_64": [],
-    "//conditions:default": [
-        "-pthread",
-        "-lm",
-        "-lrt",
-    ],
-})
+def sdlc_linkopts():
+    return [
+        "",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:darwin": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [
+            "-L/usr/local/lib",
+            "-lpthread",
+            "-lm",
+            "-lrt",
+            "-lssl",
+            "-lcrypto",
+            "-lapr-1",
+            "-laprutil-1",
+            "-llog4cxx",
+        ],
+        "//conditions:default": [] ,
+    })
 
 def _shlib_name_patterns(name):
     return {
@@ -239,8 +330,8 @@ def sdlc_cc_shlib(
         for name_os in name_list:
             native.cc_binary(
                 name = name_os,
-                copts = SDLC_COPTS + copts,
-                linkopts = SDLC_LINKOPTS + linkopts,
+                copts = sdlc_copts() + copts,
+                linkopts = sdlc_linkopts() + linkopts,
                 linkshared = 1,
                 tags = PLATFORM_TAGS[key],
                 visibility = visibility,
@@ -255,6 +346,7 @@ def sdlc_cc_shlib(
 
 def sdlc_cpp_library(**kwargs):
     kwargs["copts"] = kwargs.get("copts", []) + gcc_cpp_build_copts()
+    kwargs["linkopts"] = kwargs.get("linkopts", []) + sdlc_linkopts()
     cc_library(**kwargs)
 
 def sdlc_cpp_binary(**kwargs):

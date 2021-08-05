@@ -21,7 +21,7 @@ from optparse import OptionParser
 
 class CopyrightUtils():
     """scan a directory for py, pyx, pxd extension files."""
-    def findFiles(directory, files=[]):
+    def findFiles(self, directory, files=[]):
         for filename in os.listdir(directory):
             path = os.path.join(directory, filename)
             if os.path.isfile(path) and (path.endswith(".py") or
@@ -58,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

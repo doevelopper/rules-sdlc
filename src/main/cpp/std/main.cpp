@@ -19,8 +19,13 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include <cstdlib>
+#include <cmath>
+#include <boost/program_options.hpp>
 #include <std/LoggingService.hpp>
 
+namespace po = boost::program_options;
 int main(int argc, char**argv)
 {
     st::LoggingService * loggingService = new st::LoggingService();
@@ -30,6 +35,28 @@ int main(int argc, char**argv)
     LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
                   "The course is current to ANSI standard C++ and is designed so that it can be taught in any environment with an ANSI C++ compiler.");
 
+    po::options_description desc("Allowed options");
+    std::vector<std::vector<std::string> > Lists(2);
+    desc.add_options()
+        ("help", "produce help message")
+        ("List0", po::value<vector<string> >(&Lists[0])->multitoken(), "List0.")
+        ("List1", po::value<vector<string> >(&Lists[1])->multitoken(), "List1.")
+    ;
+	po::variables_map vm;
+	po::store(po::parse_command_line(argc, argv, desc), vm);
+	po::notify(vm); //assign the variables (if they were specified)
+    if (vm.count("help"))
+        LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "Usage: " << desc);
+
+    for(unsigned int list = 0; list < Lists.size(); list++)
+    {
+        LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "List: " << list);
+        for(unsigned int item = 0; item < Lists[list].size(); item++)
+        {
+            LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "List: " << list << " Opt: " << item << " " << Lists[list][item]);
+        }
+    }
+
     if(loggingService)
     {
         delete loggingService;
@@ -38,4 +65,3 @@ int main(int argc, char**argv)
 
     return (EXIT_SUCCESS);
 }
-

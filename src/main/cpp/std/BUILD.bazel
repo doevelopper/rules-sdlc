@@ -16,8 +16,6 @@ load(
     "sdlc_cpp_binary",
 )
 
-
-#cc_library(
 sdlc_cpp_library(
 
     name = "loggingService",
@@ -48,7 +46,7 @@ sdlc_cpp_library(
 
     linkopts = [
         "-L/usr/local/lib",
-		"-pthread",
+		"-lpthread",
         "-lapr-1",
         "-laprutil-1",
         "-llog4cxx",
@@ -57,5 +55,3 @@ sdlc_cpp_library(
     visibility = ["//visibility:public"],
     #visibility = ["//src/main/test:__pkg__"],
 )
-
-
