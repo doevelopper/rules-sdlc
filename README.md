@@ -1,6 +1,6 @@
 
 ![Buid status](https://github.com/doevelopper/rules-sdlc/actions/workflows/ci.yml/badge.svg)
-
+![Pull event status](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg?event=pull_request)
 # Bazel resources
 
 
