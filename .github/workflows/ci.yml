@@ -6,7 +6,7 @@ on:
     #   - "v*.*.*" # on every version tag will build a new android artifact.
     # branches-ignore: [ poc/**]
   pull_request:
-    branches: [ develop, !releases/**-alpha ]
+    branches: [ develop ]
 
   # schedule:
   #   - cron: '20 13 * * *'
