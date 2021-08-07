@@ -1,4 +1,8 @@
+
+![Buid status](https://github.com/doevelopper/rules-sdlc/actions/workflows/ci.yml/badge.svg)
+
 # Bazel resources
+
 
 Bazel rules and resources used for all projects of the
 
