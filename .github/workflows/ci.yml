@@ -103,7 +103,8 @@ jobs:
             ignore-errors: false
 
     name: Build and test ${{ matrix.os_name }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
-
+    run: |
+      ls ${{ github.workspace }}
     steps:
 
       - name: Configure git to preserve line endings
@@ -183,7 +184,7 @@ jobs:
       #       robot_output.xml
       #       snapshots
 
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      # - run: echo "🍏 This job's status is ${{ job.status }}."
 
   # clang-build-end-2-end:
   #   name: Bazel Test All (opt) usinh CLANG
