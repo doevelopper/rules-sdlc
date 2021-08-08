@@ -80,7 +80,7 @@ jobs:
     name: Bazel Test All (opt) usinh GCC
     timeout-minutes: 60
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.ignore-errors }}
+    # continue-on-error: ${{ matrix.ignore-errors }}
     # container: doevelopper/cfs-dev-tools-common:latest
     strategy:
       fail-fast: false
