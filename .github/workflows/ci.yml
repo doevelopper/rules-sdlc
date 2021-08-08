@@ -58,6 +58,10 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     # container: doevelopper/cfs-dev-tools-common:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ["Win32", "x64", "ARM64"]
     steps:
       - uses: actions/checkout@v2
       # - name: set up JDK 1.8
