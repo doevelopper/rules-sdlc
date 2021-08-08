@@ -103,9 +103,9 @@ jobs:
             ignore-errors: false
 
     steps:
-      name: Build and test ${{ matrix.os_name }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
-      run: |
-        ls ${{ github.workspace }}
+      # name: Build and test ${{ matrix.os_name }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
+      # run: |
+      #   ls ${{ github.workspace }}
 
       - name: Configure git to preserve line endings
         # Otherwise, tests fail on Windows because "golden" test outputs will not
