@@ -89,18 +89,24 @@ jobs:
         os: ["ubuntu-latest", "macos-latest", "windows-latest"]
         build_type: ["Debug", "Release"]
         # lib_type: ["static", "shared"]
-        # include:
-        #   - os: ubuntu-latest
-        #     compiler: clang
-        #     compiler-version: 11
-        #     ignore-errors: false
-        #     # This compiler is supported only on a best-effort basis
-        #     ignore-errors: true
-        #   - os: ubuntu-latest
-        #     compiler: gcc
-        #     compiler-version: 10
-        #     ignore-errors: false
-
+        include:
+          - os: ubuntu-latest
+            compiler: clang
+            compiler-version: 11
+            ignore-errors: false
+            # This compiler is supported only on a best-effort basis
+            ignore-errors: true
+            pip-path: ~/.cache/pip
+            bzl-path: ~/.cache/bazel
+          - os: macos-latest
+            compiler: gcc
+            compiler-version: 10
+            ignore-errors: false
+            pip-path: ~/Library/Caches/pip
+            bzl-path: ~/Library/Caches/bazel
+          - os: windows-latest
+            pip-path: ~\AppData\Local\pip\Cache
+            bzl-path: ~\AppData\Local\bazel\Cache
     steps:
       - name: Get current date
         id: date
@@ -137,9 +143,9 @@ jobs:
       - name: Mount Bazel Cache
         uses: actions/cache@v1
         with:
-          path: "${GITHUB_WORKSPACE}/.cache/bazel"
+          path: ${{ matrix.bzl-path }}
           key: ${{ runner.os }}-bazel-${{ hashFiles('WORKSPACE') }}
-          restore-keys: ${{ runner.os }}-bazel
+          restore-keys: ${{ runner.os }}-bazel-
 
       # - name: Install bazelisk on Linux system
       #   if: matrix.os == 'Linux'
