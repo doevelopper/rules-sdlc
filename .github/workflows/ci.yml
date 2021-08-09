@@ -112,7 +112,7 @@ jobs:
           TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
           RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
 
-      - name: List directory ${{ matrix.build_type }} ${{ matrix.lib_type }} # ${{ matrix.os_name }}
+      - name: List directory ${{ matrix.os }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
         run: |
           ls ${{ github.workspace }}
 
