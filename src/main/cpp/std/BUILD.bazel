@@ -5,53 +5,54 @@ load(
     "cc_library"
 )
 
-load(
-    "@rules_pkg//:pkg.bzl",
-    "pkg_tar",
-    "pkg_deb"
-)
-load(
-    "@io_rules_sdlc//utils:helpers.bzl",
-    "sdlc_cpp_library",
-    "sdlc_cpp_binary",
-)
+# # load(
+# #     "@rules_pkg//:pkg.bzl",
+# #     "pkg_tar",
+# #     "pkg_deb"
+# # )
 
-sdlc_cpp_library(
+# load(
+#     "@io_rules_sdlc//utils:helpers.bzl",
+#     "sdlc_cpp_library",
+#     "sdlc_cpp_binary",
+# )
 
-    name = "loggingService",
+# sdlc_cpp_library(
 
-    srcs = [
-        "LoggingService.cpp",
-        "Dummy.cpp",
+#     name = "loggingService",
 
-    ],
+#     srcs = [
+#         "LoggingService.cpp",
+#         "Dummy.cpp",
 
-    hdrs = [
-        "LoggingService.hpp",
-        "Dummy.hpp",
+#     ],
 
-    ],
+#     hdrs = [
+#         "LoggingService.hpp",
+#         "Dummy.hpp",
 
-    includes = [
-        ".",
-    ],
+#     ],
 
-    copts = [
-        "-DLOG_LEVEL=1",
-#        "-lapr-1",
-#        "-laprutil-1",
-#        "-llog4cxx",
-        "-I/usr/local/include/",
-    ],
+#     includes = [
+#         ".",
+#     ],
 
-    linkopts = [
-        "-L/usr/local/lib",
-		"-lpthread",
-        "-lapr-1",
-        "-laprutil-1",
-        "-llog4cxx",
-	],
+#     copts = [
+#         "-DLOG_LEVEL=1",
+# #        "-lapr-1",
+# #        "-laprutil-1",
+# #        "-llog4cxx",
+#         "-I/usr/local/include/",
+#     ],
 
-    visibility = ["//visibility:public"],
-    #visibility = ["//src/main/test:__pkg__"],
-)
+#     linkopts = [
+#         "-L/usr/local/lib",
+# 		"-lpthread",
+#         "-lapr-1",
+#         "-laprutil-1",
+#         "-llog4cxx",
+# 	],
+
+#     visibility = ["//visibility:public"],
+#     #visibility = ["//src/main/test:__pkg__"],
+# )
