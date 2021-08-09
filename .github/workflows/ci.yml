@@ -95,7 +95,7 @@ jobs:
             compiler-version: 11
             ignore-errors: false
             # This compiler is supported only on a best-effort basis
-            ignore-errors: true
+            # ignore-errors: true
             pip-path: ~/.cache/pip
             bzl-path: ~/.cache/bazel
           - os: macos-latest
