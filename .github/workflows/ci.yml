@@ -76,7 +76,7 @@ env:
 
 jobs:
   end-2-end:
-    name: Bazel End to ent build test package and archive
+    name: 'End to end [${{ matrix.os }}@${{ matrix.build_type }}]'
     timeout-minutes: 60
     runs-on: ${{ matrix.os }}
     # continue-on-error: ${{ matrix.ignore-errors }}
@@ -105,6 +105,8 @@ jobs:
             pip-path: ~/Library/Caches/pip
             bzl-path: ~/Library/Caches/bazel
           - os: windows-latest
+            compiler: cl.exe
+            ignore-errors: false
             pip-path: ~\AppData\Local\pip\Cache
             bzl-path: ~\AppData\Local\bazel\Cache
     steps:
