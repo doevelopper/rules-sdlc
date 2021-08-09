@@ -132,12 +132,12 @@ jobs:
       #   run: |
       #     ls ${{ github.workspace }}
 
-      # - name: Mount Bazel Cache
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: "~/.cache/bazel"
-      #     key: ${{ runner.os }}-bazel-${{ hashFiles('WORKSPACE') }}
-      #     restore-keys: ${{ runner.os }}-bazel
+      - name: Mount Bazel Cache
+        uses: actions/cache@v1
+        with:
+          path: "~/.cache/bazel"
+          key: ${{ runner.os }}-bazel-${{ hashFiles('WORKSPACE') }}
+          restore-keys: ${{ runner.os }}-bazel
 
       # - name: Install bazelisk
       #   run: |
