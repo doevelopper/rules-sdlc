@@ -26,7 +26,7 @@
 #
 #
 
-name: GitHub Actions
+name: GitHub CI Linux
 on:
   push:
     branches: [ main, master, feature/**, releases/**, rc/**, fix/** ]
@@ -75,14 +75,15 @@ env:
   buildDir: '${{ github.workspace }}/build'
 
 jobs:
-  vm:
+  bazel-end-2-end-build-on-vm:
     runs-on: ubuntu-latest
     steps:
       - run: |
           echo This job does not specify a container.
           echo It runs directly on the virtual machine.
         name: Run on VM
-  container:
+
+  bazel-end-2-end-build-on-container:
     runs-on: ubuntu-latest
     container: doevelopper/cfs-dev-tools-common:latest
     steps:
@@ -90,18 +91,18 @@ jobs:
           echo This job does specify a container.
           echo It runs in the container instead of the VM.
           cmake --version
-          && doxygen --version
-          && uncrustify --version
-          && cppcheck --version
-          && make --version
-          && mvn --version
-          && gradle -v
-          && bazel version
-          && conan --version || true
-          && gdb --version
-          && java -version
-          && clang --version
-          && clang-format --version
-          && clang-tidy -version
-          && gcc --version
+          doxygen --version
+          uncrustify --version
+          cppcheck --version
+          make --version
+          mvn --version
+          gradle -v
+          bazel version
+          conan --version || true
+          gdb --version
+          java -version
+          clang --version
+          clang-format --version
+          clang-tidy -version
+          gcc --version
         name: Run in container

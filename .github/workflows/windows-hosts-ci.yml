@@ -1,0 +1,111 @@
+#
+#       workflow.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+name: GitHub CI Windows
+on:
+  push:
+    branches: [ main, master, feature/**, releases/**, rc/**, fix/** ]
+    # tags: [ 'v*.*.*' ]
+    # tags:
+    #   - "v*.*.*" # on every version tag will build a new android artifact.
+    # branches-ignore: [ poc/**]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  pull_request:
+    branches: [ develop, releases/v* ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  workflow_dispatch:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  schedule:
+    - cron: '30 23 * * TUE'
+    # - cron: '0 0 12 ? * THU'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IS_MASTER: ${{ contains(github.ref, 'master') }}
+  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
+  BAZEL_TARGET: ${{ github.event.inputs.target }}
+  BAZEL_RUNS_PER_TEST: ${{ github.event.inputs.runs_per_test }}
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+  REGISTRY: docker.io
+  IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
+  buildDir: '${{ github.workspace }}/build'
+
+jobs:
+  bazel-end-2-end-build:
+    name: Bazel Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bazel on Windows
+        env:
+          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+        shell: cmd
+        run: |
+          @echo on
+          set "BAZEL_OPTIMIZATION=--config=cache"
+          if "%EVENT_NAME%" == "push" (
+            if "%REPO_NAME%" == "rules-sdlc" (
+              set "BAZEL_OPTIMIZATION=%BAZEL_OPTIMIZATION% --remote_upload_local_results=true"
+            )
+          )
+          set /P BAZEL_VERSION=< .bazelversion
+          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/%BAZEL_VERSION%/bazel-%BAZEL_VERSION%-windows-x86_64.exe
+          bazel version
+          python3 --version
+          python3 -m pip install wheel setuptools
+          python3 -m pip --version
+          python3 setup.py --install-require | xargs python3 -m pip install
+          python3 tools/build/configure.py
+          cat .bazelrc
+          bazel build -s %BAZEL_OPTIMIZATION% --nobuild //...
+          if %errorlevel% neq 0 exit /b %errorlevel%
+          mkdir build
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ runner.os }}-bazel-bin
+      #     path: |
+      #       build/tensorflow_io

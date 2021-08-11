@@ -1,0 +1,92 @@
+#
+#       workflow.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+name: GitHub CI MacOS
+on:
+  push:
+    branches: [ main, master, feature/**, releases/**, rc/**, fix/** ]
+    # tags: [ 'v*.*.*' ]
+    # tags:
+    #   - "v*.*.*" # on every version tag will build a new android artifact.
+    # branches-ignore: [ poc/**]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  pull_request:
+    branches: [ develop, releases/v* ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  workflow_dispatch:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  schedule:
+    - cron: '30 23 * * TUE'
+    # - cron: '0 0 12 ? * THU'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IS_MASTER: ${{ contains(github.ref, 'master') }}
+  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
+  BAZEL_TARGET: ${{ github.event.inputs.target }}
+  BAZEL_RUNS_PER_TEST: ${{ github.event.inputs.runs_per_test }}
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+  REGISTRY: docker.io
+  IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
+  buildDir: '${{ github.workspace }}/build'
+
+jobs:
+  bazel-end-2-end-build:
+    name: Bazel macOS
+    runs-on: macos-latest
+    steps:
+      - name: macOS
+        run: |
+          set -x -e
+          export BAZEL_OPTIMIZATION="--config=cache"
+          if [[ "${EVENT_NAME}" == "push" && "${REPO_NAME}" == "rules-sdlc" ]]; then
+            export BAZEL_OPTIMIZATION="$BAZEL_OPTIMIZATION --remote_upload_local_results=true"
+          fi
+          echo "Bring /usr/bin to front as GitHub does not use system python3 by default"
+          export PATH=/usr/bin:$PATH
+          echo $PATH
+          python3 --version
