@@ -29,7 +29,7 @@
 name: GitHub CI Linux
 on:
   push:
-    branches: [ main, master, feature/**, releases/**, rc/**, fix/** ]
+    branches: [feature/**,  hotfix/**, bugfix/**, support/** ]
     # tags: [ 'v*.*.*' ]
     # tags:
     #   - "v*.*.*" # on every version tag will build a new android artifact.
@@ -42,7 +42,8 @@ on:
       - 'CODE_OF_CONDUCT.md'
       - 'AUTHORS'
   pull_request:
-    branches: [ develop, releases/v* ]
+    branches: [ main, master, develop, releases/v*, releases/**, rc/** ]
+    # types: [ opened, synchronize, closed ]
     paths-ignore:
       - 'docs/**'
       - 'README.md'
@@ -73,6 +74,7 @@ env:
   REGISTRY: docker.io
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
 
 jobs:
   bazel-end-2-end-build-on-vm:

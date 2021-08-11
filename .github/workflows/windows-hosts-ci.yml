@@ -73,7 +73,9 @@ env:
   REGISTRY: docker.io
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
 
+# curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/%BAZEL_VERSION%/bazel-%BAZEL_VERSION%-windows-x86_64.exe
 jobs:
   bazel-end-2-end-build:
     name: Bazel Windows
@@ -93,7 +95,7 @@ jobs:
             )
           )
           set /P BAZEL_VERSION=< .bazelversion
-          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/%BAZEL_VERSION%/bazel-%BAZEL_VERSION%-windows-x86_64.exe
+          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/5.0.0-pre.20210728.1/bazel-5.0.0-pre.20210728.1-windows-x86_64.exe
           bazel version
           python3 --version
           python3 -m pip install wheel setuptools

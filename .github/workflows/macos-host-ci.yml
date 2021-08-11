@@ -73,6 +73,7 @@ env:
   REGISTRY: docker.io
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
 
 jobs:
   bazel-end-2-end-build:
