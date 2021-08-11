@@ -1,80 +1,3 @@
-#
-#       workflow.yml
-#
-#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
-#                        All rights reserved.
-#
-#
-#    Permission is hereby granted, free of charge, to any person obtaining
-#    a copy of this software and associated documentation files (the
-#    "Software"), to deal in the Software without restriction, including
-#    without limitation the rights to use, copy, modify, merge, publish,
-#    distribute, sublicense, and/or sell copies of the Software, and to
-#    permit persons to whom the Software is furnished to do so, subject to
-#    the following conditions:
-#
-#    The above copyright notice and this permission notice shall be
-#    included in all copies or substantial portions of the Software.
-#
-#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
-#
-
-name: GitHub Actions
-on:
-  push:
-    branches: [ main, master, feature/**, releases/**, rc/**, fix/** ]
-    # tags: [ 'v*.*.*' ]
-    # tags:
-    #   - "v*.*.*" # on every version tag will build a new android artifact.
-    # branches-ignore: [ poc/**]
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - 'CONTRIBUTING.md'
-      - 'CODE_OF_CONDUCT.md'
-      - 'AUTHORS'
-  pull_request:
-    branches: [ develop, releases/v* ]
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - 'CONTRIBUTING.md'
-      - 'CODE_OF_CONDUCT.md'
-      - 'AUTHORS'
-  workflow_dispatch:
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - 'CONTRIBUTING.md'
-      - 'CODE_OF_CONDUCT.md'
-      - 'AUTHORS'
-  schedule:
-    - cron: '30 23 * * TUE'
-    # - cron: '0 0 12 ? * THU'
-
-env:
-  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  IS_MASTER: ${{ contains(github.ref, 'master') }}
-  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
-  BAZEL_TARGET: ${{ github.event.inputs.target }}
-  BAZEL_RUNS_PER_TEST: ${{ github.event.inputs.runs_per_test }}
-  REGISTRY: docker.io
-  # IMAGE_NAME: ${{ github.repository }}
-  IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
-  buildDir: '${{ github.workspace }}/build'
-
-jobs:
   end-2-end:
     name: 'End to end [${{ matrix.os }}@${{ matrix.build_type }}]'
     timeout-minutes: 60
@@ -88,7 +11,11 @@ jobs:
         # target: [ linux-x64, linux-armv8-64]
         os: ["ubuntu-latest", "macos-latest", "windows-latest"]
         build_type: ["Debug", "Release"]
+        compilation_mode: ["fastbuild", "dbg" , "opt"]
+        cpp-compiler: [g++-10, clang++-12]
+        sanitizer: [ASAN, UBSAN, TSAN , MSAN ,HWASAN, KASAN, KMSAN, KCSAN, DataFlow, Leak ]
         # lib_type: ["static", "shared"]
+        python: ['3.7', '3.8', '3.9']
         include:
           - os: ubuntu-latest
             compiler: clang
@@ -120,7 +47,7 @@ jobs:
           TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
           RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
 
-      - name: List directory ${{ matrix.os }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
+      - name: List build directory ${{ matrix.os }} ${{ matrix.build_type }} ${{ matrix.lib_type }}
         run: |
           ls ${{ github.workspace }}
 
@@ -208,6 +135,7 @@ jobs:
       #       snapshots
 
       # - run: echo "🍏 This job's status is ${{ job.status }}."
+
 
   # clang-build-end-2-end:
   #   name: Bazel Test All (opt) usinh CLANG
