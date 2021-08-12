@@ -88,7 +88,19 @@ jobs:
   bazel-end-2-end-build-on-container:
     runs-on: ubuntu-latest
     container: doevelopper/cfs-dev-tools-common:latest
+    strategy:
+      matrix:
+        include:
+          - { CC: gcc, CXX: g++ }
+          - { CC: clang, CXX: clang++ }
     steps:
+      - uses: actions/checkout@v2
+      - name: Mount ${{ github.repository }} 's bazel Cache
+        uses: actions/cache@v1
+        with:
+          path: "~/.cache/bazel-${{ matrix.CC }}"
+          key: bazel-${{ matrix.CC }}-${{ runner.os }}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: bazel-${{ matrix.CC }}-${{ runner.os }}
       - run: |
           echo This job does specify a container.
           echo It runs in the container instead of the VM.
@@ -108,3 +120,8 @@ jobs:
           clang-tidy -version
           gcc --version
         name: Run in container
+      - name: Build ${{ github.repository }} project (${{ github.ref }})
+        env:
+          CC: ${{ matrix.CC }}
+          CXX: ${{ matrix.CXX }}
+        run: bazel build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=${{ matrix.CC }} --client_env=Cxx=${{ matrix.CXX }}
