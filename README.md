@@ -1,9 +1,79 @@
+<!--
+ - Copyright (C) AHL
+ -
+ - This Source Code Form is subject to the terms of the Mozilla Public
+ - License, v. 2.0. If a copy of the MPL was not distributed with this
+ - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ -
+ - See the COPYRIGHT file distributed with this work for additional
+ - information regarding copyright ownership.
+-->
 
+```txt
+                         ,,                                     ,,    ,,
+`7MM"""Mq.             `7MM                                   `7MM  `7MM
+  MM   `MM.              MM                                     MM    MM
+  MM   ,M9 `7MM  `7MM    MM  .gP"Ya  ,pP"Ybd     ,pP"Ybd   ,M""bMM    MM  ,p6"bo
+  MMmmdM9    MM    MM    MM ,M'   Yb 8I   `"     8I   `" ,AP    MM    MM 6M'  OO
+  MM  YM.    MM    MM    MM 8M"""""" `YMMMa.     `YMMMa. 8MI    MM    MM 8M
+  MM   `Mb.  MM    MM    MM YM.    , L.   I8     L.   I8 `Mb    MM    MM YM.    ,
+.JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
+```
 ![Buid status](https://github.com/doevelopper/rules-sdlc/actions/workflows/ci.yml/badge.svg)
 ![Pull event status](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg?event=pull_request)
-# Bazel resources
+[![GitHub CI Linux](https://github.com/doevelopper/rules-sdlc/actions/workflows/linux-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/linux-host-ci.yml)
+[![GitHub CI MacOS](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml)
+[![GitHub CI Windows](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml)
 
+# Bazel rules resources
 
+## Table of Contents
+
+1. [Introduction](#intro)
+1. [Reporting bugs and getting help](#help)
+1. [Contributing](#contrib)
+1. [Building](#build)
+1. [Linux](#linux)
+1. [macOS](#macos)
+1. [Windows](#windows)
+1. [Usage](#usage)
+  1. [Enviroment Variables](#enviroment-variables)
+1. [Dependencies](#dependencies)
+1. [Compile-time options](#opts)
+1. [Automated testing](#testing)
+1. [Documentation](#doc)
+1. [Change log](#changes)
+1. [Acknowledgments](#ack)
+1. [Known Limitations](#limitations)
+1. [Contributors](#contributors)
+1. [Inspiration & Ideas](#inspiration--ideas)
+1. [TODO](#todo)
+
+### <a name="intro"/> Introduction
+
+### <a name="help"/> Reporting bugs and getting help
+
+### <a name="contrib"/> Contributing to
+
+### <a name="build"/> Building
+
+#### <a name="linux"> Linux
+
+#### <a name="macos"> macOS
+
+#### <a name="windows"> Windows
+
+#### <a name="usage"></a> Usage
+
+##### <a name="enviroment-variables"></a> Environment Variables
+
+#### <a name="dependencies"> Dependencies
+
+#### <a name="opts"/> Compile-time options
+
+### <a name="testing"/> Automated testing
+
+### <a name="doc"/> Documentation
 Bazel rules and resources used for all projects of the
 
 - cpp [proto|idl|grpc]
@@ -16,7 +86,7 @@ Bazel rules and resources used for all projects of the
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
-    name = "io_rules_sdlc",
+    name = "com.github.doevelopper.rules-sdlc",
     urls = [
 		"https://github.com/doevelopper/rules-sdlc/archive/TODO"],
     sha256 = "TODO",
@@ -27,8 +97,78 @@ Then, in your `BUILD.bazel` files, import and use the rules:
 
 
 ```starlark
-load("@io_rules_sdlc//<dir>/<dir>:<file>.bzl", "sdlc_cc_library")
+load("@com.github.doevelopper.rules-sdlc//<dir>/<dir>:<file>.bzl", "sdlc_cc_library")
 
 sdlc_rule_repositories()
 or ...
 ```
+
+### <a name="changes"/> Change log
+A detailed list of all changes that have been made throughout the
+development of project is included in the file CHANGES, with the most recent
+changes listed first. Change notes include tags indicating the category of
+the change that was made; these categories are:
+
+|Category	      |Description	        			                    |
+|--------------	|-----------------------------------------------|
+| [func]        | New feature                                   |
+| [bug]         | General bug fix                               |
+| [security]    | Fix for a significant security flaw           |
+| [experimental] | Used for new features when the syntax or other aspects of the design are still in flux and may change |
+| [port]        | Portability enhancement                       |
+| [maint]       | Updates to built-in data such as root server addresses and keys |
+| [tuning]      | Changes to built-in configuration defaults and constants to improve performance |
+| [performance] | Other changes to improve server performance    |
+| [protocol]    | Updates to the DNS protocol such as new RR types |
+| [test]        | Changes to the automatic tests, not affecting server functionality |
+| [cleanup]     | Minor corrections and refactoring               |
+| [doc]         | Documentation                                   |
+| [contrib]     | Changes to the contributed tools and libraries in the 'contrib' subdirectory |
+| [placeholder] | Used in the main development branch to reserve change numbers for use in other branches, e.g., when fixing a bug that only exists in older releases |
+
+In general, [func] and [experimental] tags only appear in new-feature
+releases (i.e., those with version numbers ending in zero). Some new
+functionality may be backported to older releases on a case-by-case basis.
+All other change types may be applied to all currently supported releases.
+
+#### Bug report identifiers
+
+Most notes in the CHANGES file include a reference to a bug report or
+issue number.
+
+### <a name="ack"/> Acknowledgments
+
+<a name="limitations"></a>
+## Known Limitations
+
+
+## Contributors
+
+see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/contributors)
+
+*Thank you!*
+
+## Inspiration & Ideas
+
+* [Me](http://github.com/doevelopper/)
+* [Myself](https://github.com/doevelopper)
+* [Adn I](http://github.com/doevelopper)
+
+## TODO
+[Bazel rules sdlc] is a work in progress, so any ideas and patches are appreciated.
+
+* [x] use preview window for search results
+* [x] Vim documentation
+* [x] tests
+* [x] improve error handling
+* [ ] allow specifying revision/version?
+* [ ] handle dependencies
+* [ ] make it rock!
+
+[Bazel rules sdlc]: http://github.com/doevelopper/rules-sdlc
+[Windows setup]:https://github.com/doevelopper/rules-sdlc/wiki/Vundle-for-Windows
+[FAQ]:https://github.com/doevelopper/rules-sdlc/wiki
+[Tips]:https://github.com/doevelopper/rules-sdlc/wiki/Tips-and-Tricks
+[Vim]:http://www.vim.org
+[Git]:http://git-scm.com
+[`git clone`]:http://gitref.org/creating/#clone
