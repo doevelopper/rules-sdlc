@@ -1,5 +1,5 @@
 <!--
- - Copyright (C) AHL
+ - Copyright (C) AHL  2021
  -
  - This Source Code Form is subject to the terms of the Mozilla Public
  - License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,8 +19,8 @@
   MM   `Mb.  MM    MM    MM YM.    , L.   I8     L.   I8 `Mb    MM    MM YM.    ,
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
-![Buid status](https://github.com/doevelopper/rules-sdlc/actions/workflows/ci.yml/badge.svg)
-![Pull event status](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg?event=pull_request)
+
+![Pull event status](https://github.com/doevelopper/rules-sdlc/actions/workflows/linux-host-ci.yml/badge.svg?event=pull_request)
 [![GitHub CI Linux](https://github.com/doevelopper/rules-sdlc/actions/workflows/linux-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/linux-host-ci.yml)
 [![GitHub CI MacOS](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml)
 [![GitHub CI Windows](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml)

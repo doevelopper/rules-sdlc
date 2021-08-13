@@ -88,7 +88,32 @@ jobs:
   bazel-end-2-end-build:
     name: Bazel Windows
     runs-on: windows-latest
+    timeout-minutes: 600
     steps:
+      - name: Display environment variables
+        shell: bash
+        run: env
+      - name: Dependencies [Windows]
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          choco install -y curl wget unzip
+
+      - name: Source-based Dependencies [Windows]
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+        #apr
+          cd ${GITHUB_WORKSPACE}
+          curl -L -o apr-1.7.0.zip https://downloads.apache.org/apr/apr-1.7.0-win32-src.zip
+          unzip apr-1.7.0.zip
+          curl -L -o apr-iconv-1.2.2.zip https://downloads.apache.org/apr/apr-iconv-1.2.2-win32-src.zip
+          unzip apr-iconv-1.2.2.zip
+          curl -L -o apr-util-1.6.1.zip https://downloads.apache.org/apr/apr-util-1.6.1-win32-src.zip
+          unzip apr-util-1.6.1.zip
+          curl -L -o apache-log4cxx-0.12.0.zip https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.zip
+          unzip apache-log4cxx-0.12.0.zip
+          ls
       - uses: actions/checkout@v2
       - name: Bazel on Windows
         env:
@@ -111,4 +136,4 @@ jobs:
       #   with:
       #     name: ${{ runner.os }}-bazel-bin
       #     path: |
-      #       build/tensorflow_io
+      #       build/

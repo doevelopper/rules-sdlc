@@ -79,7 +79,11 @@ jobs:
   bazel-end-2-end-build:
     name: Bazel macOS
     runs-on: macos-latest
+    timeout-minutes: 600
     steps:
+      - name: Display environment variables
+        shell: bash
+        run: env
       - name: macOS
         run: |
           set -x -e
