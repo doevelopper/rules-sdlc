@@ -10,8 +10,8 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 BUILD_ALL_CONTENT = """\
 filegroup(
-    name = "all", 
-    srcs = glob(["**"]), 
+    name = "all",
+    srcs = glob(["**"]),
     visibility = ["//visibility:public"]
 )
 """
@@ -277,7 +277,7 @@ cmake_external(
 #     },
 #     lib_source = "@libapr//:all_srcs",
 #     out_static_libs = ["libapr-1.a"],
-# )"""    
+# )"""
     #     # "sha256": "48e9dbf45ae3fdc7b491259ffb6ccf7d63049ffacbc1c0977cced095e4c2d5a2",
     #     # "strip_prefix": "apr-1.7.0",
     #     "urls": [

@@ -143,13 +143,13 @@ jobs:
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_github_google_benchmark//:benchmark --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=~\AppData\Local\bazel\Cache
 
       - name: build google test
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_google_googletest//... --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=~\AppData\Local\bazel\Cache
 
       # - uses: actions/upload-artifact@v2
       #   with:

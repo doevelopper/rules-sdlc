@@ -45,8 +45,8 @@ rules_pkg_dependencies()
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_qa.bzl","qa_repositories")
 qa_repositories()
 
-# load("@com.github.doevelopper.rules-sdlc//repos:dependencies.bzl","rules_sdlc_dependencies")
-# rules_sdlc_dependencies()
+load("@com.github.doevelopper.rules-sdlc//repos:dependencies.bzl","rules_sdlc_dependencies")
+rules_sdlc_dependencies()
 
 
 # #load("@com.github.doevelopper.rules-sdlc//utils:pkg_config.bzl", "pkg_config_repository")
