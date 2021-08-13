@@ -94,13 +94,13 @@ jobs:
         shell: bash
         run: env
       - name: Dependencies [Windows]
-        if: matrix.os == 'windows-latest'
+        # if: matrix.os == 'windows-latest'
         shell: bash
         run: |
           choco install -y curl wget unzip
 
       - name: Source-based Dependencies [Windows]
-        if: matrix.os == 'windows-latest'
+        # if: matrix.os == 'windows-latest'
         shell: bash
         run: |
           cd ${GITHUB_WORKSPACE}
