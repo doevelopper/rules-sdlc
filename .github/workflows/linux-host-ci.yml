@@ -102,14 +102,16 @@ jobs:
       - name: Mount Bazel Cache
         uses: actions/cache@v1
         with:
-          path: "~/.cache/bazel"
+          path: |
+            "~/.cache/bazel"
+            "~/.cache/output"
           key: bazel
 
       - name: build google benchmark
-        run: bazelisk build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
+        run: bazelisk --output_base ~/.cache/output build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
 
       - name: build google test
-        run: bazelisk build @com_google_googletest//... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
+        run: bazelisk --output_base ~/.cache/output build @com_google_googletest//... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
 
   # bazel-end-2-end-build-on-container:
   #   runs-on: ubuntu-latest

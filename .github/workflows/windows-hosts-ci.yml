@@ -114,36 +114,42 @@ jobs:
           unzip apache-log4cxx-0.12.0.zip
           ls
       - uses: actions/checkout@v2
-      - name: Bazel on Windows
-        env:
-          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
-        shell: cmd
-        run: |
-          @echo on
-          set "BAZEL_OPTIMIZATION=--config=cache"
-          if "%EVENT_NAME%" == "push" (
-            if "%REPO_NAME%" == "rules-sdlc" (
-              set "BAZEL_OPTIMIZATION=%BAZEL_OPTIMIZATION% --remote_upload_local_results=true"
-            )
-          )
-          set /P BAZEL_VERSION=< .bazelversion
-          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/5.0.0-pre.20210728.1/bazel-5.0.0-pre.20210728.1-windows-x86_64.exe
-          bazel version
-          python3 --version
-          bazel build --nobuild //...
-
-      - uses: actions/checkout@v2
       - name: Mount Bazel Cache
         uses: actions/cache@v1
         with:
-          path: "~\AppData\Local\bazel\Cache"
+          path: |
+            "~\AppData\Local\bazel\Cache"
+            "~\AppData\Local\bazel\Output"
           key: bazel
+      # - name: Bazel on Windows
+      #   env:
+      #     BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+      #   shell: cmd
+      #   run: |
+      #     @echo on
+      #     set "BAZEL_OPTIMIZATION=--config=cache"
+      #     if "%EVENT_NAME%" == "push" (
+      #       if "%REPO_NAME%" == "rules-sdlc" (
+      #         set "BAZEL_OPTIMIZATION=%BAZEL_OPTIMIZATION% --remote_upload_local_results=true"
+      #       )
+      #     )
+      #     set /P BAZEL_VERSION=< .bazelversion
+      #     curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/5.0.0-pre.20210728.1/bazel-5.0.0-pre.20210728.1-windows-x86_64.exe
+      #     bazel version
+      #     python3 --version
+      #     bazel build --nobuild //...
 
       - name: build google benchmark
-        run: bazelisk build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        env:
+          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+        shell: cmd
+        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
 
       - name: build google test
-        run: bazelisk build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        env:
+          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+        shell: cmd
+        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
 
       # - uses: actions/upload-artifact@v2
       #   with:
