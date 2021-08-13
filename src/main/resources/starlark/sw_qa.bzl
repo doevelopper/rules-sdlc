@@ -12,7 +12,7 @@ load(
 def clean_dep(dep):
     return str(Label(dep))
 
-cpplint_version = "1.4.5"
+cpplint_version = "1.5.5"
 
 def qa_repositories():
     """Declares external repositories that project depends on.
@@ -23,8 +23,8 @@ def qa_repositories():
         http_archive,
         name = "cpplint",
         #build_file = clean_dep("//src/main/resources/bazel/cpplint:cpplint.BUILD"),
-        build_file = "@io_rules_sdlc//tools/linters/cpplint:cpplint.BUILD",
-        sha256 = "96db293564624543a2fd3b1a0d23f663b8054c79853a5918523655721a9f6b53",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/scripts/linters/cpplint:cpplint.BUILD",
+        # sha256 = "96db293564624543a2fd3b1a0d23f663b8054c79853a5918523655721a9f6b53",
         strip_prefix = "cpplint-{}".format(cpplint_version),
         urls = [
             "https://github.com/cpplint/cpplint/archive/{}.tar.gz".format(cpplint_version),

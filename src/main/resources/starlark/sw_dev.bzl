@@ -34,7 +34,7 @@ load(
 
 #   shasum -a 256 xx.zip
 
-bzl_tc_version = "3.7.0"
+bzl_tc_version = "4.1.0"
 BUILDFARM_EXTERNAL_COMMIT = "510e26843bbdb5b7a31e9a5b3042b814dc30d82f"
 BUILDFARM_EXTERNAL_SHA256 = "c72cbdaa89d8c559518797e7ae0f0ff4b335a44c34a5afd3959fbe5492583de2"
 
@@ -79,6 +79,98 @@ def dev_repositories():
         urls = [
             "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.23.0/bazel-gazelle-v0.23.0.tar.gz",
             "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.23.0/bazel-gazelle-v0.23.0.tar.gz",
+        ],
+    )
+
+    _maybe(
+        http_archive,
+        name = "bazel_skylib",
+        urls = [
+            "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
+            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
+        ],
+        sha256 = "1c531376ac7e5a180e0237938a2536de0c54d93f5c278634818e0efc952dd56c",
+    )
+
+    _maybe(
+        http_archive,
+        name = "com_github_bazelbuild_buildtools",
+        strip_prefix = "buildtools-master",
+        url = "https://github.com/bazelbuild/buildtools/archive/master.zip",
+        # sha256 = "1dbb1f39c17b1cbc011cc22394e6e88b0de13ad101eb40047c603297286c8398",
+    )
+
+    _maybe(
+        http_archive,
+        name = "bazel_toolchains",
+        sha256 = "179ec02f809e86abf56356d8898c8bd74069f1bd7c56044050c2cd3d79d0e024",
+        strip_prefix = "bazel-toolchains-{}".format(bzl_tc_version),
+        urls = [
+            "https://github.com/bazelbuild/bazel-toolchains/releases/download/{}/bazel-toolchains-{}.tar.gz".format(bzl_tc_version, bzl_tc_version),
+            "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/releases/download/{}/bazel-toolchains-{}.tar.gz".format(bzl_tc_version, bzl_tc_version),
+        ],
+    )
+
+    _maybe(
+        http_archive,
+        name = "rules_foreign_cc",
+        strip_prefix = "rules_foreign_cc-0.5.1",
+        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.5.1.tar.gz",
+        sha256 = "33a5690733c5cc2ede39cb62ebf89e751f2448e27f20c8b2fbbc7d136b166804",
+    )
+
+    # 2021-05-07T10:23:24Z
+    _maybe(
+        http_archive,
+        name = "rules_cc",
+        strip_prefix = "rules_cc-main",
+        urls = ["https://github.com/bazelbuild/rules_cc/archive/main.zip"],
+        # sha256 = "108d8900b87dbb3d00d27b1ee5487a7d7276d8e8bd85c5681d4ccab474319391",
+    )
+
+# load("@com_github_google_rules_install//:deps.bzl", "install_rules_dependencies")
+# install_rules_dependencies()
+
+# load("@com_github_google_rules_install//:setup.bzl", "install_rules_setup")
+# install_rules_setup()
+    _maybe(
+        http_archive,
+        name = "com_github_google_rules_install",
+        urls = ["https://github.com/google/bazel_rules_install/releases/download/0.4/bazel_rules_install-0.4.tar.gz"],
+        sha256 = "ac2c9c53aa022a110273c0e510d191a4c04c6adafefa069a5eeaa16313edc9b9",
+        strip_prefix = "bazel_rules_install-0.4",
+    )
+
+# load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+# rules_java_dependencies()
+# rules_java_toolchains()
+    _maybe(
+        http_archive,
+        name = "rules_java",
+        url = "https://github.com/bazelbuild/rules_java/releases/download/4.0.0/rules_java-4.0.0.tar.gz",
+        sha256 = "34b41ec683e67253043ab1a3d1e8b7c61e4e8edefbcad485381328c934d072fe",
+    )
+
+    _maybe(
+        http_archive,
+        name = "platforms",
+        # shasum -a 256 xx.zip
+        # sha256 = "269667fd2fdbc7fff8e1b7d2ecb014aafb332cf2b8b83f78d20efb0528087933",
+        strip_prefix = "platforms-main",
+        urls = [
+            "https://mirror.bazel.build/github.com/bazelbuild/platforms/archive/main.zip",
+            "https://github.com/bazelbuild/platforms/archive/refs/heads/main.zip",
+        ],
+    )
+
+    ## need to build libexpat  bazel build --config=generic_gcc @com_github_libexpat_libexpat//:expat
+    _maybe(
+        http_archive,
+        name = "com_github_antonovvk_bazel_rules",
+        sha256 = "2f5327a2dc9a0cc8ead93953a5d2ae2e0308aece685e46cc89c27538a7e9a73a",
+        strip_prefix = "bazel_rules-c76e47ebe6f0a03b9dd99e245d5a0611813c36f9",
+        urls = [
+            "https://github.com/drigz/bazel_rules/archive/c76e47ebe6f0a03b9dd99e245d5a0611813c36f9.tar.gz",
         ],
     )
 

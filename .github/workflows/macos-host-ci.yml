@@ -79,12 +79,12 @@ jobs:
   bazel-end-2-end-build:
     name: Bazel macOS
     runs-on: macos-latest
-    timeout-minutes: 600
+    timeout-minutes: 60
     steps:
       - name: Display environment variables
         shell: bash
         run: env
-      - name: macOS
+      - name: Install python on macOS
         run: |
           set -x -e
           export BAZEL_OPTIMIZATION="--config=cache"
@@ -95,3 +95,22 @@ jobs:
           export PATH=/usr/bin:$PATH
           echo $PATH
           python3 --version
+      - name: Install bazelisk
+        run: |
+          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-linux-amd64"
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+      - uses: actions/checkout@v2
+      - name: Mount Bazel Cache
+        uses: actions/cache@v1
+        with:
+          path: "~/Library/Caches/bazel"
+          key: bazel
+
+      - name: build google benchmark
+        run: bazelisk build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/Library/Caches/bazel
+
+      - name: build google test
+        run: bazelisk build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/Library/Caches/bazel
