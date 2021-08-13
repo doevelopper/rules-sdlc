@@ -103,7 +103,6 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-        #apr
           cd ${GITHUB_WORKSPACE}
           curl -L -o apr-1.7.0.zip https://downloads.apache.org/apr/apr-1.7.0-win32-src.zip
           unzip apr-1.7.0.zip
