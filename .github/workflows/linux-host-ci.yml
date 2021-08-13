@@ -81,13 +81,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 600
     steps:
-      - run: |
-          echo This job does not specify a container.
-          echo It runs directly on the virtual machine.
-        name: Run on VM
+      - name: Dependencies [Ubuntu]
+        # if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt install -y git build-essential pkg-config zip unzip zlib1g-dev cmake wget curl autoconf \
+                              autogen automake make libtool mlocate xz-utils autotools-dev
       - name: Display environment variables
         shell: bash
         run: env
+
+      - name: Install bazelisk
+        run: |
+          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-linux-amd64"
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+      - uses: actions/checkout@v2
+      - name: Mount Bazel Cache
+        uses: actions/cache@v1
+        with:
+          path: "~/.cache/bazel"
+          key: bazel
+
+      - name: build
+        run: bazelisk build //... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
 
   # bazel-end-2-end-build-on-container:
   #   runs-on: ubuntu-latest

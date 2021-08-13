@@ -36,8 +36,8 @@ JUNIT_PLATFORM_VERSION = "1.7.1"
 load("@com.github.doevelopper.rules-sdlc//configs:version.bzl","MAX_VERSION", "MIN_VERSION", "check_version",)
 check_version(MIN_VERSION, MAX_VERSION)
 
-# load("@com.github.doevelopper.rules-sdlc//repos:sw_dev.bzl","dev_repositories")
-# dev_repositories()
+load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_dev.bzl","dev_repositories")
+dev_repositories()
 
 # load("@com.github.doevelopper.rules-sdlc//repos:sw_qa.bzl","qa_repositories")
 # qa_repositories()
