@@ -36,6 +36,7 @@ cmake(
             "-DEXPAT_BUILD_TESTS=OFF",
             "-DEXPAT_BUILD_EXAMPLES=OFF",
             "-DEXPAT_BUILD_DOCS=OFF",
+            "CMAKE_VERBOSE_MAKEFILE=ON",
         ],
 
         "//conditions:default": [
@@ -48,6 +49,9 @@ cmake(
             "-DEXPAT_BUILD_TESTS=OFF",
             "-DEXPAT_BUILD_EXAMPLES=OFF",
             "-DEXPAT_BUILD_DOCS=OFF",
+            "-DCMAKE_VERBOSE_MAKEFILE=ON",
+            # "-DEXPAT_SHARED_LIBS=OFF",
+
         ],
     }),
 
@@ -63,4 +67,17 @@ cmake(
     #         "libexpat.a",
     #     ],
     # }),
+
+    out_shared_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libexpat.dylib",
+        ],
+        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+        "@bazel_tools//platforms:windows": [
+            "libexpat.lib",
+        ],
+        "//conditions:default": [
+            "libexpat.so",
+        ],
+    }),
 )

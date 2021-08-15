@@ -127,6 +127,17 @@ jobs:
       - name: build google test
         run: bazelisk --output_base ~/.cache/output build @com_google_googletest//... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
 
+      - name: build apr zlip openssl expat
+        run: bazelisk --output_base ~/.cache/output build @org_apache_apr_util//:aprutil --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=~/.cache/bazel
+
+      - name: Archive Build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ runner.os }}-bazel-bin
+          path: |
+            "~/.cache/output"
+            "~/.cache/bazel"
+
   # bazel-end-2-end-build-on-container:
   #   runs-on: ubuntu-latest
   #   container: doevelopper/cfs-dev-tools-common:latest

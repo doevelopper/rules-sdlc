@@ -33,7 +33,7 @@ configure_make(
             "-fPIC",
         ] + CONFIGURE_OPTIONS,
         "@bazel_tools//platforms:linux": [
-            "--prefix=${INSTALLDIR}",
+            # "--prefix=${INSTALLDIR}",
         ] + CONFIGURE_OPTIONS,
         "//conditions:default": [
             "-fPIC",
@@ -49,7 +49,6 @@ configure_make(
         ],
         "@bazel_tools//platforms:linux": [
             "-ldl",
-
         ],
         "//conditions:default": [ ],
     }),
@@ -74,16 +73,16 @@ configure_make(
 
     # out_shared_libs = select({
     #     "@bazel_tools//platforms:osx": [
-    #         "libapr.dylib",
+    #         "libapr-1.dylib",
     #     ],
     #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
     #     "@bazel_tools//platforms:windows": [
     #         "libapr-1.lib",
     #     ],
     #     "//conditions:default": [
-    #         "libapr-1.dll",
-    #         # "apr-1.dll"
-    #         # "libapr.dll",
+    #         "libapr-1.so",
+    #         # "apr-1.so"
+    #         # "libapr.so",
     #     ],
     # }),
 
