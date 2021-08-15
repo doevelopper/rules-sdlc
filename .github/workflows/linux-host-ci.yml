@@ -75,6 +75,10 @@ env:
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  DOC_ROOT: ${{ github.workspace }}/ACE
+  ACE_ROOT: ${{ github.workspace }}/ACE/ACE
+  MPC_ROOT: ${{ github.workspace }}/ACE/MPC
+  TAO_ROOT: ${{ github.workspace }}/ACE/TAO
 
 jobs:
   bazel-end-2-end-build-on-vm:
@@ -98,14 +102,24 @@ jobs:
           mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
           chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
       - name: Mount Bazel Cache
         uses: actions/cache@v1
         with:
           path: |
             "~/.cache/bazel"
             "~/.cache/output"
-          key: bazel
+          key: ${{ runner.os }}-bazel
+
+      # - name: Install LLVM and Clang
+      #   uses: KyleMayes/install-llvm-action@v1
+      #   with:
+      #     version: "12.0.1"
+
+      # - name: Symlink libclang.so (Linux)
+      #   if: contains(matrix.os, 'ubuntu')
+      #   run: sudo ln -s libclang-11.so.1 /lib/x86_64-linux-gnu/libclang.so
+      #   working-directory: ${{ env.LLVM_PATH }}/lib
 
       - name: build google benchmark
         run: bazelisk --output_base ~/.cache/output build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel

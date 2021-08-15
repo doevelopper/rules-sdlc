@@ -39,13 +39,28 @@ check_version(MIN_VERSION, MAX_VERSION)
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_dev.bzl","dev_repositories")
 dev_repositories()
 
+#  Defined for building 3rd party libraries  that rely on another build system: cmake make autotools ...
+load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+rules_foreign_cc_dependencies()
+#   https://stackoverflow.com/questions/57764066/bazel-rules-foreign-cc-using-cmake-binary-built-from-source-at-build-time
+
+# rules_foreign_cc_dependencies(
+#     native_tools_toolchains = [
+#         ":built_cmake_toolchain_linux",
+#         ":built_cmake_toolchain_osx",
+#         ":built_ninja_toolchain_linux",
+#         ":built_ninja_toolchain_osx",
+#     ],
+#     register_default_tools = False,
+# )
+
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 rules_pkg_dependencies()
 
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_qa.bzl","qa_repositories")
 qa_repositories()
 
-load("@com.github.doevelopper.rules-sdlc//repos:dependencies.bzl","rules_sdlc_dependencies")
+load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:dependencies.bzl","rules_sdlc_dependencies")
 rules_sdlc_dependencies()
 
 

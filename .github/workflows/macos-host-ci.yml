@@ -74,6 +74,10 @@ env:
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  DOC_ROOT: ${{ github.workspace }}/ACE
+  ACE_ROOT: ${{ github.workspace }}/ACE/ACE
+  MPC_ROOT: ${{ github.workspace }}/ACE/MPC
+  TAO_ROOT: ${{ github.workspace }}/ACE/TAO
 
 jobs:
   bazel-end-2-end-build:

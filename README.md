@@ -25,29 +25,30 @@
 [![GitHub CI MacOS](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml)
 [![GitHub CI Windows](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml)
 
-# Bazel rules resources
+# Bazel rules resources.
 
 ## Table of Contents
 
 1. [Introduction](#intro)
-1. [Reporting bugs and getting help](#help)
-1. [Contributing](#contrib)
-1. [Building](#build)
-1. [Linux](#linux)
-1. [macOS](#macos)
-1. [Windows](#windows)
-1. [Usage](#usage)
+
+2. [Reporting bugs and getting help](#help)
+3. [Contributing](#contrib)
+4. [Building](#build)
+5. [Linux](#linux)
+6. [macOS](#macos)
+7. [Windows](#windows)
+8. [Usage](#usage)
   1. [Enviroment Variables](#enviroment-variables)
-1. [Dependencies](#dependencies)
-1. [Compile-time options](#opts)
-1. [Automated testing](#testing)
-1. [Documentation](#doc)
-1. [Change log](#changes)
-1. [Acknowledgments](#ack)
-1. [Known Limitations](#limitations)
-1. [Contributors](#contributors)
-1. [Inspiration & Ideas](#inspiration--ideas)
-1. [TODO](#todo)
+9.  [Dependencies](#dependencies)
+10. [Compile-time options](#opts)
+11. [Automated testing](#testing)
+12. [Documentation](#doc)
+13. [Change log](#changes)
+14. [Acknowledgments](#ack)
+15. [Known Limitations](#limitations)
+16. [Contributors](#contributors)
+17. [Inspiration & Ideas](#inspiration--ideas)
+18. [TODO](#todo)
 
 ### <a name="intro"/> Introduction
 
@@ -109,22 +110,22 @@ development of project is included in the file CHANGES, with the most recent
 changes listed first. Change notes include tags indicating the category of
 the change that was made; these categories are:
 
-|Category	      |Description	        			                    |
-|--------------	|-----------------------------------------------|
-| [func]        | New feature                                   |
-| [bug]         | General bug fix                               |
-| [security]    | Fix for a significant security flaw           |
-| [experimental] | Used for new features when the syntax or other aspects of the design are still in flux and may change |
-| [port]        | Portability enhancement                       |
-| [maint]       | Updates to built-in data such as root server addresses and keys |
-| [tuning]      | Changes to built-in configuration defaults and constants to improve performance |
-| [performance] | Other changes to improve server performance    |
-| [protocol]    | Updates to the DNS protocol such as new RR types |
-| [test]        | Changes to the automatic tests, not affecting server functionality |
-| [cleanup]     | Minor corrections and refactoring               |
-| [doc]         | Documentation                                   |
-| [contrib]     | Changes to the contributed tools and libraries in the 'contrib' subdirectory |
-| [placeholder] | Used in the main development branch to reserve change numbers for use in other branches, e.g., when fixing a bug that only exists in older releases |
+| Category       | Description                                                                                                                                         |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [func]         | New feature                                                                                                                                         |
+| [bug]          | General bug fix                                                                                                                                     |
+| [security]     | Fix for a significant security flaw                                                                                                                 |
+| [experimental] | Used for new features when the syntax or other aspects of the design are still in flux and may change                                               |
+| [port]         | Portability enhancement                                                                                                                             |
+| [maint]        | Updates to built-in data such as root server addresses and keys                                                                                     |
+| [tuning]       | Changes to built-in configuration defaults and constants to improve performance                                                                     |
+| [performance]  | Other changes to improve server performance                                                                                                         |
+| [protocol]     | Updates to the DNS protocol such as new RR types                                                                                                    |
+| [test]         | Changes to the automatic tests, not affecting server functionality                                                                                  |
+| [cleanup]      | Minor corrections and refactoring                                                                                                                   |
+| [doc]          | Documentation                                                                                                                                       |
+| [contrib]      | Changes to the contributed tools and libraries in the 'contrib' subdirectory                                                                        |
+| [placeholder]  | Used in the main development branch to reserve change numbers for use in other branches, e.g., when fixing a bug that only exists in older releases |
 
 In general, [func] and [experimental] tags only appear in new-feature
 releases (i.e., those with version numbers ending in zero). Some new
@@ -172,3 +173,29 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 [Vim]:http://www.vim.org
 [Git]:http://git-scm.com
 [`git clone`]:http://gitref.org/creating/#clone
+
+
+[master-branch]: http://github.com/doevelopper/rules-sdlc/tree/master
+[develp-branch]: http://github.com/doevelopper/rules-sdlc/tree/develop
+[release-branch]: http://github.com/doevelopper/rules-sdlc/tree/release
+
+[license-shield]: https://img.shields.io/badge/license-Apache%20license%202.0-blue.svg
+[semver]: http://semver.org/spec/v2.0.0.htm
+[keepchangelog]: http://keepachangelog.com/en/1.0.0/
+
+[amd64-arch-shield]: https://img.shields.io/badge/architecture-amd64-blue.svg
+[aarch64-arch-shield]: https://img.shields.io/badge/architecture-aarch64-blue.svg
+[armhf-arch-shield]: https://img.shields.io/badge/architecture-armhf-blue.svg
+
+[apache-license-shield]: https://img.shields.io/badge/license-Apache%20license%202.0-blue.svg
+[apache-license]: https://opensource.org/licenses/Apache-2.0
+[lgpl-v3-license-shield]: https://img.shields.io/badge/License-LGPL%20v3-blue.svg
+[lgpl-v3-license]: http://www.gnu.org/licenses/lgpl-3.0
+[cc-by-nc-sa-4-0-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+[cc-by-nc-sa-4-0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[license-gplv3-cc-by-4-0-shields]: https://img.shields.io/badge/License-GPLv3%2B%20%2F%20CC%20BY--SA%204.0-blue.svg
+[license-gplv3-cc-by-4-0]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+[icon-fe]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-fe-yellow.svg
+[icon-be]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-be-yellow.svg
+[icon-cs]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-computer%20science-yellow.svg

@@ -1,0 +1,5 @@
+#clazy checks specification
+CHECKS level1,no-qproperty-without-notify
+
+#do not report clazy results for these subdirs
+#SKIP src/it
