@@ -1,4 +1,5 @@
-load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "configure_make")
+
 package(default_visibility = ["//visibility:public"])
 filegroup(name = "all", srcs = glob(["**"]), visibility = ["//visibility:public"])
 
@@ -14,10 +15,29 @@ configure_make(
         "--enable-xmlch-uint16_t",
         "--enable-xmlch-char16_t",
     ],
-    shared_libraries = [
-        "libxerces-c.so"
-    ],
-    static_libraries = [
-        "libxerces-c.a"
-    ],
+
+    out_static_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libxerces-c.a",
+        ],
+        "@bazel_tools//platforms:windows": [
+            "libxerces-c.lib",
+        ],
+        "//conditions:default": [
+            "libxerces-c.a",
+        ],
+    }),
+
+    out_shared_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libxerces-c.dylib",
+        ],
+        "@bazel_tools//platforms:windows": [
+            "libxerces-c.lib",
+        ],
+        "//conditions:default": [
+            "libxerces-c.so",
+        ],
+    }),
+
 )

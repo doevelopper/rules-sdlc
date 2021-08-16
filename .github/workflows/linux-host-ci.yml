@@ -79,6 +79,8 @@ env:
   ACE_ROOT: ${{ github.workspace }}/ACE/ACE
   MPC_ROOT: ${{ github.workspace }}/ACE/MPC
   TAO_ROOT: ${{ github.workspace }}/ACE/TAO
+  BZL_CACHE: ${{ github.workspace }}/.cache/bazel
+  BZL_OUTPUT: ${{ github.workspace }}/bazel/output
 
 jobs:
   bazel-end-2-end-build-on-vm:
@@ -104,12 +106,19 @@ jobs:
 
       - uses: actions/checkout@v2.3.4
       - name: Mount Bazel Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
         with:
           path: |
-            "~/.cache/bazel"
-            "~/.cache/output"
-          key: ${{ runner.os }}-bazel
+            ${{ env.BZL_CACHE }}
+            ${{ env.BZL_OUTPUT }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
 
       # - name: Install LLVM and Clang
       #   uses: KyleMayes/install-llvm-action@v1
@@ -122,21 +131,21 @@ jobs:
       #   working-directory: ${{ env.LLVM_PATH }}/lib
 
       - name: build google benchmark
-        run: bazelisk --output_base ~/.cache/output build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
+        run: bazelisk  build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       - name: build google test
-        run: bazelisk --output_base ~/.cache/output build @com_google_googletest//... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=~/.cache/bazel
+        run: bazelisk  build @com_google_googletest//... --client_env=CC=gcc --client_env=CXX=g++  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       - name: build apr zlip openssl expat
-        run: bazelisk --output_base ~/.cache/output build @org_apache_apr_util//:aprutil --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=~/.cache/bazel
+        run: bazelisk  build @org_apache_logging_log4cxx//:log4cxx --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Archive Build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ runner.os }}-bazel-bin
-          path: |
-            "~/.cache/output"
-            "~/.cache/bazel"
+      # - name: Archive Build artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ runner.os }}-bazel-bin
+      #     path: |
+      #       "~/.cache/output"
+      #       "${{ env.BZL_CACHE }}"
 
   # bazel-end-2-end-build-on-container:
   #   runs-on: ubuntu-latest
@@ -152,7 +161,7 @@ jobs:
   #     - name: Mount ${{ github.repository }} 's bazel Cache
   #       uses: actions/cache@v1
   #       with:
-  #         path: "~/.cache/bazel-${{ matrix.CC }}"
+  #         path: "${{ env.BZL_CACHE }}-${{ matrix.CC }}"
   #         key: bazel-${{ matrix.CC }}-${{ runner.os }}-${{ hashFiles('WORKSPACE') }}
   #         restore-keys: bazel-${{ matrix.CC }}-${{ runner.os }}
   #     - name: Display environment variables

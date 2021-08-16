@@ -1,4 +1,3 @@
-load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
 load("@rules_foreign_cc//tools/build_defs:boost_build.bzl", "boost_build")
 
 package(default_visibility = ["//visibility:public"])

@@ -38,9 +38,11 @@ cmake(
         "//conditions:default": [
             # "-G \"Unix Makefile\"",  # Error in fail: `Unix Makefile` is not a known generator
             "-G Ninja",
+            "-DLOG4CXX_ABI_CHECK=OFF",
             "-DLOG4CXX_WCHAR_T=YES",
-            "-DLOG4CXX_UNICHAR=YES",
+            # "-DLOG4CXX_UNICHAR=YES", # In static member function 'static bool log4cxx::NDC::pop(std::__cxx11::basic_string<short unsigned int>&)': has no member named 'message'   330 |    Transcoder::encode(stack.top().message, dst);
             "-DBUILD_TESTING=OFF",
+            "-DCMAKE_CXX_FLAGS=\"-Og\"",
             # "-DAPU_STATIC=YES",
             # "-DAPR_STATIC=YES",
             "-DCMAKE_BUILD_TYPE=Release",
@@ -50,18 +52,18 @@ cmake(
     }),
 
 
-    out_static_libs = select({
-        "@bazel_tools//platforms:osx": [
-            "liblog4cxx.a",
-        ],
-        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-        "@platforms//os:windows": [
-            "liblog4cxx.lib",
-        ],
-        "//conditions:default": [
-            "liblog4cxx.a",
-        ],
-    }),
+    # out_static_libs = select({
+    #     "@bazel_tools//platforms:osx": [
+    #         "liblog4cxx.a",
+    #     ],
+    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+    #     "@platforms//os:windows": [
+    #         "liblog4cxx.lib",
+    #     ],
+    #     "//conditions:default": [
+    #         "liblog4cxx.a",
+    #     ],
+    # }),
 
     out_shared_libs = select({
         "@bazel_tools//platforms:osx": [

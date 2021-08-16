@@ -74,6 +74,8 @@ env:
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   buildDir: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  BZL_CACHE: ${{ github.workspace }}/.cache/bazel
+  BZL_OUTPUT: ${{ github.workspace }}/bazel/output
 
 # curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/%BAZEL_VERSION%/bazel-%BAZEL_VERSION%-windows-x86_64.exe
 # curl -sSL -o bazelisk.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
@@ -115,12 +117,18 @@ jobs:
           ls
       - uses: actions/checkout@v2
       - name: Mount Bazel Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
         with:
           path: |
-            "~\AppData\Local\bazel\Cache"
-            "~\AppData\Local\bazel\Output"
-          key: bazel
+            ${{ env.BZL_CACHE }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       # - name: Bazel on Windows
       #   env:
       #     BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
@@ -143,24 +151,24 @@ jobs:
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @com_github_google_benchmark//:benchmark --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        run: bazelisk build @com_github_google_benchmark//:benchmark --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       - name: build google test
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk --output_base ~\AppData\Local\bazel\Output query @com_google_googletest//... --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        run: bazelisk  query @com_google_googletest//... --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       - name: build apr zlip openssl expat
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk --output_base ~\AppData\Local\bazel\Output build @org_apache_apr_util//:aprutil --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=~\AppData\Local\bazel\Cache
+        run: bazelisk build @org_apache_logging_log4cxx//:log4cxx --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Archive Build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ runner.os }}-bazel-bin
-          path: |
-            ~\AppData\Local\bazel\Output
-            ~\AppData\Local\bazel\Cache
+      # - name: Archive Build artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ runner.os }}-bazel-bin
+      #     path: |
+      #       ~\AppData\Local\bazel\Output
+      #       ${{ env.BZL_CACHE }}

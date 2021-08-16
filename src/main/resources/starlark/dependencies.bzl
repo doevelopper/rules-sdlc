@@ -151,22 +151,36 @@ cmake(
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
         # "sha256": "bd5b5009ca914c8fa7944b92ea6b4ca6fb7d146f65d526f21bf8b3c6a0520e44",
         # "strip_prefix": "apache-log4cxx-0.12.0",
+        "strip_prefix": "logging-log4cxx-master",
         # "strip_prefix": "apache-logging-log4cxx-249dd85",
         # "strip_prefix": "logging-log4cxx-0.11.0",
-        "strip_prefix": "logging-log4cxx-rel-v0.12.0",
+        # "strip_prefix": "logging-log4cxx-rel-v0.12.0",
         "urls": [
     #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
     #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-    #         # "https://github.com/apache/logging-log4cxx/archive/master.zip",
-    #         # "https://github.com/apache/logging-log4cxx/archive/master.zip",
+            "https://github.com/apache/logging-log4cxx/archive/master.zip",
+            "https://github.com/apache/logging-log4cxx/archive/master.zip",
     #         # "https://archive.apache.org/dist/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
     #         # "https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
     #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
     #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
     #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
     #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
-            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.tar.gz",
-            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.zip",
+            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.tar.gz",
+            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.zip",
+        ],
+    },
+
+    # bazel query @org_apache_xerces//...
+    # bazel build @org_apache_xerces//:xerces
+    "org_apache_xerces": {
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:xerces.BUILD",
+        "sha256": "fb96fc49b1fb892d1e64e53a6ada8accf6f0e6d30ce0937956ec68d39bd72c7e",
+        "strip_prefix": "xerces-c-3.2.3",
+        "urls": [
+            "https://downloads.apache.org/xerces/c/3/sources/xerces-c-3.2.3.tar.gz",
+            "https://downloads.apache.org/xerces/c/3/sources/xerces-c-3.2.3.tar.bz2",
+            "https://downloads.apache.org/xerces/c/3/sources/xerces-c-3.2.3.tar.xz",
         ],
     },
 }
