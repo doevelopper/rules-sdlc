@@ -157,13 +157,14 @@ jobs:
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk  query @com_google_googletest//... --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
+        run: bazelisk query @com_google_googletest//...
+        # --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: build apr zlip openssl expat
+      - name: build logger dependencies
         env:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
-        run: bazelisk build @org_apache_logging_log4cxx//:log4cxx --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+        run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       # - name: Archive Build artifacts
       #   uses: actions/upload-artifact@v2

@@ -49,6 +49,8 @@
 16. [Contributors](#contributors)
 17. [Inspiration & Ideas](#inspiration--ideas)
 18. [TODO](#todo)
+19. [License](#license)
+
 
 ### <a name="intro"/> Introduction
 
@@ -154,6 +156,11 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 * [Me](http://github.com/doevelopper/)
 * [Myself](https://github.com/doevelopper)
 * [Adn I](http://github.com/doevelopper)
+- [Website](https://px.dev)
+- [Documentation](https://docs.px.dev)
+- [Community Slack](https://slackin.px.dev/)
+- [Issue Tracker](https://github.com/pixie-labs/pixie/issues)
+- [Youtube](https://www.youtube.com/channel/UCOMCDRvBVNIS0lCyOmst7eg/videos)
 
 ## TODO
 [Bazel rules sdlc] is a work in progress, so any ideas and patches are appreciated.
@@ -165,6 +172,10 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 * [ ] allow specifying revision/version?
 * [ ] handle dependencies
 * [ ] make it rock!
+
+## License
+
+Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 
 [Bazel rules sdlc]: http://github.com/doevelopper/rules-sdlc
 [Windows setup]:https://github.com/doevelopper/rules-sdlc/wiki/Vundle-for-Windows
