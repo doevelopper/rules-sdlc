@@ -19,7 +19,7 @@ filegroup(
 def clean_dep(dep):
     return str(Label(dep))
 
-grpc_grpc_version = "1.37.1"
+grpc_grpc_version = "1.39.1"
 eigen_version = "3.3.9"
 think_version = "1.50"
 
@@ -143,6 +143,17 @@ cmake(
         ],
     },
 
+    "org_apache_apriconv": {
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:apr_iconv.BUILD",
+        # "sha256": "",
+        "strip_prefix": "apr-iconv-1.2.2",
+        "urls": [
+            "https://downloads.apache.org//apr/apr-iconv-1.2.2.tar.gz",
+            "https://downloads.apache.org//apr/apr-iconv-1.2.2.tar.bz2",
+            "https://downloads.apache.org//apr/apr-iconv-1.2.2-win32-src.zip",
+        ],
+    },
+
     # https://github.com/<org>/<repo>/tarball/<sha>
     # https://github.com/apache/logging-log4cxx/tarball/249dd85494a430d95fd69d89f42b02fd950cda51
     # bazel query @org_apache_logging_log4cxx//...
@@ -183,23 +194,61 @@ cmake(
             "https://downloads.apache.org/xerces/c/3/sources/xerces-c-3.2.3.tar.xz",
         ],
     },
+
+    "com_github_grpc_grpc": {
+        # "sha256": "acf247ec3a52edaee5dee28644a4e485c5e5badf46bdb24a80ca1d76cb8f1174",
+        "strip_prefix": "grpc-{}".format(grpc_grpc_version),
+        "urls": [
+            "https://github.com/grpc/grpc/archive/v{}.tar.gz".format(grpc_grpc_version),
+            "https://github.com/grpc/grpc/archive/v{}.tar.gz".format(grpc_grpc_version),
+        ],
+    },
+
+    "com_github_gperftools_gperftools": {
+        # "sha256": "2060769f2d4b0d3535ba594b2ab614d7f68a492f786ab94b4318788d45e3278a",
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:gperftools.BUILD",
+        "strip_prefix": "gperftools-gperftools-2.9.1",
+        "urls": [
+            "https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.tar.gz",
+            "https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.zip",
+            "https://github.com/gperftools/gperftools/archive/refs/tags/gperftools-2.9.1.zip",
+        ],
+    },
+
+    "com_google_crc32c": {
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:crc32.BUILD",
+        # "sha256": "",
+        "strip_prefix": "crc32c-1.1.1",
+        "urls": [
+            "https://github.com/google/crc32c/archive/1.1.1.tar.gz",
+            "https://github.com/google/crc32c/archive/1.1.1.zip",
+        ],
+    },
 }
 
 dependencies_repositories = {
     # bazel query @com_github_nelhage_rules_boost//...
     # bazel query @boost//...
     "com_github_nelhage_rules_boost": {
-        "commit": "5cff96018ec4662cc61268cf248edfc6e6fe4635", #//1.74.0
+        "commit": "fb9f3c9a6011f966200027843d894923ebc9cd0b", #//1.76.0
         "remote": "https://github.com/nelhage/rules_boost",
         # "shallow_since": "1591047380 -0700",
         "shallow_since": "1610386445 -0800"
     },
 
-    # "org_apache_logging_log4cxx": {
-    # "commit": "5cff96018ec4662cc61268cf248edfc6e6fe4635",
-    # "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
-    # "remote": "https://github.com/apache/logging-log4cxx.git",
-    # },
+    "com_github_gflags_gflags": {
+        "commit": "827c769e5fc98e0f2a34c47cef953cc6328abced",
+        "remote": "https://github.com/gflags/gflags",
+    },
+    "com_github_baidu_braft": {
+        "remote": "https://github.com/baidu/braft.git",
+        "tag": "v1.1.2",
+    },
+
+    "com_github_brpc_brpc": {
+        "remote": "https://github.com/apache/incubator-brpc.git",
+        "tag": "1.0.0-rc01",
+    },
 }
 
 dependencies_jar_repositories = {

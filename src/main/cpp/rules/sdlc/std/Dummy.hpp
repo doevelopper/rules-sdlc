@@ -16,12 +16,12 @@
     permissions and limitations under the License.
  */
 
-#ifndef STD_DUMMY_HPP
-#define STD_DUMMY_HPP
+#ifndef RULES_SDLC_STD_DUMMY_HPP
+#define RULES_SDLC_STD_DUMMY_HPP
 
-// #include <LoggingService.hpp>
+#include <string>
 
-namespace st
+namespace rules::sdlc::std
 {
     /*!
      * @brief The Dummy class used as walking Skeleton class for the unit, spec and feature tests of the template
@@ -38,20 +38,20 @@ namespace st
              * @param hello_string 'Hello' in my language
              * @param world_string 'World' in my language
              */
-            Dummy(const std::string& hello_string, const std::string& world_string);
+            // Dummy(const std::string& hello_string, const std::string& world_string);
             Dummy(const Dummy&) = default;
             Dummy(Dummy&&) = default;
             Dummy& operator=(const Dummy&) = default;
             Dummy& operator=(Dummy&&) = default;
             virtual ~Dummy();
 
-            std::string speak() const;
+            // std::string speak() const;
             bool speechless() const;
 
         private:
 
-            std::string m_hello{};
-            std::string m_world{};
+            // std::string m_hello{};
+            // std::string m_world{};
             bool        m_speechless {true};
     };
 }

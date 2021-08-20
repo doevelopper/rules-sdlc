@@ -63,6 +63,8 @@ qa_repositories()
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:dependencies.bzl","rules_sdlc_dependencies")
 rules_sdlc_dependencies()
 
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+boost_deps()
 
 # #load("@com.github.doevelopper.rules-sdlc//utils:pkg_config.bzl", "pkg_config_repository")
 

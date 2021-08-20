@@ -16,10 +16,11 @@
     permissions and limitations under the License.
  */
 
-#include <string>
-#include <Dummy.hpp>
 
-using namespace st;
+#include <string>
+#include <rules/sdlc/std/Dummy.hpp>
+
+using namespace rules::sdlc::std;
 
 // log4cxx::LoggerPtr Dummy::logger = log4cxx::Logger::getLogger(std::string("Dummy"));
 
@@ -32,7 +33,7 @@ Dummy::~Dummy()
 {
     //LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
-
+/*
 Dummy::Dummy(const std::string& hello,  const std::string& world)
     : m_hello{hello}
     , m_world{world}
@@ -59,3 +60,4 @@ bool Dummy::speechless() const
 
     return m_speechless;
 }
+*/

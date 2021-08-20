@@ -46,18 +46,6 @@ def POM_com_repositories():
 
     _maybe(
         http_archive,
-        name = "net_zlib_zlib",
-        sha256 = "6d4d6640ca3121620995ee255945161821218752b551a1a180f4215f7d124d45",
-        build_file = "//src/main/resources/third_party//src/main/resources/third_party:zlib.BUILD",
-        strip_prefix = "zlib-cacf7f1d4e3d44d871b605da3b647f07d718623f",
-        urls = [
-            "https://mirror.bazel.build/github.com/madler/zlib/archive/cacf7f1d4e3d44d871b605da3b647f07d718623f.tar.gz",
-            "https://github.com/madler/zlib/archive/cacf7f1d4e3d44d871b605da3b647f07d718623f.tar.gz",
-        ],
-    )
-
-    _maybe(
-        http_archive,
         name = "bazel_federation",
         url = "https://github.com/bazelbuild/bazel-federation/archive/130c84ec6d60f31b711400e8445a8d0d4a2b5de8.zip",
         sha256 = "9d4fdf7cc533af0b50f7dd8e58bea85df3b4454b7ae00056d7090eb98e3515cc",
@@ -101,24 +89,6 @@ def POM_com_repositories():
         # branch = "master-with-bazel",
         commit = "e0c35d6c06fd800de1092f0b4d4326570ca2617a",
         shallow_since = "1566966435 +0000",
-    )
-
-    _maybe(
-        http_archive,
-        name = "com_github_tencent_rapidjson",
-        build_file = "//:src/main/resources/bazel/third_party/rapidjson.BUILD",
-        strip_prefix = "rapidjson-master",
-        urls = ["https://github.com/Tencent/rapidjson/archive/master.zip"],
-    )
-
-    _maybe(
-        http_archive,
-        name = "com_github_google_benchmark",
-        sha256 = "f8e525db3c42efc9c7f3bc5176a8fa893a9a9920bbd08cef30fb56a51854d60d",
-        strip_prefix = "benchmark-1.4.1",
-        urls = [
-            "https://github.com/google/benchmark/archive/v1.4.1.tar.gz",
-        ],
     )
 
     # cpplint from google style guide
