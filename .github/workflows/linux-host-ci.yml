@@ -73,7 +73,7 @@ env:
   EVENT_NAME: ${{ github.event_name }}
   REGISTRY: docker.io
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
-  buildDir: '${{ github.workspace }}/build'
+  BUILD_DIR: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
   DOC_ROOT: ${{ github.workspace }}/ACE
   ACE_ROOT: ${{ github.workspace }}/ACE/ACE
@@ -84,41 +84,75 @@ env:
 
 jobs:
   bazel-end-2-end-build-on-vm:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            compiler: clang
+            compiler-version: 11
+            ignore-errors: false
+          - os: ubuntu-20.04
+            compiler: clang
+            compiler-version: 10
+            ignore-errors: false
+          - os: ubuntu-latest
+            compiler: clang
+            compiler-version: 11
+            ignore-errors: false
+          - os: ubuntu-latest
+            compiler: clang
+            compiler-version: 10
+            ignore-errors: false
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.ignore-errors }}
     timeout-minutes: 600
     steps:
-      - name: Dependencies [Ubuntu]
-        # if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt update
-          sudo apt install -y git build-essential pkg-config zip unzip zlib1g-dev cmake wget curl autoconf \
-                              autogen automake make libtool mlocate xz-utils autotools-dev
-      - name: Display environment variables
-        shell: bash
-        run: env
+    - name: Install/configure Clang compiler toolchain ${{matrix.compiler-version}} on ${{ matrix.os }}
+      if: matrix.compiler == 'clang'
+      run: |
+        sudo apt-get install -qy clang-${{matrix.compiler-version}}
+        echo "CXX=clang++-${{matrix.compiler-version}}" >> $GITHUB_ENV
+        echo "CC=clang-${{matrix.compiler-version}}" >> $GITHUB_ENV
 
-      - name: Install bazelisk
-        run: |
-          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-linux-amd64"
-          mkdir -p "${GITHUB_WORKSPACE}/bin/"
-          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
-          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+    - name: Install/configure GCC compiler toolchain ${{matrix.compiler-version}} on ${{ matrix.os }}
+      if: matrix.compiler == 'gcc'
+      run: |
+        sudo apt-get install -qy g++-${{matrix.compiler-version}}
+        echo "CXX=g++-${{matrix.compiler-version}}" >> $GITHUB_ENV
+        echo "CC=gcc-${{matrix.compiler-version}}" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2.3.4
-      - name: Mount Bazel Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: bazel-cache
-        with:
-          path: |
-            ${{ env.BZL_CACHE }}
-            ${{ env.BZL_OUTPUT }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+    - name: Dependencies ${{ matrix.os }}
+      # if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt update
+        sudo apt install -y git build-essential pkg-config zip unzip zlib1g-dev cmake wget curl autoconf autogen automake make libtool mlocate xz-utils autotools-dev
 
+    - name: Display environment variables
+      shell: bash
+      run: env
+
+    - name: Install bazelisk
+      run: |
+        curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-linux-amd64"
+        mkdir -p "${GITHUB_WORKSPACE}/bin/"
+        mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+        chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+    - uses: actions/checkout@v2.3.4
+    - name: Mount Bazel Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: bazel-cache
+      with:
+        path: |
+          ${{ env.BZL_CACHE }}
+          ${{ env.BZL_OUTPUT }}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
       # - name: Install LLVM and Clang
       #   uses: KyleMayes/install-llvm-action@v1
@@ -144,6 +178,7 @@ jobs:
 
       - name: Test all targets
         run: bazelisk test //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+
       # - name: Archive Build artifacts
       #   uses: actions/upload-artifact@v2
       #   with:

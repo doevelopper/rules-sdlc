@@ -92,18 +92,18 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 600
     steps:
-      - name: Display matrix.os environment variables
-        shell: bash
-        run: env
-      - name: Dependencies [Windows]
-        # if: matrix.os == 'windows-latest'
-        shell: bash
-        run: |
-          choco install -y curl wget unzip
+    - name: Display matrix.os environment variables
+      shell: bash
+      run: env
+    - name: Dependencies [Windows]
+      # if: matrix.os == 'windows-latest'
+      shell: bash
+      run: |
+        choco install -y curl wget unzip
 
-      - name: Source-based Dependencies [matrix.os]
-        # if: matrix.os == 'windows-latest'
-        shell: bash
+    - name: Source-based Dependencies [matrix.os]
+      # if: matrix.os == 'windows-latest'
+      shell: bash
 # curl -L -o apr-1.7.0.zip https://downloads.apache.org/apr/apr-1.7.0-win32-src.zip
 # unzip apr-1.7.0.zip
 # curl -L -o apr-iconv-1.2.2.zip https://downloads.apache.org/apr/apr-iconv-1.2.2-win32-src.zip
@@ -112,32 +112,32 @@ jobs:
 # unzip apr-util-1.6.1.zip
 # curl -L -o apache-log4cxx-0.12.0.zip https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.zip
 # unzip apache-log4cxx-0.12.0.zip
-        run: |
-          cd ${GITHUB_WORKSPACE}
-          ls
-      - uses: actions/checkout@v2
-      - name: Mount Bazel Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: bazel-cache
-        with:
-          path: |
-            ${{ env.BZL_CACHE }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        ls
+    - uses: actions/checkout@v2
+    - name: Mount Bazel Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: bazel-cache
+      with:
+        path: |
+          ${{ env.BZL_CACHE }}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
-      - name: Bazel on Windows
-        env:
-          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
-        shell: cmd
-        run: |
-          @echo on
-          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
-          bazel version
-          bazel build --nobuild //...
+    - name: Bazel on Windows
+      env:
+        BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+      shell: cmd
+      run: |
+        @echo on
+        curl -sSL -o bazel.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
+        bazel version
+        bazel build --nobuild //...
 
       #     set "BAZEL_OPTIMIZATION=--config=cache"
       #     if "%EVENT_NAME%" == "push" (
@@ -162,17 +162,17 @@ jobs:
       #   run: bazelisk query @com_google_googletest//...
       #   # --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Build all target
-        env:
-          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
-        shell: cmd
-        run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
+    - name: Build all target
+      env:
+        BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+      shell: cmd
+      run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Test all target
-        env:
-          BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
-        shell: cmd
-        run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
+    # - name: Test all target
+    #   env:
+    #     BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+    #   shell: cmd
+    #   run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       # - name: Archive Build artifacts
       #   uses: actions/upload-artifact@v2
