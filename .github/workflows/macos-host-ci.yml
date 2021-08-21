@@ -87,55 +87,55 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
-      - name: Display environment variables
-        shell: bash
-        run: env
-      - name: Install python on macOS
-        run: |
-          set -x -e
-          export BAZEL_OPTIMIZATION="--config=cache"
-          if [[ "${EVENT_NAME}" == "push" && "${REPO_NAME}" == "rules-sdlc" ]]; then
-            export BAZEL_OPTIMIZATION="$BAZEL_OPTIMIZATION --remote_upload_local_results=true"
-          fi
-          echo "Bring /usr/bin to front as GitHub does not use system python3 by default"
-          export PATH=/usr/bin:$PATH
-          echo $PATH
-          python3 --version
-      - name: Install bazelisk
-        run: |
-          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-darwin-amd64"
-          mkdir -p "${GITHUB_WORKSPACE}/bin/"
-          mv bazelisk-darwin-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
-          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+    - name: Display environment variables
+      shell: bash
+      run: env
+    - name: Install python on macOS
+      run: |
+        set -x -e
+        export BAZEL_OPTIMIZATION="--config=cache"
+        if [[ "${EVENT_NAME}" == "push" && "${REPO_NAME}" == "rules-sdlc" ]]; then
+          export BAZEL_OPTIMIZATION="$BAZEL_OPTIMIZATION --remote_upload_local_results=true"
+        fi
+        echo "Bring /usr/bin to front as GitHub does not use system python3 by default"
+        export PATH=/usr/bin:$PATH
+        echo $PATH
+        python3 --version
+    - name: Install bazelisk
+      run: |
+        curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-darwin-amd64"
+        mkdir -p "${GITHUB_WORKSPACE}/bin/"
+        mv bazelisk-darwin-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+        chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
 
-      - uses: actions/checkout@v2
-      - name: Mount Bazel Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: bazel-cache
-        with:
-          path: |
-            ${{ env.BZL_CACHE }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+    - uses: actions/checkout@v2
+    - name: Mount Bazel Cache
+      uses: actions/cache@v2
+      env:
+        cache-name: bazel-cache
+      with:
+        path: |
+          ${{ env.BZL_CACHE }}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
-      # - name: build google benchmark
-      #   run: bazelisk  build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+    - name: build google benchmark
+      run: bazelisk  build @com_github_google_benchmark//:benchmark --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      # - name: build google test
-      #   run: bazelisk  build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+    - name: build google test
+      run: bazelisk  build @com_google_googletest//... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       # - name: Build logging utils
       #   run: bazelisk  build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Build all targets
-        run: bazelisk  build //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+      # - name: Build all targets
+      #   run: bazelisk  build //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-      - name: Build all targets
-        run: bazelisk  test //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+      # - name: Build all targets
+      #   run: bazelisk  test //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       # - name: Archive Build artifacts
       #   uses: actions/upload-artifact@v2

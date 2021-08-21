@@ -129,13 +129,13 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - name: Bazel on Windows
+    - name: Install Bazelisk on ${{ matrix.os }}
       env:
         BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
       shell: cmd
       run: |
         @echo on
-        curl -sSL -o bazel.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
+        curl -sSL -o bazelisk.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
         bazel version
         bazel build --nobuild //...
 
@@ -162,7 +162,7 @@ jobs:
       #   run: bazelisk query @com_google_googletest//...
       #   # --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --client_env=BAZEL_CXXOPTS=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
 
-    - name: Build all target
+    - name: Build all target on host ${{ matrix.os }}
       env:
         BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
       shell: cmd
