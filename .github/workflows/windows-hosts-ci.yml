@@ -92,7 +92,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 600
     steps:
-      - name: Display environment variables
+      - name: Display matrix.os environment variables
         shell: bash
         run: env
       - name: Dependencies [Windows]
@@ -101,7 +101,7 @@ jobs:
         run: |
           choco install -y curl wget unzip
 
-      - name: Source-based Dependencies [Windows]
+      - name: Source-based Dependencies [matrix.os]
         # if: matrix.os == 'windows-latest'
         shell: bash
 # curl -L -o apr-1.7.0.zip https://downloads.apache.org/apr/apr-1.7.0-win32-src.zip
@@ -135,6 +135,10 @@ jobs:
         shell: cmd
         run: |
           @echo on
+          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
+          bazel version
+          bazel build --nobuild //...
+
       #     set "BAZEL_OPTIMIZATION=--config=cache"
       #     if "%EVENT_NAME%" == "push" (
       #       if "%REPO_NAME%" == "rules-sdlc" (
@@ -143,10 +147,7 @@ jobs:
       #     )
       #     https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-windows-amd64.exe
       #     set /P BAZEL_VERSION=< .bazelversion
-          curl -sSL -o bazel.exe https://github.com/bazelbuild/bazel/releases/download/5.0.0-pre.20210728.1/bazel-5.0.0-pre.20210728.1-windows-x86_64.exe
-      #     bazel version
       #     python3 --version
-      #     bazel build --nobuild //...
 
       # - name: build google benchmark
       #   env:
@@ -172,6 +173,7 @@ jobs:
           BAZEL_VC: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
         shell: cmd
         run: bazelisk build @org_apache_apr//:apr --client_env=BAZEL_CXXOPTS=/std:c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=/std:c++17 --host_cxxopt=/std:c++17 --disk_cache=${{ env.BZL_CACHE }}
+
       # - name: Archive Build artifacts
       #   uses: actions/upload-artifact@v2
       #   with:
