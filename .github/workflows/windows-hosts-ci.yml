@@ -91,7 +91,13 @@ jobs:
     name: Bazel Windows
     runs-on: windows-latest
     timeout-minutes: 600
+    strategy:
+      matrix:
+        version: [11, 12]
     steps:
+    - name: Add clang into the system PATH
+      shell: bash
+      run: echo "::add-path::C:\msys64\mingw64\bin"
     - name: Display matrix.os environment variables
       shell: bash
       run: env

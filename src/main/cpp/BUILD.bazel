@@ -16,6 +16,8 @@ cc_library(
     srcs = [
         "rules/sdlc/std/Dummy.hpp",
         "rules/sdlc/std/Dummy.cpp",
+        "rules/sdlc/std/log/LoggingServicePrivate.hpp",
+        "rules/sdlc/std/log/LoggingServicePrivate.cpp",
     ],
     copts = [
         "-std=c++17",

@@ -85,7 +85,11 @@ env:
 jobs:
   bazel-end-2-end-build-on-vm:
     strategy:
+      # Don't abort runners if a single one fails
       fail-fast: false
+      build_type: ["Debug", "Release"]
+      compilation_mode: ["fastbuild", "dbg" , "opt"]
+      arch: [ Win32, x64 ]
       matrix:
         include:
           - os: ubuntu-20.04
@@ -93,7 +97,7 @@ jobs:
             compiler-version: 11
             ignore-errors: false
           - os: ubuntu-20.04
-            compiler: clang
+            compiler: gcc
             compiler-version: 10
             ignore-errors: false
           - os: ubuntu-latest
@@ -101,12 +105,12 @@ jobs:
             compiler-version: 11
             ignore-errors: false
           - os: ubuntu-latest
-            compiler: clang
+            compiler: gcc
             compiler-version: 10
             ignore-errors: false
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.ignore-errors }}
-    timeout-minutes: 600
+    timeout-minutes: 120
     steps:
     - name: Install/configure Clang compiler toolchain ${{matrix.compiler-version}} on ${{ matrix.os }}
       if: matrix.compiler == 'clang'
@@ -155,10 +159,10 @@ jobs:
           ${{ runner.os }}-
 
     - name: Build all targets
-      run: bazelisk build //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+      run: bazelisk build //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=${{ env.CC }} --client_env=CXX=${{ env.CXX }} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
     - name: Test all targets
-      run: bazelisk test //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=Cxx=g++ --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
+      run: bazelisk test //... --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=${{ env.CC }} --client_env=CXX=${{ env.CXX }} --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --disk_cache=${{ env.BZL_CACHE }}
 
       # - name: Install LLVM and Clang
       #   uses: KyleMayes/install-llvm-action@v1
