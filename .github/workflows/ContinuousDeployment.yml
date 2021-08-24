@@ -32,7 +32,7 @@
 name: Continuous Code Auto Deployment
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-and-deply-auto:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

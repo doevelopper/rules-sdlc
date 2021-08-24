@@ -34,7 +34,7 @@ concurrency:
 
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-test-and-run-coverage:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

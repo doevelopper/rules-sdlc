@@ -82,13 +82,31 @@ env:
 
 jobs:
   Build-test-and-package:
-    runs-on: ubuntu-latest
-    # continue-on-error: ${{ matrix.ignore-errors }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.ignore-errors }}
     timeout-minutes: 120
     # os: [ubuntu-latest, windows-latest, macos-latest]
     strategy:
       # Don't abort runners if a single one fails
       fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            compiler: clang
+            compiler-version: 11
+            ignore-errors: false
+          - os: ubuntu-20.04
+            compiler: gcc
+            compiler-version: 10
+            ignore-errors: false
+          - os: ubuntu-latest
+            compiler: clang
+            compiler-version: 11
+            ignore-errors: false
+          - os: ubuntu-latest
+            compiler: gcc
+            compiler-version: 10
+            ignore-errors: false
     steps:
       - name: Validate the project is correct and all necessary information is available.
         run: |
