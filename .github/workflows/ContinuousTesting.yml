@@ -81,11 +81,11 @@ env:
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
 
 jobs:
-  Validate:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.ignore-errors }}
+  Build-test-and-package:
+    runs-on: ubuntu-latest
+    # continue-on-error: ${{ matrix.ignore-errors }}
     timeout-minutes: 120
-    os: [ubuntu-latest, windows-latest, macos-latest]
+    # os: [ubuntu-latest, windows-latest, macos-latest]
     strategy:
       # Don't abort runners if a single one fails
       fail-fast: false
