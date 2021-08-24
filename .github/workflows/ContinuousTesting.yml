@@ -1,0 +1,185 @@
+#
+#       .github/workflows/ContinuousTesting.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+name: Continuous Code Testing
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [feature/**,  hotfix/**, bugfix/**, support/** ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  pull_request:
+    branches: [ main, master, develop, releases/v*, releases/**, rc/** ]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  workflow_dispatch:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - 'LICENSE'
+      - 'CONTRIBUTING.md'
+      - 'CODE_OF_CONDUCT.md'
+      - 'AUTHORS'
+  schedule:
+    - cron: '30 23 * * TUE'
+    # - cron: '0 0 12 ? * THU'
+
+env:
+  TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IS_MASTER: ${{ contains(github.ref, 'master') }}
+  SONAR_PROJECT_KEY: oci-checkins
+  SONAR_URL: https://sonarqube.cloudops.rules-sdlc
+  SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}}
+  BAZEL_TARGET: ${{ github.event.inputs.target }}
+  BAZEL_RUNS_PER_TEST: ${{ github.event.inputs.runs_per_test }}
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+  REGISTRY: docker.io
+  IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
+  BUILD_DIR: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+
+jobs:
+  Validate:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.ignore-errors }}
+    timeout-minutes: 120
+    os: [ubuntu-latest, windows-latest, macos-latest]
+    strategy:
+      # Don't abort runners if a single one fails
+      fail-fast: false
+    steps:
+      - name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Initialize build state, e.g. set properties or create directories.
+        run: |
+          ls ${{ github.workspace }}
+      - uses: actions/checkout@v2.3.4
+        with:
+          submodules: recursive
+      - name: Generate any source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Process the source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Generate resources for inclusion in the package.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Copy and process the resources into the destination directory, ready for packaging.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Compile the source code of the project.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Post-process the generated files from compilation,
+        run: |
+          ls ${{ github.workspace }}
+      - name: Generate any test source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Process the test source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Create resources for testing.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Copy and process the resources into the test destination directory.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Compile the test source code into the test destination directory
+        run: |
+          ls ${{ github.workspace }}
+      - name: Post-process the generated files from test compilation,
+        run: |
+          ls ${{ github.workspace }}
+      - name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Take the compiled code and package it in its distributable format, such as a tar.gz.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Process and deploy the package if necessary into an environment where integration tests can be run.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Run any checks to verify the package is valid and meets quality criteria.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Install the package into the local repository, for use as a dependency in other projects locally.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Copies the final package to the remote repository for sharing with other developers and projects. In integration or release environment
+        run: |
+          ls ${{ github.workspace }}
+      - name: Execute processes needed prior to the actual project site generation
+        run: |
+          ls ${{ github.workspace }}
+      - name: Generate the project's site documentation
+        run: |
+          ls ${{ github.workspace }}
+      - name: Execute processes needed to finalize the site generation, and to prepare for site deployment
+        run: |
+          ls ${{ github.workspace }}
+      - name: Deploy the generated site documentation to the specified web server
+        run: |
+          ls ${{ github.workspace }}
+      - name: Execute processes needed prior to the actual project cleaning
+        run: |
+          ls ${{ github.workspace }}
+      - name: Remove all files generated by the previous build
+        run: |
+          ls ${{ github.workspace }}
+      - name: Execute processes needed to finalize the project cleaning
+        run: |
+          ls ${{ github.workspace }}

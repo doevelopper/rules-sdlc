@@ -1,0 +1,104 @@
+#
+#       .github/workflows/ContinuousDelivery.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+name: Compilation for embedded target application
+
+on: [push]
+jobs:
+  cross-compilation:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The platform matrix specifies:
+        #   arch: the architecture to build for, this defines the tool-chain
+        #         prefix {arch}- and the Debian compiler package gcc-{arch}
+        #         name.
+        #   libs: the Debian package for the necessary link/runtime libraries.
+        #   target: the OpenSSL configuration target to use, this is passed
+        #           directly to the config command line.
+        #   fips:   set to "no" to disable building FIPS, leave unset to
+        #           build the FIPS provider.
+        #   tests: omit this to run all the tests using QEMU, set it to "none"
+        #          to never run the tests, otherwise it's value is passed to
+        #          the "make test" command to allow selectiving disabling of
+        #          tests
+        # Notes:
+        # - "ok" means "all tests passed".
+        # - "NS" means "Not Shared", but OK for static libraries
+
+        platform: [
+          # <arch><sub>-<vendor>-<sys>-<abi>,
+          # arch = x86_64, i386, arm, thumb, mips, etc.
+          # sub = for ex. on ARM: v5, v6m, v7a, v7m, etc.
+          # vendor = pc, apple, nvidia, ibm, etc.
+          # sys = none, linux, win32, darwin, cuda, etc.
+          # abi = eabi, gnu, android, macho, elf, etc.
+
+          # {
+
+          # },
+          {
+            arch: aarch64-linux-gnu,
+            libs: libc6-dev-arm64-cross,
+            target: linux-aarch64
+          }
+          ,
+          {
+            arch: arm-linux-gnueabi,
+            libs: libc6-dev-armel-cross,
+            target: linux-armv4,
+            tests: -test_includes -test_store -test_x509_store
+          }
+          ,
+          {
+            arch: arm-linux-gnueabihf,
+            libs: libc6-dev-armhf-cross,
+            target: linux-armv4,
+            tests: -test_includes -test_store -test_x509_store
+          }
+          ,
+          {
+            arch: riscv64-linux-gnu,
+            libs: libc6-dev-riscv64-cross,
+            target: linux64-riscv64
+          }
+        ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -87,6 +87,11 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60
     steps:
+    - name: Install dependencies
+        # brew cask install textmate
+      run: |
+        brew install wget tree watch htop
+        brew install coreutils zig
     - name: Display environment variables
       shell: bash
       run: env
@@ -109,6 +114,8 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
 
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: Mount Bazel Cache
       uses: actions/cache@v2
       env:
