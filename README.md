@@ -25,6 +25,13 @@
 [![GitHub CI MacOS](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/macos-host-ci.yml)
 [![GitHub CI Windows](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/windows-hosts-ci.yml)
 
+[![Compilation for embedded target application](https://github.com/doevelopper/rules-sdlc/actions/workflows/CrossCompilation.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/CrossCompilation.yml)
+[![Continuous Code Auto Deployment](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDeployment.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDeployment.yml)
+[![Continuous Code Manual Deployment](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDelivery.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDelivery.yml)
+[![Continuous Code Quality](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousQuality.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousQuality.yml)
+[![Continuous Code Testing](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousTesting.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousTesting.yml)
+[![Continuous Integration Test](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration.yml)
+
 # Bazel rules resources.
 
 ## Table of Contents

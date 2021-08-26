@@ -33,6 +33,9 @@ concurrency:
   cancel-in-progress: true
 
 on: [push]
+  pull_request_target:
+    branches: [ develop ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
 jobs:
   Build-test-and-run-coverage:
     runs-on: ${{ matrix.os }}

@@ -29,7 +29,7 @@
 name: Continuous Integration Test
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  feature-and-integration-test:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -43,3 +43,18 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  check-title:
+    name: "Check Title"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Verify PR Title Clean"
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const title = context.payload.pull_request.title
+            const regex = /^.?(WIP|wip)([\]\):]{1,2})?\s/
+            if (regex.test(title) === true) {
+              core.setFailed('Title starts with WIP token.')
+            }
