@@ -43,7 +43,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, ubuntu-latest]
+        # os: [macos-latest, ubuntu-latest, ubuntu-latest]
         include:
           - os: ubuntu-20.04
             compiler: clang
@@ -63,11 +63,11 @@ jobs:
             ignore-errors: false
           - os: windows-latest
             compiler: clang-cl.exe
-            compiler-version: 11
+            compiler-version: 12
             ignore-errors: false
           - os: windows-latest
             compiler: cl.exe
-            compiler-version: 10
+            compiler-version: 2017
             ignore-errors: false
     steps:
       - name: Validate the project is correct and all necessary information is available.

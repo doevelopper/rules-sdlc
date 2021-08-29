@@ -84,6 +84,8 @@ env:
 
 jobs:
   Build-test-and-package:
+    name: >
+      Compile, link, test and produce ${{ github.repository }} 's artifacts on ${{ matrix.os }} with ${{ matrix.compiler }}.
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.ignore-errors }}
     timeout-minutes: 120
@@ -108,6 +110,14 @@ jobs:
           - os: ubuntu-latest
             compiler: gcc
             compiler-version: 10
+            ignore-errors: false
+          - os: windows-latest
+            compiler: clang-cl.exe
+            compiler-version: 12
+            ignore-errors: false
+          - os: windows-latest
+            compiler: cl.exe
+            compiler-version: 2017
             ignore-errors: false
     steps:
       # - name: Login to DockerHub
