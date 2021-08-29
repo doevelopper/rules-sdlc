@@ -26,7 +26,7 @@
 #
 #
 
-name: 🍺 🧊 Continuous Code Testing 🧊 🍺
+name: 🍺 🛠️ Continuous 🦺 Code Testing 🛠️ 🍺
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
