@@ -34,7 +34,7 @@ concurrency:
 
 on:
   push:
-    branches: [ develop ]
+    branches: [feature/**,  hotfix/**, bugfix/**, support/** ]
   pull_request_target:
     branches: [ develop ]
     types: [ opened, synchronize, reopened, ready_for_review ]
