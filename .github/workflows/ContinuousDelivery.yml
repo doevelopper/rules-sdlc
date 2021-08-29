@@ -29,7 +29,7 @@
 #       AUTO                  AUTO                          AUTO                       MANUAL
 # Code =========> Unit Tests =========> Integration Tests =========> Acceptance Test  =========> Deploy to Staging/Production
 
-name:  🥰 Continuous Code Manual Deployment 🥰
+name:  🥰 Continuous 🦺 Code Manual Deployment 🥰
 
 on: [push]
 jobs:

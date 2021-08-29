@@ -26,7 +26,7 @@
 #
 #
 
-name: 🆗 🔄 Continuous Integration Test 🔄 🆗
+name: 🆗 🔄 Continuous 🦺 Integration Test 🔄 🆗
 on: [push]
 jobs:
   feature-and-integration-test:

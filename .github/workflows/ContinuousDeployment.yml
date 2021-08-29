@@ -29,7 +29,7 @@
 #       AUTO                  AUTO            AUTO                       AUTO
 # Code =========> Unit Test =========> INTEG =========> Acceptance Test  =========> Deploy to production
 
-name: 👌🏽 👍🏽 Continuous Code Auto Deployment 👍🏽 👌🏽
+name: 👌🏽 👍🏽 Continuous 🦺 Code Auto Deployment 👍🏽 👌🏽
 on: [push]
 jobs:
   Build-and-deply-auto:
