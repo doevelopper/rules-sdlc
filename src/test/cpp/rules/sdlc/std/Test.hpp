@@ -1,12 +1,12 @@
 
-#ifndef CFS_COM_TEST_HPP
-#define CFS_COM_TEST_HPP
+#ifndef RULES_SDLC_STD_TEST_HPP
+#define RULES_SDLC_STD_TEST_HPP
 
 #include <vector>
 #include <gmock/gmock.h>
-#include <cfs/com/LoggingService.hpp>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
-namespace cfs::com::test
+namespace rules::sdlc::std
 {
     class Test
     {

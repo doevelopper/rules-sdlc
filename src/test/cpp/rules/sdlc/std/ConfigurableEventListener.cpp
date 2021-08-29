@@ -1,12 +1,12 @@
 
-#include <cfs/com/ConfigurableEventListener.hpp>
+#include <rules/sdlc/std/ConfigurableEventListener.hpp>
 
-using namespace cfs::com::test;
+using namespace rules::sdlc::std;
 
 log4cxx::LoggerPtr ConfigurableEventListener::logger =
-    log4cxx::Logger::getLogger(std::string("cfs.com.test.ConfigurableEventListener"));
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.ConfigurableEventListener"));
 log4cxx::LoggerPtr ConfigurableEventListener::Builder::logger =
-    log4cxx::Logger::getLogger(std::string("cfs.com.test.ConfigurableEventListener.Builder"));
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.ConfigurableEventListener.Builder"));
 
 ConfigurableEventListener::Builder::~Builder()
 {
@@ -240,4 +240,3 @@ void ConfigurableEventListener::OnTestProgramEnd(const testing::UnitTest& unit_t
                 this->eventListener->OnTestProgramEnd(unit_test);
             }
 }
-

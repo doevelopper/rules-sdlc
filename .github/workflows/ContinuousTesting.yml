@@ -26,7 +26,7 @@
 #
 #
 
-name: Continuous Code Testing
+name: 🍺 Continuous Code Testing
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -79,6 +79,8 @@ env:
   IMAGE_NAME: doevelopper/cfs-dev-tools-common:latest
   BUILD_DIR: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+  BUILD_VERSION: 0.0.1
 
 jobs:
   Build-test-and-package:
@@ -108,6 +110,11 @@ jobs:
             compiler-version: 10
             ignore-errors: false
     steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DTR_USER }}
+          password: ${{ secrets.DTR_PASSWORD }}
       - name: Validate the project is correct and all necessary information is available.
         run: |
           ls ${{ github.workspace }}

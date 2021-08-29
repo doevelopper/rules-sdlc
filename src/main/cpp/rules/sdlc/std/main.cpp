@@ -23,7 +23,7 @@
 #include <cstdlib>
 #include <cmath>
 // #include <boost/program_options.hpp>
-// #include <rules/sdlc/std/log/LoggingService.hpp>
+// #include <rules/sdlc/std/logging/LoggingService.hpp>
 
 
 // namespace po = boost::program_options;

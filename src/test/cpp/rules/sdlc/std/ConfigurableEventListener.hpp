@@ -7,9 +7,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <cfs/com/LoggingService.hpp>
+#include <rules/sdlc/std/LoggingService.hpp>
 
-namespace cfs::com::test
+namespace rules::sdlc::std
 {
 
 class ConfigurableEventListener : public testing::TestEventListener
@@ -99,4 +99,3 @@ class ConfigurableEventListener : public testing::TestEventListener
 }
 
 #endif
-

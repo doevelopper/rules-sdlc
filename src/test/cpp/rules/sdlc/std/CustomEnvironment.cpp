@@ -1,10 +1,10 @@
 
-#include <cfs/com/CustomEnvironment.hpp>
+#include <rules/sdlc/std/CustomEnvironment.hpp>
 
-using namespace cfs::com::test;
+using namespace rules::sdlc::std;
 
 log4cxx::LoggerPtr CustomEnvironment::logger =
-    log4cxx::Logger::getLogger(std::string("cfs.com.test.CustomEnvironment"));
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.CustomEnvironment"));
 
 CustomEnvironment::CustomEnvironment()
 {
@@ -26,4 +26,3 @@ void CustomEnvironment::TearDown()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
 }
-

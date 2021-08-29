@@ -47,7 +47,7 @@ cmake(
             # "-DAPR_STATIC=YES",
             "-DCMAKE_BUILD_TYPE=Release",
             "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-            # "-DCMAKE_PREFIX_PATH=${EXT_BUILD_DEPS}/apr/;${EXT_BUILD_DEPS}/expat/;${EXT_BUILD_DEPS}/aprutil/;${EXT_BUILD_DEPS}/openssl/"
+            "-DCMAKE_PREFIX_PATH=${EXT_BUILD_DEPS}/apr-1/;${EXT_BUILD_DEPS}/expat/;${EXT_BUILD_DEPS}/aprutil/;${EXT_BUILD_DEPS}/openssl/"
         ],
     }),
 
@@ -79,6 +79,7 @@ cmake(
     }),
 
     deps = [
+        "@com_github_openssl//:openssl",
         "@org_apache_apr_util//:aprutil",
     ],
 )

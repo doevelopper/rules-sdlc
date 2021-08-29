@@ -2,9 +2,9 @@
 #define CFS_COM_CUSTOMENVIRONMENT_HPP
 
 #include <gtest/gtest.h>
-#include <cfs/com/LoggingService.hpp>
+#include <rules/sdlc/std/LoggingService.hpp>
 
-namespace cfs::com::test
+namespace rules::sdlc::std
 {
 class CustomEnvironment : public ::testing::Environment
 {

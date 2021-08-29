@@ -1,12 +1,12 @@
 
-#include <cfs/com/Test.hpp>
-#include <cfs/com/GTestEventListener.hpp>
-#include <cfs/com/ConfigurableEventListener.hpp>
-#include <cfs/com/CustomEnvironment.hpp>
+#include <rules/sdlc/std/Test.hpp>
+#include <rules/sdlc/std/GTestEventListener.hpp>
+#include <rules/sdlc/std/ConfigurableEventListener.hpp>
+#include <rules/sdlc/std/CustomEnvironment.hpp>
 
-using namespace cfs::com::test;
+using namespace rules::sdlc::std;
 
-log4cxx::LoggerPtr Test::logger = log4cxx::Logger::getLogger(std::string("cfs.com.test.Test") );
+log4cxx::LoggerPtr Test::logger = log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.Test") );
 const unsigned long Test::LOGGER_WATCH_DELAY = 5000UL;
 
 Test::Test()

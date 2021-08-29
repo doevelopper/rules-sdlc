@@ -26,6 +26,7 @@ Before you create the pull request, we ask you to check the follow boxes. (For s
 * [ ] Tested on macOS
 * [ ] Tested on iOS
 * [ ] Tested on Android
+* [ ] Other Platforms
 
 <!--- Please add tests for changes to the code, otherwise we probably won't merge it -->
 
@@ -49,6 +50,11 @@ Before you create the pull request, we ask you to check the follow boxes. (For s
 - [ ] I've added tests for my code.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
+- [ ] Did a review by yourself.
+- [ ] Added proper tests to cover this PR. (If tests are not applicable, explain.)
+- [ ] Checked if this PR is a breaking (APIs have been changed) change.
+- [ ] Checked if this PR will _not_ introduce cross-platform inconsistent behavior.
+- [ ] Checked if this PR would require a ReadMe/Wiki update.
 
 ## How to test this PR?
 Describe how to best test these changes. Please provide a [minimal, complete and verifiable example](https://stackoverflow.com/help/mcve) if possible, you can use the follow template as a start:
@@ -65,4 +71,3 @@ Describe how to best test these changes. Please provide a [minimal, complete and
 
  void mainChangeFeatureestInGherkinStyle() {...}
 ```
-

@@ -1,9 +1,9 @@
 
-#include <cfs/com/GTestEventListener.hpp>
+#include <rules/sdlc/std/GTestEventListener.hpp>
 
-using namespace cfs::com::test;
+using namespace rules::sdlc::std;
 
-log4cxx::LoggerPtr GTestEventListener::logger = log4cxx::Logger::getLogger(std::string("cfs.com.test.GTestEventListener"));
+log4cxx::LoggerPtr GTestEventListener::logger = log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.GTestEventListener"));
 
 GTestEventListener::GTestEventListener()
 : m_currentTestCaseName("UKN"),
