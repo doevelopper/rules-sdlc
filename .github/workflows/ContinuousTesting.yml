@@ -110,11 +110,11 @@ jobs:
             compiler-version: 10
             ignore-errors: false
     steps:
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DTR_USER }}
-          password: ${{ secrets.DTR_PASSWORD }}
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: ${{ secrets.DTR_USER }}
+      #     password: ${{ secrets.DTR_PASSWORD }}
       - name: Validate the project is correct and all necessary information is available.
         run: |
           ls ${{ github.workspace }}
