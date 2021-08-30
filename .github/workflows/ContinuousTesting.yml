@@ -122,14 +122,14 @@ jobs:
             compiler: cl.exe
             compiler-version: 2017
             ignore-errors: false
-          - os: windows-latest
-            compiler: gcc
-            compiler-version: 11
-            ignore-errors: false
-          - os: windows-latest
-            compiler: clang
-            compiler-version: 12
-            ignore-errors: false
+          # - os: windows-latest
+          #   compiler: gcc
+          #   compiler-version: 11
+          #   ignore-errors: false
+          # - os: windows-latest
+          #   compiler: clang
+          #   compiler-version: 12
+          #   ignore-errors: false
     steps:
       # - name: Login to DockerHub
       #   uses: docker/login-action@v1
@@ -149,7 +149,9 @@ jobs:
       - name: Validate the project is correct and all necessary information is available.
         run: |
           ls ${{ github.workspace }}
-          bazelisk build --nobuild //... --cxxopt=-std=${{matrix.standard}} --host_cxxopt=-std=${{matrix.standard}} --client_env=BAZEL_CXXOPTS=-std=${{matrix.standard}} --client_env=CC=${{matrix.compiler}} --client_env=CXX=${{matrix.compiler}}
+          bazelisk --version
+
+# bazelisk build --nobuild //... --cxxopt=-std=${{matrix.standard}} --host_cxxopt=-std=${{matrix.standard}} --client_env=BAZEL_CXXOPTS=-std=${{matrix.standard}} --client_env=CC=${{matrix.compiler}} --client_env=CXX=${{matrix.compiler}}
       - name: Initialize build state, e.g. set properties or create directories.
         run: |
           ls ${{ github.workspace }}
