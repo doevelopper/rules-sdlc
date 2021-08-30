@@ -94,6 +94,9 @@ jobs:
       # Don't abort runners if a single one fails
       fail-fast: false
       matrix:
+        # cmake_build_type: ["Debug", "Release", "RelWithDebInfo", "MinSizeRel"]
+        # bazel_compilation_mode: ["fastbuild", "dbg" , "opt"]
+        standard: [c++14, c++17]
         include:
           - os: ubuntu-20.04
             compiler: clang
@@ -119,21 +122,37 @@ jobs:
             compiler: cl.exe
             compiler-version: 2017
             ignore-errors: false
+          - os: windows-latest
+            compiler: gcc
+            compiler-version: 11
+            ignore-errors: false
+          - os: windows-latest
+            compiler: clang
+            compiler-version: 12
+            ignore-errors: false
     steps:
       # - name: Login to DockerHub
       #   uses: docker/login-action@v1
       #   with:
       #     username: ${{ secrets.DTR_USER }}
       #     password: ${{ secrets.DTR_PASSWORD }}
-      - name: Validate the project is correct and all necessary information is available.
-        run: |
-          ls ${{ github.workspace }}
-      - name: Initialize build state, e.g. set properties or create directories.
-        run: |
-          ls ${{ github.workspace }}
+      - name: Cache bazel
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
+        with:
+          path: ~/.cache/bazel
+          key: ${{ runner.os }}-${{ env.cache-name }}
       - uses: actions/checkout@v2.3.4
         with:
           submodules: recursive
+      - name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls ${{ github.workspace }}
+          bazelisk build --nobuild //... --cxxopt=-std=${{matrix.standard}} --host_cxxopt=-std=${{matrix.standard}} --client_env=BAZEL_CXXOPTS=-std=${{matrix.standard}} --client_env=CC=${{matrix.compiler}} --client_env=CXX=${{matrix.compiler}}
+      - name: Initialize build state, e.g. set properties or create directories.
+        run: |
+          ls ${{ github.workspace }}
       - name: Generate any source code for inclusion in compilation.
         run: |
           ls ${{ github.workspace }}
