@@ -86,16 +86,16 @@ env:
 jobs:
   Build-test-and-package:
     name: >
-      Compile, link, test and produce ${{ github.repository }} 's artifacts on ${{ matrix.os }} with ${{ matrix.compiler }}.
+      ${{ github.actor }} Compile, link, test and produce ${{ github.repository }} 's artifacts on ${{ matrix.os }} with ${{ matrix.compiler }}.
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.ignore-errors }}
     timeout-minutes: 120
     # os: [ubuntu-latest, windows-latest, macos-latest]
-    # os: [ubuntu-latest, windows-2022, macos-11]
     strategy:
       # Don't abort runners if a single one fails
       fail-fast: false
       matrix:
+        os: [ubuntu-20.04, windows-2022, macos-11]
         # cmake_build_type: ["Debug", "Release", "RelWithDebInfo", "MinSizeRel"]
         # bazel_compilation_mode: ["fastbuild", "dbg" , "opt"]
         # standard: [c++14, c++17]
@@ -108,22 +108,22 @@ jobs:
             compiler: gcc
             compiler-version: 10
             ignore-errors: false
-          # - os: windows-latest
-          #   compiler: clang-cl.exe
-          #   compiler-version: 12
-          #   ignore-errors: false
-          # - os: windows-latest
-          #   compiler: cl.exe
-          #   compiler-version: 2017
-          #   ignore-errors: false
-          # - os: windows-latest
-          #   compiler: gcc
-          #   compiler-version: 11
-          #   ignore-errors: false
-          # - os: windows-latest
-          #   compiler: clang
-          #   compiler-version: 12
-          #   ignore-errors: false
+          - os: windows-2022
+            compiler: clang-cl.exe
+            compiler-version: 12
+            ignore-errors: false
+          - os: windows-2022
+            compiler: cl.exe
+            compiler-version: 2017
+            ignore-errors: false
+          - os: macos-11
+            compiler: gcc
+            compiler-version: 11
+            ignore-errors: false
+          - os: macos-11
+            compiler: clang
+            compiler-version: 12
+            ignore-errors: false
     steps:
       # - name: Log in to the Docker Container registry
       #   uses: docker/login-action@v1
