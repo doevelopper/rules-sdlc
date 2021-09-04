@@ -31,7 +31,24 @@
 
 name:  🥰 Continuous 🦺 Code Manual Deployment 🥰
 
-on: [push]
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+  # Also trigger on page_build, as well as release created events
+  page_build:
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
+  # release:
+  #   # Only use the types keyword to narrow down the activity types that will trigger your workflow.
+  #   types: [published, created, edited]
 jobs:
   Build-and-manual-deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
