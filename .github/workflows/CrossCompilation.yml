@@ -26,7 +26,7 @@
 #
 #
 
-name: 📟 🎛️ Compilation for embedded target application 🎛️ 📟
+name: 💢 📟 🎛️ Cross Compilation for embedded target application 🎛️ 📟 💢
 
 on: [push]
 jobs:

@@ -155,7 +155,7 @@ jobs:
       # Put ccache into github cache for faster build
 
       - name: Prepare ccache timestamp
-        if: (!startsWith(matrix.os, 'windows'))
+        if: (!startsWith(matrix.host_os, 'windows'))
         id: cache_timestamp
         run: |
           NOW=$(date -u +"%F-%T")
@@ -167,16 +167,16 @@ jobs:
           cache-name: bazel-cache
         with:
           path: ~/.cache/bazel
-          key: ${{github.workflow}}-${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/WORKSPACE') }} #-${{steps.cache_timestamp.outputs.timestamp}}
+          key: ${{github.workflow}}-${{ runner.host_os }}-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }} #-${{steps.cache_timestamp.outputs.timestamp}}
           restore-keys: |
-            ${{github.workflow}}-${{ runner.os }}-${{ env.cache-name }}-  # restore cache from either previous build on this branch or on master
+            ${{github.workflow}}-${{ runner.host_os }}-${{ env.cache-name }}-  # restore cache from either previous build on this branch or on master
 
       - uses: actions/checkout@v2.3.4
         with:
           submodules: recursive
 
       - name: Validate the project is correct and all necessary information is available.
-        if: (!startsWith(matrix.os, 'windows'))
+        if: (!startsWith(matrix.host_os, 'windows'))
         run: |
           ls ${{ github.workspace }}
           bazelisk --version
@@ -302,7 +302,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
-      - name: Archive buildlog artifacts
+      - name: 💯 Archive buildlog artifacts 💯
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
