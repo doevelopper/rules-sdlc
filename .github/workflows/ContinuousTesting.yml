@@ -136,10 +136,16 @@ jobs:
             compiler: gcc
             compiler-version: 11
             ignore-errors: false
+            cc: gcc-11
+            cxx: g++-11
+            ld: ld.exe
           - host_os: macos-11
             compiler: clang
             compiler-version: 12
             ignore-errors: false
+            cc: clang
+            cxx: clang
+            ld: ld.exe
     steps:
       # - name: Log in to the Docker Container registry
       #   uses: docker/login-action@v1
@@ -188,13 +194,16 @@ jobs:
 
 # bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
       - name: Initialize build state, e.g. set properties or create directories.
+        if: (!startsWith(matrix.host_os, 'windows'))
         run: |
           ls ${{ github.workspace }}
-          if [[ ${{matrix.host_os}} == windows* ]]; then
-            bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=/std:c++17 --client_env=BAZEL_CXXOPTS=-std=/std:c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
-          else
-            bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
-          fi
+          bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
+
+      - name: Initialize build state, e.g. set properties or create directories.
+        if: (startsWith(matrix.host_os, 'windows'))
+        run: |
+          ls ${{ github.workspace }}
+          bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=/std:c++17 --client_env=BAZEL_CXXOPTS=-std=/std:c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
 
       - name: Generate any source code for inclusion in compilation.
         run: |
