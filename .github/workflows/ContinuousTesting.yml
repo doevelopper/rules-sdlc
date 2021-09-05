@@ -98,7 +98,7 @@ jobs:
       # Don't abort runners if a single one fails
       fail-fast: false # Keep running other jobs even if one fails
       matrix:
-        host_os: [ubuntu-20.04, windows-2022, macos-11]
+        # host_os: [ubuntu-20.04, windows-2022, macos-11]
         # cmake_build_type: ["Debug", "Release", "RelWithDebInfo", "MinSizeRel"]
         # bazel_compilation_mode: ["fastbuild", "dbg" , "opt"]
         # standard: [c++14, c++17]
@@ -120,14 +120,14 @@ jobs:
             ld: ld
           - host_os: windows-2022
             compiler: clang-cl.exe
-            compiler-version: 2022
+            compiler-version: 17.0.31612.314
             ignore-errors: false
             cc: cl.exe
             cxx: cl.exe
             ld: ld.exe
-          - host_os: windows-2022
+          - host_os: windows-2019
             compiler: cl.exe
-            compiler-version: 2022
+            compiler-version: 16.11.31605.320
             ignore-errors: false
             cc: cl.exe
             cxx: cl.exe
@@ -170,6 +170,8 @@ jobs:
           key: ${{github.workflow}}-${{ runner.host_os }}-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }} #-${{steps.cache_timestamp.outputs.timestamp}}
           restore-keys: |
             ${{github.workflow}}-${{ runner.host_os }}-${{ env.cache-name }}-  # restore cache from either previous build on this branch or on master
+            ${{github.workflow}}-${{ runner.host_os }}-
+            ${{github.workflow}}-
 
       - uses: actions/checkout@v2.3.4
         with:
@@ -181,14 +183,18 @@ jobs:
           ls ${{ github.workspace }}
           bazelisk --version
           cmake --version
-          gcc --version
-          clang --version
+          ${{matrix.cc}}  --version
+          ${{matrix.cxx}}  --version
 
-# bazelisk build --nobuild //... --cxxopt=-std=${{matrix.standard}} --host_cxxopt=-std=${{matrix.standard}} --client_env=BAZEL_CXXOPTS=-std=${{matrix.standard}} --client_env=CC=${{matrix.compiler}} --client_env=CXX=${{matrix.compiler}}
-
+# bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
       - name: Initialize build state, e.g. set properties or create directories.
         run: |
           ls ${{ github.workspace }}
+          if [[ ${{matrix.host_os}} == windows* ]]; then
+            bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=/std:c++17 --client_env=BAZEL_CXXOPTS=-std=/std:c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
+          else
+            bazelisk build --nobuild //... --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=${{matrix.cc}} --client_env=CXX=${{matrix.cxx}}
+          fi
 
       - name: Generate any source code for inclusion in compilation.
         run: |

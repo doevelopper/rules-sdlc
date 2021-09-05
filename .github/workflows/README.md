@@ -1,3 +1,6 @@
+## Package instaled in default images
+ Refert to [virtual environments]
+
 ## Rationale about our design for the GitHub Actions CI
 
 The balance is between the time taken and the number of jobs.
@@ -38,3 +41,6 @@ The question is how many more should there be.
 
 I don't have a good answer but I think we're converging on a practical
 number and we should get better as we gain experience.
+
+
+[virtual environments]: https://github.com/actions/virtual-environments/tree/main/images
