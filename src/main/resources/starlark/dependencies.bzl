@@ -160,7 +160,7 @@ cmake(
     # bazel build @org_apache_logging_log4cxx//:log4cxx
     "org_apache_logging_log4cxx": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
-        # "sha256": "bd5b5009ca914c8fa7944b92ea6b4ca6fb7d146f65d526f21bf8b3c6a0520e44",
+        "sha256": "380a22e4422b0e68320a52b455a3f99ae142cb6b41ab5068a64561af20f976e7",
         # "strip_prefix": "apache-log4cxx-0.12.0",
         "strip_prefix": "logging-log4cxx-master",
         # "strip_prefix": "apache-logging-log4cxx-249dd85",

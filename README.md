@@ -9,6 +9,23 @@
  - information regarding copyright ownership.
 -->
 
+<!--
+*** Thanks for checking out this README. If you have a suggestion that would
+*** make this project better, please fork the repo and create a pull request or simply open
+*** an issue with the tag "enhancement".
+*** Thanks again! Now go rule the techs! :D
+-->
+
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+
+
 ```txt
                          ,,                                     ,,    ,,
 `7MM"""Mq.             `7MM                                   `7MM  `7MM
@@ -20,44 +37,39 @@
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
 
-[![Compilation for embedded target application](https://github.com/doevelopper/rules-sdlc/actions/workflows/CrossCompilation.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/CrossCompilation.yml)
-
-[![Continuous Code Auto Deployment](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDeployment.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDeployment.yml)
-
-[![Continuous Code Manual Deployment](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDelivery.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousDelivery.yml)
-
-[![Continuous Code Quality](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousQuality.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousQuality.yml)
-
-[![Continuous Code Testing](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousTesting.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousTesting.yml)
-
-[![Continuous Integration Test](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration.yml/badge.svg)](https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration.yml)
-
+-----------------------------------------
+| Distribution  Chanel | Description |
+|:--------------------:|:-------------:|
+| :bangbang: [__Nightly__](#www.tbd.acme) | Builds created out of the central repository every night, packaged up every night for bleeding-edge testers to install and test.These are not qualified by QA.                                                                                                      |
+| :heavy_exclamation_mark: [__Aurora__](#www.tbd.acme) | Builds created out of the aurora repository, which is synced from central repository every weeks.There is a small amount of QA at the start of the 1 week period before the updates are offered.as such its status is roughly "experimental".  |
+| :interrobang: [__Beta__](#www.tbd.acme)  | Builds created out of the master repository, qualified by QA as being of sufficient quality to release to beta users.                                                                         |
+| :heavy_check_mark: [__Release__](#www.tbd.acme) | Builds created out of the release repository, qualified by QA as being of sufficient quality to release to hundreds of millions of people.
 
 # Bazel rules resources.
 
 ## Table of Contents
 
 1. [Introduction](#intro)
-
-2. [Reporting bugs and getting help](#help)
-3. [Contributing](#contrib)
-4. [Building](#build)
-5. [Linux](#linux)
-6. [macOS](#macos)
-7. [Windows](#windows)
-8. [Usage](#usage)
+1. [Reporting bugs and getting help](#help)
+1. [Contributing](#contrib)
+1. [Building](#build)
+1. [Linux](#linux)
+1. [macOS](#macos)
+1. [Windows](#windows)
+1. [Usage](#usage)
   1. [Enviroment Variables](#enviroment-variables)
-9.  [Dependencies](#dependencies)
-10. [Compile-time options](#opts)
-11. [Automated testing](#testing)
-12. [Documentation](#doc)
-13. [Change log](#changes)
-14. [Acknowledgments](#ack)
-15. [Known Limitations](#limitations)
-16. [Contributors](#contributors)
-17. [Inspiration & Ideas](#inspiration--ideas)
-18. [TODO](#todo)
-19. [License](#license)
+1.  [Dependencies](#dependencies)
+1. [Compile-time options](#opts)
+1. [Automated testing](#testing)
+1. [Documentation](#doc)
+1. [Change log](#changes)
+1. [Distribution management](#dm)
+1. [Acknowledgments](#ack)
+1. [Known Limitations](#limitations)
+1. [Contributors](#contributors)
+1. [Inspiration & Ideas](#inspiration--ideas)
+1. [TODO](#todo)
+1. [License](#license)
 
 
 ### <a name="intro"/> Introduction
@@ -67,6 +79,14 @@
 ### <a name="contrib"/> Contributing to
 
 ### <a name="build"/> Building
+
+
+|       |  Gitlab CI    | Github Actions | Circle CI | Bitbucket CI | Travis CI |
+|-------|---------------|----------------|-----------|--------------|-----------|
+|Windows|               |                |           |              |           |
+|MacOS  |               |                |           |              |           |
+|Linux  |               |                |           |              |           |
+
 
 #### <a name="linux"> Linux
 
@@ -115,6 +135,11 @@ or ...
 ```
 
 ### <a name="changes"/> Change log
+
+Branch   | Defects | Commits | Pull Request |
+|--------|---------|---------|--------------|
+
+
 A detailed list of all changes that have been made throughout the
 development of project is included in the file CHANGES, with the most recent
 changes listed first. Change notes include tags indicating the category of
@@ -218,3 +243,22 @@ Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 [icon-fe]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-fe-yellow.svg
 [icon-be]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-be-yellow.svg
 [icon-cs]: https://img.shields.io/badge/%3D(%5E.%5E)%3D-computer%20science-yellow.svg
+
+[master-branch]:https://github.com/doevelopper/rules-sdlc/tree/master
+[develp-branch]:https://github.com/doevelopper/rules-sdlc/tree/develop
+[release-branch]:https://github.com/doevelopper/rules-sdlc/tree/release
+
+[github-master-pipeline-shield]: https://github.com/doevelopper/rules-sdlc/badges/master/pipeline.svg
+[github-master-pipeline]: https://github.com/doevelopper/rules-sdlc
+[github-master-coverage-shield]: https://github.com/doevelopper/rules-sdlc/badges/master/coverage.svg
+[github-master-coverage]: https://github.com/doevelopper/rules-sdlc
+
+[github-develop-pipeline-shield]: https://github.com/doevelopper/rules-sdlc/badges/develop/pipeline.svg
+[github-develop-pipeline]: https://github.com/doevelopper/rules-sdlc/commits/develop
+[github-develop-coverage-shield]: https://github.com/doevelopper/rules-sdlc/badges/develop/coverage.svg
+[github-develop-coverage]: https://github.com/doevelopper/rules-sdlc/commits/develop
+
+[github-release-pipeline-shield]: https://github.com/doevelopper/rules-sdlc/badges/develop/pipeline.svg
+[github-pipeline]: https://github.com/doevelopper/rules-sdlc/commits/develop
+[github-coverage-shield]: https://github.com/doevelopper/rules-sdlc/badges/develop/coverage.svg
+[github-coverage]: https://github.com/doevelopper/rules-sdlc/commits/develop

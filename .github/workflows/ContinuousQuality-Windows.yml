@@ -1,5 +1,5 @@
 #
-#       .github/workflows/ContinuousIntegration.yml
+#       .github/workflows/ContinuousTesting-Linux.yml
 #
 #       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
 #                        All rights reserved.
@@ -26,35 +26,38 @@
 #
 #
 
-name: 🆗 🔄 Continuous 🦺 Integration Test 🔄 🆗
-on: [push]
+# GitHub Actions workflow file
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+
+name: 🤖🤖 🐧🐧 🛠️ Continuous Code Quality 🛠️ 🍺
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+
 jobs:
-  feature-and-integration-test:
-    runs-on: ubuntu-latest
+  Lint-and-check-style:
+    runs-on: windows-2022
+    timeout-minutes: 10
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      -
+        name: Checkout
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Run any checks to verify the package is valid and meets quality criteria.
         run: |
           ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-
-  # check-title:
-  #   name: "Check Title"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: "Verify PR Title Clean"
-  #       uses: actions/github-script@v3
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         script: |
-  #           const title = context.payload.pull_request.title
-  #           const regex = /^.?(WIP|wip)([\]\):]{1,2})?\s/
-  #           if (regex.test(title) === true) {
-  #             core.setFailed('Title starts with WIP token.')
-  #           }
