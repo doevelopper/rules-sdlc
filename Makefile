@@ -63,15 +63,16 @@ export BAZEL_EXTERNAL=$(bazel info output_base)/external
 # bazel test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
 # bazel build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
 
-HOST_PLATFORM   = 
+HOST_PLATFORM   =
 COMPILER        =
 TARGET_PLATFORM =
-ARCH 			= 
+ARCH 						=
+# ARCH					?=$(shell uname -m | sed "s/^i.86$$/i686/")
 RTOS            =
 LKR             =
 
 ifeq ($(OS),Windows_NT)
-    
+
 	CCFLAGS += -D WIN32
 	RTOS = Windows
     ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
