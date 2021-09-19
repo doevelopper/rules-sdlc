@@ -32,7 +32,7 @@
 #  Automatically release to production
 
 
-name: 🍏🍏 🛠️ CContinuous Deployment
+name: 🍏🍏 Continuous Deployment
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
