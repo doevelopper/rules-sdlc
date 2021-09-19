@@ -32,7 +32,7 @@
 #  Automatically release to repository
 
 
-name: 🪟🪟🪟 🛠️ CContinuous Delivery 🦺 CI 🛠️ 🍺
+name: 🪟🪟 🛠️ CContinuous Delivery 🦺 CI 🛠️ 🍺
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
