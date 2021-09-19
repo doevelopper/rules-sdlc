@@ -29,7 +29,7 @@
 # GitHub Actions workflow file
 # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
-name: 🪟🪟🪟 🛠️ CT 🦺 CI 🛠️ 🍺
+name: 🪟🪟 🛠️ CT 🦺 CI 🛠️ 🍺
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
