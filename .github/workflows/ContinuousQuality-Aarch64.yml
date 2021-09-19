@@ -30,7 +30,7 @@
 # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
 
-name: 📱📱 🐧🐧 🛠️ Continuous Code Quality 🛠️ 🍺
+name: 📱📱 🐧🐧 🛠️ Continuous Code Quality
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

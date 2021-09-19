@@ -264,3 +264,17 @@ Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 [github-pipeline]: https://github.com/doevelopper/rules-sdlc/commits/develop
 [github-coverage-shield]: https://github.com/doevelopper/rules-sdlc/badges/develop/coverage.svg
 [github-coverage]: https://github.com/doevelopper/rules-sdlc/commits/develop
+
+
+
+
+
+[github-macOs-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-macOs-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+<!-- [!
+  [🍏🍏 Continuous Integration]
+  (https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg)
+]
+(https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml)
+-->
