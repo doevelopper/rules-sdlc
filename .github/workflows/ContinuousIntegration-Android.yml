@@ -37,9 +37,9 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
 
 env:
   REPO_NAME: ${{ github.repository }}

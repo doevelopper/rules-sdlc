@@ -29,6 +29,8 @@
 # GitHub Actions workflow file
 # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
+#  Automatically release to repository
+
 name: 🐧🐧 🛠️ Continuous Delivery 🦺 CI 🛠️ 🍺
 
 concurrency:
@@ -37,9 +39,9 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, develop, release/**]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, develop, release/**]
 
 env:
   REPO_NAME: ${{ github.repository }}
