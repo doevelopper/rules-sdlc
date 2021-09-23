@@ -83,12 +83,14 @@ Multi-OS Systems Platform ...
 ### <a name="build"/> Building
 
 
-|       |  Gitlab CI    | Github Actions | Circle CI | Bitbucket CI | Travis CI |
-|-------|---------------|----------------|-----------|--------------|-----------|
-|Windows|               |                |           |              |           |
-|MacOS  |               |                |           |              |           |
-|Linux  |               |                |           |              |           |
-
+|         |  Gitlab CI    | Github Actions | Circle CI | Bitbucket CI | Travis CI |
+|---------|---------------|----------------|-----------|--------------|-----------|
+|Windows  |               |                |           |              |           |
+|MacOS    |               |                |           |              |           |
+|Linux    |               |                |           |              |           |
+|Android  |               |                |           |              |           |
+|iOS      |               |                |           |              |           |
+|Linux    |               |                |           |              |           |
 
 #### <a name="linux"> Linux
 
@@ -267,10 +269,24 @@ Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 
 
 
-
-
 [github-macOs-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
 [github-macOs-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+[github-linux-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-linux-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+[github-windows-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-windows-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+[github-iOS-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-iOS-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+
+[github-android-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-android-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
+
+[github-armv864-ci-]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml
+[github-armv864-ci-shield]: https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml/badge.svg
 
 <!-- [!
   [🍏🍏 Continuous Integration]
@@ -278,3 +294,18 @@ Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 ]
 (https://github.com/doevelopper/rules-sdlc/actions/workflows/ContinuousIntegration-MacOS.yml)
 -->
+
+[Windows host Cross compiler AArch32 ]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-mingw-w64-i686-arm-none-eabi.tar.xz
+[Windows host Cross compiler AArch64 ]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-linux-gnu.tar.xz
+[Linux hosted cross compiler AArch32]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-arm-none-eabi.tar.xz
+[Linux hosted cross compiler AArch32]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
+[AArch64 Linux hosted cross compilers AArch32]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-aarch64-arm-none-eabi.tar.xz
+[AArch64 Linux hosted cross compilers AArch64]: https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-aarch64-aarch64-none-elf.tar.xz
+[Windows host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-win32.zip
+[Linux x86_64 host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-x86_64-linux.tar.bz2
+[Linux AArch64 host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-aarch64-linux.tar.bz2
+[Mac OS X host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-mac-10.14.6.tar.bz2
+
+[Linux-hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
+[] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
+[] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe

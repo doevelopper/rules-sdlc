@@ -40,9 +40,9 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, develop, release/**, 'v[0-9]+-[0-9]+-test', '@[~^]?([\dvx*]+(?:[-.](?:[\dx*]+|alpha|beta))*)']
   pull_request:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, develop, release/**, 'v[0-9]+-[0-9]+-test']
 
 env:
   REPO_NAME: ${{ github.repository }}

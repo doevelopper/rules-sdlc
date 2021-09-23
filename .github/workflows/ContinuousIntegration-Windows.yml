@@ -152,3 +152,9 @@ jobs:
       - name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
         run: |
           ls ${{ github.workspace }}
+      # -
+      #   name: Upload windows-amd64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-windows-amd64.exe
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-windows-amd64.exe

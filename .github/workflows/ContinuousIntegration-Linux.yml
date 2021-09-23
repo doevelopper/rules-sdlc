@@ -141,6 +141,7 @@ jobs:
     timeout-minutes: 20
     # strategy:
     #   fail-fast: false
+    #   max-parallel: 1
     #   matrix:
     #     env:
     #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
@@ -252,3 +253,9 @@ jobs:
           name: ci-${{ github.repository }}-${{github.job}} logs
           path: ${{ github.repository }}-ci-logs.tar.gz
           retention-days: 5
+      # -
+      #   name: Upload linux-amd64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-linux-amd64
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64

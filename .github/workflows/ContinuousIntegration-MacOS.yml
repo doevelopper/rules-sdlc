@@ -152,3 +152,16 @@ jobs:
       - name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
         run: |
           ls ${{ github.workspace }}
+      # -
+      #   name: Upload macos-amd64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-darwin-amd64
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-darwin-amd64
+
+      # -
+      #   name: Upload macos-arm64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-darwin-arm64
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-darwin-arm64
