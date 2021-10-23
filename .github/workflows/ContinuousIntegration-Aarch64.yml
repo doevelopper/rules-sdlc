@@ -1,0 +1,154 @@
+#
+#       .github/workflows/ContinuousTesting-Linux.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+# GitHub Actions workflow file
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: 📱📱 🐧🐧 Continuous Integration
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+  pull_request:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+
+env:
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+
+jobs:
+  Lint-and-check-style:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Initialize build state, e.g. set properties or create directories.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate any source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Process the source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate resources for inclusion in the package.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Copy and process the resources into the destination directory, ready for packaging.
+        run: |
+          ls ${{ github.workspace }}
+
+  unit-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Compile the source code of the project.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Post-process the generated files from compilation,
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate any test source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Process the test source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Create resources for testing.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Copy and process the resources into the test destination directory.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Compile the test source code into the test destination directory
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Post-process the generated files from test compilation,
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+        run: |
+          ls ${{ github.workspace }}
+
+  integration-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      - name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Take the compiled code and package it in its distributable format, such as a tar.gz.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Process and deploy the package if necessary into an environment where integration tests can be run.
+        run: |
+          ls ${{ github.workspace }}
+      - name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
+        run: |
+          ls ${{ github.workspace }}

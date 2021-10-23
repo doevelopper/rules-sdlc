@@ -1,0 +1,8 @@
+
+build --action_env=NO_PROXY
+build --action_env=HTTP_PROXY
+build --action_env=HTTPS_PROXY
+build --action_env=no_proxy
+build --action_env=http_proxy
+build --action_env=https_proxy
+

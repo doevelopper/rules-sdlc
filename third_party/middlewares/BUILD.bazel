@@ -1,0 +1,122 @@
+config_setting(
+    name = "with_opendds",
+    define_values = {
+        "with_opendds": "true",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "with_fastrtps",
+    define_values = {
+        "with_fastrtps": "true",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "with_vortexdds",
+    define_values = {
+        "with_vortexdds": "true",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "with_rtidds",
+    define_values = {
+        "with_rtidds": "true",
+    },
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "with_omniorb",
+    define_values = {
+        "with_omniorb": "true",
+        "MDLWR":"CORBA"
+    },
+    visibility = ["//visibility:public"],
+)
+
+#sh_binary(
+#    name = "tao_idl_bin",
+#    srcs = [":/usr/local/bin/opendds_idl"],
+##    srcs = ["@opendds//:bin/tao_idl"],
+# #   srcs = select({
+##        "//conditions:default": "/usr/local/bin/opendds_idl",
+##    }),
+#    visibility = ["//visibility:public"],
+#)
+
+# sh_binary(
+    # name = "opendds-idl-bin",
+    # srcs = ["@usr_local:bin/opendds_idl"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "ace-perf",
+    # srcs = ["@usr_local:bin/ace_gperf"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "idl-2-jni",
+    # srcs = ["@usr_local:bin/idl2jni"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-catior",
+    # srcs = ["@usr_local:bin/tao_catior"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-cosnaming",
+    # srcs = ["@usr_local:bin/tao_cosnaming"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-idl3-to-idl2",
+    # srcs = ["@usr_local:bin/tao_idl3_to_idl2"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-idl3-to-xm",
+    # srcs = ["@usr_local:bin/tao_idl3_to_xmi"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-nsadd",
+    # srcs = ["@usr_local:bin/tao_nsadd"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-nsdel",
+    # srcs = ["@usr_local:bin/tao_nsdel"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-nsgroup",
+    # srcs = ["@usr_local:bin/tao_nsgroup"],
+    # visibility = ["//visibility:public"],
+# )
+
+# sh_binary(
+    # name = "tao-nslist",
+    # srcs = ["@usr_local:bin/tao_nslist"],
+    # visibility = ["//visibility:public"],
+# )
+
+#sh_binary(
+#    name = "idl.toJavaPortable.Compile",
+#    srcs = ["bin/idlj"],
+#    visibility = ["//visibility:public"],
+#)

@@ -1,0 +1,92 @@
+# First make sure you've set up the variables DOCKER_HUB_USER and DOCKER_HUB_PASSWORD.
+
+# image: node:10.15.0
+
+# pipelines:
+  # default:
+    # - step:
+        # script:
+          # - npm install
+          # - npm test
+          # - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+          # - docker build -t <my.container.registry.io>/<my_app>:<my_tag> .
+          # - docker push <my.container.registry.io>/<my_app>:<my_tag>
+        # services:
+          # - docker
+
+image: ruby:2.5
+definitions:
+    caches:
+        bundler: vendor/bundle
+    steps:
+        - step: &build
+            name: Build project
+            script:
+                - gem install jekyll
+            artifacts:
+                - _site/**
+                - versiontag
+
+image: node:10.15.0
+
+pipelines:
+    default:
+      - step:
+          name: Build and push to S3
+          script:
+            - echo "This script runs on all branches that don't have any specific pipeline assigned in 'branches'."
+      - step:
+          name: Deploy to test
+          image: $CUSTOM_DIND_IMAGE
+          deployment: testbed
+          script:
+            - uname -a
+      - step:
+          name: Deploy to staging
+          image: $CUSTOM_DIND_IMAGE
+          deployment: staging1
+          trigger: manual
+          script:
+            - uname -a
+      - step:
+          name: Deploy to production
+          image: $CUSTOM_DIND_IMAGE
+          deployment: production-east
+          trigger: manual
+          script:
+            - uname -a
+
+    branches:
+        release/*:
+            - step: *build
+            - step:
+                name: Deploy project (release) 
+                deployment: test
+                script:
+                    - uname -a
+
+        feature/*:
+            - step: *build
+            - step:
+                name: Deploy project (feature)
+                deployment: test
+                script:
+                    - uname -a
+
+        develop/*:
+            - step: *build
+            - step:
+                name: Deploy project (develop)
+                deployment: test
+                script:
+                    - uname -a
+
+        master:
+            - step: *build
+            - step:
+                name: Deploy project (master)
+                deployment: production
+                trigger: manual
+                script:
+                    - echo "This script runs only on commit to the master branch."
+                    - uname -a

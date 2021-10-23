@@ -1,0 +1,272 @@
+#
+#       .github/workflows/ContinuousTesting-Linux.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+# GitHub Actions workflow file
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: 🐧🐧 Continuous Integration
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }} # group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+    # tags: [ 'v*.*.*' ]
+    # tags:
+    #   - "v*.*.*" # on every version tag will build a new android artifact.
+    # branches-ignore: [ poc/**]
+    # paths-ignore:
+    # - 'README.md'
+    # - '.github/workflows/**'
+  pull_request:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+  # pull_request_target:
+  #   types: [ opened, synchronize, reopened, ready_for_review ]
+
+env:
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+  BZL_CACHE: ${{ github.workspace }}/.cache/bazel
+  BZL_OUTPUT: ${{ github.workspace }}/bazel/output
+  BUILD_DIR: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+
+jobs:
+  Lint-and-check-style:
+    timeout-minutes: 10
+    name: ${{ github.repository }} Coding style checking
+    runs-on: ubuntu-latest
+    # runs-on: >-
+    #     ${{ (
+    #     (
+    #       github.event_name == 'push' ||
+    #       github.event_name == 'schedule' ||
+    #       contains(fromJSON('[
+    #         "doevelopper",
+    #         "ahl",
+    #       ]'), github.event.pull_request.user.login)
+    #     ) && github.repository == 'apache/airflow'
+    #     ) && 'self-hosted' || 'ubuntu-20.04' }}
+    steps:
+      -
+        name: "Checkout ${{ github.ref }} ( ${{ github.sha }} )"
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Initialize build state, e.g. set properties or create directories.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate any source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Process the source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate resources for inclusion in the package.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Copy and process the resources into the destination directory, ready for packaging.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Bazel output cache
+        id: cache-bazel
+        uses: actions/cache@v1
+        with:
+          path: "${{ github.workspace }}/.bazel-cache"
+          key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            ${{ runner.os }}-bazel-out-
+      -
+        name: Configure bazel config for actions
+        run: |
+          echo "build --config github_actions" > user.bazelrc
+          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
+          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+
+      -
+        name: Execute linting with clang-format
+        uses: DoozyX/clang-format-lint-action@v0.12
+        with:
+          source: '.'
+          exclude: './src/main/resources ./src/test/resources'
+          extensions: 'hpp,cpp'
+          clangFormatVersion: 11
+          inplace: True
+          style: chromium
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ci-${{ github.repository }}-${{github.job}} logs
+          path: ${{ github.repository }}-ci-logs.tar.gz
+          retention-days: 5
+
+  unit-test:
+    name: ${{ github.repository }} Unit tests
+    needs: Lint-and-check-style
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # strategy:
+    #   fail-fast: false
+    #   max-parallel: 1
+    #   matrix:
+    #     env:
+    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
+    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "no"   }
+    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
+    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
+    # env: ${{ matrix.env }}
+
+    steps:
+      -
+        name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v2.3.4
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      -
+        name: Checkout PR ${{ github.ref }} ( ${{ github.sha }} )
+        if: ${{ github.event_name == 'pull_request_target' }}
+        uses: actions/checkout@v2.3.4
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      -
+        name: Compile the source code of the project.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Post-process the generated files from compilation,
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Generate any test source code for inclusion in compilation.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Process the test source code, for example to filter any values.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Create resources for testing.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Copy and process the resources into the test destination directory.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Compile the test source code into the test destination directory
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Post-process the generated files from test compilation,
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+        run: |
+          ls ${{ github.workspace }}
+
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ci-${{ github.repository }}-${{github.job}} logs
+          path: ${{ github.repository }}-ci-logs.tar.gz
+          retention-days: 5
+
+
+  integration-test:
+    name: ${{ github.repository }} Integration Test
+    needs: unit-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Take the compiled code and package it in its distributable format, such as a tar.gz.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Process and deploy the package if necessary into an environment where integration tests can be run.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
+        run: |
+          ls ${{ github.workspace }}
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ci-${{ github.repository }}-${{github.job}} logs
+          path: ${{ github.repository }}-ci-logs.tar.gz
+          retention-days: 5
+      # -
+      #   name: Upload linux-amd64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-linux-amd64
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64

@@ -1,0 +1,104 @@
+#
+#       .github/workflows/ContinuousTesting-Linux.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+# GitHub Actions workflow file
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+
+name: 🐧🐧 Continuous Code Quality
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+  pull_request:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+
+env:
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+
+jobs:
+  Lint-and-check-style:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Run any checks to verify the package is valid and meets quality criteria.
+        run: |
+          ls ${{ github.workspace }}
+
+# See: https://google.github.io/oss-fuzz/getting-started/continuous-integration/
+
+  Fuzzing:
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, undefined, memory]
+        env:
+          - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
+          - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "no"   }
+          - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
+          - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
+      # env: ${{ matrix.env }}
+    steps:
+      # -
+      #   name: Build Fuzzers (${{ matrix.sanitizer }})
+      #   id: build
+      #   uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      #   with:
+      #     oss-fuzz-project-name: 'util-linux'
+      #     dry-run: false
+      #     allowed-broken-targets-percentage: 0
+      #     sanitizer: ${{ matrix.sanitizer }}
+      # -
+      #   name: Run Fuzzers (${{ matrix.sanitizer }})
+      #   uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      #   with:
+      #     oss-fuzz-project-name: 'util-linux'
+      #     fuzz-seconds: 180
+      #     dry-run: false
+      #     sanitizer: ${{ matrix.sanitizer }}
+      -
+        name: Upload sanitizer Crash
+        uses: actions/upload-artifact@v1
+        if: failure() && steps.build.outcome == 'success'
+        with:
+          name: ${{ runner.os }}-${{ matrix.sanitizer }}-artifacts
+          path: ./out/artifacts

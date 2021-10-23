@@ -1,0 +1,11 @@
+Here is the place holder of rules and packages that cannot be downloaded behind proxy....
+
+BEHIND_PROXY_PLACE_HOLDER is already define in workspace
+
+http_archive(
+    # Always use the same name as in the WORKSPACE file of the external project. i.e. com_google_absl instead of absl.
+    name = "com_google_absl",
+    sha256 = "2efbd20528623dbce8eb5aeb3f91f037259034c95a972b000e7f051dedc63d05",
+    strip_prefix = "abseil-cpp-master",
+    url = BEHIND_PROXY_PLACE_HOLDER + "abseil-cpp-master.tar.xz",
+)

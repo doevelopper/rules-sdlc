@@ -1,0 +1,114 @@
+# :emoji: Type(<scope>): <subject>
+#
+# <body>
+#
+# <footer>
+
+# Type should be one of the following:
+# * :sunny:        Feat (new feature)
+# * :cyclone:      Fix (bug fix)
+# * :factory:      Fixing CI Build
+# * :       :      hotfix - Quick fixes to the codebase.
+# * :eyes:         Docs (changes to documentation)
+# * :rooster:      Style/cosmetic (formatting, missing semi colons, etc; no code change)
+# * :ocean:        Refactor (refactoring production code)
+# * :fireworks:    Add/Remove/Change (refactoring production code)
+# * :feet: test    (adding missing tests, refactoring tests; no production code change)
+# * :wavy_dash:    chore (updating build tasks ,configs, package manager, etc; no production code change)
+# * :construction: wip(wip on feature branch)
+
+# --- KEYWORD
+#   Add       (Create a capability e.g. feature, test, dependency)
+#   Drop      (Delete a capability e.g. feature, test, dependency)
+#   Fix       (Fix an issue e.g. bug, typo, accident, misstatement)
+#   Bump      (Increase the version of something e.g. a dependency)
+#   Make      (Change the build process, or tools, or infrastructure)
+#   Start     (Begin doing something; e.g. enable a toggle, feature flag, etc)
+#   Stop      (End doing something; e.g. disable a toggle, feature flag, etc)
+#   Optimize  (A change that MUST be just about performance, e.g. speed up code)
+#   Document  (A change that MUST be only in the documentation, e.g. help files)
+#   Refactor  (A change that MUST be just refactoring)
+#   Reformat  (A change that MUST be just formatting, e.g. change spaces)
+#   Rearrange (A change that MUST be just arranging, e.g. change layout.)
+#   Redraw    (A change that MUST be just visual, e.g. change a graphic, image, icon, etc)
+#   Reword    (A change that MUST be just textual, e.g. change a comment, label, doc, etc.)
+
+# Scope is just the scope of the change. Something like (admin) or (teacher).
+
+# Subject should use impertivite tone and say what you did.
+
+# ---------------------------------------------------------------------------------
+# <body>
+# The body should go into detail about changes made.
+#
+#   1. Separate subject from body with a blank line
+#   2. Limit the subject line to 50 characters
+#   3. Capitalize the first letter subject line
+#   4. Do not end the subject line with a period
+#   5. Use the imperative mood in the subject line
+#   6. Wrap the body at 72 characters
+#   7. Use the body to explain what and why vs. how
+#
+
+# ---------------------------------------------------------------------------------
+# <footer>
+# The footer should contain any JIRA (or other tool) issue references or actions.
+# References #1, #4, and #2.
+# Resolves #2
+# Fix #1. note this marks the item as accepted in Sprintly
+# Closes #1 and #2. note this marks the item as accepted in Sprintly
+# See also
+
+# ---------------------------------------------------------------------------------
+# Jira Issue Processing
+# ISSUE_KEY #comment This is a comment
+# ISSUE_KEY
+# ISSUE_KEY #done
+# Github issue #23
+# ---------------------------------------------------------------------------------
+
+# Consider prefixing your commit messages with a relevant emoji for great good:
+# :art: `:art:` when improving the format/structure of the code
+# :racehorse: `:racehorse:` when improving performance
+# :non-potable_water: `:non-potable_water:` when plugging memory leaks
+# :memo: `:memo:` when writing docs
+# :penguin: `:penguin:` when fixing something on Linux
+# :apple: `:apple:` when fixing something on Mac OS
+# :checkered_flag: `:checkered_flag:` when fixing something on Windows
+# :bug: `:bug:` when fixing a bug
+# :fire: `:fire:` when removing code or files
+# :green_heart: `:green_heart:` when fixing the CI build
+# :white_check_mark: `:white_check_mark:` when adding tests
+# :cop: `:lock:` when dealing with security
+# :arrow_up: `:arrow_up:` when upgrading dependencies
+# :arrow_down: `:arrow_down:` when downgrading dependencies
+# :shirt: `:shirt:` when removing linter warnings
+# :shower: Delete unused code:shower: Delete unused code
+# :shirt: Fix to follow coding rules/standard
+# :sparkles: Add Small Feature
+# :tada: Add Big Feature
+#
+#  git add .
+#  git config commit.template .gitmessage
+#  git commit -m ":emoji-name: your short and nice description"
+#  git push origin name-of-your-bugfix-or-feature
+#
+# Example:
+#        :bug: [Fixed #123][#124][#125] Torpedoes now sufficiently powered
+#        :sparkles: [#123] Diverting power from warp drive to torpedoes
+#
+#----------------------------- Template
+#
+# Header: one line explaination
+#
+# Body of commit message explaining things in more detail, possibly giving some
+# background about the issue being fixed, etc. Maybe use bullets:
+#   - Write in present tense
+#   - Keep text width of commit message within 80 characters.
+#
+# Use more than one paragraphs, that's is fine.
+#
+# Reviewed-by: Person or link to review on review.apache.org
+# Reported-by: whoever-reported-it, if applicable
+# Signed-off-by: Your Name <youremail@yourhost.com>
+#
