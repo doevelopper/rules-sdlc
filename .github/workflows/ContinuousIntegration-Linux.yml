@@ -57,6 +57,7 @@ env:
   BZL_OUTPUT: ${{ github.workspace }}/bazel/output
   BUILD_DIR: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
 
 jobs:
   Lint-and-check-style:
@@ -125,6 +126,16 @@ jobs:
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
 
+      -
+        name: Execute linting with clang-format
+        uses: DoozyX/clang-format-lint-action@v0.12
+        with:
+          source: '.'
+          exclude: './src/main/resources ./src/test/resources'
+          extensions: 'hpp,cpp'
+          clangFormatVersion: 11
+          inplace: True
+          style: chromium
       -
         name: 'Archive ${{ github.repository }} Logs'
         uses: actions/upload-artifact@v2

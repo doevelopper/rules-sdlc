@@ -54,8 +54,33 @@ jobs:
     timeout-minutes: 10
     steps:
       -
+        # if: contains(github.head_ref, 'feature') || contains(github.head_ref, 'release')
+        # if: contains(github.base_ref, 'staging') || contains(github.base_ref, 'production')
         name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+
+  build:
+    name: Check Documentation
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'documentation') }}
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Checkout Release from lens
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Using Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Generate Extensions API Reference using typedocs
+        run: |
+           yarn install
+           yarn typedocs-extensions-api
