@@ -94,7 +94,7 @@ def POM_com_repositories():
     # cpplint from google style guide
     #new_local_repository(
     #    name = "google_styleguide",
-    #    build_file = "third_party/google_styleguide.BUILD",
+    #    build_file = "soup/google_styleguide.BUILD",
     #    path = "/home/tmp/google_styleguide",
     #)
 

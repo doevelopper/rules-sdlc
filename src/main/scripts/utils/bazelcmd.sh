@@ -3,8 +3,8 @@
 set -eux
 
 function bzl-tracing () {
-    # bazel query "allpaths(//foo, third_party/...)" --notool_deps --output graph | dot -Tsvg > /tmp/deps.svg
-    bazel query "allpaths(//foo, third_party/...)" --notool_deps --output graph | dot -Tsvg > /tmp/deps.svg
+    # bazel query "allpaths(//foo, soup/...)" --notool_deps --output graph | dot -Tsvg > /tmp/deps.svg
+    bazel query "allpaths(//foo, soup/...)" --notool_deps --output graph | dot -Tsvg > /tmp/deps.svg
 }
 
 function bzl-tools () {

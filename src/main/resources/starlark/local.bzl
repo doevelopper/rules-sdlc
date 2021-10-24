@@ -28,7 +28,7 @@ def usr_local_bin_repository():
     _maybe(
         native.new_local_repository,
         name = "python_system",
-        build_file = "@io_rules_sdlc//third_party:python.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup/:python.BUILD",
         path = "/usr",
     )
 
@@ -36,7 +36,7 @@ def qt_local_repository():
     _maybe(
         native.new_local_repository,
         name = "qt514",
-        build_file = "@io_rules_sdlc//third_party/qt.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//qt.BUILD",
         path = "/opt/Qt/5.14.2/gcc_64",
     )
 
@@ -44,7 +44,7 @@ def eprosima_local_repository():
     _maybe(
         native.new_local_repository,
         name = "fastrtps",
-        build_file = "@io_rules_sdlc//third_party/fastrtps.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//fastrtps.BUILD",
         path = "/opt/eprosima",
     )
 
@@ -53,7 +53,7 @@ def omg_local_repository():
         native.new_local_repository,
         name = "opendds",
         path = "/usr/local/",
-        build_file = "@io_rules_sdlc//third_party:opendds.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup/:opendds.BUILD",
         # build_file: path to the BUILD file, here in the same directory that the main WORKSPACE one
         #build_file = __workspace_dir__ + "ace_tao_dds.BUILD",
         #build_file = __workspace_dir__ + "/src/main/resources/bazel/ace_tao_dds.BUILD",
@@ -63,7 +63,7 @@ def cuda_local_repository():
     _maybe(
         native.new_local_repository,
         name = "cuda",
-        build_file = "@io_rules_sdlc//third_party/cuda.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//cuda.BUILD",
         path = "/opt/cuda",
     )
 
@@ -71,7 +71,7 @@ def rti_local_repository():
     _maybe(
         native.new_local_repository,
         name = "rti",
-        build_file = "@io_rules_sdlc//third_party/rti.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//rti.BUILD",
         path = "/opt/rti",
     )
 
@@ -79,7 +79,7 @@ def ospl_local_repository():
     _maybe(
         native.new_local_repository,
         name = "opensplice",
-        build_file = "@io_rules_sdlc//third_party/cuda.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//cuda.BUILD",
         path = "/opt/HDE",
     )
 
@@ -87,7 +87,7 @@ def omniorb_local_repository():
     _maybe(
         native.new_local_repository,
         name = "omniorb",
-        build_file = "@io_rules_sdlc//third_party/omniorb.BUILD",
+        build_file = "@com.github.doevelopper.rules-sdlc//src/main/resources/soup//omniorb.BUILD",
         path = "/opt/omniorb",
     )
 

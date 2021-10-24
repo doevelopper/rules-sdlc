@@ -174,11 +174,11 @@ def sdlc_binary_alias(executable_name):
         name = executable_name,
         actual = select({
             # "@bazel_tools//src/conditions:linux_x86_64": "",
-            "@bazel_tools//src/conditions:darwin_x86_64": "@io_rules_sdlc//:bin/{}".format(executable_name),
-            "@bazel_tools//src/conditions:darwin": "@io_rules_sdlc//:bin/{}".format(executable_name),
-            "@bazel_tools//src/conditions:host_windows": "@io_rules_sdlc//:{}.exe".format(executable_name),
-            "@bazel_tools//src/conditions:host_windows_msvc": "@io_rules_sdlc//:{}.exe".format(executable_name),
-            "@bazel_tools//src/conditions:host_windows_msys": "@io_rules_sdlc//:{}.exe".format(executable_name),
+            "@bazel_tools//src/conditions:darwin_x86_64": "@com.github.doevelopper.rules-sdlc//:bin/{}".format(executable_name),
+            "@bazel_tools//src/conditions:darwin": "@com.github.doevelopper.rules-sdlc//:bin/{}".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows": "@com.github.doevelopper.rules-sdlc//:{}.exe".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows_msvc": "@com.github.doevelopper.rules-sdlc//:{}.exe".format(executable_name),
+            "@bazel_tools//src/conditions:host_windows_msys": "@com.github.doevelopper.rules-sdlc//:{}.exe".format(executable_name),
         }),
     )
 

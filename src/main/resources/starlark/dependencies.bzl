@@ -32,7 +32,7 @@ COM_GITHUB_OPENSSL_VERSION = "1_1_1k"
 dependencies_archives = {
 
     "font_roboto": {
-        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/third_party:font-roboto.BUILD",
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:font-roboto.BUILD",
         "url": "https://github.com/polymerelements/font-roboto/archive/v1.1.0.tar.gz",
         "strip_prefix": "font-roboto-1.1.0",
     },

@@ -212,7 +212,7 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 
 ## License
 
-Pixie is licensed under [Apache License, Version 2.0](LICENSE).
+Licensed under [Apache License, Version 2.0](LICENSE).
 
 [Bazel rules sdlc]: http://github.com/doevelopper/rules-sdlc
 [Windows setup]:https://github.com/doevelopper/rules-sdlc/wiki/Vundle-for-Windows
@@ -306,6 +306,6 @@ Pixie is licensed under [Apache License, Version 2.0](LICENSE).
 [Linux AArch64 host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-aarch64-linux.tar.bz2
 [Mac OS X host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-mac-10.14.6.tar.bz2
 
-[Linux-hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
-[] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
-[] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe
+[Linux-hosted LLVM ]: https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
+[ARM Linux-hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
+[Win64 hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe
