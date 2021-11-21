@@ -160,17 +160,18 @@ cmake(
     # bazel build @org_apache_logging_log4cxx//:log4cxx
     "org_apache_logging_log4cxx": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
-        "sha256": "380a22e4422b0e68320a52b455a3f99ae142cb6b41ab5068a64561af20f976e7",
+        # "sha256": "4e4cedf83ac2c09513352cbfed13321199db1e559cf8b55e365aa9c9cf824872",
         # "strip_prefix": "apache-log4cxx-0.12.0",
-        "strip_prefix": "logging-log4cxx-master",
+        # "strip_prefix": "logging-log4cxx-master",
         # "strip_prefix": "apache-logging-log4cxx-249dd85",
         # "strip_prefix": "logging-log4cxx-0.11.0",
         # "strip_prefix": "logging-log4cxx-rel-v0.12.0",
+        "strip_prefix": "apache-log4cxx-0.12.1",
         "urls": [
     #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
     #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
+            # "https://github.com/apache/logging-log4cxx/archive/master.zip",
+            # "https://github.com/apache/logging-log4cxx/archive/master.zip",
     #         # "https://archive.apache.org/dist/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
     #         # "https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
     #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
@@ -179,6 +180,11 @@ cmake(
     #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
             # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.tar.gz",
             # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.zip",
+
+            # "https://www.apache.org/dyn/closer.cgi/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
+            # "https://www.apache.org/dyn/closer.cgi/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
+            "https://archive.apache.org/dist/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
+            "https://archive.apache.org/dist/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
         ],
     },
 
@@ -230,7 +236,7 @@ dependencies_repositories = {
     # bazel query @com_github_nelhage_rules_boost//...
     # bazel query @boost//...
     "com_github_nelhage_rules_boost": {
-        "commit": "fb9f3c9a6011f966200027843d894923ebc9cd0b", #//1.76.0
+        "commit": "fce83babe3f6287bccb45d2df013a309fa3194b8", #//1.77.0
         "remote": "https://github.com/nelhage/rules_boost",
         # "shallow_since": "1591047380 -0700",
         "shallow_since": "1610386445 -0800"

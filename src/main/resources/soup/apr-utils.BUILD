@@ -1,5 +1,3 @@
-# load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
-# load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
 load("@rules_foreign_cc//foreign_cc:defs.bzl", "configure_make")
 package(default_visibility = ["//visibility:public"])
 
@@ -20,6 +18,7 @@ CONFIGURE_OPTIONS = [
   "--with-expat=${EXT_BUILD_DEPS}/expat/",
   # "--with-crypto",
   "--with-openssl=${EXT_BUILD_DEPS}/openssl/",
+#   "$$EXT_BUILD_DEPS$$/apr",
 ]
 
 configure_make(

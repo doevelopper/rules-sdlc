@@ -33,8 +33,8 @@ BEHIND_PROXY_PLACE_HOLDER = "file://" + __workspace_dir__ + "/src/main/resources
 JUNIT_JUPITER_VERSION = "5.7.1"
 JUNIT_PLATFORM_VERSION = "1.7.1"
 
-load("@com.github.doevelopper.rules-sdlc//configs:version.bzl","MAX_VERSION", "MIN_VERSION", "check_version",)
-check_version(MIN_VERSION, MAX_VERSION)
+# load("@com.github.doevelopper.rules-sdlc//configs:version.bzl","MAX_VERSION", "MIN_VERSION", "check_version",)
+# check_version(MIN_VERSION, MAX_VERSION)
 
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_dev.bzl","dev_repositories")
 dev_repositories()
