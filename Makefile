@@ -62,6 +62,36 @@ export BAZEL_EXTERNAL=$(bazel info output_base)/external
 
 # bazel test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
 # bazel build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
+  # bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk query @com_google_double_conversion//...
+  # bazelisk query @com_google_googletest//...
+  # bazelisk
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @zlib//:zlib --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk query @org_apache_apr//...
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:all --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk shutdown
+  # bazelisk clean --expunge
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk clean --expunge
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
 
 HOST_PLATFORM   =
 COMPILER        =
