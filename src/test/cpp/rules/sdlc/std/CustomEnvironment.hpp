@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include <rules/sdlc/std/LoggingService.hpp>
 
-namespace rules::sdlc::std
+namespace rules::sdlc::stdc::test
 {
 class CustomEnvironment : public ::testing::Environment
 {

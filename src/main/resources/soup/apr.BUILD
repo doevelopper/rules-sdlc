@@ -53,8 +53,8 @@ configure_make(
         "//conditions:default": [ ],
     }),
 
-    out_include_dir = "include/apr",
-    out_lib_dir = "lib",
+    # out_include_dir = "include/apr",
+    # out_lib_dir = "lib",
 
     out_static_libs = select({
         "@bazel_tools//platforms:osx": [

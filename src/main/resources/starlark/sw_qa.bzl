@@ -34,9 +34,11 @@ def qa_repositories():
     _maybe(
         http_archive,
         name = "com_google_googletest",
-        strip_prefix = "googletest-master",
-        # sha256 = "02e0c8a1863faa2032e72362a807414b75cf47d1c36b6d53969c14cb4c07ee46",
-        urls = ["https://github.com/google/googletest/archive/master.zip"],
+        # strip_prefix = "googletest-master",
+        strip_prefix = "googletest-8d51ffdfab10b3fba636ae69bc03da4b54f8c235",
+        sha256 = "12ef65654dc01ab40f6f33f9d02c04f2097d2cd9fbe48dc6001b29543583b0ad",
+        # urls = ["https://github.com/google/googletest/archive/master.zip"],
+        urls = ["https://github.com/google/googletest/archive/8d51ffdfab10b3fba636ae69bc03da4b54f8c235.zip"],
     )
 
     #  Third party gherkin need this goal name

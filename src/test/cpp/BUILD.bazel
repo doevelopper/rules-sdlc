@@ -30,16 +30,16 @@ load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_deb")
 licenses(["notice"])  # Apache License
 
 # cc_library(
-#     name = "pom.test.utils",
+#     name = "rules-sdlc-test",
 #     srcs = [
-#         "project/object/model/extra/ConfigurableEventListener.hpp",
-#         "project/object/model/extra/ConfigurableEventListener.cpp",
-#         "project/object/model/extra/GTestEventListener.hpp",
-#         "project/object/model/extra/GTestEventListener.cpp",
-#         "project/object/model/extra/CustomEnvironment.hpp",
-#         "project/object/model/extra/CustomEnvironment.cpp",
-#         "project/object/model/extra/Test.hpp",
-#         "project/object/model/extra/Test.cpp",
+# #         "project/object/model/extra/ConfigurableEventListener.hpp",
+# #         "project/object/model/extra/ConfigurableEventListener.cpp",
+# #         "project/object/model/extra/GTestEventListener.hpp",
+# #         "project/object/model/extra/GTestEventListener.cpp",
+#         # "project/object/model/extra/CustomEnvironment.hpp",
+#         # "project/object/model/extra/CustomEnvironment.cpp",
+#         "rules/sdlc/std/Test.hpp",
+#         "rules/sdlc/std/Test.cpp",
 #     ],
 #     copts = [
 #         "-D_REENTRANT",
@@ -48,25 +48,26 @@ licenses(["notice"])  # Apache License
 #     includes = [
 #         ".",
 #     ],
-#     linkopts = [
-#         "-L/usr/local/lib",
-#         "-pthread",
-#     ],
-#     visibility = ["//visibility:public"],
+# # #     linkopts = [
+# # #         "-L/usr/local/lib",
+# # #         "-pthread",
+# # #     ],
 #     deps = [
-#         "//src/main/cpp:pom.lib.main",
+#         "//src/main/cpp:rules-sdlc.std.main",
 #         "@com_google_googletest//:gtest",
 #         "@org_apache_logging_log4cxx//:log4cxx",
 #     ],
+#     visibility = ["//visibility:public"],
 # )
 
-# cc_test(
-#     name = "pom.test.bin",
-#     srcs = [
+cc_test(
+    name = "rules-sdlc-test.bin",
+    srcs = [
+      "rules/sdlc/std/unitTestRunner.cpp",
 #         "project/object/model/unitTest.cpp",
 #         "project/object/model/DummyTest.hpp",
 #         "project/object/model/DummyTest.cpp",
-#     ],
+    ],
 #     linkopts = [
 #         "-pthread",
 #          "-lrt",
@@ -90,4 +91,4 @@ licenses(["notice"])  # Apache License
 #     # data = [
 #     #     "//src/main/resources/configs/log4cxx.xml",
 #     # ],
-# )
+)

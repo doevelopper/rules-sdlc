@@ -6,20 +6,19 @@
 #include <gmock/gmock.h>
 #include <rules/sdlc/std/logging/LoggingService.hpp>
 
-namespace rules::sdlc::std
+namespace rules::sdlc::stdc::test
 {
-    class Test
+    class UnitTest
     {
 
         LOG4CXX_DECLARE_STATIC_LOGGER
 
     public:
 
-        Test();
-        Test(std::string & suite, unsigned int iteration = 1);
-        Test(const Test & orig) = default;
-        virtual
-        ~Test();
+        UnitTest();
+        UnitTest(std::string & suite, unsigned int iteration = 1);
+        UnitTest(const UnitTest & orig) = default;
+        virtual ~UnitTest();
 
         int run (int argc = 0, char * argv[] = NULL);
         static void showUsage(std::string name);

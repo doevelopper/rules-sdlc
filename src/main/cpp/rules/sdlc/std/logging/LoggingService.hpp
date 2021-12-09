@@ -171,79 +171,79 @@ private:                                                                        
         std::clog << s.substr ( 0, s.size ( ) - 1 ) << " " << x << std::endl;                                          \
     }
 
-namespace cfs::utils::log
+namespace rules::sdlc::stdc::logging
 {
 
-class LoggingServicePrivate;
+    class LoggingServicePrivate;
 
-class LoggingService
-{
-public:
-    explicit LoggingService ( unsigned long delay );
-    LoggingService ( const LoggingService & ) = delete;
-    LoggingService ( LoggingService && )      = delete;
-    LoggingService &
-        operator= ( const LoggingService & ) = delete;
-    LoggingService &
-        operator= ( LoggingService && ) = delete;
-    virtual ~LoggingService ( );
-    /*!
-     * @ingroup los_membox
-     * @brief Initialize a memory pool.
-     * @fn void configure ( )
-     * @par Description:
-     * <ul>
-     *    <li>This API is used to initialize a memory pool.</li>
-     * </ul>
-     *
-     * @attention
-     * <ul>
-     *   <li>None.</li>
-     * </ul>
-     *
-     * @param pPool    [IN] Memory pool address.
-     *
-     * @retval #OK  1: The memory pool is successfully initialized.
-     * @retval #NOK   0: The memory pool fails to be initialized.
-     * @par Dependency:
-     * <ul>
-     *   <li> LoggingServicePrivate: the header file that contains the API declaration.</li>
-     * </ul>
-     * @see None.
-     * @since Huawei LiteOS V100R001C00
-     *
-     */
-    void
-        configure ( );
+    class LoggingService
+    {
+    public:
+        explicit LoggingService ( unsigned long delay );
+        LoggingService ( const LoggingService & ) = delete;
+        LoggingService ( LoggingService && )      = delete;
+        LoggingService &
+            operator= ( const LoggingService & ) = delete;
+        LoggingService &
+            operator= ( LoggingService && ) = delete;
+        virtual ~LoggingService ( );
+        /*!
+        * @ingroup los_membox
+        * @brief Initialize a memory pool.
+        * @fn void configure ( )
+        * @par Description:
+        * <ul>
+        *    <li>This API is used to initialize a memory pool.</li>
+        * </ul>
+        *
+        * @attention
+        * <ul>
+        *   <li>None.</li>
+        * </ul>
+        *
+        * @param pPool    [IN] Memory pool address.
+        *
+        * @retval #OK  1: The memory pool is successfully initialized.
+        * @retval #NOK   0: The memory pool fails to be initialized.
+        * @par Dependency:
+        * <ul>
+        *   <li> LoggingServicePrivate: the header file that contains the API declaration.</li>
+        * </ul>
+        * @see None.
+        * @since Huawei LiteOS V100R001C00
+        *
+        */
+        void
+            configure ( );
 
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_TRACE macro, which has an improved interface" )
-    void
-        trace ( const std::string & s );
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_BEBUG macro, which has an improved interface" )
-    void
-        debug ( const std::string & s );
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_INFO macro, which has an improved interface" )
-    void
-        info ( const std::string & s );
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_WARN macro, which has an improved interface" )
-    void
-        warn ( const std::string & s );
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_ERROR macro, which has an improved interface" )
-    void
-        error ( const std::string & s );
-    CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_FATAL macro, which has an improved interface" )
-    void
-        fatal ( const std::string & s );
-    void
-        flush ( );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_TRACE macro, which has an improved interface" )
+        void
+            trace ( const std::string & s );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_BEBUG macro, which has an improved interface" )
+        void
+            debug ( const std::string & s );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_INFO macro, which has an improved interface" )
+        void
+            info ( const std::string & s );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_WARN macro, which has an improved interface" )
+        void
+            warn ( const std::string & s );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_ERROR macro, which has an improved interface" )
+        void
+            error ( const std::string & s );
+        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_FATAL macro, which has an improved interface" )
+        void
+            fatal ( const std::string & s );
+        void
+            flush ( );
 
-protected:
-    std::shared_ptr<LoggingServicePrivate> d_ptr;
-    // cfs::utils::PimplPtr< LoggingServicePrivate > d_ptr;
+    protected:
+        std::shared_ptr<LoggingServicePrivate> d_ptr;
+        // cfs::utils::PimplPtr< LoggingServicePrivate > d_ptr;
 
-private:
-    Q_DECLARE_PRIVATE ( LoggingService );
-};
+    private:
+        Q_DECLARE_PRIVATE ( LoggingService );
+    };
 
-}     // namespace cfs::utils::log
+}     // namespace rules::sdlc::stdc::logging
 #endif

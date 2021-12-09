@@ -36,12 +36,12 @@ cmake(
             "-DEXPAT_BUILD_TESTS=OFF",
             "-DEXPAT_BUILD_EXAMPLES=OFF",
             "-DEXPAT_BUILD_DOCS=OFF",
-            "CMAKE_VERBOSE_MAKEFILE=ON",
+            "-DCMAKE_VERBOSE_MAKEFILE=ON",
         ],
 
         "//conditions:default": [
             # "-G \"Unix Makefile\"",  # Error in fail: `Unix Makefile` is not a known generator
-            "-G Ninja",
+            # "-G Ninja",
             "-DHAVE_EXPAT_CONFIG_H=ON",
             "-DXML_DEV_URANDOM=ON",
             "-DCMAKE_BUILD_TYPE=Release",

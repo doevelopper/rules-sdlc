@@ -12,65 +12,69 @@ load(
 )
 
 cc_library(
-    name = "rules-sdlc.main",
+    name = "rules-sdlc.std.main",
     srcs = [
         "rules/sdlc/std/Dummy.hpp",
         "rules/sdlc/std/Dummy.cpp",
-        "rules/sdlc/std/log/LoggingServicePrivate.hpp",
-        "rules/sdlc/std/log/LoggingServicePrivate.cpp",
+        "rules/sdlc/std/logging/LoggingServicePrivate.hpp",
+        "rules/sdlc/std/logging/LoggingServicePrivate.cpp",
+        "rules/sdlc/std/logging/LoggingService.hpp",
+        "rules/sdlc/std/logging/LoggingService.cpp",
     ],
+
     copts = [
         "-std=c++17",
         "-DLOG_LEVEL=1",
-        "-D_REENTRANT",
+#         "-D_REENTRANT",
         "-I/usr/local/include/",
         "-fdiagnostics-color=always",
     ], #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
 
-    features = select({
-        #        ":windows": ["windows_export_all_symbols"],
-        "//conditions:default": [],
-    }),
+#     features = select({
+#         #        ":windows": ["windows_export_all_symbols"],
+#         "//conditions:default": [],
+#     }),
 
     includes = [
         ".",
     ],
 
-    linkopts = [
-        "-L/usr/local/lib",
-        # "-lapr-1",
-        # "-laprutil-1",
-        # "-llog4cxx",
+    # linkopts = [
+#         "-L/usr/local/lib",
+#         # "-lapr-1",
+#         # "-laprutil-1",
+#         # "-llog4cxx",
         # "-lboost_program_options",
-        # "-lboost_context",
-        # "-lxerces-c",
-    ], # + FLAG_LINKOPTS,
+#         # "-lboost_context",
+#         # "-lxerces-c",
+    # ], # + FLAG_LINKOPTS,
 
-    target_compatible_with = [
-        "@platforms//cpu:x86_64",
-        "@platforms//os:linux",
-    ],
+#     target_compatible_with = [
+#         "@platforms//cpu:x86_64",
+#         "@platforms//os:linux",
+#     ],
 
     deps = [
-        # "@com_google_absl//absl/strings",
-        # "@com_google_absl//absl/strings:str_format",
-        # "@com_google_absl//absl/debugging:failure_signal_handler",
-        # "@com_google_absl//absl/random",
-        # "@com_github_tencent_rapidjson//:rapidjson",
-        "@org_apache_apr//:apr",
-        "@com_github_libexpat//:expat",
-        "@org_apache_apr_util//:aprutil",
+#     #     # "@com_google_absl//absl/strings",
+#     #     # "@com_google_absl//absl/strings:str_format",
+#     #     # "@com_google_absl//absl/debugging:failure_signal_handler",
+#     #     # "@com_google_absl//absl/random",
+#     #     # "@com_github_tencent_rapidjson//:rapidjson",
+#     #     "@org_apache_apr//:apr",
+#     #     "@com_github_libexpat//:expat",
+#     #     "@org_apache_apr_util//:aprutil",
         "@org_apache_logging_log4cxx//:log4cxx",
-        "@boost//:date_time",
-        "@com_github_openssl//:openssl",
-        "@net_zlib_fossils//:zlib",
+        # "@com_github_nelhage_rules_boost//:boost_program_options",
+#     #     "@boost//:date_time",
+#     #     "@com_github_openssl//:openssl",
+#     #     "@net_zlib_fossils//:zlib",
     ],
 
-    # Uncomment this to enable full static link.
-    # features = ['fully_static_link'],
+#     # Uncomment this to enable full static link.
+#     # features = ['fully_static_link'],
 
-    # Comment this out to use system malloc runtime.
-    # malloc = '@com_google_tcmalloc//tcmalloc'
+#     # Comment this out to use system malloc runtime.
+#     # malloc = '@com_google_tcmalloc//tcmalloc'
 
     visibility = ["//visibility:public"],
 )
@@ -89,7 +93,7 @@ cc_binary(
         ".",
     ],
     deps = [
-        ":rules-sdlc.main",
+        ":rules-sdlc.std.main",
     ],
     visibility = ["//visibility:public"],
 )
