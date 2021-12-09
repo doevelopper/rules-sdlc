@@ -10,6 +10,7 @@
 #include <boost/core/demangle.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <log4cxx/logger.h>
+#include <rules/sdlc/std/API_Export.hpp>
 #include <memory>
 #include <string>
 #include <time.h>
