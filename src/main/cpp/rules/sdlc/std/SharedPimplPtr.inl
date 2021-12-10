@@ -25,7 +25,7 @@
 ****************************************************************************/
 
 
-namespace cfs::utils
+namespace rules::sdlc::stdc
 {
     template <typename T>
     SharedPimplPtr<T>::SharedPimplPtr()

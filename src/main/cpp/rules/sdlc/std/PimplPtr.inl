@@ -24,7 +24,7 @@
 **
 ****************************************************************************/
 
-#include <cfs/utils/sv/CFS_Export.hpp>
+#include <rules/sdlc/std/API_Export.hpp>
 
 template <typename T>
 inline T *qGetPtrHelper(T *ptr) { return ptr; }
@@ -47,7 +47,7 @@ inline auto qGetPtrHelper(Ptr &ptr) -> decltype(ptr.operator->()) { return ptr.o
     friend class Class##Private;
 
 
-namespace cfs::utils
+namespace rules::sdlc::stdc
 {
     template <typename T>
     PimplPtr<T>::PimplPtr()

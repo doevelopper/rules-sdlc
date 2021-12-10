@@ -25,8 +25,8 @@
 **
 ****************************************************************************/
 
-#ifndef CFS_UTILS_PIMPLPTR_HPP
-#define CFS_UTILS_PIMPLPTR_HPP
+#ifndef RULES_SDLC_STDC_PIMPLPTR_HPP
+#define RULES_SDLC_STDC_PIMPLPTR_HPP
 
 #include <boost/shared_ptr.hpp>
 
@@ -34,7 +34,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace cfs::utils
+namespace rules::sdlc::stdc
 {
 /*!
  * @brief Smart pointer implementing the pimpl idiom
@@ -224,6 +224,6 @@ private:
 
 }     // namespace cfs::utils
 
-#include <cfs/utils/PimplPtr.inl>
+#include <rules/sdlc/std/PimplPtr.inl>
 
 #endif

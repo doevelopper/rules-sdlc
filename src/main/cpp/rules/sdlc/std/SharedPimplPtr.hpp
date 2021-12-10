@@ -27,15 +27,15 @@
 
 // <insert copyright>
 
-#ifndef CFS_UTILS_SHAREDPIMPLPTR_HPP
-#define CFS_UTILS_SHAREDPIMPLPTR_HPP
+#ifndef RULES_SDLC_STDC_SHAREDPIMPLPTR_HPP
+#define RULES_SDLC_STDC_SHAREDPIMPLPTR_HPP
 
 #include <boost/shared_ptr.hpp>
 
 #include <cassert>
 #include <memory>
 
-namespace cfs::utils
+namespace rules::sdlc::stdc
 {
 /*!
  * @brief Smart pointer implementing the pimpl idiom with a sharing stategy
@@ -199,6 +199,6 @@ private:
 
 }     // namespace cfs::utils
 
-#include <cfs/utils/SharedPimplPtr.inl>
+#include <rules/sdlc/std/SharedPimplPtr.inl>
 
 #endif
