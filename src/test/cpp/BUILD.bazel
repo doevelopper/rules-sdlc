@@ -68,16 +68,17 @@ cc_test(
 #         "project/object/model/DummyTest.hpp",
 #         "project/object/model/DummyTest.cpp",
     ],
-#     linkopts = [
-#         "-pthread",
-#          "-lrt",
-#     ],
+
+    linkopts = [
+        "-pthread",
+         "-lrt",
+    ],
+
 #     deps = [
 #         "//src/test/cpp:pom.test.utils",
 #         "//src/main/cpp:pom.main",
 #         "@com_github_tencent_rapidjson//:rapidjson",
 #         "@com_google_absl//absl/strings",
-#         # "//src/main/cpp:pom.lib.main",
 #         # "@com_google_googletest//:gtest",
 #         # "@org_apache_apr//:apr",
 #         # "@org_apache_logging_log4cxx//:log4cxx",

@@ -169,6 +169,13 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+
+      - name: Set up GCC compiler
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
+
       -
         name: Checkout PR ${{ github.ref }} ( ${{ github.sha }} )
         if: ${{ github.event_name == 'pull_request_target' }}
@@ -185,10 +192,12 @@ jobs:
           test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
           chmod +x bazelisk
           mv bazelisk /usr/local/bin/bazelisk
+          make
       -
         name: Post-process the generated files from compilation,
         run: |
           ls ${{ github.workspace }}
+
       -
         name: Generate any test source code for inclusion in compilation.
         run: |

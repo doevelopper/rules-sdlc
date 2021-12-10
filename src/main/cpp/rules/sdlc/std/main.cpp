@@ -22,6 +22,9 @@
 #include <vector>
 #include <cstdlib>
 #include <cmath>
+
+#include <rules/sdlc/std/app/Application.hpp>
+
 // #include <boost/program_options.hpp>
 // #include <rules/sdlc/std/logging/LoggingService.hpp>
 

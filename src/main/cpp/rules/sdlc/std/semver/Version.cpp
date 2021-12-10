@@ -1,10 +1,10 @@
 
 #include <boost/algorithm/string.hpp>
-#include <cfs/utils/sv/Version.hpp>
+#include <rules/sdlc/std/semver/Version.hpp>
 
 #include <variant>
 
-using namespace cfs::utils::sv;
+using namespace rules::sdlc::stdc::semver;
 
 log4cxx::LoggerPtr Version::logger = log4cxx::Logger::getLogger ( std::string ( "cfs.utils.sv.Version" ) );
 

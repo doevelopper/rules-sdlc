@@ -20,6 +20,7 @@
 #define RULES_SDLC_STDC_DUMMY_HPP
 
 #include <string>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
 namespace rules::sdlc::stdc
 {

@@ -1,6 +1,6 @@
 
-#ifndef CFS_UTILS_SV_VERSION_HPP
-#define CFS_UTILS_SV_VERSION_HPP
+#ifndef RULES_SDLC_STD_SEMVER_VERSION_HPP
+#define RULES_SDLC_STD_SEMVER_VERSION_HPP
 /**
  * @file Version.hpp
  * @author your name (you@domain.com)
@@ -11,10 +11,9 @@
  * @copyright Copyright (c) 2021
  *
  */
-#include <cfs/utils/AppInfo.hpp>
-#include <cfs/utils/log/LoggingService.hpp>
-#include <cfs/utils/sv/CFS_Export.hpp>
-#include <cfs/utils/sv/GitRevision.hpp>
+#include <rules/sdlc/std/app/AppInfo.hpp>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
+#include <rules/sdlc/std/semver/GitRevision.hpp>
 
 #include <charconv>
 #include <iostream>
@@ -72,7 +71,7 @@
  * | 1.3.7+build.11.e0f985a.
  * | 2.2.0-rc.1-rc1-7de458254[-dirty]
  */
-namespace cfs::utils::sv
+namespace rules::sdlc::stdc::semver
 {
 
 constexpr int lSl = -1;
