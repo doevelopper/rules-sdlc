@@ -6,7 +6,7 @@
 
 using namespace rules::sdlc::stdc::semver;
 
-log4cxx::LoggerPtr Version::logger = log4cxx::Logger::getLogger ( std::string ( "cfs.utils.sv.Version" ) );
+log4cxx::LoggerPtr Version::logger = log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.semver.Version" ) );
 
 Version::Version ( ) noexcept
     : m_major ( 0 )

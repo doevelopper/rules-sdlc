@@ -192,7 +192,7 @@ jobs:
           test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
           chmod +x bazelisk
           mv bazelisk /usr/local/bin/bazelisk
-          make
+          make build-deps
       -
         name: Post-process the generated files from compilation,
         run: |
