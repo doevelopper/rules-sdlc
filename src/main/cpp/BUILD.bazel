@@ -97,6 +97,7 @@ cc_library(
         "@boost//:date_time",
         "@boost//:algorithm",
         "@boost//:program_options",
+        "@boost//:asio",
 #     #     "@com_github_openssl//:openssl",
 #     #     "@net_zlib_fossils//:zlib",
     ],
