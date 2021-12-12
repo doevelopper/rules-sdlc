@@ -4,7 +4,7 @@
 #define PROJECT_OBJECT_MODEL_DUMMYTEST_HPP
 
 #include <gtest/gtest.h>
-#include <project/object/model/Dummy.hpp>
+#include <rules/sdlc/std/Dummy.hpp>
 
 namespace project::object::model::test
 {
@@ -32,4 +32,3 @@ namespace project::object::model::test
     };
 }
 #endif
-

@@ -29,44 +29,45 @@ load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_deb")
 
 licenses(["notice"])  # Apache License
 
-# cc_library(
-#     name = "rules-sdlc-test",
-#     srcs = [
-# #         "project/object/model/extra/ConfigurableEventListener.hpp",
-# #         "project/object/model/extra/ConfigurableEventListener.cpp",
-# #         "project/object/model/extra/GTestEventListener.hpp",
-# #         "project/object/model/extra/GTestEventListener.cpp",
-#         # "project/object/model/extra/CustomEnvironment.hpp",
-#         # "project/object/model/extra/CustomEnvironment.cpp",
-#         "rules/sdlc/std/Test.hpp",
-#         "rules/sdlc/std/Test.cpp",
-#     ],
+cc_library(
+    name = "rules-sdlc.std.test",
+    srcs = [
+      "rules/sdlc/std/ConfigurableEventListener.hpp",
+      "rules/sdlc/std/ConfigurableEventListener.cpp",
+      "rules/sdlc/std/GTestEventListener.hpp",
+      "rules/sdlc/std/GTestEventListener.cpp",
+      "rules/sdlc/std/CustomEnvironment.hpp",
+      "rules/sdlc/std/CustomEnvironment.cpp",
+      "rules/sdlc/std/UnitTest.hpp",
+      "rules/sdlc/std/UnitTest.cpp",
+    ],
 #     copts = [
 #         "-D_REENTRANT",
 #         "-I/usr/local/include/",
 #     ],
-#     includes = [
-#         ".",
-#     ],
-# # #     linkopts = [
-# # #         "-L/usr/local/lib",
-# # #         "-pthread",
-# # #     ],
-#     deps = [
+    includes = [
+        ".",
+    ],
+
+    linkopts = [
+        "-L/usr/local/lib",
+        "-pthread",
+    ],
+
+    deps = [
 #         "//src/main/cpp:rules-sdlc.std.main",
-#         "@com_google_googletest//:gtest",
-#         "@org_apache_logging_log4cxx//:log4cxx",
-#     ],
-#     visibility = ["//visibility:public"],
-# )
+        "@com_google_googletest//:gtest",
+        "@org_apache_logging_log4cxx//:log4cxx",
+    ],
+    visibility = ["//visibility:public"],
+)
 
 cc_test(
-    name = "rules-sdlc-test.bin",
+    name = "rules-sdlc.std.test.bin",
     srcs = [
       "rules/sdlc/std/unitTestRunner.cpp",
-#         "project/object/model/unitTest.cpp",
-#         "project/object/model/DummyTest.hpp",
-#         "project/object/model/DummyTest.cpp",
+      "rules/sdlc/std/Dummy.hpp",
+      "rules/sdlc/std/Dummy.cpp",
     ],
 
     linkopts = [
@@ -74,9 +75,9 @@ cc_test(
          "-lrt",
     ],
 
-#     deps = [
-#         "//src/test/cpp:pom.test.utils",
-#         "//src/main/cpp:pom.main",
+    deps = [
+      "//src/main/cpp:rules-sdlc.std.main",
+      "//src/test/cpp::rules-sdlc.std.test",
 #         "@com_github_tencent_rapidjson//:rapidjson",
 #         "@com_google_absl//absl/strings",
 #         # "@com_google_googletest//:gtest",
@@ -91,5 +92,5 @@ cc_test(
 #     shard_count = 1,
 #     # data = [
 #     #     "//src/main/resources/configs/log4cxx.xml",
-#     # ],
+    ],
 )

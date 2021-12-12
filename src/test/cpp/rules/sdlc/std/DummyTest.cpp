@@ -1,6 +1,6 @@
 
 
-#include<project/object/model/DummyTest.hpp>
+#include<rules/sdlc/std/DummyTest.hpp>
 
 using namespace project::object::model;
 using namespace project::object::model::test;
