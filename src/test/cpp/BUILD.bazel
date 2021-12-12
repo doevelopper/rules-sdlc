@@ -55,10 +55,10 @@ cc_library(
     ],
 
     deps = [
-#         "//src/main/cpp:rules-sdlc.std.main",
         "@com_google_googletest//:gtest",
         "@org_apache_logging_log4cxx//:log4cxx",
     ],
+
     visibility = ["//visibility:public"],
 )
 
@@ -77,7 +77,7 @@ cc_test(
 
     deps = [
       "//src/main/cpp:rules-sdlc.std.main",
-      "//src/test/cpp::rules-sdlc.std.test",
+      "//src/test/cpp:rules-sdlc.std.test",
 #         "@com_github_tencent_rapidjson//:rapidjson",
 #         "@com_google_absl//absl/strings",
 #         # "@com_google_googletest//:gtest",
