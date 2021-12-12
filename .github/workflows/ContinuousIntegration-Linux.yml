@@ -178,7 +178,7 @@ jobs:
           version: latest
           platform: x64
 
--
+      -
         name: Bazel output cache
         id: cache-bazel
         uses: actions/cache@v2
