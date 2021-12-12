@@ -26,27 +26,6 @@
 
 #include <rules/sdlc/std/API_Export.hpp>
 
-template <typename T>
-inline T *qGetPtrHelper(T *ptr) { return ptr; }
-
-template <typename Ptr>
-inline auto qGetPtrHelper(Ptr &ptr) -> decltype(ptr.operator->()) { return ptr.operator->(); }
-
-#define Q_DECLARE_PRIVATE(Class) \
-    inline Class##Private* d_func() \
-    { Q_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qGetPtrHelper(d_ptr));) } \
-    inline const Class##Private* d_func() const \
-    { Q_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qGetPtrHelper(d_ptr));) } \
-    friend class Class##Private;
-
-#define Q_DECLARE_PRIVATE_D(Dptr, Class) \
-    inline Class##Private* d_func() \
-    { Q_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qGetPtrHelper(Dptr));) } \
-    inline const Class##Private* d_func() const \
-    { Q_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qGetPtrHelper(Dptr));) } \
-    friend class Class##Private;
-
-
 namespace rules::sdlc::stdc
 {
     template <typename T>
