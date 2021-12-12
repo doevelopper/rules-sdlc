@@ -124,15 +124,15 @@ int
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
-    if ( m_major != rhs.m_major ) return m_major < rhs.m_major ? lSl : uSl;
+    if ( m_major != rhs.m_major ) return m_major < rhs.m_major ? LSL : USL;
 
-    if ( m_minor != rhs.m_minor ) return m_minor < rhs.m_minor ? lSl : uSl;
+    if ( m_minor != rhs.m_minor ) return m_minor < rhs.m_minor ? LSL : USL;
 
-    if ( m_patch != rhs.m_patch ) return m_patch < rhs.m_patch ? lSl : uSl;
+    if ( m_patch != rhs.m_patch ) return m_patch < rhs.m_patch ? LSL : USL;
 
-    if ( m_releaseType != rhs.m_releaseType ) return m_releaseType < rhs.m_releaseType ? lSl : uSl;
+    if ( m_releaseType != rhs.m_releaseType ) return m_releaseType < rhs.m_releaseType ? LSL : USL;
 
-    return ( eSl );
+    return ( ESL );
 }
 
 std::string

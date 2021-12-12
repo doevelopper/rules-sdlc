@@ -75,8 +75,8 @@ namespace rules::sdlc::stdc::semver
 {
 
 constexpr int LSL = -1;
-constexpr int ESl = 0;
-constexpr int USl = 1;
+constexpr int ESL = 0;
+constexpr int USL = 1;
 
 /*!
  * @brief ReleaseLevel indicates the release level of this API

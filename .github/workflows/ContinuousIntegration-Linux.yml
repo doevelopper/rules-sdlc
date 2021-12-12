@@ -168,7 +168,9 @@ jobs:
         uses: actions/checkout@v2.3.4
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
+          submodules: 'recursive'
           fetch-depth: 0
+      #     ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set up GCC compiler
         uses: egor-tensin/setup-gcc@v1
@@ -176,22 +178,35 @@ jobs:
           version: latest
           platform: x64
 
-      -
-        name: Checkout PR ${{ github.ref }} ( ${{ github.sha }} )
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v2.3.4
+
+      - name: Configure bazel config for actions
+        run: |
+          echo "build --config github_actions" > user.bazelrc
+          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
+          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+
+      - name: Bazel output cache
+        id: cache-bazel
+        uses: actions/cache@v1
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          path: "${{ github.workspace }}/.bazel-cache"
+          key: ${{ runner.os }}-bazel-out-${{ github.run_id}}
+          restore-keys: |
+            ${{ runner.os }}-bazel-out-
+
       -
-        name: Compile the source code of the project.
+        name: Install Bazel build tool.
         run: |
           ls ${{ github.workspace }}
           wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
           test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
           chmod +x bazelisk
           mv bazelisk /usr/local/bin/bazelisk
+
+      -
+        name: Compile the source code of the project.
+        run: |
+          ls ${{ github.workspace }}
           make build-deps
       -
         name: Post-process the generated files from compilation,
