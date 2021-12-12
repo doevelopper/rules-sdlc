@@ -41,8 +41,8 @@ namespace rules::sdlc::stdc::app
                 formatRequiredOptionError ( boost::program_options::required_option & error );
 
         private:
-            std::vector< CustomOptionDescription > options_;
-            std::vector< CustomOptionDescription > positionalOptions_;
+            // std::vector< CustomOptionDescription > options_;
+            // std::vector< CustomOptionDescription > positionalOptions_;
         };
 
         OptionDescription ( ) noexcept;
