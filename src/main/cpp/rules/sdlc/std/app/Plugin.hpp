@@ -8,7 +8,7 @@ namespace rules::sdlc::stdc::app
 {
 template < typename I >
 
-class CFS_API_EXPORT Plugin : public PluginInterface
+class SDLC_API_EXPORT Plugin : public PluginInterface
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -44,6 +44,6 @@ private:
     std::string            m_pluginName;
     PluginInterface::State m_pluginState;
 };
-}     // namespace cfs::utils::app
+}
 
 #endif

@@ -8,7 +8,7 @@ using bpo::options_description;
 using bpo::variables_map;
 
 log4cxx::LoggerPtr ApplicationPrivate::logger = log4cxx::Logger::getLogger (
-    std::string ( "cfs.utils.app.ApplicationPrivate" ) );
+    std::string ( "rules.sdlc.stdc.app.ApplicationPrivate" ) );
 
 ApplicationPrivate::ApplicationPrivate ( )
 {

@@ -197,7 +197,7 @@ private:
     std::shared_ptr< T > m_data;     ///< Pointer to the instance of the private implementation
 };
 
-}     // namespace cfs::utils
+}
 
 #include <rules/sdlc/std/SharedPimplPtr.inl>
 

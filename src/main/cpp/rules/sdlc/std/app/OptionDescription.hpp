@@ -14,7 +14,7 @@
 namespace rules::sdlc::stdc::app
 {
 
-    class CFS_API_EXPORT OptionDescription
+    class SDLC_API_EXPORT OptionDescription
     {
 
         LOG4CXX_DECLARE_STATIC_LOGGER
@@ -72,5 +72,5 @@ namespace rules::sdlc::stdc::app
         bool m_hasArgument;
         bool m_isPositional;
     };
-}     // namespace cfs::utils::app
+}
 #endif

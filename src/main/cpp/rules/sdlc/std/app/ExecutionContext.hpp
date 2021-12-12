@@ -21,7 +21,7 @@ struct Priority
     static constexpr int HIGHEST     = std::numeric_limits< int >::max ( );
 };
 
-class CFS_API_EXPORT ExecutionContext : public boost::asio::execution_context
+class SDLC_API_EXPORT ExecutionContext : public boost::asio::execution_context
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -176,6 +176,6 @@ private:
     std::size_t m_order =
         std::numeric_limits< std::size_t >::max ( );     // to maintain FIFO ordering in queue within priority
 };
-}     // namespace cfs::utils::app
+}
 
 #endif

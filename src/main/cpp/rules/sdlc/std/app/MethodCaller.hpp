@@ -13,7 +13,7 @@ template < typename FunctionSig, typename DispatchPolicy >
 class MethodCaller;
 
 template < typename Ret, typename... Args, typename DispatchPolicy >
-class CFS_API_EXPORT MethodCaller< Ret ( Args... ), DispatchPolicy >
+class SDLC_API_EXPORT MethodCaller< Ret ( Args... ), DispatchPolicy >
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -32,7 +32,7 @@ public:
 };
 
 template < typename... Args, typename DispatchPolicy >
-class CFS_API_EXPORT MethodCaller< void ( Args... ), DispatchPolicy >
+class SDLC_API_EXPORT MethodCaller< void ( Args... ), DispatchPolicy >
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -49,6 +49,6 @@ public:
     signal_type m_signal;
 };
 
-}     // namespace cfs::utils::app
+}
 
 #endif

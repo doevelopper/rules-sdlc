@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-using namespace cfs::utils::log;
+using namespace rules::sdlc::stdc::logging;
 
 LoggingService::LoggingService ( unsigned long loggerWatchDelay )
     : d_ptr ( new LoggingServicePrivate ( loggerWatchDelay ) )

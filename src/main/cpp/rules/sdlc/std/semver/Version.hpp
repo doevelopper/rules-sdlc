@@ -98,7 +98,7 @@ enum class ReleaseLevel : std::uint8_t
 const std::regex  rex ( "([a-z]+)\\.([a-z]+)" );
 const std::string nid = R"(0|[1-9]\d*)";
 
-class CFS_API_EXPORT Version
+class SDLC_API_EXPORT Version
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -261,5 +261,5 @@ auto
 {
 }
 
-}     // namespace cfs::utils::sv
+}
 #endif

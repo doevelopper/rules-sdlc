@@ -217,22 +217,22 @@ namespace rules::sdlc::stdc::logging
         void
             configure ( );
 
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_TRACE macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_TRACE macro, which has an improved interface" )
         void
             trace ( const std::string & s );
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_BEBUG macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_BEBUG macro, which has an improved interface" )
         void
             debug ( const std::string & s );
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_INFO macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_INFO macro, which has an improved interface" )
         void
             info ( const std::string & s );
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_WARN macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_WARN macro, which has an improved interface" )
         void
             warn ( const std::string & s );
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_ERROR macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_ERROR macro, which has an improved interface" )
         void
             error ( const std::string & s );
-        CFS_DEPRECATED_MSG ( "Replaced by LOG4CXX_FATAL macro, which has an improved interface" )
+        SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_FATAL macro, which has an improved interface" )
         void
             fatal ( const std::string & s );
         void
@@ -240,7 +240,7 @@ namespace rules::sdlc::stdc::logging
 
     protected:
         std::shared_ptr<LoggingServicePrivate> d_ptr;
-        // cfs::utils::PimplPtr< LoggingServicePrivate > d_ptr;
+        // rules::sdlc::stdc::PimplPtr< LoggingServicePrivate > d_ptr;
 
     private:
         Q_DECLARE_PRIVATE ( LoggingService );

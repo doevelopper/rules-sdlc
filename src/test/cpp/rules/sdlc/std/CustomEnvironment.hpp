@@ -1,5 +1,5 @@
-#ifndef CFS_COM_CUSTOMENVIRONMENT_HPP
-#define CFS_COM_CUSTOMENVIRONMENT_HPP
+#ifndef SDLC_COM_CUSTOMENVIRONMENT_HPP
+#define SDLC_COM_CUSTOMENVIRONMENT_HPP
 
 #include <gtest/gtest.h>
 #include <rules/sdlc/std/LoggingService.hpp>

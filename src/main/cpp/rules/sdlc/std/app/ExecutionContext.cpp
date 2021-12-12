@@ -4,17 +4,17 @@
 using namespace rules::sdlc::stdc::app;
 
 log4cxx::LoggerPtr ExecutionContext::logger = log4cxx::Logger::getLogger (
-    std::string ( "cfs.utils.app.ExecutionContext" ) );
+    std::string ( "rules.sdlc.stdc.app.ExecutionContext" ) );
 
 log4cxx::LoggerPtr ExecutionContext::QueuedHandleBase::logger = log4cxx::Logger::getLogger (
-    std::string ( "cfs.utils.app.ExecutionContext.QueuedHandleBase" ) );
+    std::string ( "rules.sdlc.stdc.app.ExecutionContext.QueuedHandleBase" ) );
 
 template < typename F >
 log4cxx::LoggerPtr ExecutionContext::QueuedHandler< F >::logger =
-    log4cxx::Logger::getLogger ( std::string ( "cfs.utils.app.ExecutionContext.QueuedHandler" ) );
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.ExecutionContext.QueuedHandler" ) );
 
 log4cxx::LoggerPtr ExecutionContext::Executor::logger = log4cxx::Logger::getLogger (
-    std::string ( "cfs.utils.app.ExecutionContext.Executor" ) );
+    std::string ( "rules.sdlc.stdc.app.ExecutionContext.Executor" ) );
 /*
    ExecutionContext::Executor::Executor()
    : m_context()

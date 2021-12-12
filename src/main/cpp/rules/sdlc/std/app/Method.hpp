@@ -95,7 +95,7 @@ struct FirstProviderPolicy< void ( Args... ) >
 
 template < typename FunctionSig, typename DispatchPolicy >
 
-class CFS_API_EXPORT Method final : public MethodCaller< FunctionSig, DispatchPolicy >
+class SDLC_API_EXPORT Method final : public MethodCaller< FunctionSig, DispatchPolicy >
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -177,5 +177,5 @@ std::false_type
 
 template < typename T >
 using is_method_decl = decltype ( is_method_decl_impl ( std::declval< T * > ( ) ) );
-}     // namespace cfs::utils::app
+}
 #endif

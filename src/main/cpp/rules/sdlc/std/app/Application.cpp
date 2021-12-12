@@ -13,7 +13,7 @@
 using namespace rules::sdlc::stdc::app;
 
 log4cxx::LoggerPtr Application::logger =
-    log4cxx::Logger::getLogger ( std::string ( "cfs.utils.app.Application" ) );
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Application" ) );
 
 Application::Application ( )
     : d_ptr ( new ApplicationPrivate ( ) )

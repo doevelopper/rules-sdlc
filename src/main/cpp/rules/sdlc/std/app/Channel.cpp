@@ -5,11 +5,11 @@ using namespace rules::sdlc::stdc::app;
 
 template < typename Data, typename DispatchPolicy >
 log4cxx::LoggerPtr Channel< Data, DispatchPolicy >::logger =
-    log4cxx::Logger::getLogger ( std::string ( "cfs.utils.app.Channel" ) );
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Channel" ) );
 
 template < typename Data, typename DispatchPolicy >
 log4cxx::LoggerPtr Channel< Data, DispatchPolicy >::Handle::logger =
-    log4cxx::Logger::getLogger ( std::string ( "cfs.utils.app.Handle" ) );
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Handle" ) );
 
 template < typename Data, typename DispatchPolicy >
 Channel< Data, DispatchPolicy >::Channel ( )

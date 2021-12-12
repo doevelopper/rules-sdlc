@@ -18,7 +18,7 @@ namespace rules::sdlc::stdc::app
 
 class ApplicationPrivate;
 
-class CFS_API_EXPORT Application
+class SDLC_API_EXPORT Application
 {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
@@ -213,6 +213,6 @@ private:
     Q_DISABLE_COPY_MOVE ( Application );
 };
 
-}     // namespace cfs::utils::app
+}
 
 #endif

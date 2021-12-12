@@ -5,7 +5,7 @@
 using namespace rules::sdlc::stdc::app;
 
 template < typename I >
-log4cxx::LoggerPtr Plugin< I >::logger = log4cxx::Logger::getLogger ( std::string ( "cfs.utils.app.Plugin" ) );
+log4cxx::LoggerPtr Plugin< I >::logger = log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Plugin" ) );
 
 template < typename I >
 Plugin< I >::Plugin ( )

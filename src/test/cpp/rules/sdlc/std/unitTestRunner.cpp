@@ -14,7 +14,7 @@ main([[maybe_unused]] int argc,
     rules::sdlc::stdc::test::UnitTest stdTest;
 
     LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "###################################################################");
-    LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "@@@                       TEST CFS Utils                        @@@");
+    LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "@@@                       TEST     Utils                        @@@");
     LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "###################################################################");
 
     std::uint8_t runStatus = stdTest.run(argc,argv);

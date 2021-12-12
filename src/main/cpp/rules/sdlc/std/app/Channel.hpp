@@ -35,7 +35,7 @@ struct DropExceptions
 };
 
 template < typename Data, typename DispatchPolicy >
-class CFS_API_EXPORT Channel final
+class SDLC_API_EXPORT Channel final
 {
 
     LOG4CXX_DECLARE_STATIC_LOGGER
@@ -146,6 +146,6 @@ std::false_type
 
 template < typename T >
 using is_channel_decl = decltype ( is_channel_decl_impl ( std::declval< T * > ( ) ) );
-}     // namespace cfs::utils::app
+}
 
 #endif

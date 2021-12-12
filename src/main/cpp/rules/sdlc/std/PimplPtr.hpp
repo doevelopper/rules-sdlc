@@ -70,7 +70,7 @@ namespace rules::sdlc::stdc
  *
  * private:
  *
- *     cfs::utils::PimplPtr<struct MyClassPrivate> d;
+ *     ::PimplPtr<struct MyClassPrivate> d;
  * };
  * @endcode
  *
@@ -222,7 +222,7 @@ private:
     std::shared_ptr< T > m_data;     ///< Pointer to the instance of the private implementation
 };
 
-}     // namespace cfs::utils
+}
 
 #include <rules/sdlc/std/PimplPtr.inl>
 
