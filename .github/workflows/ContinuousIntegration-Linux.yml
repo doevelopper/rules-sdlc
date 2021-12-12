@@ -171,8 +171,8 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
       #     ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Set up GCC compiler
+      -
+        name: Set up GCC compiler
         uses: egor-tensin/setup-gcc@v1
         with:
           version: latest
@@ -193,8 +193,8 @@ jobs:
             ${{ runner.os }}-bazel-out-
       -
         name: Configure bazel config for actions
+          # echo "build --config github_actions" > user.bazelrc
         run: |
-          echo "build --config github_actions" > user.bazelrc
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
 
