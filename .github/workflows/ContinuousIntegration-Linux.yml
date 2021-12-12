@@ -110,7 +110,7 @@ jobs:
       -
         name: Bazel output cache
         id: cache-bazel
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: "${{ github.workspace }}/.bazel-cache"
           key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
@@ -181,7 +181,7 @@ jobs:
 -
         name: Bazel output cache
         id: cache-bazel
-        uses: actions/cache@v
+        uses: actions/cache@v2
         with:
           path: "${{ github.workspace }}/.bazel-cache"
           # key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
