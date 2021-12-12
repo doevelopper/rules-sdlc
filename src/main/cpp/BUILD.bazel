@@ -68,8 +68,8 @@ cc_library(
         ".",
     ],
 
-    # linkopts = [
-#         "-L/usr/local/lib",
+    linkopts = [
+        "-L/usr/local/lib",
 #         # "-lapr-1",
 #         # "-laprutil-1",
 #         # "-llog4cxx",
@@ -80,20 +80,19 @@ cc_library(
         # "-lcrypto",
         # "-ldl",
         # "-lpthread",
-        # "-lboost_system",
-        # "-lboost_thread",
     # ], # + FLAG_LINKOPTS,
-        # "-lboost_thread",
-        # "-lboost_system",
-        # "-lboost_regex",
-        # "-lboost_context",
-        # "-lboost_date_time",
-        # "-lboost_program_options",
-        # "-lboost_filesystem",
+        "-lboost_thread",
+        "-lboost_system",
+        "-lboost_regex",
+        "-lboost_context",
+        "-lboost_date_time",
+        "-lboost_program_options",
+        "-lboost_filesystem",
+        "-lboost_signals2",
 #     target_compatible_with = [
 #         "@platforms//cpu:x86_64",
 #         "@platforms//os:linux",
-#     ],
+    ],
 
     deps = [
 #     #     # "@com_google_absl//absl/strings",
