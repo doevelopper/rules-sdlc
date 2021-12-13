@@ -7,7 +7,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <rules/sdlc/std/LoggingService.hpp>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
 namespace rules::sdlc::stdc::test
 {

@@ -34,7 +34,7 @@ void GTestEventListener::OnEnvironmentsSetUpEnd(const testing::UnitTest& /*unit_
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
 }
 
-void GTestEventListener::OnTestSuiteStart(const testing::TestSuite& /*test_suite*/)
+void GTestEventListener::OnTestSuiteStart(const testing::TestSuite& test_suite)
 {
     // const testing::TestInfo* const test_info =
     //     testing::UnitTest::GetInstance()->current_test_info();
@@ -47,7 +47,7 @@ void GTestEventListener::OnTestSuiteStart(const testing::TestSuite& /*test_suite
     //     << " Start !!!!>>>>>>>>");
 }
 
-void GTestEventListener::OnTestSuiteEnd(const testing::TestSuite& /*test_suite*/)
+void GTestEventListener::OnTestSuiteEnd(const testing::TestSuite& test_suite)
 {
     std::stringstream formatedTestInfo;
     formatedTestInfo << "<<<<<<<<!!!! Test Suite " << test_suite.name() << " END !!!!<<<<<<<< ";
@@ -191,7 +191,7 @@ void GTestEventListener::OnTestIterationEnd(const testing::UnitTest& unit_test, 
     // LOG4CXX_INFO(logger,"Test Iteration  " << unit_test.Passed() << " Elapsed time " << unit_test.elapsed_time() <<  " ms");
 }
 
-void GTestEventListener::OnTestIterationStart(const testing::UnitTest& unit_test, int /*iteration*/)
+void GTestEventListener::OnTestIterationStart(const testing::UnitTest& unit_test, int iteration)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << iteration);
 }

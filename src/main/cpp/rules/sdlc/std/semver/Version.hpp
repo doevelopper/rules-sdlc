@@ -256,10 +256,10 @@ private:
 //   return (lhs != rhs) && (lhs >= rhs);
 // }
 
-auto
-    operator<< ( std::ostream & lhs, Version const & rhs ) -> std::ostream &
-{
-}
+// auto
+//     operator<< ( std::ostream & lhs, Version const & rhs ) -> std::ostream &
+// {
+// }
 
 }
 #endif

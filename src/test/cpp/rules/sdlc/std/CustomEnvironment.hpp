@@ -2,7 +2,8 @@
 #define SDLC_COM_CUSTOMENVIRONMENT_HPP
 
 #include <gtest/gtest.h>
-#include <rules/sdlc/std/LoggingService.hpp>
+
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
 namespace rules::sdlc::stdc::test
 {

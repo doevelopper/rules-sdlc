@@ -1,16 +1,19 @@
 
-#include <rules/sdlc/std/Test.hpp>
+#include <rules/sdlc/std/UnitTest.hpp>
 #include <rules/sdlc/std/GTestEventListener.hpp>
 #include <rules/sdlc/std/ConfigurableEventListener.hpp>
 #include <rules/sdlc/std/CustomEnvironment.hpp>
 
 using namespace rules::sdlc::stdc;
+using namespace rules::sdlc::stdc::logging;
 using namespace rules::sdlc::stdc::test;
 
-log4cxx::LoggerPtr Test::logger = log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.Test") );
-const unsigned long Test::LOGGER_WATCH_DELAY = 5000UL;
+log4cxx::LoggerPtr UnitTest::logger =
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.test.UnitTest") );
 
-Test::Test()
+const unsigned long UnitTest::LOGGER_WATCH_DELAY = 5000UL;
+
+UnitTest::UnitTest()
     : m_testSuites(std::string())
     , m_numberOfTestIteration(1)
     , m_loggerService(new LoggingService(LOGGER_WATCH_DELAY))
@@ -18,20 +21,20 @@ Test::Test()
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-Test::Test(std::string & suite, unsigned int iteration)
+UnitTest::UnitTest(std::string & suite, unsigned int iteration)
     : m_testSuites(suite)
     , m_numberOfTestIteration(iteration)
 {
 
 }
 
-Test::~Test()
+UnitTest::~UnitTest()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
     delete this->m_loggerService;
 }
 
-int Test::run (int argc, char * argv[])
+int UnitTest::run (int argc, char * argv[])
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 
@@ -60,7 +63,7 @@ int Test::run (int argc, char * argv[])
     return(ret_val);
 }
 
-void Test::showUsage(std::string name)
+void UnitTest::showUsage(std::string name)
 {
     std::cerr << "Usage: " << name << " <option(s)> SOURCES \n"
               << "Options:\n"

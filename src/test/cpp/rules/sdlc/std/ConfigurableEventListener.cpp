@@ -113,16 +113,16 @@ ConfigurableEventListener::ConfigurableEventListener(testing::TestEventListener*
                                 const bool showInlineFailures,
                                 const bool showEnvironment,
                                 const bool showSkips)
-    :  eventListener(eventListener)
-    ,  showProgramStartEnd(showProgramStartEnd)
-    ,  showIterationsStartEnd(showIterationsStartEnd)
-    ,  showTestCases(showTestCases)
-    ,  showTestNames(showTestNames)
-    ,  showSuccesses(showSuccesses)
-    ,  showFailures(showFailures)
-    ,  showInlineFailures(showInlineFailures)
-    ,  showEnvironment(showEnvironment)
-    ,  showSkips(showSkips)
+    :  m_eventListener(eventListener)
+    ,  m_showProgramStartEnd(showProgramStartEnd)
+    ,  m_showIterationsStartEnd(showIterationsStartEnd)
+    ,  m_showTestCases(showTestCases)
+    ,  m_showTestNames(showTestNames)
+    ,  m_showSuccesses(showSuccesses)
+    ,  m_showFailures(showFailures)
+    ,  m_showInlineFailures(showInlineFailures)
+    ,  m_showEnvironment(showEnvironment)
+    ,  m_showSkips(showSkips)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
 }
@@ -130,7 +130,7 @@ ConfigurableEventListener::ConfigurableEventListener(testing::TestEventListener*
 ConfigurableEventListener::~ConfigurableEventListener()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
-    delete eventListener;
+    delete m_eventListener;
 }
 
 void ConfigurableEventListener::OnTestProgramStart(const testing::UnitTest& unit_test)
@@ -220,11 +220,11 @@ void ConfigurableEventListener::OnTestEnd(const testing::TestInfo& test_info)
     }
 */
 
-    if((showInlineFailures && test_info.result()->Failed())
-       || (showSuccesses && test_info.result()->Passed())
-       || (showSkips && test_info.result()->Skipped()))
+    if((m_showInlineFailures && test_info.result()->Failed())
+       || (m_showSuccesses && test_info.result()->Passed())
+       || (m_showSkips && test_info.result()->Skipped()))
     {
-        eventListener->OnTestEnd(test_info);
+        m_eventListener->OnTestEnd(test_info);
     }
 }
 

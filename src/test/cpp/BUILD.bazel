@@ -1,33 +1,33 @@
-#           Copyright (C) 2021 Adrien H.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-#
-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
+# #           Copyright (C) 2021 Adrien H.
+# # All rights reserved.
+# #
+# # Redistribution and use in source and binary forms, with or without
+# # modification, are permitted provided that the following conditions
+# # are met:
+# # 1. Redistributions of source code must retain the above copyright
+# #    notice, this list of conditions and the following disclaimer.
+# # 2. Redistributions in binary form must reproduce the above copyright
+# #    notice, this list of conditions and the following disclaimer in the
+# #    documentation and/or other materials provided with the distribution.
+# #
+# # THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# # ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# # FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# # DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# # OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# # HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# # SUCH DAMAGE.
 
-# Intentionally left empty (for now).
+# # Intentionally left empty (for now).
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_deb")
+# load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+# load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_deb")
 
-licenses(["notice"])  # Apache License
+# licenses(["notice"])  # Apache License
 
 cc_library(
     name = "rules-sdlc.std.test",
@@ -41,10 +41,12 @@ cc_library(
       "rules/sdlc/std/UnitTest.hpp",
       "rules/sdlc/std/UnitTest.cpp",
     ],
-#     copts = [
-#         "-D_REENTRANT",
-#         "-I/usr/local/include/",
-#     ],
+
+    copts = [
+        "-D_REENTRANT",
+        "-I/usr/local/include/",
+    ],
+
     includes = [
         ".",
     ],
@@ -57,7 +59,8 @@ cc_library(
     deps = [
         "//src/main/cpp:rules-sdlc.std.main",
         "@com_google_googletest//:gtest",
-        "@org_apache_logging_log4cxx//:log4cxx",
+        # "@org_apache_logging_log4cxx//:log4cxx",
+        # "@org_apache_apr//:apr",
     ],
 
     visibility = ["//visibility:public"],
@@ -67,30 +70,33 @@ cc_test(
     name = "rules-sdlc.std.test.bin",
     srcs = [
       "rules/sdlc/std/unitTestRunner.cpp",
-      "rules/sdlc/std/Dummy.hpp",
-      "rules/sdlc/std/Dummy.cpp",
+      "rules/sdlc/std/DummyTest.hpp",
+      "rules/sdlc/std/DummyTest.cpp",
     ],
 
     linkopts = [
         "-pthread",
          "-lrt",
+         "-luuid", #avoid having libapr-1.a(rand.o):rand.c:function apr_os_uuid_get: error: undefined reference to 'uuid_generate'
     ],
 
     deps = [
       "//src/test/cpp:rules-sdlc.std.test",
-#         "@com_github_tencent_rapidjson//:rapidjson",
-#         "@com_google_absl//absl/strings",
-#         # "@com_google_googletest//:gtest",
-#         # "@org_apache_apr//:apr",
-#         # "@org_apache_logging_log4cxx//:log4cxx",
-#     ],
-#     args = [
-#         "--use_xxx",
-#         "",
-#         "--iterration=42"
-#     ],
-#     shard_count = 1,
-#     # data = [
-#     #     "//src/main/resources/configs/log4cxx.xml",
+      # "@com_github_tencent_rapidjson//:rapidjson",
+      # "@com_google_absl//absl/strings",
+      # "@com_google_googletest//:gtest",
+      # "@org_apache_apr//:apr",
+      # "@org_apache_logging_log4cxx//:log4cxx",
     ],
+
+    args = [
+        "--use_xxx",
+        "",
+        "--iterration=42"
+    ],
+
+# #     shard_count = 1,
+# #     # data = [
+# #     #     "//src/main/resources/configs/log4cxx.xml",
+#     # ],
 )

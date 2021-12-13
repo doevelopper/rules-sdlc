@@ -7,7 +7,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <rules/sdlc/std/LoggingService.hpp>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
 namespace rules::sdlc::stdc::test
 {
@@ -19,7 +19,7 @@ namespace rules::sdlc::stdc::test
         class Builder
         {
             LOG4CXX_DECLARE_STATIC_LOGGER
-            testing::TestEventListener* eventListener;
+            testing::TestEventListener* m_eventListener;
 
         public:
             Builder() = delete;

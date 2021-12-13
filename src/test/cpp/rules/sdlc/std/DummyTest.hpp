@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 #include <rules/sdlc/std/Dummy.hpp>
 
-namespace project::object::model::test
+namespace rules::sdlc::stdc::test
 {
 
     class DummyTest : public ::testing::Test
@@ -26,7 +26,7 @@ namespace project::object::model::test
         void TearDown() override;
 
     protected:
-        project::object::model::Dummy * testee;
+        rules::sdlc::stdc::Dummy * testee;
     private:
 
     };

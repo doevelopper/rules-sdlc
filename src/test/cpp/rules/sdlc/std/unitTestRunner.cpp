@@ -7,9 +7,9 @@ int
 main([[maybe_unused]] int argc,
      [[maybe_unused]] char * argv[])
 {
-    FLAGS_logtostderr = true;
+    // FLAGS_logtostderr = true;
     //    FLAGS_log_dir ="C:\\Users\\100034251\\CLionProjects\\coro\\cmake-build-debug";
-    FLAGS_log_dir ="./log";
+    // FLAGS_log_dir ="./log";
 
     rules::sdlc::stdc::test::UnitTest stdTest;
 

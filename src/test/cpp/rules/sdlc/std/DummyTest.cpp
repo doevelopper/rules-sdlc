@@ -2,11 +2,11 @@
 
 #include<rules/sdlc/std/DummyTest.hpp>
 
-using namespace project::object::model;
-using namespace project::object::model::test;
+using namespace rules::sdlc::stdc;
+using namespace rules::sdlc::stdc::test;
 
 log4cxx::LoggerPtr DummyTest::logger =
-    log4cxx::Logger::getLogger(std::string("cfs.platform.test.DummyTest"));
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.test.DummyTest"));
 
 DummyTest::DummyTest()
     :  testee()
@@ -37,7 +37,7 @@ TEST_F(DummyTest, test_Simple)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 
-    EXPECT_TRUE(testee->speechless());
+    // EXPECT_TRUE(testee->speechless());
     // EXPECT_TRUE(testee->speak().compare("Hi"));
     // EXPECT_TRUE(testee->isValid());
 }
