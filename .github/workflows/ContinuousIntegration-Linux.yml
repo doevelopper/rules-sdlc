@@ -245,7 +245,7 @@ jobs:
         name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
         run: |
           ls ${{ github.workspace }}
-
+          make test
       -
         name: 'Archive ${{ github.repository }} Logs'
         uses: actions/upload-artifact@v2

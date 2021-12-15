@@ -18,6 +18,7 @@
 
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <vector>
 #include <cstdlib>
@@ -67,5 +68,16 @@ int main(int argc, char**argv)
     //     loggingService = nullptr;
     // }
 
-    return (EXIT_SUCCESS);
+    std::uint_fast64_t runStatus = 0;
+
+    std::cout << "argc == " << argc << '\n';
+
+    for(int ndx{}; ndx != argc; ++ndx)
+    {
+        std::cout << "argv[" << ndx << "] == " << std::quoted(argv[ndx]) << '\n';
+    }
+
+    std::cout << "argv[" << argc << "] == " << static_cast<void*>(argv[argc]) << '\n';
+
+    return (runStatus == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }

@@ -8,7 +8,9 @@ load(
 load(
     "@rules_pkg//:pkg.bzl",
     "pkg_tar",
-    "pkg_deb"
+    "pkg_deb",
+    "pkg_zip"
+
 )
 
 cc_library(
@@ -152,7 +154,9 @@ cc_binary(
 #     name = "rules-sdlc-exe",
 #     strip_prefix = "/src",
 #     package_dir = "/usr/bin",
-#     srcs = ["//src/main/cpp:pom.main"],
+#     srcs = [
+        # "//src/main/cpp:rules-sdlc.bin",
+        # ],
 #     mode = "0755",
 # )
 
@@ -160,18 +164,39 @@ cc_binary(
 #     name = "rules-sdlc-libs",
 #     strip_prefix = "/",
 #     package_dir = "/usr/share/lib/rules-sdlc/tools",
-#     srcs = ["//tools:package-srcs"],
+#     srcs = [
+#        "//src/main/cpp:rules-sdlc.std.main",
+#    ],
 #     mode = "0644",
 # )
 
 # pkg_tar(
 #     name = "rules-sdlc",
 #     extension = "tar.gz",
+#     package_name = "my_package-${target_os}-${cpu}-${opt}",
 #     deps = [
 #         ":rules-sdlc-exe",
 #         ":rules-sdlc-libs",
 #     ],
+    # srcs = [
+    #     "README.txt",
+    #     ":manpages",
+    #     ":share_doc",
+    #     "//resources/l10n:all",
+    #     "//src/client:arch",
+    #     "//src/server:arch",
+    # ],
 # )
+
+# pkg_deb(
+#     name = "deb",
+#     data = ":content",
+#     description = "My wonderful product",
+#     maintainer = "someone@somewhere.com",
+#     package = "mwp",
+#     version = "3.14",
+# )
+
 
 # load(
 #     "com.github.doevelopper.rules-sdlc//src/main/resources/starlark:Visibility.bzl",
