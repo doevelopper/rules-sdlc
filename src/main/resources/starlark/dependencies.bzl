@@ -230,6 +230,16 @@ cmake(
             "https://github.com/google/crc32c/archive/1.1.1.zip",
         ],
     },
+
+    "com_google_cpu_features": {
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:cpu_features.BUILD",
+        # "sha256": "",
+        "strip_prefix": "cpu_features-master",
+        "urls": [
+            "https://github.com/google/cpu_features/archive/master.zip",
+            "https://github.com/google/cpu_features/archive/refs/heads/master.zip",
+        ],
+    },
 }
 
 dependencies_repositories = {

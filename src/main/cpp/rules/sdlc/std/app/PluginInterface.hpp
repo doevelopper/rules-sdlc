@@ -32,22 +32,14 @@ public:
     PluginInterface ( );
     virtual ~PluginInterface ( );
 
-    virtual State
-        state ( ) const = 0;
-    virtual const std::string &
-        name ( ) const = 0;
-    virtual const rules::sdlc::stdc::semver::Version &
-        version ( ) const = 0;
-    virtual void
-        programOptions ( OptionDesc & cli, OptionDesc & cfg ) = 0;
-    virtual void
-        initialize ( const OptionMap & options ) = 0;
-    virtual void
-        handleSignalHangUp ( ) = 0;
-    virtual void
-        startup ( ) = 0;
-    virtual void
-        shutdown ( ) = 0;
+    virtual State state ( ) const = 0;
+    virtual const std::string & name ( ) const = 0;
+    virtual const rules::sdlc::stdc::semver::Version & version ( ) const = 0;
+    virtual void programOptions ( OptionDesc & cli, OptionDesc & cfg ) = 0;
+    virtual void initialize ( const OptionMap & options ) = 0;
+    virtual void handleSignalHangUp ( ) = 0;
+    virtual void startup ( ) = 0;
+    virtual void shutdown ( ) = 0;
 
 protected:
 private:

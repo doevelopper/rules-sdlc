@@ -49,14 +49,11 @@ public:
         Handle ( );
         Handle ( const Handle & ) = default;
         Handle ( Handle && )      = default;
-        Handle &
-            operator= ( const Handle & ) = delete;
-        Handle &
-            operator= ( Handle && ) = delete;
+        Handle & operator= ( const Handle & ) = delete;
+        Handle & operator= ( Handle && ) = delete;
         virtual ~Handle ( );
 
-        void
-            unsubscribe ( );
+        void unsubscribe ( );
 
     protected:
     private:
@@ -68,53 +65,44 @@ public:
 
     Channel ( const Channel & ) = default;
     Channel ( Channel && )      = default;
-    Channel &
-        operator= ( const Channel & ) = default;
-    Channel &
-        operator= ( Channel && ) = default;
+    Channel & operator= ( const Channel & ) = default;
+    Channel & operator= ( Channel && ) = default;
 
-    void
-        publish ( int priority, const Data & data );
+    void publish ( int priority, const Data & data );
     template < typename Callback >
-    Handle
-        subscribe ( Callback cb )
+    Handle subscribe ( Callback cb )
     {
         LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
         return Handle ( m_signal.connect ( cb ) );
     }
 
-    auto
-        set_dispatcher ( const DispatchPolicy & policy )
+    auto set_dispatcher ( const DispatchPolicy & policy )
             -> std::enable_if_t< std::is_copy_constructible< DispatchPolicy >::value, void >
     {
         LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
         m_signal.set_combiner ( policy );
     }
 
-    bool
-        hasSubscribers ( );
+    bool hasSubscribers ( );
 
 protected:
 private:
     Channel ( );
     virtual ~Channel ( );
-    static void
-        deleter ( void * erased_channel_ptr )
+    static void deleter ( void * erased_channel_ptr )
     {
         LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
         auto ptr = reinterpret_cast< Channel * > ( erased_channel_ptr );
         delete ( ptr );
     }
 
-    static Channel *
-        get_channel ( erased_channel_ptr & ptr )
+    static Channel * get_channel ( erased_channel_ptr & ptr )
     {
         LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
         return ( reinterpret_cast< Channel * > ( ptr.get ( ) ) );
     }
 
-    static erased_channel_ptr
-        make_unique ( )
+    static erased_channel_ptr make_unique ( )
     {
         LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
         return ( erased_channel_ptr ( new Channel ( ), &deleter ) );

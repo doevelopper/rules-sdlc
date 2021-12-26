@@ -27,19 +27,12 @@ public:
     ApplicationPrivate ( );
     virtual ~ApplicationPrivate ( );
 
-    std::string
-        version ( ) const;
-    std::string
-        fullVersionInfo ( ) const;
-    fs::path
-        dataDirectory ( ) const;
-    void
-        dataDirectory ( const fs::path dir = "data" ) const;
-    fs::path
-        configDirectory ( ) const;
-    void
-        configDirectory ( const fs::path & dir = "conf" );
-
+    std::string version ( ) const;
+    std::string fullVersionInfo ( ) const;
+    fs::path dataDirectory ( ) const;
+    void dataDirectory ( const fs::path dir = "data" ) const;
+    fs::path configDirectory ( ) const;
+    void configDirectory ( const fs::path & dir = "conf" );
     ApplicationPrivate ( int & argc, char ** argv );
 
 protected:
