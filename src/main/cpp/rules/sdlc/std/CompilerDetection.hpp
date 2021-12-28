@@ -267,5 +267,43 @@ inline auto qGetPtrHelper(Ptr &ptr) -> decltype(ptr.operator->()) { return ptr.o
     friend class Class##Private;
 
 
+    
+// somme shared compilers configurations
+// Stringify
+#define STRINGIFY(a) #a
+/**
+ * Configure the compiler warnings.
+ */
+#if defined(__clang__)
+    #define SDLC_BEGIN_CONFIGURE_WARNINGS \
+        _Pragma(STRINGIFY(clang diagnostic push)) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wweak-vtables")) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wc++98-compat")) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wpadded")) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wdocumentation-unknown-command")) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wglobal-constructors")) \
+        _Pragma(STRINGIFY(clang diagnostic ignored "-Wexit-time-destructors"))
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define SDLC_BEGIN_CONFIGURE_WARNINGS \
+        _Pragma(STRINGIFY(GCC diagnostic push))
+#elif defined(_MSC_VER)
+    #define SDLC_BEGIN_CONFIGURE_WARNINGS \
+        __pragma(warning(push))
+#endif
+
+/**
+ * Restore the original compiler warning configuration.
+ */
+#if defined(__clang__)
+    #define SDLC_END_CONFIGURE_WARNINGS \
+        _Pragma(STRINGIFY(clang diagnostic pop))
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define SDLC_END_CONFIGURE_WARNINGS \
+        _Pragma(STRINGIFY(GCC diagnostic pop))
+#elif defined(_MSC_VER)
+    #define SDLC_END_CONFIGURE_WARNINGS \
+        __pragma(warning(pop))
+#endif
+
 //<epilog>
 #endif

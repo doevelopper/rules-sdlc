@@ -37,6 +37,8 @@ load(
 bzl_tc_version = "4.1.0"
 BUILDFARM_EXTERNAL_COMMIT = "510e26843bbdb5b7a31e9a5b3042b814dc30d82f"
 BUILDFARM_EXTERNAL_SHA256 = "c72cbdaa89d8c559518797e7ae0f0ff4b335a44c34a5afd3959fbe5492583de2"
+rules_python_version = "37e7e68e69a524476340bc48e733ee02ed204cf5" # Latest @ 2021-12-28
+
 
 def dev_repositories():
     """Declares external repositories that project depends on.
@@ -177,6 +179,17 @@ def dev_repositories():
         strip_prefix = "bazel_rules-c76e47ebe6f0a03b9dd99e245d5a0611813c36f9",
         urls = [
             "https://github.com/drigz/bazel_rules/archive/c76e47ebe6f0a03b9dd99e245d5a0611813c36f9.tar.gz",
+        ],
+    )
+
+    _maybe(
+        http_archive,
+        name = "rules_python",
+        # sha256 = "...",
+        strip_prefix = "rules_python-{}".format(rules_python_version),
+
+        urls = [
+            "https://github.com/bazelbuild/rules_python/archive/{}.zip".format(rules_python_version),
         ],
     )
 
