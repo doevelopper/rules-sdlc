@@ -86,7 +86,7 @@ cc_test(
       # "@com_google_absl//absl/strings",
       # "@com_google_googletest//:gtest",
       # "@org_apache_apr//:apr",
-      # "@org_apache_logging_log4cxx//:log4cxx",
+      "@org_apache_logging_log4cxx//:log4cxx",
     ],
 
     args = [

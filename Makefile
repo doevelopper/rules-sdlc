@@ -189,11 +189,11 @@ main-compile: ## Build all xcept Test target rules
 
 .PHONY: compile
 compile: ## Build projects main sources
-	@bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
+	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
 
 .PHONY: test
 test: ## Build projects test sources and run unit test
-	@bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
+	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
 
 .PHONY: querybuild
 querybuild: ## List buildable targets

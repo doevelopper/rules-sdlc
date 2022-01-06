@@ -37,7 +37,7 @@ load(
 bzl_tc_version = "4.1.0"
 BUILDFARM_EXTERNAL_COMMIT = "510e26843bbdb5b7a31e9a5b3042b814dc30d82f"
 BUILDFARM_EXTERNAL_SHA256 = "c72cbdaa89d8c559518797e7ae0f0ff4b335a44c34a5afd3959fbe5492583de2"
-rules_python_version = "37e7e68e69a524476340bc48e733ee02ed204cf5" # Latest @ 2021-12-28
+rules_python_version = "e9c8a33dee46a9221d5eb69e6617e20363439e54" # Latest @ 2022-01-06
 
 
 def dev_repositories():

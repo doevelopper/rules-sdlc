@@ -209,6 +209,9 @@ jobs:
 
       -
         name: Compile the source code of the project.
+        env:
+          # Bazelisk will download bazel to here
+          XDG_CACHE_HOME: ~/.cache/bazel-repo
         run: |
           ls ${{ github.workspace }}
           make build-deps
