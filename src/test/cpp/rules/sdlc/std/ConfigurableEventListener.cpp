@@ -11,7 +11,7 @@ log4cxx::LoggerPtr ConfigurableEventListener::Builder::logger =
 
 ConfigurableEventListener::Builder::~Builder()
 {
-     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
 }
 
 ConfigurableEventListener::Builder::Builder(testing::TestEventListener* eventListener)

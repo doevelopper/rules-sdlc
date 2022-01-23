@@ -21,8 +21,8 @@ namespace rules::sdlc::stdc::test
         void OnEnvironmentsSetUpEnd(const testing::UnitTest& unit_test) override;
         void OnTestSuiteStart(const testing::TestSuite& test_suite) override;
 		void OnTestSuiteEnd(const testing::TestSuite& test_suite) override;
-        void OnTestCaseEnd(const testing::TestCase&) override;
         void OnTestCaseStart(const testing::TestCase&) override;
+        void OnTestCaseEnd(const testing::TestCase&) override;
         void OnTestProgramStart(const testing::UnitTest& unit_test) override;
         void OnTestProgramEnd(const testing::UnitTest& unit_test) override;
         void OnTestStart(const testing::TestInfo& test_info) override;

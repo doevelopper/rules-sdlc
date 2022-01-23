@@ -202,7 +202,7 @@ querybuild: ## List buildable targets
 .PHONY: queryall
 queryall: ## List all targets
 	@bazelisk query @bazel_tools//src/conditions:all
-	@bazelisk query @bazel_tools//platforms:al
+	@bazelisk query @bazel_tools//platforms:all
 	@bazelisk query @bazel_tools//tools/cpp/...
 	@bazelisk query //...
 	@bazelisk query //... --output label_kind | sort | column -t

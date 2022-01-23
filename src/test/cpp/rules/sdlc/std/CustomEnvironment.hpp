@@ -7,23 +7,23 @@
 
 namespace rules::sdlc::stdc::test
 {
-class CustomEnvironment : public ::testing::Environment
-{
-	LOG4CXX_DECLARE_STATIC_LOGGER
- public:
-    CustomEnvironment();
-    CustomEnvironment(const CustomEnvironment&) = delete;
-    CustomEnvironment(CustomEnvironment&&) = delete;
-    CustomEnvironment& operator=(const CustomEnvironment&) = delete;
-    CustomEnvironment& operator=(CustomEnvironment&&) = delete;
-    virtual ~CustomEnvironment();
+   class CustomEnvironment : public ::testing::Environment
+   {
+      LOG4CXX_DECLARE_STATIC_LOGGER
+   public:
+      CustomEnvironment();
+      CustomEnvironment(const CustomEnvironment&) = delete;
+      CustomEnvironment(CustomEnvironment&&) = delete;
+      CustomEnvironment& operator=(const CustomEnvironment&) = delete;
+      CustomEnvironment& operator=(CustomEnvironment&&) = delete;
+      virtual ~CustomEnvironment();
 
-    virtual void SetUp() override;
-    virtual void TearDown() override;
+      virtual void SetUp() override;
+      virtual void TearDown() override;
 
- protected:
- private:
-};
+   protected:
+   private:
+   };
 }
 
 #endif

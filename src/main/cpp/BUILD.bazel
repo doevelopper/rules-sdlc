@@ -53,6 +53,11 @@ cc_library(
 
     ],
 
+    defines = [
+        "LOG_LEVEL=1",
+        # "LOG4CXX_STATIC",
+    ],
+
     copts = [
         "-std=c++17",
         "-DLOG_LEVEL=1",

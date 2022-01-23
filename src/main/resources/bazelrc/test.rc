@@ -1,0 +1,7 @@
+
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/com_github_libexpat/copy_expat/expat/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr/copy_apr/apr/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr_util/copy_aprutil/aprutil/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib/
+
+# bazel-bin/external/com_google_googletest/

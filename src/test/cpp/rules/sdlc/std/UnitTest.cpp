@@ -31,7 +31,11 @@ UnitTest::UnitTest(std::string & suite, unsigned int iteration)
 UnitTest::~UnitTest()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-    delete this->m_loggerService;
+    if(m_loggerService)
+    {
+        delete this->m_loggerService;
+        m_loggerService = nullptr;
+    }
 }
 
 int UnitTest::run (int argc, char * argv[])

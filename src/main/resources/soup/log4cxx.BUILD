@@ -12,19 +12,22 @@ cmake(
     visibility = ["//visibility:public"],
 
     cache_entries = {
-    # #     "APR_INSTALL_PRIVATE_H" : "ON",
+    #     "APR_INSTALL_PRIVATE_H" : "ON",
         "CMAKE_BUILD_TYPE": "Release",
-    # #     "CMAKE_CXX_FLAGS": "-m64",  #-D_GLIBCXX_DEBUG -O0
-    # #    "BUILD_SHARED_LIBS": "OFF",
+    #     "CMAKE_CXX_FLAGS": "-m64",  #-D_GLIBCXX_DEBUG -O0
+        # "BUILD_SHARED_LIBS": "OFF",
         "BUILD_TESTING": "OFF",
-        "CMAKE_PREFIX_PATH": "$$EXT_BUILD_DEPS$$;$$EXT_BUILD_DEPS$$/apr;$$EXT_BUILD_DEPS$$/expat/;$$EXT_BUILD_DEPS$$/aprutil",
+        "CMAKE_PREFIX_PATH": "$$EXT_BUILD_DEPS$$;$$EXT_BUILD_DEPS$$/apr;$$EXT_BUILD_DEPS$$/expat/;$$EXT_BUILD_DEPS$$/aprutil",#;$$EXT_BUILD_DEPS/openssl/
         "VERSION": "0.12.1",
-        "LOG4CXX_ABI_CHECK": "OFF",
         # "LOG4CXX_WCHAR_T": "YES",
-        # "CMAKE_CXX_FLAGS=\"-Og\"",
+        # "CMAKE_CXX_FLAGS": "-Og",
         # "LOG4CXX_UNICHAR": "YES", # In static member function 'static bool log4cxx::NDC::pop(std::__cxx11::basic_string<short unsigned int>&)': has no member named 'message'   330 |    Transcoder::encode(stack.top().message, dst);
-        # "-DAPU_STATIC=YES",
-        # "-DAPR_STATIC=YES",
+        # "APU_STATIC":"YES",
+        # "APR_STATIC":"YES",
+        "LOG4CXX_ABI_CHEC":"ON",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_VERBOSE_MAKEFILE": "ON",
+        # "LOG4CXX": "OK", #error "log4cxx/private/log4cxx_private.h should only be used within log4cxx implementation or tests" NOK
     },
 
     build_args = [
@@ -32,6 +35,7 @@ cmake(
         "--clean-first",
         "--",  # <- Pass remaining options to the native tool.
         "-j 1",
+        # "LOG4CXX=OK",
     ],
 
     lib_source = ":all",
