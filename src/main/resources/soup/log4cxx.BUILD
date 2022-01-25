@@ -28,6 +28,7 @@ cmake(
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_VERBOSE_MAKEFILE": "ON",
         # "LOG4CXX": "OK", #error "log4cxx/private/log4cxx_private.h should only be used within log4cxx implementation or tests" NOK
+        # "CMAKE_C_FLAGS": "-fPIC",
     },
 
     build_args = [

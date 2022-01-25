@@ -5,3 +5,11 @@
 # test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib/
 
 # bazel-bin/external/com_google_googletest/
+
+# --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
+# --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(bazelisk info bazel-bin)/external/org_apache_apr/copy_apr/apr/lib:$(bazelisk info bazel-bin)/external/org_apache_apr_util/copy_aprutil/aprutil/lib:$(bazelisk info bazel-bin)/external/com_github_libexpat/expat/lib:$(bazelisk info bazel-bin)/external/org_apache_logging_log4cxx/log4cxx/lib:$(bazelisk info bazel-bin)/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib
+
+test --host_force_python=PY3
+test --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+test --test_output=errors
+test --test_output=all

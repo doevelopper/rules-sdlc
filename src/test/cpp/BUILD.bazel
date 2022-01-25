@@ -63,6 +63,10 @@ cc_library(
         # "@org_apache_apr//:apr",
     ],
 
+    # env = [
+    #     $(location liblog4cxx) ,
+    # ],
+
     visibility = ["//visibility:public"],
 )
 

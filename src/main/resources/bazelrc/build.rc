@@ -1,3 +1,21 @@
+
+####################################################################################################################
+###############################                Build Configurations                  ###############################
+####################################################################################################################
+
+# # Do not show warnings from external dependencies.
+# build --output_filter="^//"
+
+# build --action_env=PYTHON_BIN_PATH=python3
+# build --repo_env=PYTHON_BIN_PATH=python3
+# build --python_path=python3
+# build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+# build --cxxopt="-fdiagnostics-color=always"
+# build --show_timestamps --color=yes
+# build --verbose_failures
+# build --host_force_python=PY3
+
+
 # build --action_env=PYTHON_BIN_PATH=/usr/bin/python3
 # build --action_env=BAZEL_CXXOPTS=-std=c++17
 # build --cxxopt "-std=c++17"
@@ -6,3 +24,25 @@
 # build --host_copt "-Wno-sign-compare"
 # build --host_copt "-Wno-comment"
 # build -c opt
+# build --local_ram_resources=4096
+# build --local_cpu_resources=4
+# build --show_timestamps --color=yes
+# build:default --verbose_failures
+# build --test_tmpdir=/tmp/bazel_tmp --verbose_failures
+# build --host_force_python=PY2
+# This is so we understand failures better
+# build --verbose_failures
+# # build --symlink_prefix=target/ --worker_sandboxing
+# build --copt="-Werror=sign-compare"
+# build --copt="-Werror=return-type"
+# build --copt="-Werror=reorder"
+# build --copt="-Werror=unused-variable"
+# build --copt="-Werror=unused-but-set-variable"
+# build --copt="-Werror=switch"
+
+# Enable C++17
+#build --cxxopt="-std=c++17"
+# We require C++17, but bazel defaults to C++0x (pre-C++11).
+# build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+# Enable colorful output of GCC
+# build --cxxopt="-fdiagnostics-color=always"

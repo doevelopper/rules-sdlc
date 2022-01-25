@@ -53,7 +53,7 @@ endif
 SHELL = /bin/sh
 RM = /opt/bin/cmake -E remove -f
 
-export BAZEL_BIN=$(bazelisk info bazel-bin)
+export BAZEL_BIN=$(bazelisk info bazel-bin)/external
 export BAZEL_OUTPUT_BASE=$(bazelisk info output_base)
 export BAZEL_SERVER_PID=$(bazelisk info server_pid)
 export BAZEL_TESTLOGS=$(bazelisk info bazel-testlogs)
@@ -193,7 +193,7 @@ compile: ## Build projects main sources
 
 .PHONY: test
 test: ## Build projects test sources and run unit test
-	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
+	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all
 
 .PHONY: querybuild
 querybuild: ## List buildable targets
