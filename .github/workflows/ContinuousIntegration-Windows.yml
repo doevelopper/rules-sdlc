@@ -44,6 +44,21 @@ on:
 env:
   REPO_NAME: ${{ github.repository }}
   EVENT_NAME: ${{ github.event_name }}
+  BZL_CACHE: ${{ github.workspace }}/.cache/bazel
+  BZL_OUTPUT: ${{ github.workspace }}/bazel/output
+  BUILD_DIR: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+  # BUILD_TYPE: RelWithDebInfo
+  QTEST_FUNCTION_TIMEOUT: 60000
+  QT_VERSION: 6.2.3
+  CLANG_VERSION: 130
+  ELFUTILS_VERSION: 0.175
+  CMAKE_VERSION: 3.21.1
+  NINJA_VERSION: 1.10.2
+  BUILD_TYPE: Release
+  CCACHE_VERSION: 4.5
+  QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
 
 jobs:
   Lint-and-check-style:
@@ -81,7 +96,26 @@ jobs:
           ls ${{ github.workspace }}
 
   unit-test:
-    runs-on: windows-2022
+    # runs-on: windows-2022
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC",
+            os: windows-latest,
+            cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            is_msvc: true
+          }
+        - {
+          name: "Windows Latest MinGW", artifact: "Windows-MinGW",
+          os: windows-latest,
+          cc: "gcc", cxx: "g++",
+          is_msvc: false
+          }
     timeout-minutes: 20
     steps:
       -

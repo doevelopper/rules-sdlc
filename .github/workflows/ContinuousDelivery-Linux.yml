@@ -82,5 +82,5 @@ jobs:
 
       - name: Generate Extensions API Reference using typedocs
         run: |
-           yarn install
-           yarn typedocs-extensions-api
+          yarn install
+          yarn typedocs-extensions-api

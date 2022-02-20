@@ -48,7 +48,7 @@ on:
   pull_request:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
   # pull_request_target:
-  #   types: [ opened, synchronize, reopened, ready_for_review ]
+  #   types: [ opened, synchronize, reopened, ready_for_review, edited ]
 
 env:
   REPO_NAME: ${{ github.repository }}
@@ -58,6 +58,16 @@ env:
   BUILD_DIR: '${{ github.workspace }}/build'
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
   RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+  # BUILD_TYPE: RelWithDebInfo
+  QTEST_FUNCTION_TIMEOUT: 60000
+  QT_VERSION: 6.2.3
+  CLANG_VERSION: 130
+  ELFUTILS_VERSION: 0.175
+  CMAKE_VERSION: 3.21.1
+  NINJA_VERSION: 1.10.2
+  BUILD_TYPE: Release
+  CCACHE_VERSION: 4.5
+  QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
 
 jobs:
   Lint-and-check-style:
@@ -149,6 +159,7 @@ jobs:
     name: ${{ github.repository }} Unit tests
     needs: Lint-and-check-style
     runs-on: ubuntu-latest
+    # if: github.event.workflow_run.conclusion != 'skipped'
     timeout-minutes: 20
     # strategy:
     #   fail-fast: false
@@ -264,6 +275,7 @@ jobs:
     needs: unit-test
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       -
         name: Checkout
