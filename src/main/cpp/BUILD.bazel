@@ -60,13 +60,16 @@ cc_library(
         # "LOG4CXX_STATIC",
     ],
 
-    copts = [
-        "-std=c++17",
-        "-DLOG_LEVEL=1",
-#         "-D_REENTRANT",
-        "-I/usr/local/include/",
-        "-fdiagnostics-color=always",
-    ], #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
+    copts = select({
+        "@platforms//os:windows": ["/std:c++17"],
+        "//conditions:default": [
+            "-std=c++17",
+            "-DLOG_LEVEL=1",
+    #         "-D_REENTRANT",
+            "-I/usr/local/include/",
+            "-fdiagnostics-color=always",
+        ],
+    }),  #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
 
 #     features = select({
 #         #        ":windows": ["windows_export_all_symbols"],
