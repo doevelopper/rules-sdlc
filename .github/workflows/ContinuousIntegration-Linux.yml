@@ -96,27 +96,27 @@ jobs:
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Initialize build state, e.g. set properties or create directories.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Generate any source code for inclusion in compilation.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Process the source code, for example to filter any values.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Generate resources for inclusion in the package.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Bazel output cache
         id: cache-bazel
@@ -212,7 +212,7 @@ jobs:
       -
         name: Install Bazel build tool.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
           wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
           test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
           chmod +x bazelisk
@@ -224,41 +224,41 @@ jobs:
           # Bazelisk will download bazel to here
           XDG_CACHE_HOME: ~/.cache/bazel-repo
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
           make build-deps
       -
         name: Post-process the generated files from compilation,
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
 
       -
         name: Generate any test source code for inclusion in compilation.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Process the test source code, for example to filter any values.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Create resources for testing.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Copy and process the resources into the test destination directory.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Compile the test source code into the test destination directory
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Post-process the generated files from test compilation,
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
           make test
       -
         name: 'Archive ${{ github.repository }} Logs'
@@ -286,23 +286,23 @@ jobs:
       -
         name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Take the compiled code and package it in its distributable format, such as a tar.gz.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Process and deploy the package if necessary into an environment where integration tests can be run.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
         run: |
-          ls ${{ github.workspace }}
+          ls -laFS ${{ github.workspace }}
       -
         name: 'Archive ${{ github.repository }} Logs'
         uses: actions/upload-artifact@v2
