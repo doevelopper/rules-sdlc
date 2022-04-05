@@ -29,6 +29,9 @@ COM_GOOGLE_PROTOBUF_VERSION = "3.17.3"
 COM_GITHUB_OPENSSL_SHA = "b92f9d3d12043c02860e5e602e50a73ed21a69947bcc74d391f41148e9f6aa95"
 COM_GITHUB_OPENSSL_VERSION = "1_1_1k"
 
+NET_ZLIB_SHA = ""
+NET_ZLIB_VERSION = "1.2.12"
+
 dependencies_archives = {
 
     "font_roboto": {
@@ -122,12 +125,12 @@ cmake(
 )
 """,
         # "build_file": "@com_google_absl_oss_federation//:zlib.BUILD",
-        "sha256": "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
-        "strip_prefix": "zlib-1.2.11",
+        # "sha256": "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+        "strip_prefix": "zlib-{}".format(NET_ZLIB_VERSION),
         "urls": [
             # Use the same URL twice to trick bazel into re-trying if connection fails
-            "https://zlib.net/zlib-1.2.11.tar.gz",
-            "https://zlib.net/zlib-1.2.11.tar.gz",
+            "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
+            "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
         ],
     },
 
