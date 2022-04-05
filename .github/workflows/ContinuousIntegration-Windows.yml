@@ -94,7 +94,20 @@ jobs:
       - name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls ${{ github.workspace }}
-
+      # - name: Compile Lib for Windows x64
+      #   run: |
+      #     mkdir %GITHUB_WORKSPACE%\build64
+      #     cd %GITHUB_WORKSPACE%\build64
+      #     cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 ..
+      #     cmake --build . --config Release -j 2 --parallel 2
+      #   shell: cmd
+      # - name: Compile Examples for Windows x64
+      #   run: |
+      #     mkdir %GITHUB_WORKSPACE%\build64examples
+      #     cd %GITHUB_WORKSPACE%\build64examples
+      #     cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 ../examples
+      #     cmake --build . --config Release -j 2 --parallel 2
+      #   shell: cmd
   unit-test:
     # runs-on: windows-2022
     name: ${{ matrix.config.name }}

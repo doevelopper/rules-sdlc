@@ -23,7 +23,7 @@
 # SUCH DAMAGE.
 
 
-""" Workspace for all dependencies en toll used in all my bazel projects """
+""" Workspace for all dependencies en tool used in all my bazel projects """
 
 workspace(
     name = "com.github.doevelopper.rules-sdlc" # com.github.doevelopper.rules-sdlc / io_rules_sdlc
