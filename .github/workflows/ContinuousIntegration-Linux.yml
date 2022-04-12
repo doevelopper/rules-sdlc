@@ -38,6 +38,8 @@ concurrency:
 on:
   push:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+    paths-ignore:
+      - '**.md'
     # tags: [ 'v*.*.*' ]
     # tags:
     #   - "v*.*.*" # on every version tag will build a new android artifact.
@@ -47,6 +49,8 @@ on:
     # - '.github/workflows/**'
   pull_request:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+    paths-ignore:
+      - '**.md'
   # pull_request_target:
   #   types: [ opened, synchronize, reopened, ready_for_review, edited ]
   schedule:
@@ -98,6 +102,18 @@ jobs:
           submodules: 'recursive'
           fetch-depth: '0'
       -
+        name: Bazel output cache
+        id: cache-bazel
+        uses: actions/cache@v2
+        with:
+          path: "${{ github.workspace }}/.bazel-cache"
+          key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            ${{ runner.os }}-bazel-out-
+      -
         name: Validate the project is correct and all necessary information is available.
         run: |
           ls -laFS ${{ github.workspace }}
@@ -121,18 +137,6 @@ jobs:
         name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls -laFS ${{ github.workspace }}
-      -
-        name: Bazel output cache
-        id: cache-bazel
-        uses: actions/cache@v2
-        with:
-          path: "${{ github.workspace }}/.bazel-cache"
-          key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-            ${{ runner.os }}-bazel-out-
       -
         name: Configure bazel config for actions
         run: |
@@ -210,13 +214,6 @@ jobs:
           fetch-depth: 0
       #     ref: ${{ github.event.pull_request.head.sha }}
       -
-        name: Set up GCC compiler
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64
-
-      -
         name: Bazel output cache
         id: cache-bazel
         uses: actions/cache@v2
@@ -229,6 +226,13 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
             ${{ runner.os }}-bazel-out-
+      -
+        name: Set up GCC compiler
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
+
       -
         name: Configure bazel config for actions
           # echo "build --config github_actions" > user.bazelrc
@@ -249,7 +253,7 @@ jobs:
         name: Compile the source code of the project.
         env:
           # Bazelisk will download bazel to here
-          XDG_CACHE_HOME: ~/.cache/bazel-repo
+          XDG_CACHE_HOME: ~/.cache/bazel
         run: |
           ls -laFS ${{ github.workspace }}
           make build-deps

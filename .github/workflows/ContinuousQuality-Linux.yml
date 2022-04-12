@@ -65,6 +65,7 @@ jobs:
 # See: https://google.github.io/oss-fuzz/getting-started/continuous-integration/
 
   Fuzzing:
+    name: 'Fuzz Test'
     runs-on: ubuntu-latest
     if: github.repository == '${{ github.repository }}'
     strategy:
@@ -102,3 +103,31 @@ jobs:
         with:
           name: ${{ runner.os }}-${{ matrix.sanitizer }}-artifacts
           path: ./out/artifacts
+
+  sonarcloud:
+    name: ${{ github.repository }} SonarCloud static analysis
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    env:
+      CXX: g++
+      CC: gcc
+      # env: ${{ matrix.env }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
+
+  Valgrind:
+    name: ${{ github.repository }} Valgrind memcheck test
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    env:
+      CXX: g++
+      CC: gcc
+      # env: ${{ matrix.env }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
