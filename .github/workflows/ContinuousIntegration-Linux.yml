@@ -41,7 +41,7 @@ on:
     paths-ignore:
       - '**.md'
     # - '.github/workflows/**'
-    # tags: [ 'v*.*.*' ]
+    # tags: [ 'v*.*.*' ] # Workflow run on tags for vx.x.x only.
     # tags:
     #   - "v*.*.*" # on every version tag will build a new android artifact.
     # branches-ignore: [ poc/**]
@@ -57,6 +57,7 @@ on:
       - 'v*.*.*'
   schedule:
     - cron: '31 0 * * 1'
+    - cron: '0 0 * * *' # Nightly build
 
 env:
   REPO_NAME: ${{ github.repository }}
@@ -81,6 +82,9 @@ jobs:
   Lint-and-check-style:
     timeout-minutes: 10
     name: ${{ github.repository }} Coding style checking
+    strategy:
+      matrix:
+        python-version: [3.9]
     runs-on: ubuntu-latest
     # if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
 
@@ -228,12 +232,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
             ${{ runner.os }}-bazel-out-
+
       -
-        name: Set up GCC compiler
-        uses: egor-tensin/setup-gcc@v1
+        name: Install Python
+        uses: actions/setup-python@v2
         with:
-          version: latest
-          platform: x64
+          python-version: '3.10'
 
       -
         name: Configure bazel config for actions
@@ -293,7 +297,7 @@ jobs:
         name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
         run: |
           ls -laFS ${{ github.workspace }}
-          make test
+        # make test
       -
         name: 'Archive ${{ github.repository }} Logs'
         uses: actions/upload-artifact@v2

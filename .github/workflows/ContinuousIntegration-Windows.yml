@@ -117,14 +117,16 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC",
+            name: "Windows Latest MSVC",
+            artifact: "Windows-MSVC",
             os: windows-latest,
             cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
             is_msvc: true
           }
         - {
-          name: "Windows Latest MinGW", artifact: "Windows-MinGW",
+          name: "Windows Latest MinGW",
+          artifact: "Windows-MinGW",
           os: windows-latest,
           cc: "gcc", cxx: "g++",
           is_msvc: false
@@ -137,6 +139,12 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+      -
+        name: Set up GCC compiler
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
       -
         name: Compile the source code of the project.
         run: |

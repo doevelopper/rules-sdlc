@@ -223,6 +223,16 @@ class RetryOutageException(RequestTimeoutException):
         return "RetryOutageException - %s" % self.err_message
 
 
+# class Severity(Enum):
+#     """
+#     Enumeration representing severity, used in cases and alerts
+#     Possible values: LOW, MEDIUM, HIGH, CRITICAL
+#     """
+#     LOW = 1
+#     MEDIUM = 2
+#     HIGH = 3
+#     CRITICAL = 4
+
 class SdkError(object):
     def __init__(self, request_id=None, error_code=None, error_msg=None):
         self.error_msg = error_msg
