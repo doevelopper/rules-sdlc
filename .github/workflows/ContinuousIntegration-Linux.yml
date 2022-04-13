@@ -65,6 +65,13 @@ env:
   BZL_CACHE: ${{ github.workspace }}/.cache/bazel
   BZL_OUTPUT: ${{ github.workspace }}/bazel/output
   BUILD_DIR: '${{ github.workspace }}/build'
+  CCACHE_BASEDIR: ${{github.workspace}}
+  CCACHE_DIR: '${{ github.workspace }}/ccache'
+  CCACHE_COMPRESS: true
+  CCACHE_COMPRESSLEVEL: 6
+  CCACHE_MAXSIZE: 5G
+  # Indicates the CMake build directory where project files and binaries are being produced.
+  CMAKE_BUILD_DIR: ${{ github.workspace }}/builddir/
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
   RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
   # BUILD_TYPE: RelWithDebInfo
@@ -120,17 +127,22 @@ jobs:
             ${{ runner.os }}-
             ${{ runner.os }}-bazel-out-
       -
+        name: Install Python
+        uses: actions/setup-python@v3.1.2
+        with:
+          python-version: '3.10'
+      -
         name: Validate the project is correct and all necessary information is available.
         run: |
-          ls -laFS ${{ github.workspace }}
+          ls -lart ${{ github.workspace }}
       -
         name: Initialize build state, e.g. set properties or create directories.
         run: |
-          ls -laFS ${{ github.workspace }}
+          ls -lart ${{ github.workspace }}
       -
         name: Generate any source code for inclusion in compilation.
         run: |
-          ls -laFS ${{ github.workspace }}
+          ls -lart ${{ github.workspace }}
       -
         name: Process the source code, for example to filter any values.
         run: |
@@ -307,10 +319,23 @@ jobs:
           path: ${{ github.repository }}-ci-logs.tar.gz
           retention-days: 5
 
+  start-u-service:
+    name: Start self-hosted EC2 runner
+    if: >
+      github.event_name == 'schedule' && github.repository == 'doevelopper/rules-sdlc' ||
+      github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc' ||
+      github.event_name == 'pull_request' && github.event.pull_request.base.repo.full_name == 'doevelopper/rules-sdlc' && !github.event.pull_request.head.repo.fork
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Start service.
+        run: |
+          ls -laFS ${{ github.workspace }}
 
   integration-test:
     name: ${{ github.repository }} Integration Test
-    needs: unit-test
+    if: needs.start-u-service.result != 'skipped'
+    needs: [unit-test,start-u-service]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     # if: github.event.workflow_run.conclusion != 'skipped'
@@ -355,3 +380,20 @@ jobs:
       #   with:
       #     name: ${{github.repository_owner}}-linux-amd64
       #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64
+      -
+        name: Copy artifacts to NFS
+        if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
+        continue-on-error: true
+        run: archery docker push conda-integration
+
+  stop-u-service:
+    name: Start self-hosted EC2 runner
+    # required to stop the runner even if the error happened in the previous job
+    if: always() && needs.start-u-service.result != 'skipped'
+    needs: [start-u-service, integration-test]
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Stop Service.
+        run: |
+          ls -laFS ${{ github.workspace }}
