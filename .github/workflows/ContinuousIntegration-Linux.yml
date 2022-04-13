@@ -162,50 +162,50 @@ jobs:
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
 
-  clang-format:
-    name: ${{ github.repository }} clang format
-    runs-on: ubuntu-latest
-    needs: check-style
-    steps:
-      -
-        name: Checkout Sources
-        uses: actions/checkout@v1
-      -
-        name: Execute linting with clang-format
-        uses: DoozyX/clang-format-lint-action@v0.12
-        with:
-          source: '.'
-          exclude: './src/main/resources ./src/test/resources'
-          extensions: 'hpp,cpp'
-          clangFormatVersion: 11
-          inplace: True
-          style: chromium
-      # -
-      #   name: 'Archive ${{ github.repository }} Logs'
-      #   uses: actions/upload-artifact@v2
-      #   if: always()
-      #   with:
-      #     name: ci-${{ github.repository }}-${{github.job}} logs
-      #     path: ${{ github.repository }}-ci-logs.tar.gz
-      #     retention-days: 5
+  # clang-format:
+  #   name: ${{ github.repository }} clang format
+  #   runs-on: ubuntu-latest
+  #   needs: check-style
+  #   steps:
+  #     -
+  #       name: Checkout Sources
+  #       uses: actions/checkout@v1
+  #     -
+  #       name: Execute linting with clang-format
+  #       uses: DoozyX/clang-format-lint-action@v0.12
+  #       with:
+  #         source: '.'
+  #         exclude: './src/main/resources ./src/test/resources'
+  #         extensions: 'hpp,cpp'
+  #         clangFormatVersion: 11
+  #         inplace: True
+  #         style: chromium
+  #     # -
+  #     #   name: 'Archive ${{ github.repository }} Logs'
+  #     #   uses: actions/upload-artifact@v2
+  #     #   if: always()
+  #     #   with:
+  #     #     name: ci-${{ github.repository }}-${{github.job}} logs
+  #     #     path: ${{ github.repository }}-ci-logs.tar.gz
+  #     #     retention-days: 5
 
-  clazy-format:
-    name: ${{ github.repository }} clazy
-    runs-on: ubuntu-latest
-    needs: check-style
-    steps:
-      -
-        name: Checkout Sources
-        uses: actions/checkout@v1
-      -
-        name: Install CppCheck
-        uses: actions/checkout@v2
-        run: |
-          ls -laFS ${{ github.workspace }}
+  # clazy-format:
+  #   name: ${{ github.repository }} clazy
+  #   runs-on: ubuntu-latest
+  #   needs: check-style
+  #   steps:
+  #     -
+  #       name: Checkout Sources
+  #       uses: actions/checkout@v1
+  #     -
+  #       name: Install CppCheck
+  #       uses: actions/checkout@v2
+  #       run: |
+  #         ls -laFS ${{ github.workspace }}
 
   unit-test:
     name: ${{ github.repository }} Unit tests
-    needs: [check-style, clang-format, clazy-format]
+    needs: check-style
     runs-on: ubuntu-latest
     # if: github.event.workflow_run.conclusion != 'skipped'
     timeout-minutes: 20
