@@ -138,8 +138,9 @@ jobs:
         # if: runner.os == 'Linux'
         with:
           path: ~/.cache/pip
-          key: test-${{ matrix.os }}-${{ matrix.python-version }}-pip
-
+          key: ${{ runner.os }}-${{ matrix.python-version }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.python-version }}-pip-
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
@@ -401,7 +402,7 @@ jobs:
         name: Copy artifacts to NFS
         if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
         continue-on-error: true
-        run: archery docker push conda-integration
+        run: ls
 
   stop-u-service:
     name: Start self-hosted EC2 runner
