@@ -57,7 +57,7 @@ on:
       - 'v*.*.*'
   schedule:
     - cron: '31 0 * * 1'
-    - cron: '0 0 * * *' # Nightly build
+    # - cron: '0 0 * * *' # Nightly build
 
 env:
   REPO_NAME: ${{ github.repository }}
@@ -130,7 +130,16 @@ jobs:
         name: Install Python
         uses: actions/setup-python@v3.1.2
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
+
+      -
+        name: pip cache
+        uses: actions/cache@v3
+        # if: runner.os == 'Linux'
+        with:
+          path: ~/.cache/pip
+          key: test-${{ matrix.os }}-${{ matrix.python-version }}-pip
+
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
@@ -161,6 +170,15 @@ jobs:
           echo "build --config github_actions" > user.bazelrc
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+
+      # -
+      #   name: Discord notification
+      #   uses: rjstone/discord-webhook-notify@v1
+      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+      #   with:
+      #     severity: error
+      #     details: Freqtrade CI failed on ${{ matrix.os }}
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
 
   # clang-format:
   #   name: ${{ github.repository }} clang format

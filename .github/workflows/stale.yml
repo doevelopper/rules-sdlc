@@ -37,14 +37,25 @@ jobs:
         stale-pr-label: 'no-pr-activity?'
 
         stale-issue-message: >
-          This issue has been automatically marked as stale because it has not had
+          👋 Hello, this issue has been automatically marked as stale because it has not had
           any activity for 180 days.
           It will be closed if no further activity occurs in 30 days.
 
           Please comment or this will be closed in 14 days.
 
           Collaborators can add an assignee to keep this open indefinitely.
-          Thanks for your contributions to rules_sdlc!
+          Thanks for your contributions to rules_sdlc 🚀 ⭐!
+
+          Access additional [Bazel Rules SDLC](https://tbd.acme/rules-sdlc) 🚀 resources:
+          - **Wiki** – https://github.com/doevelopper/rules-sdlc/wiki
+          - **Tutorials** – https://github.com/doevelopper/rules-sdlc#tutorials
+          - **Docs** – https://docs.tbd.acme
+          Access additional [rules_sdlc](https://tbd.acme) ⚡ resources:
+          - **Ultralytics HUB** – https://tbd.acme/hub
+          - **Vision API** – https://tbd.acme/rules-sdlc
+          - **About Us** – https://tbd.acme/about
+          - **Join Our Team** – https://tbd.acme/work
+          - **Contact Us** – https://tbd.acme/contact
 
         stale-pr-message: >
           This Pull Request has been automatically marked as stale because it has not had
