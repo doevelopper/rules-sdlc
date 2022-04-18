@@ -93,7 +93,26 @@ env:
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
+  lint-pull-request-title:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Lint pull request title
+        uses: matthiashermsen/lint-pull-request-title@v1.0.0
+        with:
+          allowed-pull-request-types: chore,feat,fix,Docs,Style,cosmetic,Refactor,Add,Remove,Change,test,wip
+
+  workflowslint:
+    runs-on: ubuntu-latest
+    name: ${{ github.repository }}  GitHub Actions workflow linter
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cschleiden/actions-linter@v1
+        with:
+          workflows: '[".github/workflows/*.yaml"]'
+
   check-style:
+    needs: [lint-pull-request-title,workflowslint]
     timeout-minutes: 10
     name: ${{ github.repository }} Coding style checking
     runs-on: ubuntu-latest
@@ -101,8 +120,19 @@ jobs:
       matrix:
         python-version: [3.9]
     # if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
-
+    # runs-on: >-
+    #     ${{ (
+    #     (
+    #       github.event_name == 'push' ||
+    #       github.event_name == 'schedule' ||
+    #       contains(fromJSON('[
+    #         "doevelopper",
+    #         "ahl",
+    #       ]'), github.event.pull_request.user.login)
+    #     ) && github.repository == 'doevelopper/rules-sdlc'
+    #     ) && 'self-hosted' || 'ubuntu-20.04' }}
   cpplint:
+    needs: [check-style]
     timeout-minutes: 10
     name: ${{ github.repository }} Static code checker for C++
     runs-on: ubuntu-latest
@@ -116,6 +146,7 @@ jobs:
     - run: cpplint --recursive .
 
   cpp-linter:
+    needs: [check-style]
     name: ${{ github.repository }} C/C++ Lint Action
     runs-on: ubuntu-latest
     steps:
@@ -136,6 +167,7 @@ jobs:
         # run: exit 1
 
   pythonlint:
+    needs: [check-style]
     timeout-minutes: 10
     name: ${{ github.repository }} Python Linter
     runs-on: ubuntu-latest
@@ -177,6 +209,7 @@ jobs:
           extra-pyroma-options: ""
 
   shelllint:
+    needs: [check-style]
     name: ${{ github.repository }} Shell scripts Linter
     runs-on: ubuntu-latest
     steps:
@@ -187,16 +220,8 @@ jobs:
         name: Run ShellCheck
         uses: azohra/shell-linter@latest
 
-  workflowslint:
-    runs-on: ubuntu-latest
-    name: ${{ github.repository }}  GitHub Actions workflow linter
-    steps:
-      - uses: actions/checkout@v2
-      - uses: cschleiden/actions-linter@v1
-        with:
-          workflows: '[".github/workflows/*.yaml"]'
-
   gherkinlint:
+    needs: [check-style]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -222,11 +247,78 @@ jobs:
           # Optional: Comma seperated list of additional rule directories
           # rule_dirs:
 
-  lint-pull-request-title:
+
+
+  unit-test:
+    name: ${{ github.repository }} Unit tests
+    needs: [cpplint,pythonlint]
     runs-on: ubuntu-latest
+    # if: github.event.workflow_run.conclusion != 'skipped'
+    timeout-minutes: 20
+    # strategy:
+    #   fail-fast: false
+    #   max-parallel: 1
+    #   matrix:
+    #     env:
+    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
+    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "no"   }
+    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
+    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
+    # env: ${{ matrix.env }}
+
     steps:
       -
-        name: Lint pull request title
-        uses: matthiashermsen/lint-pull-request-title@v1.0.0
+        name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
+        if: ${{ github.event_name != 'pull_request_target' }}
+        uses: actions/checkout@v2.3.4
         with:
-          allowed-pull-request-types: chore,feat,fix,Docs,Style,cosmetic,Refactor,Add,Remove,Change,test,wip
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          submodules: 'recursive'
+          fetch-depth: 0
+      #     ref: ${{ github.event.pull_request.head.sha }}
+
+      -
+        name: Bazel output cache
+        id: cache-bazel
+        uses: actions/cache@v2
+        with:
+          path: "${{ github.workspace }}/.bazel-cache"
+          # key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
+          key: ${{ runner.os }}-bazel-cache-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            ${{ runner.os }}-bazel-out-
+
+      -
+        name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      -
+        name: Configure bazel config for actions
+          # echo "build --config github_actions" > user.bazelrc
+        run: |
+          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
+          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+
+      -
+        name: Install Bazel build tool.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
+          test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
+          chmod +x bazelisk
+          mv bazelisk /usr/local/bin/bazelisk
+
+      -
+        name: Compile the source code of the project.
+        env:
+          # Bazelisk will download bazel to here
+          # make build-deps
+          XDG_CACHE_HOME: ~/.cache/bazel
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
