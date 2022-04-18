@@ -34,7 +34,7 @@ export BUILD_DIRECTORY ?= $(shell basename $(shell git rev-parse --show-toplevel
 export PRJNAME := $(shell basename $(shell git rev-parse --show-toplevel))
 export BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 export HASH := $(shell git rev-parse HEAD)
-
+export ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 ifeq ($(BRANCH),master)
     RELEASE_LEVEL := "CANDIDATE"

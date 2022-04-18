@@ -23,8 +23,14 @@
 *** See the bottom of this document for the declaration of the reference variables
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
+https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resources/images/sdlc.png
+-->
+<br/>
+<a href="https://tbd.io" target="blank_">
+    <img height="100" alt="HTTPie" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png" />
+</a>
+<br/>
 
 ```txt
                          ,,                                     ,,    ,,
@@ -36,7 +42,6 @@
   MM   `Mb.  MM    MM    MM YM.    , L.   I8     L.   I8 `Mb    MM    MM YM.    ,
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
-
 <h3 align="center">
 
 [![Download][download-shield]][download-url]
@@ -328,8 +333,8 @@ Licensed under [Apache License, Version 2.0](LICENSE).
 [Mac OS X host Cross compiler Cortex-M/R ]: https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.07/gcc-arm-none-eabi-10.3-2021.07-mac-10.14.6.tar.bz2
 
 [Linux-hosted LLVM ]: https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
-[ARM Linux-hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
-[Win64 hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe
+[ARM Linux-hosted LLVM ]: https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
+[Win64 hosted LLVM ]: https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe
 
 [download-shield]: https://img.shields.io/github/downloads/doevelopper/rules-sdlc/total?style=for-the-badge&labelColor=4c566a&color=5e81ac&logo=github&logoColor=white
 [download-url]: https://github.com/doevelopper/rules-sdlc/releases/latest
@@ -342,5 +347,5 @@ Licensed under [Apache License, Version 2.0](LICENSE).
 [linkedin-shield]: https://img.shields.io/badge/linkedin-blue?style=for-the-badge&logo=linkedin
 [linkedin-url]: https://www.linkedin.com/in/adrienhl
 [mail-shield]: https://img.shields.io/badge/Gmail-white?style=for-the-badge&logo=gmail
-[mail-url]: mailto:phamngocvinh@live.com
+[mail-url]: mailto:rolland.doe@gmail.com
 [product-screenshot]: images/sdlc.jpg

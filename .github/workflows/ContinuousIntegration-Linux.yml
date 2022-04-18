@@ -40,6 +40,10 @@ on:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
     paths-ignore:
       - '**.md'
+      - 'docs/**'
+      - 'src/main/resources/**'
+      - 'src/test/resources/**'
+      - 'src/site/**'
     # - '.github/workflows/**'
     # tags: [ 'v*.*.*' ] # Workflow run on tags for vx.x.x only.
     # tags:
@@ -51,6 +55,10 @@ on:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
     paths-ignore:
       - '**.md'
+      - 'docs/**'
+      - 'src/main/resources/**'
+      - 'src/test/resources/**'
+      - 'src/site/**'
   # pull_request_target:
   #   types: [ opened, synchronize, reopened, ready_for_review, edited ]
     tags-ignore:
@@ -60,30 +68,29 @@ on:
     # - cron: '0 0 * * *' # Nightly build
 
 env:
-  REPO_NAME: ${{ github.repository }}
-  EVENT_NAME: ${{ github.event_name }}
   BZL_CACHE: ${{ github.workspace }}/.cache/bazel
   BZL_OUTPUT: ${{ github.workspace }}/bazel/output
   BUILD_DIR: '${{ github.workspace }}/build'
+  BUILD_TYPE: Release
   CCACHE_BASEDIR: ${{github.workspace}}
   CCACHE_DIR: '${{ github.workspace }}/ccache'
   CCACHE_COMPRESS: true
   CCACHE_COMPRESSLEVEL: 6
   CCACHE_MAXSIZE: 5G
-  # Indicates the CMake build directory where project files and binaries are being produced.
-  CMAKE_BUILD_DIR: ${{ github.workspace }}/builddir/
-  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
-  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
-  # BUILD_TYPE: RelWithDebInfo
-  QTEST_FUNCTION_TIMEOUT: 60000
-  QT_VERSION: 6.2.3
+  CCACHE_VERSION: 4.5
   CLANG_VERSION: 130
-  ELFUTILS_VERSION: 0.175
+  CMAKE_BUILD_DIR: ${{ github.workspace }}/builddir/
   CMAKE_VERSION: 3.21.1
   NINJA_VERSION: 1.10.2
-  BUILD_TYPE: Release
-  CCACHE_VERSION: 4.5
+  ELFUTILS_VERSION: 0.175
+  EVENT_NAME: ${{ github.event_name }}
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  REPO_NAME: ${{ github.repository }}
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+  QT_VERSION: 6.2.3
+  QTEST_FUNCTION_TIMEOUT: 60000
   QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
+  TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
   check-style:
@@ -131,7 +138,6 @@ jobs:
         uses: actions/setup-python@v3.1.2
         with:
           python-version: ${{ matrix.python-version }}
-
       -
         name: pip cache
         uses: actions/cache@v3
@@ -141,6 +147,16 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.python-version }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.python-version }}-pip-
+      -
+        name: Upgrade pip
+        run: |
+          set -x -e
+          python -m pip install --upgrade wheel setuptools twine tox
+          python --version
+          df -h
+      -
+        name: Install pipenv
+        run: pipenv install --dev --skip-lock --python ${{ matrix.python }}
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
