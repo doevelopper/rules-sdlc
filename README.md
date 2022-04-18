@@ -27,9 +27,10 @@
 https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resources/images/sdlc.png
 -->
 <br/>
-<a href="https://tbd.io" target="blank_">
-    <img height="100" alt="HTTPie" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png" />
-</a>
+    <style> .center { display: block; margin-left: auto; margin-right: auto; width: 50%;} </style>
+  <a href="https://tbd.io" target="blank_">
+    <img height="100" alt="Rules SDLC" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png" class="center" />
+  </a>
 <br/>
 
 ```txt
@@ -43,7 +44,6 @@ https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resourc
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
 <h3 align="center">
-
 [![Download][download-shield]][download-url]
 [![Release][release-shield]][release-url]
 [![Issues][issues-shield]][issues-url]
@@ -213,10 +213,10 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 * [Me](http://github.com/doevelopper/)
 * [Myself](https://github.com/doevelopper)
 * [Adn I](http://github.com/doevelopper)
-- [Website](https://px.dev)
-- [Documentation](https://docs.px.dev)
-- [Community Slack](https://slackin.px.dev/)
-- [Issue Tracker](https://github.com/pixie-labs/pixie/issues)
+- [Website](https://tbd.acme)
+- [Documentation](https://docs.tbd.acme)
+- [Community Slack](https://slackin.tbd.acme/)
+- [Issue Tracker](https://github.com/doevelopper/rules-sdlc/issues)
 - [Youtube](https://www.youtube.com/channel/UCOMCDRvBVNIS0lCyOmst7eg/videos)
 
 ## TODO

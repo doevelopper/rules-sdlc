@@ -96,338 +96,137 @@ jobs:
   check-style:
     timeout-minutes: 10
     name: ${{ github.repository }} Coding style checking
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.9]
-    runs-on: ubuntu-latest
     # if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
 
-    # runs-on: >-
-    #     ${{ (
-    #     (
-    #       github.event_name == 'push' ||
-    #       github.event_name == 'schedule' ||
-    #       contains(fromJSON('[
-    #         "doevelopper",
-    #         "ahl",
-    #       ]'), github.event.pull_request.user.login)
-    #     ) && github.repository == 'doevelopper/rules-sdlc'
-    #     ) && 'self-hosted' || 'ubuntu-20.04' }}
-    steps:
-      -
-        name: "Checkout ${{ github.ref }} ( ${{ github.sha }} )"
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          submodules: 'recursive'
-          fetch-depth: '0'
-      -
-        name: Bazel output cache
-        id: cache-bazel
-        uses: actions/cache@v2
-        with:
-          path: "${{ github.workspace }}/.bazel-cache"
-          key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-            ${{ runner.os }}-bazel-out-
-      -
-        name: Install Python
-        uses: actions/setup-python@v3.1.2
-        with:
-          python-version: ${{ matrix.python-version }}
-      -
-        name: pip cache
-        uses: actions/cache@v3
-        # if: runner.os == 'Linux'
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-${{ matrix.python-version }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.python-version }}-pip-
-      -
-        name: Upgrade pip
-        run: |
-          set -x -e
-          python -m pip install --upgrade wheel setuptools twine tox
-          python --version
-          df -h
-      -
-        name: Install pipenv
-        run: pipenv install --dev --skip-lock --python ${{ matrix.python }}
-      -
-        name: Validate the project is correct and all necessary information is available.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Initialize build state, e.g. set properties or create directories.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Generate any source code for inclusion in compilation.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Process the source code, for example to filter any values.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Generate resources for inclusion in the package.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Copy and process the resources into the destination directory, ready for packaging.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Configure bazel config for actions
-        run: |
-          echo "build --config github_actions" > user.bazelrc
-          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-
-      # -
-      #   name: Discord notification
-      #   uses: rjstone/discord-webhook-notify@v1
-      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
-      #   with:
-      #     severity: error
-      #     details: Freqtrade CI failed on ${{ matrix.os }}
-      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-
-  # clang-format:
-  #   name: ${{ github.repository }} clang format
-  #   runs-on: ubuntu-latest
-  #   needs: check-style
-  #   steps:
-  #     -
-  #       name: Checkout Sources
-  #       uses: actions/checkout@v1
-  #     -
-  #       name: Execute linting with clang-format
-  #       uses: DoozyX/clang-format-lint-action@v0.12
-  #       with:
-  #         source: '.'
-  #         exclude: './src/main/resources ./src/test/resources'
-  #         extensions: 'hpp,cpp'
-  #         clangFormatVersion: 11
-  #         inplace: True
-  #         style: chromium
-  #     # -
-  #     #   name: 'Archive ${{ github.repository }} Logs'
-  #     #   uses: actions/upload-artifact@v2
-  #     #   if: always()
-  #     #   with:
-  #     #     name: ci-${{ github.repository }}-${{github.job}} logs
-  #     #     path: ${{ github.repository }}-ci-logs.tar.gz
-  #     #     retention-days: 5
-
-  # clazy-format:
-  #   name: ${{ github.repository }} clazy
-  #   runs-on: ubuntu-latest
-  #   needs: check-style
-  #   steps:
-  #     -
-  #       name: Checkout Sources
-  #       uses: actions/checkout@v1
-  #     -
-  #       name: Install CppCheck
-  #       uses: actions/checkout@v2
-  #       run: |
-  #         ls -laFS ${{ github.workspace }}
-
-  unit-test:
-    name: ${{ github.repository }} Unit tests
-    needs: check-style
+  cpplint:
+    timeout-minutes: 10
+    name: ${{ github.repository }} Static code checker for C++
     runs-on: ubuntu-latest
-    # if: github.event.workflow_run.conclusion != 'skipped'
-    timeout-minutes: 20
-    # strategy:
-    #   fail-fast: false
-    #   max-parallel: 1
-    #   matrix:
-    #     env:
-    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
-    #       - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "no"   }
-    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
-    #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
-    # env: ${{ matrix.env }}
-
+    strategy:
+      matrix:
+        python-version: [3.9]
     steps:
-      -
-        name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: actions/checkout@v2.3.4
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          submodules: 'recursive'
-          fetch-depth: 0
-      #     ref: ${{ github.event.pull_request.head.sha }}
-      -
-        name: Bazel output cache
-        id: cache-bazel
-        uses: actions/cache@v2
-        with:
-          path: "${{ github.workspace }}/.bazel-cache"
-          # key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
-          key: ${{ runner.os }}-bazel-cache-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-            ${{ runner.os }}-bazel-out-
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+    - run: pip install cpplint
+    - run: cpplint --recursive .
 
-      -
-        name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-
-      -
-        name: Configure bazel config for actions
-          # echo "build --config github_actions" > user.bazelrc
-        run: |
-          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-
-      -
-        name: Install Bazel build tool.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
-          test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
-          chmod +x bazelisk
-          mv bazelisk /usr/local/bin/bazelisk
-
-      -
-        name: Compile the source code of the project.
+  cpp-linter:
+    name: ${{ github.repository }} C/C++ Lint Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shenxianpeng/cpp-linter-action@master
+        id: linter
         env:
-          # Bazelisk will download bazel to here
-          # make build-deps
-          XDG_CACHE_HOME: ~/.cache/bazel
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
-      -
-        name: Post-process the generated files from compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-
-      -
-        name: Generate any test source code for inclusion in compilation.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Process the test source code, for example to filter any values.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Create resources for testing.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Copy and process the resources into the test destination directory.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Compile the test source code into the test destination directory
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Post-process the generated files from test compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
-        run: |
-          ls -laFS ${{ github.workspace }}
-        # make test
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ci-${{ github.repository }}-${{github.job}} logs
-          path: ${{ github.repository }}-ci-logs.tar.gz
-          retention-days: 5
+          style: file
 
-  start-u-service:
-    name: Start self-hosted EC2 runner
-    if: >
-      github.event_name == 'schedule' && github.repository == 'doevelopper/rules-sdlc' ||
-      github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc' ||
-      github.event_name == 'pull_request' && github.event.pull_request.base.repo.full_name == 'doevelopper/rules-sdlc' && !github.event.pull_request.head.repo.fork
+      -
+        name: Fail fast?!
+        if: steps.linter.outputs.checks-failed > 0
+        run: |
+          echo "Some files failed the linting checks!"
+        # for actual deployment
+        # run: exit 1
+
+  pythonlint:
+    timeout-minutes: 10
+    name: ${{ github.repository }} Python Linter
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: weibullguy/python-lint-plus@master
+        with:
+          python-root-list: "python_alelo tests"
+          use-black: false
+          use-yapf: false
+          use-isort: false
+          use-docformatter: false
+          use-pycodestyle: false
+          use-pydocstyle: false
+          use-mypy: false
+          use-pylint: false
+          use-flake8: false
+          use-mccabe: false
+          use-radon: false
+          use-rstcheck: false
+          use-check-manifest: false
+          use-pyroma: false
+          extra-black-options: ""
+          extra-yapf-options: ""
+          extra-isort-options: ""
+          extra-docformatter-options: ""
+          extra-pycodestyle-options: ""
+          extra-pydocstyle-options: ""
+          extra-mypy-options: ""
+          extra-pylint-options: ""
+          extra-flake8-options: ""
+          extra-mccabe-options: ""
+          extra-radon-options: ""
+          extra-rstcheck-options: ""
+          extra-manifest-options: ""
+          extra-pyroma-options: ""
+
+  shelllint:
+    name: ${{ github.repository }} Shell scripts Linter
     runs-on: ubuntu-latest
     steps:
       -
-        name: Start service.
-        run: |
-          ls -laFS ${{ github.workspace }}
+        name: Checkout code
+        uses: actions/checkout@v1
+      -
+        name: Run ShellCheck
+        uses: azohra/shell-linter@latest
 
-  integration-test:
-    name: ${{ github.repository }} Integration Test
-    if: needs.start-u-service.result != 'skipped'
-    needs: [unit-test,start-u-service]
+  workflowslint:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    # if: github.event.workflow_run.conclusion != 'skipped'
+    name: ${{ github.repository }}  GitHub Actions workflow linter
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: cschleiden/actions-linter@v1
         with:
-          submodules: 'recursive'
-          fetch-depth: '0'
-      -
-        name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Take the compiled code and package it in its distributable format, such as a tar.gz.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Process and deploy the package if necessary into an environment where integration tests can be run.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: ci-${{ github.repository }}-${{github.job}} logs
-          path: ${{ github.repository }}-ci-logs.tar.gz
-          retention-days: 5
-      # -
-      #   name: Upload linux-amd64 binary
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{github.repository_owner}}-linux-amd64
-      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64
-      -
-        name: Copy artifacts to NFS
-        if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
-        continue-on-error: true
-        run: ls
+          workflows: '[".github/workflows/*.yaml"]'
 
-  stop-u-service:
-    name: Start self-hosted EC2 runner
-    # required to stop the runner even if the error happened in the previous job
-    if: always() && needs.start-u-service.result != 'skipped'
-    needs: [start-u-service, integration-test]
+  gherkinlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: gherkin-lint
+        uses: nhatthm/gherkin-lint-action@v1
+        with:
+          # Optional: Version of gherkin-lint to use in the `npm install -g gherkin-lint` command. Default to `latest`.
+          # version: latest
+
+          # Optional: Comma separated list of feature files/glob patterns. Default to current working directory.
+          feature_files: features/*
+
+          # Optional: Use a custom configuration file instead of the default one.
+          # config_file: .gherkin-lintrc
+
+          # Optional: Output format. Possible values: json, stylish, xunit. Default to `stylish`.
+          # format: stylish
+
+          # Optional: Comma seperated list of files/glob patterns that the linter should ignore, overrides .gherkin-lintignore file
+          # ignore:
+
+          # Optional: Comma seperated list of additional rule directories
+          # rule_dirs:
+
+  lint-pull-request-title:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Stop Service.
-        run: |
-          ls -laFS ${{ github.workspace }}
+        name: Lint pull request title
+        uses: matthiashermsen/lint-pull-request-title@v1.0.0
+        with:
+          allowed-pull-request-types: chore,feat,fix,Docs,Style,cosmetic,Refactor,Add,Remove,Change,test,wip
