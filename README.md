@@ -27,9 +27,8 @@
 https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resources/images/sdlc.png
 -->
 <br/>
-    <style> .center { display: block; margin-left: auto; margin-right: auto; width: 50%;} </style>
   <a href="https://tbd.io" target="blank_">
-    <img height="100" alt="Rules SDLC" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png" class="center" />
+    <img height="100" alt="Rules SDLC" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png"/>
   </a>
 <br/>
 
@@ -44,10 +43,12 @@ https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resourc
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
 <h3 align="center">
+
 [![Download][download-shield]][download-url]
 [![Release][release-shield]][release-url]
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
+
 </h3>
 
 -----------------------------------------
