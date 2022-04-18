@@ -46,7 +46,7 @@ env:
   EVENT_NAME: ${{ github.event_name }}
 
 jobs:
-  Lint-and-check-style:
+  unit-test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -79,17 +79,6 @@ jobs:
       - name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls ${{ github.workspace }}
-
-  unit-test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
       -
         name: Compile the source code of the project.
         run: |
@@ -128,6 +117,7 @@ jobs:
           ls ${{ github.workspace }}
 
   integration-test:
+    needs: [unit-test]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

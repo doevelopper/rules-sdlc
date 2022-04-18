@@ -60,10 +60,34 @@ env:
   CCACHE_VERSION: 4.5
   QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
 
+
+
+
 jobs:
-  Lint-and-check-style:
-    runs-on: windows-2022
+  unit-test:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    # runs-on: windows-2022
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC",
+            artifact: "Windows-MSVC",
+            os: windows-latest,
+            cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            is_msvc: true
+          }
+        - {
+          name: "Windows Latest MinGW",
+          artifact: "Windows-MinGW",
+          os: windows-latest,
+          cc: "gcc", cxx: "g++",
+          is_msvc: false
+          }
     steps:
       -
         name: Checkout
@@ -71,6 +95,13 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+
+      -
+        name: Set up GCC compiler
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
@@ -108,43 +139,6 @@ jobs:
       #     cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 ../examples
       #     cmake --build . --config Release -j 2 --parallel 2
       #   shell: cmd
-  unit-test:
-    # runs-on: windows-2022
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - {
-            name: "Windows Latest MSVC",
-            artifact: "Windows-MSVC",
-            os: windows-latest,
-            cc: "cl", cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-            is_msvc: true
-          }
-        - {
-          name: "Windows Latest MinGW",
-          artifact: "Windows-MinGW",
-          os: windows-latest,
-          cc: "gcc", cxx: "g++",
-          is_msvc: false
-          }
-    timeout-minutes: 20
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
-      -
-        name: Set up GCC compiler
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64
       -
         name: Compile the source code of the project.
         run: |
@@ -185,6 +179,7 @@ jobs:
   integration-test:
     runs-on: windows-2022
     timeout-minutes: 20
+    needs: [unit-test]
     steps:
       -
         name: Checkout
