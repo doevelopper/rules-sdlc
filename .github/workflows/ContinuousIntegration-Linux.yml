@@ -40,10 +40,10 @@ on:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
     paths-ignore:
       - '**.md'
-      - 'docs/**'
-      - 'src/main/resources/**'
-      - 'src/test/resources/**'
-      - 'src/site/**'
+      # - 'docs/**'
+      # - 'src/main/resources/**'
+      # - 'src/test/resources/**'
+      # - 'src/site/**'
     # - '.github/workflows/**'
     # tags: [ 'v*.*.*' ] # Workflow run on tags for vx.x.x only.
     # tags:
@@ -55,10 +55,10 @@ on:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
     paths-ignore:
       - '**.md'
-      - 'docs/**'
-      - 'src/main/resources/**'
-      - 'src/test/resources/**'
-      - 'src/site/**'
+      # - 'docs/**'
+      # - 'src/main/resources/**'
+      # - 'src/test/resources/**'
+      # - 'src/site/**'
   # pull_request_target:
   #   types: [ opened, synchronize, reopened, ready_for_review, edited ]
     tags-ignore:
@@ -322,3 +322,123 @@ jobs:
         run: |
           ls -laFS ${{ github.workspace }}
           bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+      -
+        name: Post-process the generated files from compilation,
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Generate any test source code for inclusion in compilation.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Process the test source code, for example to filter any values.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Create resources for testing.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Copy and process the resources into the test destination directory.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Compile the test source code into the test destination directory
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Post-process the generated files from test compilation,
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+        run: |
+          ls -laFS ${{ github.workspace }}
+        # make test
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ci-${{ github.repository }}-${{github.job}} logs
+          path: ${{ github.repository }}-ci-logs.tar.gz
+          retention-days: 5
+
+  start-u-service:
+    name: Start self-hosted EC2 runner
+    if: >
+      github.event_name == 'schedule' && github.repository == 'doevelopper/rules-sdlc' ||
+      github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc' ||
+      github.event_name == 'pull_request' && github.event.pull_request.base.repo.full_name == 'doevelopper/rules-sdlc' && !github.event.pull_request.head.repo.fork
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Start service.
+        run: |
+          ls -laFS ${{ github.workspace }}
+
+  integration-test:
+    name: ${{ github.repository }} Integration Test
+    if: needs.start-u-service.result != 'skipped'
+    needs: [unit-test,start-u-service]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          fetch-depth: '0'
+      -
+        name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Take the compiled code and package it in its distributable format, such as a tar.gz.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Process and deploy the package if necessary into an environment where integration tests can be run.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ci-${{ github.repository }}-${{github.job}} logs
+          path: ${{ github.repository }}-ci-logs.tar.gz
+          retention-days: 5
+      # -
+      #   name: Upload linux-amd64 binary
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{github.repository_owner}}-linux-amd64
+      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64
+      -
+        name: Copy artifacts to NFS
+        if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
+        continue-on-error: true
+        run: ls
+
+  stop-u-service:
+    name: Start self-hosted EC2 runner
+    # required to stop the runner even if the error happened in the previous job
+    if: always() && needs.start-u-service.result != 'skipped'
+    needs: [start-u-service, integration-test]
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Stop Service.
+        run: |
+          ls -laFS ${{ github.workspace }}
