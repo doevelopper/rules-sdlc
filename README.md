@@ -37,6 +37,14 @@
 .JMML. .JMM. `Mbod"YML..JMML.`Mbmmd' M9mmmP'     M9mmmP'  `Wbmd"MML..JMML.YMbmd'
 ```
 
+<h3 align="center">
+
+[![Download][download-shield]][download-url]
+[![Release][release-shield]][release-url]
+[![Issues][issues-shield]][issues-url]
+[![License][license-shield]][license-url]
+</h3>
+
 -----------------------------------------
 | Distribution  Chanel | Description |
 |:--------------------:|:-------------:|
@@ -176,13 +184,20 @@ All other change types may be applied to all currently supported releases.
 Most notes in the CHANGES file include a reference to a bug report or
 issue number.
 
-### <a name="ack"/> Acknowledgments
+### :books: <a name="ack"/> Acknowledgments
+
+* [Python Software Foundation](https://www.python.org/)
+* [PyInstaller](https://pyinstaller.readthedocs.io/en/stable/)
+* [Shields.io](https://shields.io)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 <a name="limitations"></a>
 ## Known Limitations
 
 
-## Contributors
+## :rocket: Contributors
 
 see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/contributors)
 
@@ -210,9 +225,15 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 * [ ] handle dependencies
 * [ ] make it rock!
 
-## License
+## :closed_book: License
 
 Licensed under [Apache License, Version 2.0](LICENSE).
+
+<!-- CONTACT -->
+## :mailbox: Contact
+
+[![Mail][mail-shield]][mail-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 [Bazel rules sdlc]: http://github.com/doevelopper/rules-sdlc
 [Windows setup]:https://github.com/doevelopper/rules-sdlc/wiki/Vundle-for-Windows
@@ -309,3 +330,17 @@ Licensed under [Apache License, Version 2.0](LICENSE).
 [Linux-hosted LLVM ]: https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
 [ARM Linux-hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/clang+llvm-12.0.0-aarch64-linux-gnu.tar.xz
 [Win64 hosted LLVM ] : https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/LLVM-12.0.0-woa64.exe
+
+[download-shield]: https://img.shields.io/github/downloads/doevelopper/rules-sdlc/total?style=for-the-badge&labelColor=4c566a&color=5e81ac&logo=github&logoColor=white
+[download-url]: https://github.com/doevelopper/rules-sdlc/releases/latest
+[release-shield]: https://img.shields.io/github/v/release/doevelopper/rules-sdlc?style=for-the-badge&labelColor=4c566a&color=5e81ac&logo=Battle.net&logoColor=white
+[release-url]: https://github.com/doevelopper/rules-sdlc/releases/latest
+[issues-shield]: https://img.shields.io/github/issues/doevelopper/rules-sdlc?style=for-the-badge&labelColor=4c566a&color=5e81ac&logo=Todoist&logoColor=white
+[issues-url]: https://github.com/doevelopper/rules-sdlc/issues
+[license-shield]: https://img.shields.io/github/license/doevelopper/rules-sdlc?style=for-the-badge&labelColor=4c566a&color=5e81ac&logo=AdGuard&logoColor=white
+[license-url]: https://github.com/doevelopper/rules-sdlc/blob/master/LICENSE
+[linkedin-shield]: https://img.shields.io/badge/linkedin-blue?style=for-the-badge&logo=linkedin
+[linkedin-url]: https://www.linkedin.com/in/adrienhl
+[mail-shield]: https://img.shields.io/badge/Gmail-white?style=for-the-badge&logo=gmail
+[mail-url]: mailto:phamngocvinh@live.com
+[product-screenshot]: images/sdlc.jpg
