@@ -49,8 +49,8 @@ on:
     # tags:
     #   - "v*.*.*" # on every version tag will build a new android artifact.
     # branches-ignore: [ poc/**]
-    tags-ignore:
-      - 'v*.*.*'
+    # tags-ignore:
+    #   - 'v*.*.*'
   pull_request:
     branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
     paths-ignore:
@@ -61,11 +61,11 @@ on:
       # - 'src/site/**'
   # pull_request_target:
   #   types: [ opened, synchronize, reopened, ready_for_review, edited ]
-    tags-ignore:
-      - 'v*.*.*'
-  schedule:
-    - cron: '31 0 * * 1'
-    # - cron: '0 0 * * *' # Nightly build
+  #   tags-ignore:
+  #     - 'v*.*.*'
+  # schedule:
+  #   - cron: '31 0 * * 1'
+  #   # - cron: '0 0 * * *' # Nightly build
 
 env:
   BZL_CACHE: ${{ github.workspace }}/.cache/bazel
