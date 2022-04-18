@@ -131,6 +131,15 @@ jobs:
     #       ]'), github.event.pull_request.user.login)
     #     ) && github.repository == 'doevelopper/rules-sdlc'
     #     ) && 'self-hosted' || 'ubuntu-20.04' }}
+    steps:
+      -
+        name: "Checkout ${{ github.ref }} ( ${{ github.sha }} )"
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          submodules: 'recursive'
+          fetch-depth: '0'
+
   cpplint:
     needs: [check-style]
     timeout-minutes: 10
@@ -247,8 +256,6 @@ jobs:
           # Optional: Comma seperated list of additional rule directories
           # rule_dirs:
 
-
-
   unit-test:
     name: ${{ github.repository }} Unit tests
     needs: [cpplint,pythonlint]
@@ -312,7 +319,36 @@ jobs:
           test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
           chmod +x bazelisk
           mv bazelisk /usr/local/bin/bazelisk
-
+      -
+        name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls -lart ${{ github.workspace }}
+      -
+        name: Initialize build state, e.g. set properties or create directories.
+        run: |
+          ls -lart ${{ github.workspace }}
+      -
+        name: Generate any source code for inclusion in compilation.
+        run: |
+          ls -lart ${{ github.workspace }}
+      -
+        name: Process the source code, for example to filter any values.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Generate resources for inclusion in the package.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Copy and process the resources into the destination directory, ready for packaging.
+        run: |
+          ls -laFS ${{ github.workspace }}
+      -
+        name: Configure bazel config for actions
+        run: |
+          echo "build --config github_actions" > user.bazelrc
+          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
+          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
       -
         name: Compile the source code of the project.
         env:
@@ -355,6 +391,14 @@ jobs:
         run: |
           ls -laFS ${{ github.workspace }}
         # make test
+      # -
+      #   name: Discord notification
+      #   uses: rjstone/discord-webhook-notify@v1
+      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+      #   with:
+      #     severity: error
+      #     details: CI failed on ${{ matrix.os }}
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
       -
         name: 'Archive ${{ github.repository }} Logs'
         uses: actions/upload-artifact@v2
@@ -430,7 +474,14 @@ jobs:
         if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
         continue-on-error: true
         run: ls
-
+      # -
+      #   name: Discord notification
+      #   uses: rjstone/discord-webhook-notify@v1
+      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+      #   with:
+      #     severity: error
+      #     details: CI failed on ${{ matrix.os }}
+      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
   stop-u-service:
     name: Start self-hosted EC2 runner
     # required to stop the runner even if the error happened in the previous job
