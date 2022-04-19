@@ -93,7 +93,9 @@ env:
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
+  # This action can only be invoked in 'pull_request' events. Otherwise the pull request can't be inferred.
   lint-pull-request-title:
+    if: ${{ github.event.workflow_run.event == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       -
