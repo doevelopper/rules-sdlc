@@ -94,15 +94,15 @@ env:
 
 jobs:
   # This action can only be invoked in 'pull_request' events. Otherwise the pull request can't be inferred.
-  lint-pull-request-title:
-    if: ${{ github.event.workflow_run.event == 'pull_request' }}
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Lint pull request title
-        uses: matthiashermsen/lint-pull-request-title@v1.0.0
-        with:
-          allowed-pull-request-types: chore,feat,fix,Docs,Style,cosmetic,Refactor,Add,Remove,Change,test,wip
+  # lint-pull-request-title:
+  #   if: ${{ github.event.workflow_run.event == 'pull_request' }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     -
+  #       name: Lint pull request title
+  #       uses: matthiashermsen/lint-pull-request-title@v1.0.0
+  #       with:
+  #         allowed-pull-request-types: chore,feat,fix,Docs,Style,cosmetic,Refactor,Add,Remove,Change,test,wip
 
   workflowslint:
     runs-on: ubuntu-latest
@@ -114,7 +114,7 @@ jobs:
           workflows: '[".github/workflows/*.yaml"]'
 
   check-style:
-    needs: [lint-pull-request-title,workflowslint]
+    needs: [workflowslint]
     timeout-minutes: 10
     name: ${{ github.repository }} Coding style checking
     runs-on: ubuntu-latest
