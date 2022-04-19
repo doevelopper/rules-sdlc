@@ -358,6 +358,14 @@ jobs:
         run: |
           ls -laFS ${{ github.workspace }}
           bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/main/...
+          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/test/...
       -
         name: Post-process the generated files from compilation,
         run: |

@@ -18,11 +18,8 @@
 
 
 #include <iostream>
-#include <iomanip>
 #include <cstdlib>
-#include <vector>
 #include <cstdlib>
-#include <cmath>
 
 #include <rules/sdlc/std/app/Application.hpp>
 
@@ -31,9 +28,11 @@
 
 
 // namespace po = boost::program_options;
-int main(int argc, char**argv)
+int main(
+    [[maybe_unused]] int argc,
+    [[maybe_unused]] char**argv)
 {
-    // st::LoggingService * loggingService = new st::LoggingService();
+    // rules::sdlc::stdc::logging::LoggingService * loggingService = new rules::sdlc::stdc::logging::LoggingService();
 
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "CPP-101: C++ Object Oriented Programming!");
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "A Few Things All Freshmen Should Know...");

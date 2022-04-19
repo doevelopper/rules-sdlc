@@ -74,11 +74,11 @@ dependencies_archives = {
     # bazel build @com_github_libexpat//:expat
     "com_github_libexpat": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:expat.BUILD",
-        "sha256": "660e5852b26125f4508183dfa134e18eb33a892dbd8e06786ea38d92dbbb5b07",
-        "strip_prefix": "libexpat-R_2_4_1/expat",
+        "sha256": "122d8ae7a0170b9835cb45b216d856c1f83dd83792f8f0f80c31e98283efbe87",
+        "strip_prefix": "libexpat-R_2_4_8/expat",
         "urls" : [
-            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_1.tar.gz",
-            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_1.zip",
+            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_8.tar.gz",
+            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_8.zip",
         ],
     },
 
@@ -249,10 +249,11 @@ dependencies_repositories = {
     # bazel query @com_github_nelhage_rules_boost//...
     # bazel query @boost//...
     "com_github_nelhage_rules_boost": {
-        "commit": "fce83babe3f6287bccb45d2df013a309fa3194b8", #//1.77.0
+        # "commit": "fce83babe3f6287bccb45d2df013a309fa3194b8", #//1.77.0
+        "commit": "5ce04900fa8f146ddde81cf59cf13fd1b7aca867", #//1.79.0
         "remote": "https://github.com/nelhage/rules_boost",
-        # "shallow_since": "1591047380 -0700",
-        "shallow_since": "1610386445 -0800"
+        # "shallow_since": "1610386445 -0800"
+        "shallow_since": "1650036392 -0700"
     },
 
     "com_github_gflags_gflags": {

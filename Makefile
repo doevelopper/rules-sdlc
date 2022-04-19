@@ -62,42 +62,44 @@ export BAZEL_EXTERNAL=$(bazelisk info output_base)/external
 
 # bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
 # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
-  # bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk query @com_google_double_conversion//...
-  # bazelisk query @com_google_googletest//...
-  # bazelisk
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @zlib//:zlib --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk query @org_apache_apr//...
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk shutdown
-  # bazelisk clean --expunge
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
-  # bazelisk clean --expunge
-  # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
-  # bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --action_env=MYENV=myvalue
-
-    # @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_crc32c//:crc32c --client_env=CC=gcc
-    # @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CC=gcc
-    # @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_tencent_rapidjson//:rapidjson --client_env=CC=gcc
-    # @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @zlib//:zlib --client_env=CC=gcc
-    # @bazelisk query @com_google_double_conversion//...
-    # @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_double_conversion//... --client_env=CC=gcc
-    # @bazelisk query @com_google_googletest//...
-    # @bazelisk build @com_google_statechart//statechart:state_machine  --client_env=CC=gcc
-    # @bazelisk build @com_googlesource_code_re2//:re2  --client_env=CC=gcc
-    # @bazelisk query @com_google_protobuf//...
-    # @bazelisk query @com_github_openssl_openssl//...
-    # @bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
-    # @bazelisk run @com_google_protobuf//:protoc -- --help
+# bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk query @com_google_double_conversion//...
+# bazelisk query @com_google_googletest//...
+# bazelisk
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @zlib//:zlib --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk query @org_apache_apr//...
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk shutdown
+# bazelisk clean --expunge
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+# bazelisk clean --expunge
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --action_env=MYENV=myvalue
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_crc32c//:crc32c --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_tencent_rapidjson//:rapidjson --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @zlib//:zlib --client_env=CC=gcc
+# @bazelisk query @com_google_double_conversion//...
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_double_conversion//... --client_env=CC=gcc
+# @bazelisk query @com_google_googletest//...
+# @bazelisk build @com_google_statechart//statechart:state_machine  --client_env=CC=gcc
+# @bazelisk build @com_googlesource_code_re2//:re2  --client_env=CC=gcc
+# @bazelisk query @com_google_protobuf//...
+# @bazelisk query @com_github_openssl_openssl//...
+# @bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
+# @bazelisk run @com_google_protobuf//:protoc -- --help
+# bazelisk query @com.github.doevelopper.rules-sdlc//...
+# bazelisk query @com.github.doevelopper.rules-sdlc//src/main/...
+# bazelisk query @com.github.doevelopper.rules-sdlc//src/test/...
 
 HOST_PLATFORM   =
 COMPILER        =
@@ -169,7 +171,7 @@ build-deps: ##  Exemple of building external deps first into $(ARCH_OS_LINKER)
 	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
 	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
 	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
-	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/main/...
 
 ## for all targets in cfs-utils ind all dependencies (a transitive closure set), then tell me which ones depend on the gtest
 ## target in the root package of the external workspace com_google_googletest
@@ -185,11 +187,15 @@ querybin: ## List binary target
 
 .PHONY: main-compile
 main-compile: ## Build all xcept Test target rules
-	@bazelisk query '//... except kind(.*test, //...)' | xargs bazelisk build  --client_env=CC=gcc
+	@bazelisk query '//... except kind(.*test, //...)' | xargs bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
 
 .PHONY: compile
 compile: ## Build projects main sources
 	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
+
+.PHONY: test-compile
+main-compile: ## Build all Test target rules
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/test/...
 
 .PHONY: test
 test: ## Build projects test sources and run unit test
@@ -232,7 +238,7 @@ clean: ## Cleaned up the objects and intermediary files
 
 .PHONY: expunge
 expunge: ## Removes the entire working tree for this bazel instance
-	@bazelisk clean --expunge
+	@bazelisk clean --expunge --async
 
 .PHONY: all
 all: compile   ## Build test , regression test , coverage and documentations
