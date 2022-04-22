@@ -78,6 +78,8 @@ env:
   CCACHE_COMPRESSLEVEL: 6
   CCACHE_MAXSIZE: 5G
   CCACHE_VERSION: 4.5
+  CI_TASK_DIR: ${{ github.workspace }}
+  CI_ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
   CLANG_VERSION: 130
   CMAKE_BUILD_DIR: ${{ github.workspace }}/builddir/
   CMAKE_VERSION: 3.21.1
@@ -91,7 +93,6 @@ env:
   QTEST_FUNCTION_TIMEOUT: 60000
   QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
-
 jobs:
   # This action can only be invoked in 'pull_request' events. Otherwise the pull request can't be inferred.
   # lint-pull-request-title:
@@ -345,12 +346,12 @@ jobs:
         name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls -laFS ${{ github.workspace }}
-      -
-        name: Configure bazel config for actions
-        run: |
-          echo "build --config github_actions" > user.bazelrc
-          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+      # -
+      #   name: Configure bazel config for actions
+      #   run: |
+      #     echo "build --config github_actions" > user.bazelrc
+      #     echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
+      #     echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
       -
         name: Compile the source code of the project.
         env:

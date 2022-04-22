@@ -118,3 +118,10 @@ jobs:
       - uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      # - name: Build docs
+      #   shell: bash
+      #   run: |
+      #     cd docs
+      #     sphinx-build -b html -D language=${DOCS_LANGUAGE} -a -n -T -W --keep-going . _build/html
+      #   env:
+      #     DOCS_LANGUAGE: ${{ matrix.language }}

@@ -1,8 +1,14 @@
 # coding: utf-8
 
+__title__ = 'rsdlc'
+__author__ = 'ahl'
+__license__ = 'MIT'
+__copyright__ = 'Copyright 2015-present Rapptz'
+__version__ = '0.0.0-SNAPSHOOT'
+# __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+
 from __future__ import unicode_literals
 from exceptions.loggers import setup_logging_pre
-__license__ = 'Public Domain'
 
 import codecs
 import io
