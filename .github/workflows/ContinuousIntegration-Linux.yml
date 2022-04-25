@@ -154,11 +154,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
-    - run: pip install cpplint cpplint-junit
+    - run: pip install cpplint cpplint-junit  tox tox-gh-actions
         #cpplint_junit ${{ github.workspace }}/cpplint.txt ${{ github.workspace }}/cpplint-2-junit.xml
-    - run: |
-        cpplint --recursive src/main/cpp/rules/sdlc/std/app > ${{ github.workspace }}/lint.xml 2>&1
-        ls -lah
+    - run: cpplint --recursive src/main/cpp/rules/sdlc/std/app > ${{ github.workspace }}/lint.xml 2>&1
 
   cpp-linter:
     needs: [check-style]
@@ -263,6 +261,9 @@ jobs:
 
   #         # Optional: Comma seperated list of additional rule directories
   #         # rule_dirs:
+
+  # clang-tidy:
+  #   name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
 
   unit-test:
     name: ${{ github.repository }} Unit tests
