@@ -275,7 +275,20 @@ jobs:
     #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
     #       - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
     # env: ${{ matrix.env }}
-
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          -
+            name: clang-14
+            install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 14
+            cc: " /usr/lib/llvm-14/bin/clang"
+            cxx: "/usr/lib/llvm-14/bin/clang++"
+          -
+            name: gcc-11
+            install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11
+            cc: "/usr/bin/gcc-11"
+            cxx: "/usr/bin/g++-11"
     steps:
       -
         name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
@@ -288,219 +301,8 @@ jobs:
       #     ref: ${{ github.event.pull_request.head.sha }}
 
       -
-        name: Bazel output cache
-        id: cache-bazel
-        uses: actions/cache@v2
-        with:
-          path: "${{ github.workspace }}/.bazel-cache"
-          # key: ${{ runner.os }}-bazel-cache-${{ github.run_id}}-${{ hashFiles('WORKSPACE') }}
-          key: ${{ runner.os }}-bazel-cache-${{ hashFiles('WORKSPACE') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-            ${{ runner.os }}-bazel-out-
-
-      -
-        name: Install Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-
-      -
-        name: Configure bazel config for actions
-          # echo "build --config github_actions" > user.bazelrc
+        name: install ${{ matrix.compiler.name }} compiler
         run: |
-          echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-          echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-
-      -
-        name: Install Bazel build tool.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
-          test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
-          chmod +x bazelisk
-          mv bazelisk /usr/local/bin/bazelisk
-      -
-        name: Validate the project is correct and all necessary information is available.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Initialize build state, e.g. set properties or create directories.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Generate any source code for inclusion in compilation.
-        run: |
-          ls -lart ${{ github.workspace }}
-      -
-        name: Process the source code, for example to filter any values.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Generate resources for inclusion in the package.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Copy and process the resources into the destination directory, ready for packaging.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      # -
-      #   name: Configure bazel config for actions
-      #   run: |
-      #     echo "build --config github_actions" > user.bazelrc
-      #     echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
-      #     echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
-      -
-        name: Compile the source code of the project.
-        env:
-          # Bazelisk will download bazel to here
-          # make build-deps
-          XDG_CACHE_HOME: ~/.cache/bazel
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/main/...
-          bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/test/...
-      -
-        name: Post-process the generated files from compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Generate any test source code for inclusion in compilation.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Process the test source code, for example to filter any values.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Create resources for testing.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Copy and process the resources into the test destination directory.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Compile the test source code into the test destination directory
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Post-process the generated files from test compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
-        run: |
-          ls -laFS ${{ github.workspace }}
-        # make test
-      # -
-      #   name: Discord notification
-      #   uses: rjstone/discord-webhook-notify@v1
-      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
-      #   with:
-      #     severity: error
-      #     details: CI failed on ${{ matrix.os }}
-      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: ci-${{ github.repository }}-${{github.job}} logs
-          path: ${{ github.repository }}-ci-logs.tar.gz
-          retention-days: 5
-
-  start-u-service:
-    name: Start self-hosted EC2 runner
-    if: >
-      github.event_name == 'schedule' && github.repository == 'doevelopper/rules-sdlc' ||
-      github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc' ||
-      github.event_name == 'pull_request' && github.event.pull_request.base.repo.full_name == 'doevelopper/rules-sdlc' && !github.event.pull_request.head.repo.fork
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Start service.
-        run: |
-          ls -laFS ${{ github.workspace }}
-
-  integration-test:
-    name: ${{ github.repository }} Integration Test
-    if: needs.start-u-service.result != 'skipped'
-    needs: [unit-test,start-u-service]
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    # if: github.event.workflow_run.conclusion != 'skipped'
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
-      -
-        name: Perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Take the compiled code and package it in its distributable format, such as a tar.gz.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Process and deploy the package if necessary into an environment where integration tests can be run.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: Perform actions required after integration tests have been executed. This may including cleaning up the environment.
-        run: |
-          ls -laFS ${{ github.workspace }}
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: ci-${{ github.repository }}-${{github.job}} logs
-          path: ${{ github.repository }}-ci-logs.tar.gz
-          retention-days: 5
-      # -
-      #   name: Upload linux-amd64 binary
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{github.repository_owner}}-linux-amd64
-      #     path: ${{ github.workspace }}/bazel-out/k8-fastbuild/bin/${{github.repository_owner}}-linux-amd64
-      -
-        name: Copy artifacts to NFS
-        if: success() && github.event_name == 'push' && github.repository == 'doevelopper/rules-sdlc'
-        continue-on-error: true
-        run: ls
-      # -
-      #   name: Discord notification
-      #   uses: rjstone/discord-webhook-notify@v1
-      #   if: failure() && ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
-      #   with:
-      #     severity: error
-      #     details: CI failed on ${{ matrix.os }}
-      #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-  stop-u-service:
-    name: Start self-hosted EC2 runner
-    # required to stop the runner even if the error happened in the previous job
-    if: always() && needs.start-u-service.result != 'skipped'
-    needs: [start-u-service, integration-test]
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Stop Service.
-        run: |
-          ls -laFS ${{ github.workspace }}
+          ${{ matrix.compiler.install }}
+          ${{ matrix.compiler.cc }} --version
+          ${{ matrix.compiler.cxx }}  --version
