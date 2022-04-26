@@ -3,17 +3,34 @@
 ###############################                Build Configurations                  ###############################
 ####################################################################################################################
 build --color=yes
+build --cxxopt="-fdiagnostics-color=always"
+build --show_timestamps --color=yes
 # # Do not show warnings from external dependencies.
 # build --output_filter="^//"
 
-# build --action_env=PYTHON_BIN_PATH=python3
-# build --repo_env=PYTHON_BIN_PATH=python3
-# build --python_path=python3
-# build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
-# build --cxxopt="-fdiagnostics-color=always"
-# build --show_timestamps --color=yes
+
+###############################                Linux build quirks                  ###############################
+
+build:linux --action_env=PYTHON_BIN_PATH=python3
+build:linux --repo_env=PYTHON_BIN_PATH=python3
+build:linux --host_force_python=PY3
+build:linux --python_path=python3
+build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+
+# build:linux --platforms=//:linux
+# build:linux --extra_toolchains=@llvm_toolchain//:cc-toolchain-linux
+# build:linux --cxxopt=-stdlib=libstdc++
+# build:linux --linkopt=-lstdc++
+# build:linux --copt=-fPIC
+# build:linux --copt=-Wno-deprecated-declarations
+# build:linux --conlyopt=-fexceptions
+# build:linux --fission=dbg,opt
+# build:linux --features=per_object_debug_info
+# build:linux --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
+# build:linux --action_env=BAZEL_LINKOPTS=-lm
+# build --cxxopt=-Wno-macro-redefined # For boost, because it's really annoying.
+
 # build --verbose_failures
-# build --host_force_python=PY3
 
 
 # build --action_env=PYTHON_BIN_PATH=/usr/bin/python3
@@ -35,7 +52,6 @@ build --color=yes
 # build --show_timestamps --color=yes
 # build:default --verbose_failures
 # build --test_tmpdir=/tmp/bazel_tmp --verbose_failures
-# build --host_force_python=PY2
 # This is so we understand failures better
 # build --verbose_failures
 # # build --symlink_prefix=target/ --worker_sandboxing
@@ -80,23 +96,6 @@ build --color=yes
 # build:windows --define wasm=disabled
 # build:windows --define manual_stamp=manual_stamp
 # build:windows --cxxopt="/std:c++17"
-
-
-# build:linux --platforms=//:linux
-# build:linux --extra_toolchains=@llvm_toolchain//:cc-toolchain-linux
-# build:linux --cxxopt=-std=c++20
-# build:linux --cxxopt=-stdlib=libstdc++
-# build:linux --linkopt=-lstdc++
-# build:linux --copt=-fPIC
-# build:linux --copt=-Wno-deprecated-declarations
-# build:linux --cxxopt=-std=c++17
-# build:linux --conlyopt=-fexceptions
-# build:linux --fission=dbg,opt
-# build:linux --features=per_object_debug_info
-# build:linux --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
-# build:linux --action_env=BAZEL_LINKOPTS=-lm
-# build --cxxopt=-Wno-macro-redefined # For boost, because it's really annoying.
-
 
 
 # Release builds without debug symbols.

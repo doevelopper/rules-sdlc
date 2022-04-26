@@ -350,4 +350,5 @@ jobs:
         name: Validate the project is correct and all necessary information is available.
         run: |
           ls -lart ${{ github.workspace }}
-          bazelisk build --nobuild //...
+          bazelisk build  --config linux --nobuild //...
+          bazelisk build  --config linux @org_apache_apr//:apr --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }}
