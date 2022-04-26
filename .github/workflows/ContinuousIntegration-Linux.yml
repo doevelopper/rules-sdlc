@@ -314,7 +314,40 @@ jobs:
 
       -
         name: install ${{ matrix.compiler.name }} compiler
+        env:
+          CC: ${{ matrix.compiler.cc }}
+          CXX: ${{ matrix.compiler.cxx }}
         run: |
           ${{ matrix.compiler.install }}
           ${{ matrix.compiler.cc }} --version
           ${{ matrix.compiler.cxx }}  --version
+
+      -
+        name: Define bazel output cache
+        uses: actions/cache@v2
+        env:
+          cache-name: bazel-cache
+        with:
+          # path: "~/.cache/bazel"
+          path: |
+            ${{ env.BZL_CACHE }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      -
+        name: Install Bazel build tool.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
+          test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
+          chmod +x bazelisk
+          mv bazelisk /usr/local/bin/bazelisk
+
+      -
+        name: Validate the project is correct and all necessary information is available.
+        run: |
+          ls -lart ${{ github.workspace }}
+          bazelisk build --nobuild //...
