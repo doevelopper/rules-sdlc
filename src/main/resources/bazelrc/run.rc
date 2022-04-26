@@ -2,3 +2,5 @@
 # # | Python Configurations                                      |
 # # +------------------------------------------------------------+
 # # run --python_path=/usr/bin/python3
+
+run --color=yes

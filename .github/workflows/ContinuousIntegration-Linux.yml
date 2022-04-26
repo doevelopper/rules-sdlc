@@ -153,10 +153,16 @@ jobs:
         python-version: [3.9]
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
+    - uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
     - run: pip install cpplint cpplint-junit  tox tox-gh-actions
+        #cpplint --recursive src/main/cpp/rules/sdlc/std/app > ${{ github.workspace }}/lint.xml 2>&1
         #cpplint_junit ${{ github.workspace }}/cpplint.txt ${{ github.workspace }}/cpplint-2-junit.xml
-    - run: cpplint --recursive src/main/cpp/rules/sdlc/std/app > ${{ github.workspace }}/lint.xml 2>&1
+
+    # - run: |
+
 
   cpp-linter:
     needs: [check-style]

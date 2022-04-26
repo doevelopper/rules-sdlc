@@ -26,15 +26,15 @@ Usage:
 
 Arguments:
   <version>  A version must match the following regular expression:
-             \"${SEMVER_REGEX}\"
-             In English:
-             -- The version must match X.Y.Z[-PRERELEASE][+BUILD]
+            \"${SEMVER_REGEX}\"
+            In English:
+            -- The version must match X.Y.Z[-PRERELEASE][+BUILD]
                 where X, Y and Z are non-negative integers.
-             -- PRERELEASE is a dot separated sequence of non-negative integers and/or
+            -- PRERELEASE is a dot separated sequence of non-negative integers and/or
                 identifiers composed of alphanumeric characters and hyphens (with
                 at least one non-digit). Numeric identifiers must not have leading
                 zeros. A hyphen (\"-\") introduces this optional part.
-             -- BUILD is a dot separated sequence of identifiers composed of alphanumeric
+            -- BUILD is a dot separated sequence of identifiers composed of alphanumeric
                 characters and hyphens. A plus (\"+\") introduces this optional part.
 
   <other_version>  See <version> definition.
@@ -49,21 +49,21 @@ Options:
 
 Commands:
   bump     Bump by one of major, minor, patch; zeroing or removing
-           subsequent parts. \"bump prerel\" sets the PRERELEASE part and
-           removes any BUILD part. \"bump build\" sets the BUILD part.
-           \"bump release\" removes any PRERELEASE or BUILD parts.
-           The bumped version is written to stdout.
+          subsequent parts. \"bump prerel\" sets the PRERELEASE part and
+          removes any BUILD part. \"bump build\" sets the BUILD part.
+          \"bump release\" removes any PRERELEASE or BUILD parts.
+          The bumped version is written to stdout.
 
   compare  Compare <version> with <other_version>, output to stdout the
-           following values: -1 if <other_version> is newer, 0 if equal, 1 if
-           older. The BUILD part is not used in comparisons.
+          following values: -1 if <other_version> is newer, 0 if equal, 1 if
+          older. The BUILD part is not used in comparisons.
 
   diff     Compare <version> with <other_version>, output to stdout the
-           difference between two versions by the release type (MAJOR, MINOR,
-           PATCH, PRERELEASE, BUILD).
+          difference between two versions by the release type (MAJOR, MINOR,
+          PATCH, PRERELEASE, BUILD).
 
   get      Extract given part of <version>, where part is one of major, minor,
-           patch, prerel, build, or release.
+          patch, prerel, build, or release.
 
 See also:
   https://semver.org -- Semantic Versioning 2.0.0"
@@ -147,11 +147,11 @@ function compare-fields {
 
         is-null "$left" && is-null "$right" && { echo 0  ; return ; }
         is-null "$left"                     && { echo -1 ; return ; }
-                           is-null "$right" && { echo 1  ; return ; }
+                          is-null "$right" && { echo 1  ; return ; }
 
         is-nat "$left" &&  is-nat "$right" && { order=$(order-nat "$left" "$right") ; continue ; }
         is-nat "$left"                     && { echo -1 ; return ; }
-                           is-nat "$right" && { echo 1  ; return ; }
+                          is-nat "$right" && { echo 1  ; return ; }
                                               { order=$(order-string "$left" "$right") ; continue ; }
     done
 }
@@ -196,11 +196,11 @@ function command-bump {
     2) case $1 in
         major|minor|patch|release) command=$1; version=$2;;
         *) usage-help;;
-       esac ;;
+      esac ;;
     3) case $1 in
         prerel|build) command=$1; sub_version=$2 version=$3 ;;
         *) usage-help;;
-       esac ;;
+      esac ;;
     *) usage-help;;
   esac
 

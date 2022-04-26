@@ -30,11 +30,24 @@ endif
 
 MAKEFLAGS += --no-print-directory
 
+DBG_MAKEFILE ?=
+ifeq ($(DBG_MAKEFILE),1)
+    $(warning ***** starting Makefile for goal(s) "$(MAKECMDGOALS)")
+    $(warning ***** $(shell date))
+else
+    # If we're not debugging the Makefile, don't echo recipes.
+    MAKEFLAGS += -s
+endif
+
 export BUILD_DIRECTORY ?= $(shell basename $(shell git rev-parse --show-toplevel))-build
 export PRJNAME := $(shell basename $(shell git rev-parse --show-toplevel))
 export BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 export HASH := $(shell git rev-parse HEAD)
 export ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
+export HAS_GCC := $(shell which gcc > /dev/null 2> /dev/null && echo true || echo false)
+export HAS_CC := $(shell which cc > /dev/null 2> /dev/null && echo true || echo false)
+export HAS_CLANG := $(shell which clang > /dev/null 2> /dev/null && echo true || echo false)
 
 ifeq ($(BRANCH),master)
     RELEASE_LEVEL := "CANDIDATE"
@@ -48,6 +61,24 @@ else ifeq ($(BRANCH),feature)
     RELEASE_LEVEL := "CANDIDATE"
 else
     RELEASE_LEVEL := "SNAPSHOOT"
+endif
+
+ifeq ($(HAS_CC),true)
+    DEFAULT_CC = cc
+    DEFAULT_CXX = c++
+else
+    ifeq ($(HAS_GCC),true)
+        DEFAULT_CC = gcc
+        DEFAULT_CXX = g++
+    else
+        ifeq ($(HAS_CLANG),true)
+            DEFAULT_CC = clang
+            DEFAULT_CXX = clang++
+        else
+            DEFAULT_CC = no_c_compiler
+            DEFAULT_CXX = no_c++_compiler
+        endif
+    endif
 endif
 
 SHELL = /bin/sh
@@ -154,7 +185,7 @@ else
 endif
 
 ARCH_OS_LINKER := $(ARCH)-$(RTOS)-$(LKR)  #/tmp/bazel_output_root
-
+# TARGET_TRIPLE :=$(shell $DEFAULT_CC -dumpmachine)
 
 .PHONY: format-build
 format-build: ##  create standardized formatting for BUILD and .bzl and source files

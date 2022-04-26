@@ -162,10 +162,10 @@ def run_tidy(args, tmpdir, build_path, queue, lock, failed_files):
   while True:
     name = queue.get()
     invocation = get_tidy_invocation(name, args.clang_tidy_binary, args.checks,
-                                     tmpdir, build_path, args.header_filter,
-                                     args.allow_enabling_alpha_checkers,
-                                     args.extra_arg, args.extra_arg_before,
-                                     args.quiet, args.config)
+                                    tmpdir, build_path, args.header_filter,
+                                    args.allow_enabling_alpha_checkers,
+                                    args.extra_arg, args.extra_arg_before,
+                                    args.quiet, args.config)
 
     proc = subprocess.Popen(invocation, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, err = proc.communicate()
@@ -181,9 +181,9 @@ def run_tidy(args, tmpdir, build_path, queue, lock, failed_files):
 
 def main():
   parser = argparse.ArgumentParser(description='Runs clang-tidy over all files '
-                                   'in a compilation database. Requires '
-                                   'clang-tidy and clang-apply-replacements in '
-                                   '$PATH.')
+                                  'in a compilation database. Requires '
+                                  'clang-tidy and clang-apply-replacements in '
+                                  '$PATH.')
   parser.add_argument('-allow-enabling-alpha-checkers',
                       action='store_true', help='allow alpha checkers from '
                                                 'clang-analyzer.')
@@ -265,7 +265,7 @@ def main():
   # Load the database and extract all files.
   database = json.load(open(os.path.join(build_path, db_path)))
   files = [make_absolute(entry['file'], entry['directory'])
-           for entry in database]
+          for entry in database]
 
   max_task = args.j
   if max_task == 0:
@@ -287,8 +287,7 @@ def main():
     failed_files = []
     lock = threading.Lock()
     for _ in range(max_task):
-      t = threading.Thread(target=run_tidy,
-                           args=(args, tmpdir, build_path, task_queue, lock, failed_files))
+      t = threading.Thread(target=run_tidy, args=(args, tmpdir, build_path, task_queue, lock, failed_files))
       t.daemon = True
       t.start()
 

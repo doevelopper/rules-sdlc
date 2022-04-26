@@ -39,3 +39,6 @@
 # language statistics.
 *.pat linguist-generated
 *.svg linguist-generated
+Makefile linguist-generated=true
+BUILD.bazel linguist-generated=true
+CMakeLists.txt linguist-generated=true

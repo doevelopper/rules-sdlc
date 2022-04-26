@@ -1,0 +1,19 @@
+Rules SDLC version {{ data.version }} is now available.{% if data.summary %} {{ data.summary }} {% endif %}Please see the release notes for details.
+Release Notes:
+https://www.tbd.acme/{{ data.version.major }}.html{% if data.version.anchor %}#{{ data.version.anchor }}{% endif %}
+Documentation:
+http://rules-sdlc.tbd.acme/Documentation/{{ data.version.version_no_rc }}/index.html
+{% if data.previous %}
+Log of changes since {{ data.previous }}:
+https://rules-sdlc.googlesource.com/rules-sdlr/+log/v{{ data.previous }}..v{{ data.version }}?no-merges
+{% endif %}
+Download:
+https://tbd.acme/rules-sdlc-{{ data.version }}.war
+SHA1:
+{{ data.sha1 }}
+SHA256:
+{{ data.sha256 }}
+MD5:
+{{ data.md5 }}
+Maintainers' public keys:
+https://www.tbd.acme/releases/public-keys.md
