@@ -16,9 +16,9 @@
         {
             "name": "Linux kernel module",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/arch/<arch>/include"
+                "${workspaceFolder}/**"
+                // "${workspaceFolder}/include",
+                // "${workspaceFolder}/arch/<arch>/include"
             ],
             "defines": [
                 "__GNUC__",

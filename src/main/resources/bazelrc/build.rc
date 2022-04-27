@@ -5,6 +5,7 @@
 build --color=yes
 build --cxxopt="-fdiagnostics-color=always"
 build --show_timestamps --color=yes
+build --announce_rc
 # # Do not show warnings from external dependencies.
 # build --output_filter="^//"
 
