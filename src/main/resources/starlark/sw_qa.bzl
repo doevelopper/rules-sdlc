@@ -76,6 +76,14 @@ def qa_repositories():
     #     ],
     # )
 
+    # _maybe(
+    #     git_repository,
+    #     commit = "rules_license",
+    #     strip_prefix = "4a20d4e66ffefd3c0db5b72f7a7a5ea69c9d6806",
+    #     remote = ""https://github.com/bazelbuild/rules_license.git",
+    #     shallow_since = "",
+    # )
+
 def _maybe(repo_rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():

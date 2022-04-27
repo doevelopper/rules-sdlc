@@ -290,6 +290,8 @@ jobs:
     #       - { COMPILER: "clang", COMPILER_VERSION: "14", SANITIZE: "no"   }
     # env: ${{ matrix.env }}
       matrix:
+        bazel: [5.1.1]
+        bazelisk: [1.11.0]
         compiler:
           # -
           #   name: clang-14
@@ -301,6 +303,7 @@ jobs:
             install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 gcovr lcov
             cc: "/usr/bin/gcc-11"
             cxx: "/usr/bin/g++-11"
+            bazel_args: "--cxxopt=-std=c++14"
     steps:
       -
         name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
@@ -323,28 +326,34 @@ jobs:
           ${{ matrix.compiler.cxx }}  --version
 
       -
+        name: setup bazelisk ${{ matrix.bazelisk }}
+        uses: bazelbuild/setup-bazelisk@v2
+        with:
+          bazelisk-version: ${{ matrix.bazelisk }}
+
+      -
         name: Define bazel output cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: bazel-cache
         with:
-          # path: "~/.cache/bazel"
-          path: |
-            ${{ env.BZL_CACHE }}
+          path: "~/.cache/bazel"
+          # path: |
+          #   ${{ env.BZL_CACHE }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      -
-        name: Install Bazel build tool.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
-          test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
-          chmod +x bazelisk
-          mv bazelisk /usr/local/bin/bazelisk
+      # -
+      #   name: Install Bazel build tool.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
+      #     test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
+      #     chmod +x bazelisk
+      #     mv bazelisk /usr/local/bin/bazelisk
 
       -
         name: Validate the project is correct and all necessary information is available.
