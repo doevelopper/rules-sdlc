@@ -352,3 +352,51 @@ jobs:
           ls -lart ${{ github.workspace }}
           bazelisk build  --config linux --nobuild //...
           bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_apr//:apr
+
+      -
+        name: Post-process the generated files from compilation,
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_libexpat//:expat
+
+      -
+        name: Generate any test source code for inclusion in compilation.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_apr_util//:aprutil
+
+      -
+        name: Process the test source code, for example to filter any values.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @net_zlib_fossils//:zlib
+
+      -
+        name: Create resources for testing.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_xerces//:xerces
+
+      -
+        name: Copy and process the resources into the test destination directory.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_nelhage_rules_boost//...
+
+      -
+        name: Compile the test source code into the test destination directory
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_logging_log4cxx//:log4cxx
+
+      -
+        name: Post-process the generated files from test compilation,
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/...
+
+      -
+        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
