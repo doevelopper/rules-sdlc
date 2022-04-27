@@ -6,8 +6,8 @@
 # If a command fails, print out the full command line
 build --verbose_failures
 
-build --workspace_status_command="python3 %workspace%/src/main/scripts/utils/workspace_status.py"
-build --workspace_status_command="src/main/scripts/ws.sh"
+# build --workspace_status_command="python3 %workspace%/src/main/scripts/utils/workspace_status.py"
+# build --workspace_status_command="src/main/scripts/ws.sh"
 
 # Display the subcommands used to generate each target
 # Uncomment to see the effect, if you have it allways enabled it will increase quite a lot the logs
