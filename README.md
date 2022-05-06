@@ -26,11 +26,12 @@
 
 https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resources/images/sdlc.png
 -->
-<br/>
+
+<p align="center">
   <a href="https://tbd.io" target="blank_">
-    <img height="100" alt="Rules SDLC" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png"/>
+    <img width="100px" src="https://raw.githubusercontent.com/doevelopper/rules-sdlc/feature/bazel-sdlc-redesign/src/main/resources/images/sdlc.png" align="center" alt="Rules SDLCs" />
   </a>
-<br/>
+</p>
 
 ```txt
                          ,,                                     ,,    ,,
@@ -49,6 +50,10 @@ https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resourc
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
 
+</h3>
+
+<h3>
+[![Rules-SDLC GitHub stats](https://github-readme-stats.vercel.app/api?username=doevelopper&show_icons=true&theme=radical)](https://github.com/anuraghazra/github-readme-stats)
 </h3>
 
 -----------------------------------------

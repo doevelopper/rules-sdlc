@@ -86,6 +86,9 @@ env:
   NINJA_VERSION: 1.10.2
   ELFUTILS_VERSION: 0.175
   EVENT_NAME: ${{ github.event_name }}
+  GITHUB_REPOSITORY: ${{ github.repository }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_USERNAME: ${{ github.actor }}
   LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
   REPO_NAME: ${{ github.repository }}
   RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
@@ -93,6 +96,8 @@ env:
   QTEST_FUNCTION_TIMEOUT: 60000
   QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
   TRIGGERING_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+
+
 jobs:
   # This action can only be invoked in 'pull_request' events. Otherwise the pull request can't be inferred.
   # lint-pull-request-title:
@@ -162,7 +167,6 @@ jobs:
         #cpplint_junit ${{ github.workspace }}/cpplint.txt ${{ github.workspace }}/cpplint-2-junit.xml
 
     # - run: |
-
 
   cpp-linter:
     needs: [check-style]
@@ -274,7 +278,7 @@ jobs:
   unit-test:
     name: ${{ github.repository }} Unit tests
     needs: [cpp-lint,python-lint]
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.config.os }}
     # if: github.event.workflow_run.conclusion != 'skipped'
     timeout-minutes: 20
     # strategy:
@@ -292,6 +296,9 @@ jobs:
       matrix:
         bazel: [5.1.1]
         bazelisk: [1.11.0]
+        python-version: [3.10]
+        config:
+          - { name: "Ubuntu", os: ubuntu-latest, target: "linux" }
         compiler:
           # -
           #   name: clang-14
@@ -300,7 +307,7 @@ jobs:
           #   cxx: "/usr/lib/llvm-14/bin/clang++"
           -
             name: gcc-11
-            install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 gcovr lcov
+            install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 lcov xvfb
             cc: "/usr/bin/gcc-11"
             cxx: "/usr/bin/g++-11"
             bazel_args: "--cxxopt=-std=c++14"
@@ -333,6 +340,7 @@ jobs:
 
       -
         name: Define bazel output cache
+        # if: always()
         uses: actions/cache@v3
         env:
           cache-name: bazel-cache
