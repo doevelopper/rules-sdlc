@@ -52,10 +52,6 @@ https://raw.githubusercontent.com/doevelopper/rules-sdlc/master/src/main/resourc
 
 </h3>
 
-<h3>
-[![Rules-SDLC GitHub stats](https://github-readme-stats.vercel.app/api?username=doevelopper&show_icons=true&theme=radical)](https://github.com/anuraghazra/github-readme-stats)
-</h3>
-
 -----------------------------------------
 | Distribution  Chanel | Description |
 |:--------------------:|:-------------:|

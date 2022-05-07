@@ -32,14 +32,14 @@
 cc_library(
     name = "rules-sdlc.std.test",
     srcs = [
-      "rules/sdlc/std/ConfigurableEventListener.hpp",
-      "rules/sdlc/std/ConfigurableEventListener.cpp",
-      "rules/sdlc/std/GTestEventListener.hpp",
-      "rules/sdlc/std/GTestEventListener.cpp",
-      "rules/sdlc/std/CustomEnvironment.hpp",
-      "rules/sdlc/std/CustomEnvironment.cpp",
-      "rules/sdlc/std/UnitTest.hpp",
-      "rules/sdlc/std/UnitTest.cpp",
+        "rules/sdlc/std/ConfigurableEventListener.hpp",
+        "rules/sdlc/std/ConfigurableEventListener.cpp",
+        "rules/sdlc/std/GTestEventListener.hpp",
+        "rules/sdlc/std/GTestEventListener.cpp",
+        "rules/sdlc/std/CustomEnvironment.hpp",
+        "rules/sdlc/std/CustomEnvironment.cpp",
+        "rules/sdlc/std/UnitTest.hpp",
+        "rules/sdlc/std/UnitTest.cpp",
     ],
 
     copts = [
@@ -53,19 +53,24 @@ cc_library(
 
     linkopts = [
         "-L/usr/local/lib",
-        "-pthread",
-    ],
+
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": ["-pthread"],
+        "@bazel_tools//src/conditions:darwin": [],
+    }),
 
     deps = [
         "//src/main/cpp:rules-sdlc.std.main",
         "@com_google_googletest//:gtest",
+        "@org_apache_apr_util//:aprutil",
         "@org_apache_logging_log4cxx//:log4cxx",
+        # "@com_github_tencent_rapidjson//:rapidjson",
+        # "@com_google_absl//absl/strings",
+        # "@com_google_googletest//:gtest",
         # "@org_apache_apr//:apr",
+        # "@org_apache_logging_log4cxx//:log4cxx",
     ],
-
-    # env = [
-    #     $(location liblog4cxx) ,
-    # ],
 
     visibility = ["//visibility:public"],
 )
@@ -87,11 +92,6 @@ cc_test(
 
     deps = [
         "//src/test/cpp:rules-sdlc.std.test",
-        # "@com_github_tencent_rapidjson//:rapidjson",
-        # "@com_google_absl//absl/strings",
-        # "@com_google_googletest//:gtest",
-        "@org_apache_apr//:apr",
-        "@org_apache_logging_log4cxx//:log4cxx",
     ],
 
     args = [
@@ -99,6 +99,10 @@ cc_test(
         "",
         "--iterration=42"
     ],
+
+    # env = [
+    #     $(location liblog4cxx) ,
+    # ],
 
 # #     shard_count = 1,
 # #     # data = [

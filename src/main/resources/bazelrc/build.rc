@@ -3,7 +3,6 @@
 ###############################                Build Configurations                  ###############################
 ####################################################################################################################
 build --color=yes
-build --cxxopt="-fdiagnostics-color=always"
 build --show_timestamps --color=yes
 build --announce_rc
 # # Do not show warnings from external dependencies.
@@ -13,10 +12,17 @@ build --announce_rc
 ###############################                Linux build quirks                  ###############################
 
 build:linux --action_env=PYTHON_BIN_PATH=python3
+# build:linux --action_env=PYTHON_BIN_PATH=/usr/bin/python3
+# build:linux --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
+# build:linux --action_env=BAZEL_LINKOPTS=-lm
+# build:linux --action_env=CXXFLAGS=-Wno-unused-variable
+build:linux --client_env=BAZEL_CXXOPTS=-std=c++17
 build:linux --repo_env=PYTHON_BIN_PATH=python3
 build:linux --host_force_python=PY3
 build:linux --python_path=python3
-build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17
+# Enable colorful output of GCC/clang
+build:linux --cxxopt="-fdiagnostics-color=always"
 
 # build:linux --platforms=//:linux
 # build:linux --extra_toolchains=@llvm_toolchain//:cc-toolchain-linux
@@ -27,21 +33,13 @@ build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXO
 # build:linux --conlyopt=-fexceptions
 # build:linux --fission=dbg,opt
 # build:linux --features=per_object_debug_info
-# build:linux --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
-# build:linux --action_env=BAZEL_LINKOPTS=-lm
 # build --cxxopt=-Wno-macro-redefined # For boost, because it's really annoying.
 
-# build --verbose_failures
-
-
-# build --action_env=PYTHON_BIN_PATH=/usr/bin/python3
-# build --action_env=BAZEL_CXXOPTS=-std=c++17
 
 # Add compile option for all C++ files
 # build --cxxopt -Wnon-virtual-dtor
 # build --cxxopt -Wformat
 # build --cxxopt -Wformat-security
-# build --action_env=CXXFLAGS=-Wno-unused-variable
 # build --cxxopt "-std=c++17"
 # build --copt "-Wno-sign-compare"
 # build --copt "-Wno-comment"
@@ -62,14 +60,6 @@ build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXO
 # build --copt="-Werror=unused-variable"
 # build --copt="-Werror=unused-but-set-variable"
 # build --copt="-Werror=switch"
-
-# Enable C++17
-#build --cxxopt="-std=c++17"
-# We require C++17, but bazel defaults to C++0x (pre-C++11).
-# build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
-# Enable colorful output of GCC
-# build --cxxopt="-fdiagnostics-color=always"
-
 
 # build --enable_platform_specific_config
 # build --incompatible_enable_cc_toolchain_resolution

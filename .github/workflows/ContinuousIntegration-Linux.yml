@@ -32,7 +32,7 @@
 name: 🐧🐧 Continuous Integration
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }} # group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }} #${{ github.workflow }}-${{ github.ref }} # group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 on:
@@ -245,6 +245,21 @@ jobs:
         with:
           path: "src/main/scripts/ws.sh,src/main/sh,"
 
+  shellcheck:
+    name: runner / shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: shellcheck
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review # Change reporter.
+          path: "src/main/sh" # Optional.
+          pattern: "*.sh" # Optional.
+          exclude: "./.git/*" # Optional.
+          check_all_files_with_shebangs: "false" # Optional.
+
   # gherkin-lint:
   #   needs: [check-style]
   #   runs-on: ubuntu-latest
@@ -321,6 +336,19 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
       #     ref: ${{ github.event.pull_request.head.sha }}
+
+      -
+        name: install Java zulu
+        uses: actions/setup-java@v2
+        with:
+            distribution: 'zulu'
+            java-version: '8'
+
+      -
+        name: install npm
+        uses: actions/setup-node@v2
+        with:
+            node-version: '14'
 
       -
         name: install ${{ matrix.compiler.name }} compiler
@@ -418,6 +446,19 @@ jobs:
           ls -laFS ${{ github.workspace }}
           bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
 
+      -
+        name: Build applications.
+        # bazelisk run --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/cpp:rules-sdlc.bin
+        run: |
+          ls -laFS ${{ github.workspace }}
+          bazelisk query @com.github.doevelopper.rules-sdlc//src/main/...
+          bazelisk query @com.github.doevelopper.rules-sdlc//src/test/...
+      # -
+      #   name: Pack builds datat for further analysis.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     mkdir -pv build-logs
+      #     cp -v  bazel-out/k8-fastbuild/bin/external/org_apache_logging_log4cxx/log4cxx_foreign_cc/CMake.log   build-logs
       # -
       #   name: Discord notification
       #   uses: rjstone/discord-webhook-notify@v1

@@ -29,28 +29,32 @@
  */
 #define VERSION_GT( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR > MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH > PATCH ) ) ) )
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH > \
+                                                               PATCH ) ) ) )
 
 /*!
  * @brief True if the current version is equal or newer to the given.
  */
 #define VERSION_GE( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR > MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH >= PATCH ) ) ) )
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH >= \
+                                                               PATCH ) ) ) )
 
 /*!
  * @brief  True if the current version is older than the given one.
  */
 #define VERSION_LT( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR < MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH < PATCH ) ) ) )
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH < \
+                                                               PATCH ) ) ) )
 
 /*!
  * @brief  True if the current version is older or equal to the given.
  */
 #define VERSION_LE( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR < MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH <= PATCH ) ) ) )
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH <= \
+                                                               PATCH ) ) ) )
 
 /*
  * These helper macros generate a numerical and alphanumerical (see http://www.semver.org) representation of the library
@@ -74,9 +78,9 @@
 namespace rules::sdlc::stdc::semver
 {
 
-constexpr int LSL = -1;
-constexpr int ESL = 0;
-constexpr int USL = 1;
+    constexpr int LSL = -1;
+    constexpr int ESL = 0;
+    constexpr int USL = 1;
 
 /*!
  * @brief ReleaseLevel indicates the release level of this API
@@ -86,149 +90,140 @@ constexpr int USL = 1;
  * @ref https://hg.python.org/cpython/file/3.6/Include/patchlevel.h
  */
 
-enum class ReleaseLevel : std::uint8_t
-{
-    SNAPSHOOT = 0xD, /**< API is not tested, work in progress. */
-    ALPHA     = 0xA, /**< API is in alpha state, i.e. work in progress. */
-    BETA      = 0xB, /**< API is in beta state, i.e. close to be finished. */
-    CANDIDATE = 0xC, /**< API is in release candidate state. */
-    FINAL     = 0xF, /**< API is in final state, i.e. officially approved. */
-};
+    enum class ReleaseLevel : std::uint8_t
+    {
+        SNAPSHOOT = 0xD, /**< API is not tested, work in progress. */
+        ALPHA     = 0xA, /**< API is in alpha state, i.e. work in progress. */
+        BETA      = 0xB,     /**< API is in beta state, i.e. close to be finished. */
+        CANDIDATE = 0xC, /**< API is in release candidate state. */
+        FINAL     = 0xF, /**< API is in final state, i.e. officially approved. */
+    };
 
-const std::regex  rex ( "([a-z]+)\\.([a-z]+)" );
-const std::string nid = R"(0|[1-9]\d*)";
+    const std::regex rex ( "([a-z]+)\\.([a-z]+)" );
+    const std::string nid = R"(0|[1-9]\d*)";
 
-class SDLC_API_EXPORT Version
-{
+    class SDLC_API_EXPORT Version
+    {
     LOG4CXX_DECLARE_STATIC_LOGGER
 
-public:
-    Version ( ) noexcept;
-    Version ( const Version & );
-    Version ( Version && ) = delete;
-    Version &
-        operator= ( const Version & rhs )
-    {
-        // if ((*this) != rhs)
+    public:
+
+        Version ( ) noexcept;
+        Version ( const Version & );
+        Version ( Version && ) = delete;
+        Version & operator= ( const Version & rhs )
         {
-            // m_major = rhs.major();
-            // m_minor = rhs.minor();
-            // m_patch = rhs.patch();
-            //          m_releaseType = rhs.prerelease();
-            //          m_extra = rhs.build();
-            //          m_version = rhs.getRevString();
+            // if ((*this) != rhs)
+            {
+                // m_major = rhs.major();
+                // m_minor = rhs.minor();
+                // m_patch = rhs.patch();
+                //          m_releaseType = rhs.prerelease();
+                //          m_extra = rhs.build();
+                //          m_version = rhs.getRevString();
+            }
+            return *this;
         }
-        return *this;
-    }
-    Version &
+        Version &
         operator= ( Version && ) = delete;
-    virtual ~Version ( ) noexcept;
+        virtual ~Version ( ) noexcept;
 
-    explicit Version ( const std::string & version );
-    explicit Version ( const std::uint8_t major, const std::uint8_t minor, const std::uint8_t patch,
-                       ReleaseLevel m_releaseType = ReleaseLevel::SNAPSHOOT, std::uint8_t m_tweak = 0 );
+        explicit Version ( const std::string & version );
+        explicit Version ( const std::uint8_t major, const std::uint8_t minor, const std::uint8_t patch, ReleaseLevel
+                           m_releaseType = ReleaseLevel::SNAPSHOOT, std::uint8_t m_tweak = 0 );
 
-    explicit operator bool ( ) const
-    {
-        return m_major || m_minor || m_patch;     // anything but 0.0.0
-    }
-
-    std::string
+        explicit operator bool ( ) const
+        {
+            return m_major || m_minor || m_patch; // anything but 0.0.0
+        }
+        std::string
         to_string ( ) const noexcept;
 
-    bool
+        bool
         operator< ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) < 0;
-    }
-
-    bool
+        {
+            return compareVersion ( rhs ) < 0;
+        }
+        bool
         operator> ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) > 0;
-    }
-
-    bool
+        {
+            return compareVersion ( rhs )>0;
+        }
+        bool
         operator<= ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) <= 0;
-    }
-
-    bool
+        {
+            return compareVersion ( rhs ) <= 0;
+        }
+        bool
         operator>= ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) >= 0;
-    }
-
-    bool
+        {
+            return compareVersion ( rhs ) >= 0;
+        }
+        bool
         operator== ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) == 0;
-    }
-
-    bool
+        {
+            return compareVersion ( rhs ) == 0;
+        }
+        bool
         operator!= ( const Version & rhs ) const
-    {
-        return compareVersion ( rhs ) != 0;
-    }
+        {
+            return compareVersion ( rhs ) != 0;
+        }
 
-protected:
-private:
-    [[nodiscard]] auto
-        major ( ) const & -> const std::uint8_t &
-    {
-        return m_major;
-    }
+    protected:
 
-    [[nodiscard]] auto
-        major ( ) && -> std::uint8_t &&
-    {
-        return std::move ( m_major );
-    }
+    private:
 
-    [[nodiscard]] auto
-        minor ( ) const & -> const std::uint8_t &
-    {
-        return m_minor;
-    }
-
-    [[nodiscard]] auto
-        minor ( ) && -> std::uint8_t &&
-    {
-        return std::move ( m_minor );
-    }
-
-    [[nodiscard]] auto
-        patch ( ) const & -> const std::uint8_t &
-    {
-        return m_patch;
-    }
-
-    [[nodiscard]] auto
-        patch ( ) && -> std::uint8_t &&
-    {
-        return std::move ( m_patch );
-    }
-
-    constexpr int
+        [[nodiscard]] auto
+        major ( ) const &->const std::uint8_t &
+        {
+            return m_major;
+        }
+        [[nodiscard]] auto
+        major ( ) &&->std::uint8_t &&
+        {
+            return std::move ( m_major );
+        }
+        [[nodiscard]] auto
+        minor ( ) const &->const std::uint8_t &
+        {
+            return m_minor;
+        }
+        [[nodiscard]] auto
+        minor ( ) &&->std::uint8_t &&
+        {
+            return std::move ( m_minor );
+        }
+        [[nodiscard]] auto
+        patch ( ) const &->const std::uint8_t &
+        {
+            return m_patch;
+        }
+        [[nodiscard]] auto
+        patch ( ) &&->std::uint8_t &&
+        {
+            return std::move ( m_patch );
+        }
+        constexpr int
         compare ( const Version & rhs ) const noexcept;
-    int
+        int
         compareVersion ( const Version & rhs ) const noexcept;
-    auto
+        auto
         to_string ( Version const & ) -> std::string;
-    void
+        void
         buildVersion ( const std::smatch & sm );
 
-    std::uint8_t       m_major;           ///< Major version, change only on incompatible API modifications.
-    std::uint8_t       m_minor;           ///< Minor version, change on backwards-compatible API modifications.
-    std::uint8_t       m_patch;           ///< Patch version, change only on bugfixes.
-    ReleaseLevel       m_releaseType;     ///< Release identification.
-    std::uint8_t       m_tweak;           ///< CI Build Identification.
-    std::string        m_extra;           ///< GI sha1
-    std::string        m_version;         ///< Major.Minor.Patch-[RC|Alpha|...]-Build[0-9]
-    std::ostringstream oss;
-    // constexpr auto m_maxLength = std::size_t{32};
-};
+        std::uint8_t m_major;             ///< Major version, change only on incompatible API modifications.
+        std::uint8_t m_minor;             ///< Minor version, change on backwards-compatible API modifications.
+        std::uint8_t m_patch;             ///< Patch version, change only on bugfixes.
+        ReleaseLevel m_releaseType;       ///< Release identification.
+        std::uint8_t m_tweak;             ///< CI Build Identification.
+        std::string m_extra;              ///< GI sha1
+        std::string m_version;            ///< Major.Minor.Patch-[RC|Alpha|...]-Build[0-9]
+        std::ostringstream oss;
+
+// constexpr auto m_maxLength = std::size_t{32};
+    };
 
 // auto operator<(Version const& lhs, Version const& rhs) noexcept -> bool;
 // auto operator==(Version const & lhs, Version const & rhs) noexcept -> bool

@@ -46,3 +46,6 @@
 Makefile linguist-generated=true
 BUILD.bazel linguist-generated=true
 CMakeLists.txt linguist-generated=true
+
+*.bzl linguist-language=Python
+*BUILD linguist-language=Python

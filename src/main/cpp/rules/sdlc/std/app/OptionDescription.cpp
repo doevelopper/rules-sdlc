@@ -11,12 +11,12 @@ OptionDescription::OptionDescription ( boost::shared_ptr< boost::program_options
 
 OptionDescription::~OptionDescription ( ) { }
 
-std::string
-    OptionDescription::usage ( )
+void
+OptionDescription::usage ( )
 {
 }
 
 void
-    OptionDescription::checkIfPositional ( const boost::program_options::positional_options_description & positionalDesc )
+OptionDescription::checkIfPositional ( const boost::program_options::positional_options_description & positionalDesc )
 {
 }

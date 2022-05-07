@@ -23,22 +23,16 @@ namespace rules::sdlc::stdc::app
         class OptionPrinter
         {
         public:
-            void
-                addOption ( const OptionDescription & optionDesc );
-            std::string
-                usage ( );
-            std::string
-                positionalOptionDetails ( );
-            std::string
-                optionDetails ( );
+            void addOption ( const OptionDescription & optionDesc );
+            std::string usage ( );
+            std::string positionalOptionDetails ( );
+            std::string optionDetails ( );
 
         public:
-            static void
-                printStandardAppDesc ( const std::string & appName, std::ostream & out,
+            static void printStandardAppDesc ( const std::string & appName, std::ostream & out,
                                     boost::program_options::options_description              desc,
                                     boost::program_options::positional_options_description * positionalDesc = nullptr );
-            static void
-                formatRequiredOptionError ( boost::program_options::required_option & error );
+            static void formatRequiredOptionError ( boost::program_options::required_option & error );
 
         private:
             // std::vector< CustomOptionDescription > options_;
@@ -49,16 +43,12 @@ namespace rules::sdlc::stdc::app
         OptionDescription ( boost::shared_ptr< boost::program_options::option_description > option ) noexcept;
         OptionDescription ( const OptionDescription & ) noexcept = default;
         OptionDescription ( OptionDescription && ) noexcept      = default;
-        OptionDescription &
-            operator= ( const OptionDescription & ) noexcept = default;
-        OptionDescription &
-            operator= ( OptionDescription && ) noexcept = default;
+        OptionDescription & operator= ( const OptionDescription & ) noexcept = default;
+        OptionDescription & operator= ( OptionDescription && ) noexcept = default;
         virtual ~OptionDescription ( );
 
-        std::string
-            usage ( );
-        void
-            checkIfPositional ( const boost::program_options::positional_options_description & positionalDesc );
+        void usage ( );
+        void checkIfPositional ( const boost::program_options::positional_options_description & positionalDesc );
 
     protected:
     private:

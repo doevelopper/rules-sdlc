@@ -52,4 +52,4 @@ startup --host_jvm_args=-Xmx1024m
 ####################################################################################################################
 
 # Out of source build
-build --symlink_prefix=/
+# build --symlink_prefix=/

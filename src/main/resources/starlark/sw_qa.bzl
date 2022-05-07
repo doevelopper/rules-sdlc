@@ -56,13 +56,30 @@ def qa_repositories():
         urls = ["https://github.com/google/benchmark/archive/master.zip"],
     )
 
-    # _maybe(
-    #     git_repository,
-    #     commit = "com_github_silvergasp_cucumber_cpp",
-    #     strip_prefix = "c94b370c67bcd5d27a84ca0aad686cf1703935a3",
-    #     remote = "https://github.com/silvergasp/cucumber-cpp.git",
-    #     shallow_since = "1610936570 +0800",
-    # )
+    _maybe(
+        git_repository,
+        name = "rules_gherkin",
+        commit = "c1e4b8198cf2aefb86d4ab39edfa0857f54b99d6",
+        remote = "https://github.com/silvergasp/rules_gherkin.git",
+        shallow_since = "1610961605 +0800",#    shallow_since = "14 Jan 2021",
+    )
+
+    _maybe(
+        git_repository,
+        name = "bazelruby_rules_ruby",
+        shallow_since = "1605910701 -0800",
+        # branch = "master",
+        commit = "c8555221ac6889fa83556c1112b02d7ebf8e1818",
+        remote = "https://github.com/bazelruby/rules_ruby.git",
+    )
+
+    _maybe(
+        git_repository,
+        name = "com_github_silvergasp_cucumber_cpp",
+        commit = "c94b370c67bcd5d27a84ca0aad686cf1703935a3",
+        remote = "https://github.com/silvergasp/cucumber-cpp.git",
+        # shallow_since = "1610936570 +0800",
+    )
 
     # _maybe(
     #     http_archive,
