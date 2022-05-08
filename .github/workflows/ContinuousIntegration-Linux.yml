@@ -291,7 +291,7 @@ jobs:
   #   name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
 
   unit-test:
-    name: ${{ github.repository }} Unit tests
+    name: ${{ github.repository }} Unit tests using ${{ matrix.compiler.name }}
     needs: [cpp-lint,python-lint]
     runs-on: ${{ matrix.config.os }}
     # if: github.event.workflow_run.conclusion != 'skipped'
@@ -312,20 +312,21 @@ jobs:
         bazel: [5.1.1]
         bazelisk: [1.11.0]
         python-version: [3.10]
+        build-command:
         config:
           - { name: "Ubuntu", os: ubuntu-latest, target: "linux" }
         compiler:
-          # -
-          #   name: clang-14
-          #   install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 14
-          #   cc: " /usr/lib/llvm-14/bin/clang"
-          #   cxx: "/usr/lib/llvm-14/bin/clang++"
           -
-            name: gcc-11
-            install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 lcov xvfb
-            cc: "/usr/bin/gcc-11"
-            cxx: "/usr/bin/g++-11"
-            bazel_args: "--cxxopt=-std=c++14"
+            name: clang-14
+            install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 14 && sudo  apt-get install --no-install-recommends -yqq curl gnupg2 lsb-release software-properties-common
+            cc: " /usr/lib/llvm-14/bin/clang-14"
+            cxx: "/usr/lib/llvm-14/bin/clang++-14"
+          # -
+          #   name: gcc-11
+          #   install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 lcov xvfb
+          #   cc: "/usr/bin/gcc-11"
+          #   cxx: "/usr/bin/g++-11"
+          #   bazel_args: "--cxxopt=-std=c++14"
     steps:
       -
         name: Checkout ${{ github.ref }} ( ${{ github.sha }} )
@@ -376,11 +377,10 @@ jobs:
           path: "~/.cache/bazel"
           # path: |
           #   ${{ env.BZL_CACHE }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
+          key: ${{ runner.os }}-build-${{ matrix.compiler.name }}-${{ env.cache-name }}-${{ hashFiles('WORKSPACE') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-build-${{ matrix.compiler.name }}-${{ env.cache-name }}-
+            ${{ runner.os }}-build-${{ matrix.compiler.name }}
 
       # -
       #   name: Install Bazel build tool.
@@ -398,53 +398,53 @@ jobs:
           bazelisk build  --config linux --nobuild //...
           bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_apr//:apr
 
-      -
-        name: Post-process the generated files from compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_libexpat//:expat
+      # -
+      #   name: Post-process the generated files from compilation,
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_libexpat//:expat
 
-      -
-        name: Generate any test source code for inclusion in compilation.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_apr_util//:aprutil
+      # -
+      #   name: Generate any test source code for inclusion in compilation.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_apr_util//:aprutil
 
-      -
-        name: Process the test source code, for example to filter any values.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @net_zlib_fossils//:zlib
+      # -
+      #   name: Process the test source code, for example to filter any values.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @net_zlib_fossils//:zlib
 
-      -
-        name: Create resources for testing.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_xerces//:xerces
+      # -
+      #   name: Create resources for testing.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_xerces//:xerces
 
-      -
-        name: Copy and process the resources into the test destination directory.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_nelhage_rules_boost//...
+      # -
+      #   name: Copy and process the resources into the test destination directory.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com_github_nelhage_rules_boost//...
 
-      -
-        name: Compile the test source code into the test destination directory
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_logging_log4cxx//:log4cxx
+      # -
+      #   name: Compile the test source code into the test destination directory
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @org_apache_logging_log4cxx//:log4cxx
 
-      -
-        name: Post-process the generated files from test compilation,
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/...
+      # -
+      #   name: Post-process the generated files from test compilation,
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/...
 
-      -
-        name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
+      # -
+      #   name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
 
       -
         name: Build applications.
@@ -453,6 +453,7 @@ jobs:
           ls -laFS ${{ github.workspace }}
           bazelisk query @com.github.doevelopper.rules-sdlc//src/main/...
           bazelisk query @com.github.doevelopper.rules-sdlc//src/test/...
+
       # -
       #   name: Pack builds datat for further analysis.
       #   run: |
@@ -467,12 +468,12 @@ jobs:
       #     severity: error
       #     details: CI failed on ${{ matrix.os }}
       #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: ci-${{ github.repository }}-${{github.job}} builds artifacts
-          path: |
-            ${{ github.repository }}-ci-logs.tar.gz  # ${{github.workspace}}/build
-          retention-days: 5
+      # -
+      #   name: 'Archive ${{ github.repository }} Logs'
+      #   uses: actions/upload-artifact@v2
+      #   if: always()
+      #   with:
+      #     name: ci-${{ github.repository }}-${{github.job}} builds artifacts
+      #     path: |
+      #       ${{ github.repository }}-ci-logs.tar.gz  # ${{github.workspace}}/build
+      #     retention-days: 5

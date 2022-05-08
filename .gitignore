@@ -110,6 +110,11 @@ bazel_wrapper.bazelrc
 
 # CMake
 cmake-build-*/
+#Cmake generated stuff
+[Gg]enerated/
+[Bb]uild/
+[Mm][Ss][Vv][Cc]*
+[Gg][Cc][Cc]*
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
