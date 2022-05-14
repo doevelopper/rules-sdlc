@@ -312,9 +312,14 @@ jobs:
         bazel: [5.1.1]
         bazelisk: [1.11.0]
         python-version: [3.10]
-        build-command:
         config:
           - { name: "Ubuntu", os: ubuntu-latest, target: "linux" }
+        BeyondSanitizers:
+          - { name: "ASan", os: ubuntu-latest, target: "linux" }
+          - { name: "TSan", os: ubuntu-latest, target: "linux" }
+          - { name: "MSan", os: ubuntu-latest, target: "linux" }
+          - { name: "UBSan", os: ubuntu-latest, target: "linux" }
+          - { name: "fuzzing", os: ubuntu-latest, target: "linux" }
         compiler:
           -
             name: clang-14
@@ -471,7 +476,7 @@ jobs:
       # -
       #   name: 'Archive ${{ github.repository }} Logs'
       #   uses: actions/upload-artifact@v2
-      #   if: always()
+      #   if: always()  # failure() && steps.build.outcome == 'success'
       #   with:
       #     name: ci-${{ github.repository }}-${{github.job}} builds artifacts
       #     path: |
