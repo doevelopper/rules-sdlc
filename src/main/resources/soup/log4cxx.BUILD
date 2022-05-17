@@ -18,7 +18,7 @@ cmake(
         # "APR_STATIC":"YES",
         # "BUILD_SHARED_LIBS": "OFF",  #error "log4cxx/private/log4cxx_private.h should only be used within log4cxx implementation or tests" NOK
         "CMAKE_BUILD_TYPE": "Release",
-        "PREFER_BOOST": "ON",
+        "PREFER_BOOST": "OFF",
         "BUILD_TESTING": "OFF",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "CMAKE_VERBOSE_MAKEFILE": "ON",
@@ -72,6 +72,7 @@ cmake(
         "-DLOG4CXX_ABI_CHEC=OFF",
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_VERBOSE_MAKEFILE=ON",
+        "-DCMAKE_CXX_STANDARD=17",
     #         "-DCMAKE_PREFIX_PATH=$$EXT_BUILD_DEPS$$;\"$$EXT_BUILD_DEPS$$/apr\";\"$$EXT_BUILD_DEPS$$/com_github_libexpat/expat\";\"$$EXT_BUILD_DEPS$$/com_github_openssl/openssl\"",
     #         # "-DCMAKE_PREFIX_PATH=$$EXT_BUILD_DEPS$$;$$EXT_BUILD_DEPS$$/apr;$$EXT_BUILD_DEPS$$/expat/;$$EXT_BUILD_DEPS$$/aprutil",
     #         "-DBUILD_SHARED_LIBS=off",
