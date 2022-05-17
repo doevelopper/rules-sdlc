@@ -2,9 +2,8 @@
 # Created by https://www.gitignore.io/api/qt,ada,vim,c++,gcov,cmake,emacs,maven,bazel,gradle,python,opencv,pycharm,vagrant,valgrind,clion+all,kdevelop4,qtcreator,pycharm+all,visualstudio,visualstudiocode,openframeworks+visualstudio
 # Edit at https://www.gitignore.io/?templates=qt,ada,vim,c++,gcov,cmake,emacs,maven,bazel,gradle,python,opencv,pycharm,vagrant,valgrind,clion+all,kdevelop4,qtcreator,pycharm+all,visualstudio,visualstudiocode,openframeworks+visualstudio
 
-### Ada ###
-# Object file
-*.o
+*~
+*.[oad]
 
 # Ada Library Information
 *.ali
@@ -38,10 +37,6 @@ Vagrantfile
 bazel_wrapper
 bazel_wrapper.bazelrc
 
-### C++ ###
-# Prerequisites
-*.d
-
 # Compiled Object files
 *.slo
 *.lo
@@ -63,7 +58,6 @@ bazel_wrapper.bazelrc
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
 
 # Executables
@@ -180,7 +174,6 @@ _deps
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
-*~
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock

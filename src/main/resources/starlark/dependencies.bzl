@@ -32,6 +32,9 @@ COM_GITHUB_OPENSSL_VERSION = "1_1_1k"
 NET_ZLIB_SHA = ""
 NET_ZLIB_VERSION = "1.2.12"
 
+LOG4CXX_VERSION = "0.13.0"
+LOG4CXX_SHA = "d7f8d5af5f69e26b99de61fe1585bc48713ced78d18eb0979bb4844d21aed253"
+
 dependencies_archives = {
 
     "font_roboto": {
@@ -161,33 +164,25 @@ cmake(
     # https://github.com/apache/logging-log4cxx/tarball/249dd85494a430d95fd69d89f42b02fd950cda51
     # bazel query @org_apache_logging_log4cxx//...
     # bazel build @org_apache_logging_log4cxx//:log4cxx
+    # "org_apache_logging_log4cxx": {
+    #     "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
+    #     "strip_prefix": "logging-log4cxx-master",
+    #     "urls": [
+    #         "https://github.com/apache/logging-log4cxx/archive/master.zip",
+    #         "https://github.com/apache/logging-log4cxx/archive/master.zip",
+    #     ],
+    # },
+
+    # bazel query @org_apache_logging_log4cxx//...
+    # bazel build @org_apache_logging_log4cxx//:log4cxx
     "org_apache_logging_log4cxx": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
-        # "sha256": "4e4cedf83ac2c09513352cbfed13321199db1e559cf8b55e365aa9c9cf824872",
-        # "strip_prefix": "apache-log4cxx-0.12.0",
-        "strip_prefix": "logging-log4cxx-master",
-        # "strip_prefix": "apache-logging-log4cxx-249dd85",
-        # "strip_prefix": "logging-log4cxx-0.11.0",
-        # "strip_prefix": "logging-log4cxx-rel-v0.12.0",
-        # "strip_prefix": "apache-log4cxx-0.12.1",
+        "sha256": "{}".format(LOG4CXX_SHA),
+        "strip_prefix": "logging-log4cxx-rel-v{}".format(LOG4CXX_VERSION),
         "urls": [
-    #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-    #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
-    #         # "https://archive.apache.org/dist/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
-    #         # "https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
-    #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
-    #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
-    #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
-    #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
-            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.tar.gz",
-            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.zip",
-
-            # "https://www.apache.org/dyn/closer.cgi/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
-            # "https://www.apache.org/dyn/closer.cgi/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
-            # "https://archive.apache.org/dist/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
-            # "https://archive.apache.org/dist/logging/log4cxx/0.12.1/apache-log4cxx-0.12.1.tar.gz",
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.tar.gz".format(LOG4CXX_VERSION),
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.tar.gz".format(LOG4CXX_VERSION),
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.zip".format(LOG4CXX_VERSION),
         ],
     },
 

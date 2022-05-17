@@ -12,13 +12,21 @@ filegroup(
     # "-with-apr=../apr-1.7.0"
     # "--with-expat=../libexpat/expat",
     # $EXT_BUILD_ROOT/external/org_apache_apr
+# CONFIGURE_OPTIONS = [
+#   # "--with-apr=${EXT_BUILD_DEPS}/org_apache_apr",
+#   "--with-apr=${EXT_BUILD_DEPS}/apr/",
+#   "--with-expat=${EXT_BUILD_DEPS}/expat/",
+#   # "--with-crypto",
+#   "--with-openssl=${EXT_BUILD_DEPS}/openssl/",
+# #   "$$EXT_BUILD_DEPS$$/apr",
+# ]
+
+
 CONFIGURE_OPTIONS = [
-  # "--with-apr=${EXT_BUILD_DEPS}/org_apache_apr",
-  "--with-apr=${EXT_BUILD_DEPS}/apr/",
-  "--with-expat=${EXT_BUILD_DEPS}/expat/",
-  # "--with-crypto",
-  "--with-openssl=${EXT_BUILD_DEPS}/openssl/",
-#   "$$EXT_BUILD_DEPS$$/apr",
+    "--with-apr=\"$$EXT_BUILD_DEPS$$/apr\"",
+    "--with-expat=\"$$EXT_BUILD_DEPS$$/com_github_libexpat/expat\"",
+    "--with-openssl=\"$$EXT_BUILD_DEPS$$/com_github_openssl/openssl\"",
+    "--with-crypto",
 ]
 
 configure_make(
@@ -32,17 +40,17 @@ configure_make(
 
     configure_in_place = True,
 
-    configure_options = select({
+    configure_options = CONFIGURE_OPTIONS + select({
         "@bazel_tools//platforms:osx": [
-            "-fPIC",
-        ] + CONFIGURE_OPTIONS,
+            # "-fPIC",
+        ] ,
         "@bazel_tools//platforms:linux": [
             # "--prefix=${INSTALLDIR}",
-        ] + CONFIGURE_OPTIONS,
+        ] ,
         "//conditions:default": [
-            "-fPIC",
-            "no-shared",
-        ] + CONFIGURE_OPTIONS,
+            # "-fPIC",
+            # "no-shared",
+        ] ,
     }),
 
     lib_source = ":all",
@@ -53,7 +61,6 @@ configure_make(
         ],
         "@bazel_tools//platforms:linux": [
             "-ldl",
-
         ],
         "//conditions:default": [ ],
     }),
@@ -74,18 +81,18 @@ configure_make(
         ],
     }),
 
-    out_shared_libs = select({
-        "@bazel_tools//platforms:osx": [
-            "libaprutil.dylib",
-        ],
-        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-        "@bazel_tools//platforms:windows": [
-            "libaprutil-1.lib",
-        ],
-        "//conditions:default": [
-            "libaprutil-1.so",
-        ],
-    }),
+    # out_shared_libs = select({
+    #     "@bazel_tools//platforms:osx": [
+    #         "libaprutil.dylib",
+    #     ],
+    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+    #     "@bazel_tools//platforms:windows": [
+    #         "libaprutil-1.lib",
+    #     ],
+    #     "//conditions:default": [
+    #         "libaprutil-1.so",
+    #     ],
+    # }),
 
     deps = [
         "@org_apache_apr//:apr",

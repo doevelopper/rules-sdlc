@@ -16,6 +16,7 @@
 *.jade       text eol=lf
 *.coffee     text eol=lf
 *.{yml,yaml} text eol=lf
+*.{sh,bash}  text eol=lf
 *.png        binary
 *.{jpeg,jpg} binary
 # PDF files shall not modify CRLF line endings

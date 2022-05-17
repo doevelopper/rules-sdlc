@@ -182,3 +182,11 @@ jobs:
         asset_path: ${{ env.ASSET }}
         asset_name: ${{ env.ASSET }}
         asset_content_type: application/octet-stream
+
+    # - name: Package upload
+    #   if: ${{ success() && matrix.btype == 'Release' && matrix.target == 'skiptest' }}
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: Win64.${{ matrix.compiler.compiler }}.${{ matrix.btype}}.${{ github.sha }}
+    #     path: ${{ env.BUILD_DIR }}/darktable-*.exe
+    #     retention-days: 1
