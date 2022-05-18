@@ -1,6 +1,9 @@
 [submodule "src/main/resources/cmake"]
 	path = src/main/resources/cmake
 	url = git@github.com:doevelopper/cmake.git
+[submodule "src/main/resources/doxygen-css"]
+	path = src/main/resources/doxygen-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
 [submodule "src/main/resources/dotfiles"]
 	path = src/main/resources/dotfiles
 	url = git@github.com:doevelopper/dotfiles.git
