@@ -477,9 +477,10 @@ jobs:
         name: Pack builds data for further analysis.
         run: |
           ls -laFS ${{ github.workspace }}
-          mkdir -pv build-logs
-          find -H bazel-out -name "*.log" -type f -exec cp {} ./build-logs \;
-          find -H bazel-out -name "*.xml" -type f -exec cp {} ./build-logs \;
+          mkdir -pv /tmp/build-logs
+          chmod -R 777 /tmp/build-logs
+          find -H bazel-out -name "*.log" -type f -exec cp {} /tmp/build-logs \;
+          find -H bazel-out -name "*.xml" -type f -exec cp {} /tmp/build-logs \;
           tar -czvf ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz build-logs
       # -
       #   name: Discord notification

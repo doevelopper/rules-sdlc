@@ -80,6 +80,24 @@ cc_test(
         "rules/sdlc/std/unitTestRunner.cpp",
         "rules/sdlc/std/DummyTest.hpp",
         "rules/sdlc/std/DummyTest.cpp",
+        "rules/sdlc/std/app/ApplicationTest.hpp",
+        "rules/sdlc/std/app/ApplicationTest.cpp",
+        "rules/sdlc/std/app/ChannelTest.hpp",
+        "rules/sdlc/std/app/ChannelTest.cpp",
+        "rules/sdlc/std/app/ExecutionContextTest.hpp",
+        "rules/sdlc/std/app/ExecutionContextTest.cpp",
+        "rules/sdlc/std/app/MethodCallerTest.hpp",
+        "rules/sdlc/std/app/MethodCallerTest.cpp",
+        "rules/sdlc/std/app/MethodTest.hpp",
+        "rules/sdlc/std/app/MethodTest.cpp",
+        "rules/sdlc/std/app/OptionDescriptionTest.hpp",
+        "rules/sdlc/std/app/OptionDescriptionTest.cpp",
+        "rules/sdlc/std/app/PluginTest.hpp",
+        "rules/sdlc/std/app/PluginTest.cpp",
+    ],
+
+    includes = [
+        ".",
     ],
 
     linkopts = [
