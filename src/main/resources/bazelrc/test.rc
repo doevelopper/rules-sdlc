@@ -1,8 +1,8 @@
 
-test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/com_github_libexpat/copy_expat/expat/lib/
-test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr/copy_apr/apr/lib/
-test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr_util/copy_aprutil/aprutil/lib/
-test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/com_github_libexpat/copy_expat/expat/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr/copy_apr/apr/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr_util/copy_aprutil/aprutil/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib/
 
 # bazel-bin/external/com_google_googletest/
 
@@ -13,7 +13,7 @@ test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_l
 # test --host_force_python=PY3
 # test --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
 # test --test_output=errors
-# test --test_output=all
+test --test_output=all
 
 # test --workspace_status_command=src/main/resources/tools/ws.sh
 # # test --test_env=PATH=${PATH}:$(bazel info output_base)/external/org_ruby_lang_ruby_toolchain/build/bin

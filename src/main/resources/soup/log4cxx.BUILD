@@ -73,6 +73,7 @@ cmake(
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_VERBOSE_MAKEFILE=ON",
         "-DCMAKE_CXX_STANDARD=17",
+        # "-DCMAKE_SHARED_LINKER_FLAGS=\"-avoid-version\"", #gcc: error: unrecognized command line option '-avoid-version'; did you mean '-fno-version'?
     #         "-DCMAKE_PREFIX_PATH=$$EXT_BUILD_DEPS$$;\"$$EXT_BUILD_DEPS$$/apr\";\"$$EXT_BUILD_DEPS$$/com_github_libexpat/expat\";\"$$EXT_BUILD_DEPS$$/com_github_openssl/openssl\"",
     #         # "-DCMAKE_PREFIX_PATH=$$EXT_BUILD_DEPS$$;$$EXT_BUILD_DEPS$$/apr;$$EXT_BUILD_DEPS$$/expat/;$$EXT_BUILD_DEPS$$/aprutil",
     #         "-DBUILD_SHARED_LIBS=off",
@@ -104,6 +105,8 @@ cmake(
         ],
         "//conditions:default": [
             "liblog4cxx.so",
+            "liblog4cxx.so.13",
+            "liblog4cxx.so.13.0.0",
         ],
     }),
 

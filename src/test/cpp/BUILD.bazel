@@ -69,7 +69,6 @@ cc_library(
         # "@com_google_absl//absl/strings",
         # "@com_google_googletest//:gtest",
         # "@org_apache_apr//:apr",
-        # "@org_apache_logging_log4cxx//:log4cxx",
     ],
 
     visibility = ["//visibility:public"],
@@ -84,11 +83,15 @@ cc_test(
     ],
 
     linkopts = [
+        "-L/usr/local/lib",
         "-pthread",
         "-lrt",
         "-luuid", #avoid having libapr-1.a(rand.o):rand.c:function apr_os_uuid_get: error: undefined reference to 'uuid_generate'
-        "-llog4cxx",
-    ],
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [],
+        "@bazel_tools//src/conditions:darwin": [],
+    }),
 
     deps = [
         "//src/test/cpp:rules-sdlc.std.test",
@@ -99,10 +102,6 @@ cc_test(
         "",
         "--iterration=42"
     ],
-
-    # env = [
-    #     $(location liblog4cxx) ,
-    # ],
 
 # #     shard_count = 1,
 # #     # data = [

@@ -325,12 +325,13 @@ jobs:
         bazel: [5.1.1]
         bazelisk: [1.11.0]
         python-version: [3.10]
+        compilation_mode: [ fastbuild, dbg, opt]
         config:
           - { name: "Ubuntu", os: ubuntu-latest, target: "linux" }
         compiler:
           -
             name: clang-14
-            install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh all && sudo  apt-get install --no-install-recommends -yqq curl gnupg2 lsb-release software-properties-common
+            install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh all && sudo  apt-get install --no-install-recommends -yqq curl libbacktrace gnupg2 lsb-release software-properties-common
             cc: "/usr/bin/clang-14"
             cxx: "/usr/bin/clang++-14"
 # update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-14/bin/clang 140
@@ -469,19 +470,21 @@ jobs:
         run: |
           ls -laFS ${{ github.workspace }}
           bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
-
+          bazelisk test  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
       -
-        name: Build applications.
+        name: Run applications unit test.
         run: |
           ls -laFS ${{ github.workspace }}
-      # bazelisk run --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/cpp:rules-sdlc.bin
+          bazelisk run --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/cpp:rules-sdlc.bin
 
-      # -
-      #   name: Pack builds datat for further analysis.
-      #   run: |
-      #     ls -laFS ${{ github.workspace }}
-      #     mkdir -pv build-logs
-      #     cp -v  bazel-out/k8-fastbuild/bin/external/org_apache_logging_log4cxx/log4cxx_foreign_cc/CMake.log   build-logs
+      -
+        name: Pack builds data for further analysis.
+        run: |
+          ls -laFS ${{ github.workspace }}
+          mkdir -pv build-logs
+          find -H bazel-out -type f -name  '*.log' -exec cp "{}" build-logs
+          find -H bazel-out -type f -name  '*.xml' -exec cp "{}" build-logs
+          tar -czvf ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz build-logs
       # -
       #   name: Discord notification
       #   uses: rjstone/discord-webhook-notify@v1
@@ -490,12 +493,12 @@ jobs:
       #     severity: error
       #     details: CI failed on ${{ matrix.os }}
       #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-      # -
-      #   name: 'Archive ${{ github.repository }} Logs'
-      #   uses: actions/upload-artifact@v2
-      #   if: always()  # failure() && steps.build.outcome == 'success'
-      #   with:
-      #     name: ci-${{ github.repository }}-${{github.job}} builds artifacts
-      #     path: |
-      #       ${{ github.repository }}-ci-logs.tar.gz  # ${{github.workspace}}/build
-      #     retention-days: 5
+      -
+        name: 'Archive ${{ github.repository }} Logs'
+        uses: actions/upload-artifact@v2
+        if: always()  # failure() && steps.build.outcome == 'success'
+        with:
+          name: ci-${{ github.repository }}-${{github.job}}-${{ matrix.compiler.name }} builds artifacts
+          path: |
+            ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz  # ${{github.workspace}}/build
+          retention-days: 5

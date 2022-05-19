@@ -81,18 +81,20 @@ configure_make(
         ],
     }),
 
-    # out_shared_libs = select({
-    #     "@bazel_tools//platforms:osx": [
-    #         "libaprutil.dylib",
-    #     ],
-    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-    #     "@bazel_tools//platforms:windows": [
-    #         "libaprutil-1.lib",
-    #     ],
-    #     "//conditions:default": [
-    #         "libaprutil-1.so",
-    #     ],
-    # }),
+    out_shared_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libaprutil.dylib",
+        ],
+        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+        "@bazel_tools//platforms:windows": [
+            "libaprutil-1.lib",
+        ],
+        "//conditions:default": [
+            "libaprutil-1.so",
+            "libaprutil-1.so.0",
+            "libaprutil-1.so.0.6.1"
+        ],
+    }),
 
     deps = [
         "@org_apache_apr//:apr",

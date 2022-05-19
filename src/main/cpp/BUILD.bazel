@@ -51,7 +51,12 @@ LINUX_DEFINES = [
 ]
 LINUX_HDRS = []
 LINUX_SRCS = []
-LINUX_LINKOPTS = []
+LINUX_LINKOPTS = [
+    "-L/usr/local/lib",
+    "-pthread",
+    "-lrt",
+    "-luuid", #avoid having libapr-1.a(rand.o):rand.c:function apr_os_uuid_get: error: undefined reference to 'uuid_generate'
+]
 
 # ===== darwin =====
 DARWIN_DEFINES = []
@@ -122,7 +127,6 @@ cc_library(
     ],
 
     linkopts = [
-        "-L/usr/local/lib",
 
     ] + select({
         "@bazel_tools//src/conditions:windows": WIN32_LINKOPTS,
@@ -131,9 +135,6 @@ cc_library(
     }),
 
 #     linkopts = [
-# #         # "-lapr-1",
-# #         # "-laprutil-1",
-# #         # "-llog4cxx",
 #         # "-lboost_program_options",
 # #         # "-lboost_context",
 # #         # "-lxerces-c",
@@ -203,17 +204,25 @@ cc_binary(
     copts = [
         "-D_REENTRANT",
         "-I/usr/local/include/",
+        # $$EXT_BUILD_DEPS$$;$$EXT_BUILD_DEPS$$/apr;$$EXT_BUILD_DEPS$$/expat/;$$EXT_BUILD_DEPS$$/aprutil;$$EXT_BUILD_DEPS$$/openssl
     ],
     includes = [
         ".",
     ],
+
+    linkopts = [
+        "-L$$EXT_BUILD_DEPS$$/log4cxx",
+        "-L$$EXT_BUILD_DEPS$$/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib",
+    ],
+
     deps = [
         ":rules-sdlc.std.main",
     ],
 
     # env = [
-    #     $(location liblog4cxx) ,
+    #     $(location log4cxx) ,
     # ],
+
     visibility = ["//visibility:public"],
 )
 
