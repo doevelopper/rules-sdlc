@@ -331,13 +331,12 @@ jobs:
           -
             name: clang-14
             install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh all && sudo  apt-get install --no-install-recommends -yqq curl gnupg2 lsb-release software-properties-common
-            # cc: " /usr/lib/llvm-14/bin/clang-14"
-            # cxx: "/usr/lib/llvm-14/bin/clang++-14"
-#  update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-14/bin/clang 140
-#  update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-14/bin/clang++ 140
+            cc: "/usr/bin/clang-14"
+            cxx: "/usr/bin/clang++-14"
+# update-alternatives --install /usr/bin/clang clang /usr/lib/llvm-14/bin/clang 140
+# update-alternatives --install /usr/bin/clang++ clang++ /usr/lib/llvm-14/bin/clang++ 140
 # install: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh all && sudo ln -sf /usr/bin/llvm-config-14 /usr/bin/llvm-config && sudo  apt-get install --no-install-recommends -yqq curl gnupg2 lsb-release software-properties-common clang-tools
-            cc: " clang"
-            cxx: "clang++"
+
           -
             name: gcc-11
             install: sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt update && sudo apt-get install -y gcc-11 g++-11 lcov xvfb
