@@ -6,7 +6,7 @@
 #include <typeinfo>
 #include <unistd.h>
 
-using namespace cfs::utils::log;
+using namespace rules::sdlc::stdc::logging;
 
 /*!
  * @brief Fallback logging macro to console appender.
@@ -15,6 +15,7 @@ using namespace cfs::utils::log;
  * @exemple LOG_SO(std::cout) << "streaming to standard output." << std::endl;
  *          LOG_SE(std::cerr) << "streaming to standard error."  << std::endl;
  */
+
 /*
  #define LOG_(stream) \
    stream << "(" << "taskName(taskIdSelf())" << ") " \

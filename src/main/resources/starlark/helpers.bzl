@@ -292,7 +292,7 @@ def sdlc_cc_proto_library(name, srcs, deps = (), **kwargs):
         srcs = srcs,
         deps = [d + "_cc" for d in deps] + ["@com_google_protobuf//:cc_wkt_protos"],
         copts = select({
-            "@io_rules_sdlc//:windows_x86_64": [msvc_cpp_build_copts()],
+            "@com.github.doevelopper.rules-sdlc//:windows_x86_64": [msvc_cpp_build_copts()],
             "//conditions:default": [gcc_cpp_build_copts()],
         }),
         #kwargs["copts"] = kwargs.get("copts", []) + gcc_cpp_build_copts(),

@@ -20,7 +20,7 @@
 #include <string>
 #include <rules/sdlc/std/Dummy.hpp>
 
-using namespace rules::sdlc::std;
+using namespace rules::sdlc::stdc;
 
 // log4cxx::LoggerPtr Dummy::logger = log4cxx::Logger::getLogger(std::string("Dummy"));
 

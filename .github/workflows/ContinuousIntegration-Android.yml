@@ -46,9 +46,16 @@ env:
   EVENT_NAME: ${{ github.event_name }}
 
 jobs:
-  Lint-and-check-style:
-    runs-on: ubuntu-latest
+  unit-test:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: "Ubuntu", os: ubuntu-latest, target: "android" }
+        python-version: [3.9]
     steps:
       -
         name: Checkout
@@ -56,6 +63,31 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+
+      -
+        name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      -
+        name: Upgrade PIP
+        run: python -m pip install --upgrade pip setuptools wheel
+
+      -
+        name: Display Python version
+        run: python --version
+
+      -
+        name: Display PIP version
+        run: pip --version
+
+      -
+        name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.12
+        with:
+          cmake-version: '3.23.x'
+
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
@@ -79,17 +111,6 @@ jobs:
       - name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls ${{ github.workspace }}
-
-  unit-test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
       -
         name: Compile the source code of the project.
         run: |
@@ -128,6 +149,7 @@ jobs:
           ls ${{ github.workspace }}
 
   integration-test:
+    needs: [unit-test]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

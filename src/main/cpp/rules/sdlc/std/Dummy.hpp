@@ -16,12 +16,13 @@
     permissions and limitations under the License.
  */
 
-#ifndef RULES_SDLC_STD_DUMMY_HPP
-#define RULES_SDLC_STD_DUMMY_HPP
+#ifndef RULES_SDLC_STDC_DUMMY_HPP
+#define RULES_SDLC_STDC_DUMMY_HPP
 
 #include <string>
+#include <rules/sdlc/std/logging/LoggingService.hpp>
 
-namespace rules::sdlc::std
+namespace rules::sdlc::stdc
 {
     /*!
      * @brief The Dummy class used as walking Skeleton class for the unit, spec and feature tests of the template
@@ -50,8 +51,8 @@ namespace rules::sdlc::std
 
         private:
 
-            // std::string m_hello{};
-            // std::string m_world{};
+            std::string m_hello{};
+            std::string m_world{};
             bool        m_speechless {true};
     };
 }

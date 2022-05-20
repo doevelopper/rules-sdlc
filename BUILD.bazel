@@ -19,6 +19,11 @@
 
 licenses(["notice"])  # MIT
 
+# Expose license for external usage through bazel.
+exports_files([
+    "AUTHORS",
+    "LICENSE",
+])
 
 config_setting(
     name = "linux",

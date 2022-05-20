@@ -47,11 +47,11 @@ def distributed_applications_repositories():
 
 
     # bazel query @com_github_objectcomputing_opendds//...
-    # bazel build @com_github_objectcomputing_opendds//:omg_opendds 
+    # bazel build @com_github_objectcomputing_opendds//:omg_opendds
     _maybe(
         http_archive,
         name = "com_github_objectcomputing_opendds",
-        build_file = "//src/main/resources/third_party/middlewares/dds/opendds:openDDS.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/opendds:openDDS.BUILD",
         strip_prefix = "OpenDDS-{}".format(opendds_version),
         urls = [
             "https://github.com/objectcomputing/OpenDDS/releases/download/DDS-{}/OpenDDS-{}.tar.gz".format(opendds_version,opendds_version),
@@ -65,7 +65,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_eprosima_fast_cdr",
-        build_file = "//src/main/resources/third_party/middlewares/dds/fastrtps:fast_cdr.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/fastrtps:fast_cdr.BUILD",
         sha256 = "ba6635676a86db319a1cfb265336cd1cfe126ccb89f362054b400364addbe356",
         strip_prefix = "Fast-CDR-{}".format(fast_cdr_version),
         urls = [
@@ -73,13 +73,13 @@ def distributed_applications_repositories():
             "https://github.com/eProsima/Fast-CDR/archive/v{}.zip".format(fast_cdr_version),
         ],
     )
-    
+
     # bazel build @com_github_eprosima_foonathan_memory_vendor//:foonathan_memory_vendor --action_env=PATH=$PATH:/opt/cmake/bin
     # //BUG  fatal: unable to access 'https://github.com/foonathan/memory.git/': Could not resolve host: github.com
     _maybe(
         http_archive,
         name = "com_github_eprosima_foonathan_memory_vendor",
-        build_file = "//src/main/resources/third_party/middlewares/dds/fastrtps:foonathan_memory_vendor.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/fastrtps:foonathan_memory_vendor.BUILD",
         # sha256 = "",
         strip_prefix = "foonathan_memory_vendor-{}".format(eprosima_foonathan_memory_vendor_version),
         urls = [
@@ -92,7 +92,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_foonathan_memory_vendor",
-        build_file = "//src/main/resources/third_party/middlewares/dds/fastrtps:foonathan_memory_vendor.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/fastrtps:foonathan_memory_vendor.BUILD",
         sha256 = "01a7cc5a5ebddbd71bec69c89562a4a2ecd7c29334c0a29d38d83e7f7f66eb53",
         strip_prefix = "memory-{}".format(foonathan_memory_vendor_version),
         urls = [
@@ -105,7 +105,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_eprosima_fast_dds",
-        build_file = "//src/main/resources/third_party/middlewares/dds/fastrtps:fast_dds.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/fastrtps:fast_dds.BUILD",
         strip_prefix = "Fast-DDS-{}".format(fast_dds_version),
         urls = [
             "https://github.com/eProsima/Fast-DDS/archive/v{}.tar.gz".format(fast_dds_version),
@@ -117,7 +117,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_docgroup_ace_tao",
-        build_file = "//src/main/resources/third_party/middlewares/dds/opendds:ace_tao.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/opendds:ace_tao.BUILD",
         strip_prefix = "ACE+TAO",
         urls = [
             "https://github.com/DOCGroup/ACE_TAO/releases/download/ACE%2BTAO-{}/ACE+TAO-{}.tar.bz2".format(ace_tao_version_str, ace_tao_version),
@@ -130,7 +130,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_docgroup_xsc",
-        build_file = "//src/main/resources/third_party/middlewares/dds/opendds:xsc.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/opendds:xsc.BUILD",
         # strip_prefix = "",
         urls = [
             "https://github.com/DOCGroup/XSC/archive/master.zip",
@@ -141,7 +141,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_docgroup_ciao",
-        build_file = "//src/main/resources/third_party/middlewares/dds/opendds:ciao.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/opendds:ciao.BUILD",
         # strip_prefix = "",
         urls = [
             "https://github.com/DOCGroup/CIAO/releases/download/CIAO-1_3_10/CIAO-1_3_10-src.tar.gz",
@@ -153,7 +153,7 @@ def distributed_applications_repositories():
     _maybe(
         http_archive,
         name = "com_github_docgroup_dance",
-        build_file = "//src/main/resources/third_party/middlewares/dds/opendds:dance.BUILD",
+        build_file = "//src/main/resources/soup/middlewares/dds/opendds:dance.BUILD",
         # strip_prefix = "",
         urls = [
             "https://github.com/DOCGroup/DAnCE/releases/download/DAnCE-1_3_10/DAnCE-1_3_10-src.tar.bz2",

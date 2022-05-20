@@ -38,16 +38,19 @@
         - .prerequisites
     script:
 #        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.io
-        - export LOG4CXX_CONFIGURATION=${CI_PROJECT_DIR}/src/main/resources/configs/log4cxx.xml
+#        - bazel --output_base $BUILD_DIR build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=Cxx=g++ --disk_cache=$CI_PROJECT_DIR/.cache
+        - export LOG4CXX_CONFIGURATION=${CI_PROJECT_DIR}/src/main/config/log4cxx.xml
         - mkdir -pv $CI_PROJECT_DIR/bazel/output
         - export BUILD_DIR=$CI_PROJECT_DIR/bazel/output
-        - bazel --output_base $BUILD_DIR build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=Cxx=g++ --disk_cache=$CI_PROJECT_DIR/.cache
-    after_script:
+        - ls -laFS ${{ github.workspace }}
+        - bazelisk build  --config linux --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/main/...
+        - bazelisk build  --config linux --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/test/...
+        - bazelisk test   --config linux --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/test/...
 
     artifacts:
-         name: "${CI_BUILD_NAME}"
-         expire_in: 1 week
-         paths:
+        name: "${CI_BUILD_NAME}"
+        expire_in: 1 week
+        paths:
             - $CI_PROJECT_DIR/bazel/output
     # artifacts:
     #     reports:

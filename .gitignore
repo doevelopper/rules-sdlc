@@ -2,9 +2,8 @@
 # Created by https://www.gitignore.io/api/qt,ada,vim,c++,gcov,cmake,emacs,maven,bazel,gradle,python,opencv,pycharm,vagrant,valgrind,clion+all,kdevelop4,qtcreator,pycharm+all,visualstudio,visualstudiocode,openframeworks+visualstudio
 # Edit at https://www.gitignore.io/?templates=qt,ada,vim,c++,gcov,cmake,emacs,maven,bazel,gradle,python,opencv,pycharm,vagrant,valgrind,clion+all,kdevelop4,qtcreator,pycharm+all,visualstudio,visualstudiocode,openframeworks+visualstudio
 
-### Ada ###
-# Object file
-*.o
+*~
+*.[oad]
 
 # Ada Library Information
 *.ali
@@ -15,6 +14,7 @@
 
 # Ignore all bazel-* symlinks. There is no full list since this can change
 # based on the name of the directory bazel is cloned into.
+/bazel-*
 bazel
 bazel-bazel-test
 bazel-bin
@@ -23,13 +23,19 @@ bazel-out
 bazel-testlogs
 bazel-vagrant
 bazel-bazel-example
+# Ignore bazel directories
+/bazel-bin
+/bazel-genfiles
+/bazel-out
+/bazel-remote-apis
+/bazel-testlogs
 .vagrant/
 Vagrantfile
 .idea/
 
-### C++ ###
-# Prerequisites
-*.d
+# Bazel wrapper
+bazel_wrapper
+bazel_wrapper.bazelrc
 
 # Compiled Object files
 *.slo
@@ -52,7 +58,6 @@ Vagrantfile
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
 
 # Executables
@@ -99,6 +104,11 @@ Vagrantfile
 
 # CMake
 cmake-build-*/
+#Cmake generated stuff
+[Gg]enerated/
+[Bb]uild/
+[Mm][Ss][Vv][Cc]*
+[Gg][Cc][Cc]*
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
@@ -155,7 +165,6 @@ Testing
 #Makefile
 cmake_install.cmake
 install_manifest.txt
-compile_commands.json
 CTestTestfile.cmake
 _deps
 
@@ -165,7 +174,6 @@ _deps
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
-*~
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock
@@ -220,6 +228,9 @@ flycheck_*.el
 *.gcno
 *.gcda
 *.gcov
+
+# profiler output
+*.prof
 
 ### KDevelop4 ###
 *.kdev4
@@ -1036,11 +1047,9 @@ cfs-*-build/*
 /.ijwb/
 /.project
 /.settings
-/.vscode/
+# /.vscode/
 /bazel.iml
-# Ignore all bazel-* symlinks. There is no full list since this can change
-# based on the name of the directory bazel is cloned into.
-/bazel-*
+
 # Ignore outputs generated during Bazel bootstrapping.
 /output/
 # Ignore jekyll build output.
@@ -1050,3 +1059,8 @@ cfs-*-build/*
 !.bazelversion
 # User-specific .bazelrc
 user.bazelrc
+
+# eclipse project files
+.cproject
+.project
+.settings

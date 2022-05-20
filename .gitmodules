@@ -1,9 +1,16 @@
 [submodule "src/main/resources/cmake"]
 	path = src/main/resources/cmake
 	url = git@github.com:doevelopper/cmake.git
+[submodule "src/main/resources/doxygen-css"]
+	path = src/main/resources/doxygen-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
 [submodule "src/main/resources/dotfiles"]
 	path = src/main/resources/dotfiles
 	url = git@github.com:doevelopper/dotfiles.git
+[submodule "src/main/resources/depot_tools"]
+	path = src/main/resources/depot_tools
+	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
+	branch = main
 [submodule ".github/actions/get-workflow-origin"]
 	path = .github/actions/get-workflow-origin
 	url = https://github.com/potiuk/get-workflow-origin

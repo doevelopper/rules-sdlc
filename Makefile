@@ -30,11 +30,24 @@ endif
 
 MAKEFLAGS += --no-print-directory
 
+DBG_MAKEFILE ?=
+ifeq ($(DBG_MAKEFILE),1)
+    $(warning ***** starting Makefile for goal(s) "$(MAKECMDGOALS)")
+    $(warning ***** $(shell date))
+else
+    # If we're not debugging the Makefile, don't echo recipes.
+    MAKEFLAGS += -s
+endif
+
 export BUILD_DIRECTORY ?= $(shell basename $(shell git rev-parse --show-toplevel))-build
 export PRJNAME := $(shell basename $(shell git rev-parse --show-toplevel))
 export BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 export HASH := $(shell git rev-parse HEAD)
+export ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+export HAS_GCC := $(shell which gcc > /dev/null 2> /dev/null && echo true || echo false)
+export HAS_CC := $(shell which cc > /dev/null 2> /dev/null && echo true || echo false)
+export HAS_CLANG := $(shell which clang > /dev/null 2> /dev/null && echo true || echo false)
 
 ifeq ($(BRANCH),master)
     RELEASE_LEVEL := "CANDIDATE"
@@ -50,18 +63,74 @@ else
     RELEASE_LEVEL := "SNAPSHOOT"
 endif
 
+ifeq ($(HAS_CC),true)
+    DEFAULT_CC = cc
+    DEFAULT_CXX = c++
+else
+    ifeq ($(HAS_GCC),true)
+        DEFAULT_CC = gcc
+        DEFAULT_CXX = g++
+    else
+        ifeq ($(HAS_CLANG),true)
+            DEFAULT_CC = clang
+            DEFAULT_CXX = clang++
+        else
+            DEFAULT_CC = no_c_compiler
+            DEFAULT_CXX = no_c++_compiler
+        endif
+    endif
+endif
+
 SHELL = /bin/sh
 RM = /opt/bin/cmake -E remove -f
 
-export BAZEL_BIN=$(bazel info bazel-bin)
-export BAZEL_OUTPUT_BASE=$(bazel info output_base)
-export BAZEL_SERVER_PID=$(bazel info server_pid)
-export BAZEL_TESTLOGS=$(bazel info bazel-testlogs)
-export BAZEL_GENFILES=$(bazel info bazel-genfiles)
-export BAZEL_EXTERNAL=$(bazel info output_base)/external
+export BAZEL_BIN=$(bazelisk info bazel-bin)/external
+export BAZEL_OUTPUT_BASE=$(bazelisk info output_base)
+export BAZEL_SERVER_PID=$(bazelisk info server_pid)
+export BAZEL_TESTLOGS=$(bazelisk info bazel-testlogs)
+export BAZEL_GENFILES=$(bazelisk info bazel-genfiles)
+export BAZEL_EXTERNAL=$(bazelisk info output_base)/external
 
-# bazel test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
-# bazel build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
+# bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
+# bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk query @com_google_double_conversion//...
+# bazelisk query @com_google_googletest//...
+# bazelisk
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @zlib//:zlib --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk query @org_apache_apr//...
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk shutdown
+# bazelisk clean --expunge
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++ --sandbox_debug
+# bazelisk clean --expunge
+# bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //... --client_env=CC=gcc --client_env=CXX=g++
+# bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --action_env=MYENV=myvalue
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_crc32c//:crc32c --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_github_tencent_rapidjson//:rapidjson --client_env=CC=gcc
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @zlib//:zlib --client_env=CC=gcc
+# @bazelisk query @com_google_double_conversion//...
+# @bazelisk --output_user_root=$(ARCH_OS_LINKER) build @com_google_double_conversion//... --client_env=CC=gcc
+# @bazelisk query @com_google_googletest//...
+# @bazelisk build @com_google_statechart//statechart:state_machine  --client_env=CC=gcc
+# @bazelisk build @com_googlesource_code_re2//:re2  --client_env=CC=gcc
+# @bazelisk query @com_google_protobuf//...
+# @bazelisk query @com_github_openssl_openssl//...
+# @bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_google_protobuf//:protoc  --client_env=CC=gcc --client_env=CXX=g++
+# @bazelisk run @com_google_protobuf//:protoc -- --help
+# bazelisk query @com.github.doevelopper.rules-sdlc//...
+# bazelisk query @com.github.doevelopper.rules-sdlc//src/main/...
+# bazelisk query @com.github.doevelopper.rules-sdlc//src/test/...
 
 HOST_PLATFORM   =
 COMPILER        =
@@ -116,29 +185,24 @@ else
 endif
 
 ARCH_OS_LINKER := $(ARCH)-$(RTOS)-$(LKR)  #/tmp/bazel_output_root
-
+# TARGET_TRIPLE :=$(shell $DEFAULT_CC -dumpmachine)
 
 .PHONY: format-build
 format-build: ##  create standardized formatting for BUILD and .bzl and source files
-	@bazel buildifier $(find . -type f \( -iname BUILD -or -iname BUILD.bazel \))
-	@bazel run @com_github_bazelbuild_buildtools//:buildifier
-	@find cfs-utils/src/main/cpp/cfs -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i -fallback-style=none {} \;
+	@bazelisk buildifier $(find . -type f \( -iname BUILD -or -iname BUILD.bazel \))
+	@bazelisk run @com_github_bazelbuild_buildtools//:buildifier
+	@find src/main/cpp/cfs -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i -fallback-style=none {} \;
 
 .PHONY: build-deps
 build-deps: ##  Exemple of building external deps first into $(ARCH_OS_LINKER)
-	@bazel --output_user_root=$(ARCH_OS_LINKER) build @com_google_crc32c//:crc32c --client_env=CC=gcc
-	@bazel --output_user_root=$(ARCH_OS_LINKER) build @com_github_google_benchmark//:benchmark --client_env=CC=gcc --client_env=CC=gcc
-	@bazel --output_user_root=$(ARCH_OS_LINKER) build @com_github_tencent_rapidjson//:rapidjson --client_env=CC=gcc
-	@bazel --output_user_root=$(ARCH_OS_LINKER) build @zlib//:zlib --client_env=CC=gcc
-	@bazel query @com_google_double_conversion//...
-	@bazel --output_user_root=$(ARCH_OS_LINKER) build @com_google_double_conversion//... --client_env=CC=gcc
-	@bazel query @com_google_googletest//...
-	@bazel build @com_google_statechart//statechart:state_machine  --client_env=CC=gcc
-	@bazel build @com_googlesource_code_re2//:re2  --client_env=CC=gcc
-	@bazel query @com_google_protobuf//...
-	@bazel query @com_github_openssl_openssl//...
-	@bazel build @com_google_protobuf//:protoc  --client_env=CC=gcc
-	@bazel run @com_google_protobuf//:protoc -- --help
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr//:apr --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_libexpat//:expat --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_apr_util//:aprutil --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @net_zlib_fossils//:zlib --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_xerces//:xerces --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @com_github_nelhage_rules_boost//... --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/main/...
 
 ## for all targets in cfs-utils ind all dependencies (a transitive closure set), then tell me which ones depend on the gtest
 ## target in the root package of the external workspace com_google_googletest
@@ -146,143 +210,51 @@ build-deps: ##  Exemple of building external deps first into $(ARCH_OS_LINKER)
 
 .PHONY: querygrpcdeps
 querygrpcdeps: ## for all targets in cfs-utils find all dependencies (a transitive closure set), then tell me which ones depend on the gtest
-	@bazel query "rdeps(deps(//cfs-utils/...), " :gtest")" --output graph | dot -Tpng -O
+	@bazelisk query "rdeps(deps(//cfs-utils/...), " :gtest")" --output graph | dot -Tpng -O
 
 .PHONY: querybin
 querybin: ## List binary target
-	@bazel query 'kind(cc_binary, //...)'
+	@bazelisk query 'kind(cc_binary, //...)'
 
 .PHONY: main-compile
 main-compile: ## Build all xcept Test target rules
-	@bazel query '//... except kind(.*test, //...)' | xargs bazel build  --client_env=CC=gcc
-
-.PHONY: utils-compile
-utils-compile: ## Build UTILS xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-utils/...
-
-.PHONY: utils-test
-utils-test: ## Test UTILS
-	@bazel test  --client_env=CC=gcc //cfs-utils/...
-
-.PHONY: osal-compile
-osal-compile: ## Build OS ABSTRACTION LAYER xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-osal/...
-
-.PHONY: osal-test
-osal-test: ## Test OS ABSTRACTION LAYER
-	@bazel test  --client_env=CC=gcc //cfs-osal/...
-
-.PHONY: hal-compile
-hal-compile: ## Build HARWARE ABSTRACTION LAYER xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-hal/...
-
-.PHONY: hal-test
-hal-test: ## Test HARWARE ABSTRACTION LAYER
-	@bazel test  --client_env=CC=gcc //cfs-hal/...
-
-.PHONY: addons-compile
-addons-compile: ## Build ADDONS xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-addons/...
-
-.PHONY: addons-test
-addons-test: ## Test ADDONS
-	@bazel build  --client_env=CC=gcc //cfs-addons/...
-
-.PHONY: algo-compile
-algo-compile: ## Build ALGORYTHM xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-algo/...
-
-.PHONY: algo-test
-algo-test: ## Test ALGORYTHM
-	@bazel build  --client_env=CC=gcc //cfs-algo/...
-
-.PHONY: arkhe-gcs-compile
-arkhe-gcs-compile: ## Build ARKHE GCS xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: arkhe-gcs-test
-arkhe-gcs-test: ## Test ARKHE GCS
-	@bazel Test  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: com-compile
-com-compile: ## Build COMMUNICATION LAYER xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-com/...
-
-.PHONY: com-test
-com-test: ## Test COMMUNICATION LAYER
-	@bazel Test  --client_env=CC=gcc //cfs-com/...
-
-.PHONY: dev-tools-compile
-dev-tools-compile: ## Build DEVELOPPEMENT TOOL xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-dev-tools/...
-
-.PHONY: dev-tools-test
-dev-tools-test: ## Test DEVELOPPEMENT TOOL
-	@bazel Test  --client_env=CC=gcc //cfs-dev-tools/...
-
-.PHONY: edac-compile
-edac-compile: ## Build ERROR MANAGEMENT LIBRARY xcept Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-edac/...
-
-.PHONY: edac-test
-edac-test: ## Test ERROR MANAGEMENT LIBRARY
-	@bazel Test  --client_env=CC=gcc //cfs-edac/...
-
-.PHONY: rtos-compile
-rtos-compile: ## Build RTOS Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: rtos-test
-rtos-test: ## Test RTOS
-	@bazel Test  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: switl-compile
-switl-compile: ## Build SWITL Test target rules
-	@bazel build  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: switl-test
-switl-test: ## Test SWITL
-	@bazel Test  --client_env=CC=gcc //cfs-arkhe-gcs/...
-
-.PHONY: pi-compile
-pi-compile: ## Build all armv8l: processor architecture used in the Raspberry Pi family of embedded products.
-	@bazel query '//... except kind(.*test, //...)' | xargs bazel build --config=armv8l
-
-.PHONY: jetson-compile
-jetson-compile: ## Build all aarch64: processor architecture used in Jetson TX1 TX2 Xavier and Nano products.
-	@bazel query '//... except kind(.*test, //...)' | xargs bazel build --config=aarch64
-
-.PHONY: querybuild
-querybuild: ## List buildable targets
-	@bazel query --keep_going --noshow_progress "kind(.*_binary, rdeps(//..., set(${files[*]})))"
-
-.PHONY: queryall
-queryall: ## List all targets
-	@bazel query @bazel_tools//src/conditions:all
-	@bazel query @bazel_tools//platforms:al
-	@bazel query @bazel_tools//tools/cpp/...
-	@bazel query //...
-	@bazel query //cfs-utils/... --output label_kind | sort | column -t
+	@bazelisk query '//... except kind(.*test, //...)' | xargs bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
 
 .PHONY: compile
 compile: ## Build projects main sources
-	@bazel build  --client_env=CC=gcc //... --action_env=MYENV=myvalue
+	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
+
+.PHONY: test-compile
+main-compile: ## Build all Test target rules
+	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/test/...
 
 .PHONY: test
 test: ## Build projects test sources and run unit test
-	@bazel test  --client_env=CC=gcc //... --test_output=all --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
+	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all
+
+.PHONY: querybuild
+querybuild: ## List buildable targets
+	@bazelisk query --keep_going --noshow_progress "kind(.*_binary, rdeps(//..., set(${files[*]})))"
+
+.PHONY: queryall
+queryall: ## List all targets
+	@bazelisk query @bazel_tools//src/conditions:all
+	@bazelisk query @bazel_tools//platforms:all
+	@bazelisk query @bazel_tools//tools/cpp/...
+	@bazelisk query //...
+	@bazelisk query //... --output label_kind | sort | column -t
+
 
 .PHONY: coverage
 coverage:  ## Generates code coverage report
-	# NOK @bazel coverage  --client_env=CC=gcc --instrument_test_target --combined_report=lcov --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main //...
-	@bazel coverage -s --combined_report=lcov --instrumentation_filter=//cfs-utils/... --coverage_report_generator=@bazel_tools//tools/test:coverage_report_generator  //cfs-utils/...
+	# NOK @bazelisk coverage  --client_env=CC=gcc --instrument_test_target --combined_report=lcov --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main //...
+	@bazelisk coverage -s --combined_report=lcov --instrumentation_filter=//... --coverage_report_generator=@bazel_tools//tools/test:coverage_report_generator  //...
 
-# ./bazelw query "attr(name, '.*test_main', //...)" | xargs ./bazelw coverage --combined_report=lcov
 
 .PHONY: sonar-scanner
 sonar-scanner:  ## Code Quality & Code Security
-	@bazel clean
-	@build-wrapper-linux-x86-64 --out-dir sonar-dir bazel --batch build --spawn_strategy=standalone --genrule_strategy=standalone  --client_env=CC=gcc //...
+	@bazelisk clean
+	@build-wrapper-linux-x86-64 --out-dir sonar-dir bazelisk --batch build --spawn_strategy=standalone --genrule_strategy=standalone  --client_env=CC=gcc //...
 
 .PHONY: genhtml
 genhtml: coverage  ## Generate HTML view from LCOV coverage data files
@@ -293,14 +265,14 @@ genhtml: coverage  ## Generate HTML view from LCOV coverage data files
 
 .PHONY: clean
 clean: ## Cleaned up the objects and intermediary files
-	@bazel clean
+	@bazelisk clean
 
 .PHONY: expunge
 expunge: ## Removes the entire working tree for this bazel instance
-	@bazel clean --expunge
+	@bazelisk clean --expunge --async
 
 .PHONY: all
-all: compile   ## Build test , regression test , coverage qnd documentations
+all: compile   ## Build test , regression test , coverage and documentations
 
 .PHONY: help
 help: ## Display this help and exits.

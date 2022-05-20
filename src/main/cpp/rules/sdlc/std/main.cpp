@@ -19,17 +19,20 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <vector>
 #include <cstdlib>
-#include <cmath>
+
+#include <rules/sdlc/std/app/Application.hpp>
+
 // #include <boost/program_options.hpp>
 // #include <rules/sdlc/std/logging/LoggingService.hpp>
 
 
 // namespace po = boost::program_options;
-int main(int argc, char**argv)
+int main(
+    [[maybe_unused]] int argc,
+    [[maybe_unused]] char**argv)
 {
-    // st::LoggingService * loggingService = new st::LoggingService();
+    // rules::sdlc::stdc::logging::LoggingService * loggingService = new rules::sdlc::stdc::logging::LoggingService();
 
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "CPP-101: C++ Object Oriented Programming!");
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "A Few Things All Freshmen Should Know...");
@@ -64,5 +67,16 @@ int main(int argc, char**argv)
     //     loggingService = nullptr;
     // }
 
-    return (EXIT_SUCCESS);
+    std::uint_fast64_t runStatus = 0;
+
+    std::cout << "argc == " << argc << '\n';
+
+    for(int ndx{}; ndx != argc; ++ndx)
+    {
+        std::cout << "argv[" << ndx << "] == " << std::quoted(argv[ndx]) << '\n';
+    }
+
+    std::cout << "argv[" << argc << "] == " << static_cast<void*>(argv[argc]) << '\n';
+
+    return (runStatus == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }

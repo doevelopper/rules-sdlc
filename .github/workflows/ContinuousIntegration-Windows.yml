@@ -44,11 +44,50 @@ on:
 env:
   REPO_NAME: ${{ github.repository }}
   EVENT_NAME: ${{ github.event_name }}
+  BZL_CACHE: ${{ github.workspace }}/.cache/bazel
+  BZL_OUTPUT: ${{ github.workspace }}/bazel/output
+  BUILD_DIR: '${{ github.workspace }}/build'
+  LOG4CXX_CONFIGURATION: ${{ github.workspace }}/src/main/resources/configs/log4cxx.xml
+  RUN_ID: ${{ github.run_id }}-${{ github.run_number }}
+  # BUILD_TYPE: RelWithDebInfo
+  QTEST_FUNCTION_TIMEOUT: 60000
+  QT_VERSION: 6.2.3
+  CLANG_VERSION: 130
+  ELFUTILS_VERSION: 0.175
+  CMAKE_VERSION: 3.21.1
+  NINJA_VERSION: 1.10.2
+  BUILD_TYPE: Release
+  CCACHE_VERSION: 4.5
+  QT_MIRRORS: download.qt.io;mirrors.ocf.berkeley.edu/qt;ftp.fau.de/qtproject;mirror.bit.edu.cn/qtproject
+
+
+
 
 jobs:
-  Lint-and-check-style:
-    runs-on: windows-2022
+  unit-test:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    # runs-on: windows-2022
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC",
+            artifact: "Windows-MSVC",
+            os: windows-latest,
+            cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            is_msvc: true
+          }
+        - {
+          name: "Windows Latest MinGW",
+          artifact: "Windows-MinGW",
+          os: windows-latest,
+          cc: "gcc", cxx: "g++",
+          is_msvc: false
+          }
     steps:
       -
         name: Checkout
@@ -56,6 +95,13 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+
+      -
+        name: Set up GCC compiler
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
       -
         name: Validate the project is correct and all necessary information is available.
         run: |
@@ -79,17 +125,20 @@ jobs:
       - name: Copy and process the resources into the destination directory, ready for packaging.
         run: |
           ls ${{ github.workspace }}
-
-  unit-test:
-    runs-on: windows-2022
-    timeout-minutes: 20
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
+      # - name: Compile Lib for Windows x64
+      #   run: |
+      #     mkdir %GITHUB_WORKSPACE%\build64
+      #     cd %GITHUB_WORKSPACE%\build64
+      #     cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 ..
+      #     cmake --build . --config Release -j 2 --parallel 2
+      #   shell: cmd
+      # - name: Compile Examples for Windows x64
+      #   run: |
+      #     mkdir %GITHUB_WORKSPACE%\build64examples
+      #     cd %GITHUB_WORKSPACE%\build64examples
+      #     cmake -G "Visual Studio 16 2019" -A x64 -DCMAKE_SYSTEM_VERSION=10.0.19041.0 ../examples
+      #     cmake --build . --config Release -j 2 --parallel 2
+      #   shell: cmd
       -
         name: Compile the source code of the project.
         run: |
@@ -130,6 +179,7 @@ jobs:
   integration-test:
     runs-on: windows-2022
     timeout-minutes: 20
+    needs: [unit-test]
     steps:
       -
         name: Checkout

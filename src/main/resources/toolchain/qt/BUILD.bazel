@@ -1,0 +1,23 @@
+# filegroup(
+#     name = "uic",
+#     srcs = ["libexec/uic"],
+#     visibility = ["//visibility:public"],
+# )
+
+# filegroup(
+#     name = "moc",
+#     srcs = ["libexec/moc"],
+#     visibility = ["//visibility:public"],
+# )
+
+# filegroup(
+#     name = "rcc",
+#     srcs = ["libexec/rcc"],
+#     visibility = ["//visibility:public"],
+# )
+
+# filegroup(
+#     name = "qlalr",
+#     srcs = ["libexec/qlalr"],
+#     visibility = ["//visibility:public"],
+# )

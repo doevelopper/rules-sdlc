@@ -1,7 +1,8 @@
 
 #include <rules/sdlc/std/CustomEnvironment.hpp>
 
-using namespace rules::sdlc::std;
+using namespace rules::sdlc::stdc;
+using namespace rules::sdlc::stdc::test;
 
 log4cxx::LoggerPtr CustomEnvironment::logger =
     log4cxx::Logger::getLogger(std::string("rules.sdlc.stdtest.CustomEnvironment"));

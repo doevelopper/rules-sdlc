@@ -40,9 +40,10 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master, develop, release/**]
-  pull_request:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, release/**]
+    tags:
+      - 'v*'
+      - 'v*.*.*'
 
 env:
   REPO_NAME: ${{ github.repository }}

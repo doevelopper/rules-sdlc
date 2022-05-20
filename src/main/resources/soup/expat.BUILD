@@ -36,12 +36,12 @@ cmake(
             "-DEXPAT_BUILD_TESTS=OFF",
             "-DEXPAT_BUILD_EXAMPLES=OFF",
             "-DEXPAT_BUILD_DOCS=OFF",
-            "CMAKE_VERBOSE_MAKEFILE=ON",
+            "-DCMAKE_VERBOSE_MAKEFILE=ON",
         ],
 
         "//conditions:default": [
             # "-G \"Unix Makefile\"",  # Error in fail: `Unix Makefile` is not a known generator
-            "-G Ninja",
+            # "-G Ninja",
             "-DHAVE_EXPAT_CONFIG_H=ON",
             "-DXML_DEV_URANDOM=ON",
             "-DCMAKE_BUILD_TYPE=Release",
@@ -50,34 +50,35 @@ cmake(
             "-DEXPAT_BUILD_EXAMPLES=OFF",
             "-DEXPAT_BUILD_DOCS=OFF",
             "-DCMAKE_VERBOSE_MAKEFILE=ON",
-            # "-DEXPAT_SHARED_LIBS=OFF",
+            "-DEXPAT_SHARED_LIBS=OFF",
+            "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
 
         ],
     }),
 
-    # out_static_libs = select({
-    #     "@bazel_tools//platforms:osx": [
-    #         "libexpat.a",
-    #     ],
-    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-    #     "@platforms//os:windows": [
-    #         "libexpat.lib",
-    #     ],
-    #     "//conditions:default": [
-    #         "libexpat.a",
-    #     ],
-    # }),
-
-    out_shared_libs = select({
+    out_static_libs = select({
         "@bazel_tools//platforms:osx": [
-            "libexpat.dylib",
+            "libexpat.a",
         ],
         # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-        "@bazel_tools//platforms:windows": [
+        "@platforms//os:windows": [
             "libexpat.lib",
         ],
         "//conditions:default": [
-            "libexpat.so",
+            "libexpat.a",
         ],
     }),
+
+    # out_shared_libs = select({
+    #     "@bazel_tools//platforms:osx": [
+    #         "libexpat.dylib",
+    #     ],
+    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+    #     "@bazel_tools//platforms:windows": [
+    #         "libexpat.lib",
+    #     ],
+    #     "//conditions:default": [
+    #         "libexpat.so",
+    #     ],
+    # }),
 )

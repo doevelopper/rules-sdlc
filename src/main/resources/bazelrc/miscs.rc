@@ -1,0 +1,85 @@
+
+# test --host_force_python=PY2
+# run --host_force_python=PY2
+
+
+
+# # +------------------------------------------------------------+
+# # | Test Configurations                                        |
+# # +------------------------------------------------------------+
+
+# # By default prints output only from failed tests.
+# test --test_output=errors
+# test --test_output=all
+# # # Work around the sandbox issue.
+# # test --spawn_strategy=standalone
+
+# # # Specify protobuf cc toolchain
+# # test --proto_toolchain_for_cc="@com_google_protobuf//:cc_toolchain"
+
+# # +------------------------------------------------------------+
+# # | CPP Lint Tests & Unit Tests                                |
+# # +------------------------------------------------------------+
+# # By default, cpplint tests are run as part of `bazel test` alongside all of
+# # the other compilation and test targets.  This is a convenience shortcut to
+# # only do the cpplint testing and nothing else.
+# # Do bazel test --config=cpplint <target> to enable this configuration.
+# # To enable the lint test, the BUILD *must* load the cpplint.bzl by having
+# # 'load("//tools:cpplint.bzl", "cpplint")' at the beginning and 'cpplint()'
+# # at the end.
+# # test:cpplint --test_tag_filters=cpplint
+# # test:cpplint --build_tests_only
+
+# # # Regular unit tests.
+# # test:unit_test --test_tag_filters=-cpplint
+
+# # # Coverage tests
+# # test:coverage --test_tag_filters=-cpplint
+# # test:coverage --copt=--coverage
+# # test:coverage --cxxopt=--coverage
+# # test:coverage --cxxopt=-fprofile-arcs
+# # test:coverage --cxxopt=-ftest-coverage
+# # test:coverage --linkopt=-coverage
+# # test:coverage --linkopt=-lgcov
+# # test:coverage --linkopt=-lgcc
+# # test:coverage --linkopt=-lc
+
+
+# # # Work around the sandbox issue.
+# # build --spawn_strategy=standalone
+
+# # # Specify protobuf cc toolchain
+# # build --proto_toolchain_for_cc="@com_google_protobuf//:cc_toolchain"
+
+# # build with profiling
+# # build:cpu_prof --linkopt=-lprofiler
+
+
+
+# # Strict check on type conversion.
+# # absl/strings/str_cat.h breaks the rule.
+# # build --per_file_copt=^modules/.*\.cc,-modules/tools/visualizer/.*\.cc,^cyber/.*\.cc@-Werror=conversion
+
+
+
+# # pass environment variables to the build/test environment
+# #test --test_env=TRAVIS
+# #test --test_env=DISPLAY
+
+# # By default, an optimized C++ build with Bazel will build each library twice,
+# # with and without -fPIC. --force_pic avoids the unnecessary actions and
+# # reduces build time.
+# # build --force_pic
+
+# # build --color=yes
+# # query --keep_going
+# # build:memcheck --strip=never --test_timeout=3600
+
+
+# # build --spawn_strategy=standalone
+# # test --spawn_strategy=standalone
+# # run --spawn_strategy=standalone
+
+# # build --genrule_strategy=standalone
+# # test --genrule_strategy=standalone
+# # run --genrule_strategy=standalone

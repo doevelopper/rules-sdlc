@@ -34,9 +34,11 @@ def qa_repositories():
     _maybe(
         http_archive,
         name = "com_google_googletest",
-        strip_prefix = "googletest-master",
-        # sha256 = "02e0c8a1863faa2032e72362a807414b75cf47d1c36b6d53969c14cb4c07ee46",
-        urls = ["https://github.com/google/googletest/archive/master.zip"],
+        # strip_prefix = "googletest-master",
+        strip_prefix = "googletest-8d51ffdfab10b3fba636ae69bc03da4b54f8c235",
+        sha256 = "12ef65654dc01ab40f6f33f9d02c04f2097d2cd9fbe48dc6001b29543583b0ad",
+        # urls = ["https://github.com/google/googletest/archive/master.zip"],
+        urls = ["https://github.com/google/googletest/archive/8d51ffdfab10b3fba636ae69bc03da4b54f8c235.zip"],
     )
 
     #  Third party gherkin need this goal name
@@ -54,13 +56,30 @@ def qa_repositories():
         urls = ["https://github.com/google/benchmark/archive/master.zip"],
     )
 
-    # _maybe(
-    #     git_repository,
-    #     commit = "com_github_silvergasp_cucumber_cpp",
-    #     strip_prefix = "c94b370c67bcd5d27a84ca0aad686cf1703935a3",
-    #     remote = "https://github.com/silvergasp/cucumber-cpp.git",
-    #     shallow_since = "1610936570 +0800",
-    # )
+    _maybe(
+        git_repository,
+        name = "rules_gherkin",
+        commit = "c1e4b8198cf2aefb86d4ab39edfa0857f54b99d6",
+        remote = "https://github.com/silvergasp/rules_gherkin.git",
+        shallow_since = "1610961605 +0800",#    shallow_since = "14 Jan 2021",
+    )
+
+    _maybe(
+        git_repository,
+        name = "bazelruby_rules_ruby",
+        shallow_since = "1605910701 -0800",
+        # branch = "master",
+        commit = "c8555221ac6889fa83556c1112b02d7ebf8e1818",
+        remote = "https://github.com/bazelruby/rules_ruby.git",
+    )
+
+    _maybe(
+        git_repository,
+        name = "com_github_silvergasp_cucumber_cpp",
+        commit = "c94b370c67bcd5d27a84ca0aad686cf1703935a3",
+        remote = "https://github.com/silvergasp/cucumber-cpp.git",
+        # shallow_since = "1610936570 +0800",
+    )
 
     # _maybe(
     #     http_archive,
@@ -72,6 +91,14 @@ def qa_repositories():
     #         "https://github.com/google/benchmark/archive/3d1c2677686718d906f28c1d4da001c42666e6d2.zip",
     #         "https://github.com/google/benchmark/archive/3d1c2677686718d906f28c1d4da001c42666e6d2.zip"
     #     ],
+    # )
+
+    # _maybe(
+    #     git_repository,
+    #     commit = "rules_license",
+    #     strip_prefix = "4a20d4e66ffefd3c0db5b72f7a7a5ea69c9d6806",
+    #     remote = ""https://github.com/bazelbuild/rules_license.git",
+    #     shallow_since = "",
     # )
 
 def _maybe(repo_rule, name, **kwargs):

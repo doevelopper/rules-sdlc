@@ -2,32 +2,67 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: C-bug
+labels: kind/bug
 componant:
 platform:
 assignees: ''
 
 ---
+<!--
+Before filing a bug
+- Ensure the bug reproduces on the latest version of the app.
+- Search existing issues and make sure this issue is not already filed.
+-->
 
-**Version**
-List the versions of all `rules-sdlc` crates you are using. The easiest way to get
-this information is using `cargo tree` subcommand:
+**Describe the bug**
+<!-- A clear and concise description of what the bug is. -->
 
-`cargo tree | grep tokio`
+**Steps To Reproduce**
+<!--
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+-->
 
-**Platform**
-The output of `uname -a` (UNIX), or version and 32 or 64-bit (Windows)
+**Expected behavior**
+<!-- A clear and concise description of what you expected to happen. -->
 
-**Description**
-Enter your issue details here.
-One way to structure the description:
+**Screenshots**
+<!-- If applicable, add screenshots to help explain your problem. -->
 
-[short summary of the bug]
+**Device and Application Information**
+ - **OS Build**: (e.g. from /etc/os-release):
+ - **Architecture**:
+ - **Kernel** (e.g. `uname -a`):
+ - **Application Version**:
+ - **Region**:
 
-I tried this code:
+<!--
+Run the following commands in Powershell and copy/paste the output.
+" - OS Build: $([Environment]::OSVersion.Version)"
+" - Architecture: $((Get-AppxPackage -Name Microsoft.WindowsCalculator).Architecture)"
+" - Application Version: $((Get-AppxPackage -Name Microsoft.WindowsCalculator).Version)"
+" - Region: $((Get-Culture).Name)"
+" - Dev Version Installed: $($null -ne (Get-AppxPackage -Name Microsoft.WindowsCalculator.Dev))"
+-->
 
-[code sample that causes the bug]
+**Additional context**
+<!-- Add any other context about the problem here. -->
 
-I expected to see this happen: [explanation]
+**Requested Assignment**
+<!--
+Some people just want to report a bug and let someone else fix it.
+Other people want to not only submit the bug report, but fix it as well.
+Both scenarios are completely ok. We just want to know which one it is.
+Please indicate which bucket you fall into by keeping one and removing the other.
+-->
+If possible, I would like to fix this.
+I'm just reporting this problem.  I don't want to fix it.
 
-Instead, this happened: [explanation]
+**Anything else we need to know**:
+
+<!-- If this is actually about documentation, add `/kind documentation` below -->
+
+/kind bug

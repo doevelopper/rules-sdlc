@@ -53,8 +53,8 @@ configure_make(
         "//conditions:default": [ ],
     }),
 
-    out_include_dir = "include/apr",
-    out_lib_dir = "lib",
+    # out_include_dir = "include/apr",
+    # out_lib_dir = "lib",
 
     out_static_libs = select({
         "@bazel_tools//platforms:osx": [
@@ -66,25 +66,23 @@ configure_make(
         ],
         "//conditions:default": [
             "libapr-1.a",
-            # "apr-1.a"
-            # "libapr.a",
         ],
     }),
 
-    # out_shared_libs = select({
-    #     "@bazel_tools//platforms:osx": [
-    #         "libapr-1.dylib",
-    #     ],
-    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
-    #     "@bazel_tools//platforms:windows": [
-    #         "libapr-1.lib",
-    #     ],
-    #     "//conditions:default": [
-    #         "libapr-1.so",
-    #         # "apr-1.so"
-    #         # "libapr.so",
-    #     ],
-    # }),
+    out_shared_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libapr-1.dylib",
+        ],
+        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+        "@bazel_tools//platforms:windows": [
+            "libapr-1.lib",
+        ],
+        "//conditions:default": [
+            "libapr-1.so",
+            "libapr-1.so.0",
+            "libapr-1.so.0.7.0"
+        ],
+    }),
 
     visibility = ["//visibility:public"],
 )

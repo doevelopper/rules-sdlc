@@ -40,9 +40,10 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master, develop, release/**]
-  pull_request:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, release/**]
+    tags:
+      - 'v*'
+      - 'v*.*.*'
 
 env:
   REPO_NAME: ${{ github.repository }}
@@ -59,3 +60,14 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+      -
+        name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all

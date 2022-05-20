@@ -39,9 +39,9 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, release/**]
   pull_request:
-    branches: [ main, master, develop, release/**]
+    branches: [ main, master, release/**]
 
 env:
   REPO_NAME: ${{ github.repository }}
@@ -58,3 +58,21 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: '0'
+
+      # -
+      #   name: 'Archive ${{ github.repository }} Logs'
+      #   uses: actions/upload-artifact@v2
+      #   if: always()
+      #   with:
+      #     name: ci-artifact-${{ github.repository }}-${{ matrix.config.target }}.tar.gz
+      #     path: |
+      #       ${{ github.repository }}-ci-logs.tar.gz  # ${{github.workspace}}/build
+      #       build/${{ matrix.config.target }}/dist/dist.tar.gz
+      #     retention-days: 5
+
+      # - name: Dist upload
+      #   if: startsWith(github.ref, 'refs/tags/v')
+      #   env:
+      #     CFS_AWS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      #     CFS_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      #   run: python send2share.py target ${{ matrix.config.target }} dist upload --force

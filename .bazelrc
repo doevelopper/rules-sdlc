@@ -1,15 +1,33 @@
-# Import legacy .bazelrc file.
-#
-try-import %workspace%/src/main/resources/bazel/bazel.rc
+# bazelrc file
+# https://docs.bazel.build/versions/master/user-manual.html
 
-# Import environment-specific configuration. required once CI is configured to always run
-# `install_prereqs_user_environment`.
-try-import %workspace%/src/main/resources/bazel/environment.bazelrc
-try-import %workspace%/gen/environment.bazelrc
+####################################################################################################################
+###############################          Import legacy .bazelrc file.                ###############################
+####################################################################################################################
+
+# start up options settings
+try-import %workspace%/src/main/resources/bazelrc/bazel.rc
+
+# build phase settings
+try-import %workspace%/src/main/resources/bazelrc/build.rc
+
+# Setting for on premise RBE
+try-import %workspace%/src/main/resources/bazelrc/buildbuddy.rc
+
+# Setting for environmentg utils
+try-import %workspace%/src/main/resources/bazelrc/env.rc
+
+# proxy settings
+try-import %workspace%/src/main/resources/bazelrc/proxy.rc
+
+# Runtime util settings
+try-import %workspace%/src/main/resources/bazelrc/run.rc
+
+# Sanitizer util settings
+# try-import %workspace%/src/main/resources/bazelrc/sanitizer.rc
+
+# Test utils
+try-import %workspace%/src/main/resources/bazelrc/test.rc
 
 # Try to import user-specific configuration local to workspace.
 try-import %workspace%/user.bazelrc
-
-build --show_timestamps --color=yes
-build:default --verbose_failures
-build --test_tmpdir=/tmp/bazel_tmp --verbose_failures

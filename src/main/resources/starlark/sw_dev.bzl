@@ -37,6 +37,16 @@ load(
 bzl_tc_version = "4.1.0"
 BUILDFARM_EXTERNAL_COMMIT = "510e26843bbdb5b7a31e9a5b3042b814dc30d82f"
 BUILDFARM_EXTERNAL_SHA256 = "c72cbdaa89d8c559518797e7ae0f0ff4b335a44c34a5afd3959fbe5492583de2"
+rules_python_version = "e9c8a33dee46a9221d5eb69e6617e20363439e54" # Latest @ 2022-01-06
+
+rules_foreign_cc_version = "0.8.0"
+rules_foreign_cc_sha256 = "6041f1374ff32ba711564374ad8e007aef77f71561a7ce784123b9b4b88614fc"
+
+platforms_version = "0.0.5"
+platforms_sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407"
+
+rules_java_version = "5.0.0"
+rules_java_sha256 = "8c376f1e4ab7d7d8b1880e4ef8fc170862be91b7c683af97ca2768df546bb073"
 
 def dev_repositories():
     """Declares external repositories that project depends on.
@@ -56,18 +66,10 @@ def dev_repositories():
         http_archive,
         name = "rules_pkg",
         urls = [
-            "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.5.0/rules_pkg-0.5.0.tar.gz",
-            "https://github.com/bazelbuild/rules_pkg/releases/download/0.5.0/rules_pkg-0.5.0.tar.gz",
+            "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
+            "https://github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
         ],
-        sha256 = "353b20e8b093d42dd16889c7f918750fb8701c485ac6cceb69a5236500507c27",
-    )
-
-    _maybe(
-        git_repository,
-        name = "rules_gherkin",
-        commit = "c1e4b8198cf2aefb86d4ab39edfa0857f54b99d6",
-        remote = "https://github.com/silvergasp/rules_gherkin.git",
-        #    shallow_since = "14 Jan 2021",
+        sha256 = "a89e203d3cf264e564fcb96b6e06dd70bc0557356eb48400ce4b5d97c2c3720d",
     )
 
     # load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
@@ -86,10 +88,10 @@ def dev_repositories():
         http_archive,
         name = "bazel_skylib",
         urls = [
-            "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
-            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz",
+            "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.1.1/bazel-skylib-1.1.1.tar.gz",
+            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.1.1/bazel-skylib-1.1.1.tar.gz",
         ],
-        sha256 = "1c531376ac7e5a180e0237938a2536de0c54d93f5c278634818e0efc952dd56c",
+        sha256 = "c6966ec828da198c5d9adbaa94c05e3a1c7f21bd012a0b29ba8ddbccb2c93b0d",
     )
 
     _maybe(
@@ -114,20 +116,20 @@ def dev_repositories():
     _maybe(
         http_archive,
         name = "rules_foreign_cc",
-        # strip_prefix = "rules_foreign_cc-0.5.1",
-        # url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.5.1.tar.gz",
-        # sha256 = "33a5690733c5cc2ede39cb62ebf89e751f2448e27f20c8b2fbbc7d136b166804",
-        strip_prefix = "rules_foreign_cc-main",
-        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/main.zip",
+        sha256 = "{}".format(rules_foreign_cc_sha256),
+        strip_prefix = "rules_foreign_cc-{}".format(rules_foreign_cc_version),
+        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/{}.tar.gz".format(rules_foreign_cc_version),
     )
 
     # 2021-05-07T10:23:24Z
     _maybe(
         http_archive,
         name = "rules_cc",
-        strip_prefix = "rules_cc-main",
-        urls = ["https://github.com/bazelbuild/rules_cc/archive/main.zip"],
+        # strip_prefix = "rules_cc-main",
+        # urls = ["https://github.com/bazelbuild/rules_cc/archive/main.zip"],
         # sha256 = "108d8900b87dbb3d00d27b1ee5487a7d7276d8e8bd85c5681d4ccab474319391",
+        urls = ["https://github.com/bazelbuild/rules_cc/releases/download/0.0.1/rules_cc-0.0.1.tar.gz"],
+        sha256 = "4dccbfd22c0def164c8f47458bd50e0c7148f3d92002cdb459c2a96a68498241",
     )
 
 # load("@com_github_google_rules_install//:deps.bzl", "install_rules_dependencies")
@@ -149,8 +151,11 @@ def dev_repositories():
     _maybe(
         http_archive,
         name = "rules_java",
-        url = "https://github.com/bazelbuild/rules_java/releases/download/4.0.0/rules_java-4.0.0.tar.gz",
-        sha256 = "34b41ec683e67253043ab1a3d1e8b7c61e4e8edefbcad485381328c934d072fe",
+        sha256 = "{}".format(rules_java_sha256),
+        urls = [
+            "https://mirror.bazel.build/github.com/bazelbuild/rules_java/releases/download/{}/rules_java-{}.tar.gz".format(rules_java_version,rules_java_version),
+            "https://github.com/bazelbuild/rules_java/releases/download/{}/rules_java-{}.tar.gz".format(rules_java_version,rules_java_version),
+        ],
     )
 
     _maybe(
@@ -165,6 +170,16 @@ def dev_repositories():
         ],
     )
 
+    # _maybe(
+    #     http_archive,
+    #     name = "platforms",
+    #     sha256 = "{}".format(platforms_sha256),
+    #     urls = [
+    #         "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/{}/platforms-{}.tar.gz".format(platforms_version,platforms_version),
+    #         "https://github.com/bazelbuild/platforms/releases/download/{}/platforms-{}.tar.gz".format(platforms_version,platforms_version),
+    #     ],
+    # )
+
     ## need to build libexpat  bazel build --config=generic_gcc @com_github_libexpat_libexpat//:expat
     _maybe(
         http_archive,
@@ -173,6 +188,17 @@ def dev_repositories():
         strip_prefix = "bazel_rules-c76e47ebe6f0a03b9dd99e245d5a0611813c36f9",
         urls = [
             "https://github.com/drigz/bazel_rules/archive/c76e47ebe6f0a03b9dd99e245d5a0611813c36f9.tar.gz",
+        ],
+    )
+
+    _maybe(
+        http_archive,
+        name = "rules_python",
+        # sha256 = "...",
+        strip_prefix = "rules_python-{}".format(rules_python_version),
+
+        urls = [
+            "https://github.com/bazelbuild/rules_python/archive/{}.zip".format(rules_python_version),
         ],
     )
 

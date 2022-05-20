@@ -29,10 +29,16 @@ COM_GOOGLE_PROTOBUF_VERSION = "3.17.3"
 COM_GITHUB_OPENSSL_SHA = "b92f9d3d12043c02860e5e602e50a73ed21a69947bcc74d391f41148e9f6aa95"
 COM_GITHUB_OPENSSL_VERSION = "1_1_1k"
 
+NET_ZLIB_SHA = ""
+NET_ZLIB_VERSION = "1.2.12"
+
+LOG4CXX_VERSION = "0.13.0"
+LOG4CXX_SHA = "d7f8d5af5f69e26b99de61fe1585bc48713ced78d18eb0979bb4844d21aed253"
+
 dependencies_archives = {
 
     "font_roboto": {
-        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/third_party:font-roboto.BUILD",
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:font-roboto.BUILD",
         "url": "https://github.com/polymerelements/font-roboto/archive/v1.1.0.tar.gz",
         "strip_prefix": "font-roboto-1.1.0",
     },
@@ -71,11 +77,11 @@ dependencies_archives = {
     # bazel build @com_github_libexpat//:expat
     "com_github_libexpat": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:expat.BUILD",
-        "sha256": "660e5852b26125f4508183dfa134e18eb33a892dbd8e06786ea38d92dbbb5b07",
-        "strip_prefix": "libexpat-R_2_4_1/expat",
+        "sha256": "122d8ae7a0170b9835cb45b216d856c1f83dd83792f8f0f80c31e98283efbe87",
+        "strip_prefix": "libexpat-R_2_4_8/expat",
         "urls" : [
-            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_1.tar.gz",
-            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_1.zip",
+            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_8.tar.gz",
+            "https://github.com/libexpat/libexpat/archive/refs/tags/R_2_4_8.zip",
         ],
     },
 
@@ -122,12 +128,12 @@ cmake(
 )
 """,
         # "build_file": "@com_google_absl_oss_federation//:zlib.BUILD",
-        "sha256": "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
-        "strip_prefix": "zlib-1.2.11",
+        # "sha256": "91844808532e5ce316b3c010929493c0244f3d37593afd6de04f71821d5136d9",
+        "strip_prefix": "zlib-{}".format(NET_ZLIB_VERSION),
         "urls": [
             # Use the same URL twice to trick bazel into re-trying if connection fails
-            "https://zlib.net/zlib-1.2.11.tar.gz",
-            "https://zlib.net/zlib-1.2.11.tar.gz",
+            "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
+            "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
         ],
     },
 
@@ -158,27 +164,25 @@ cmake(
     # https://github.com/apache/logging-log4cxx/tarball/249dd85494a430d95fd69d89f42b02fd950cda51
     # bazel query @org_apache_logging_log4cxx//...
     # bazel build @org_apache_logging_log4cxx//:log4cxx
+    # "org_apache_logging_log4cxx": {
+    #     "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
+    #     "strip_prefix": "logging-log4cxx-master",
+    #     "urls": [
+    #         "https://github.com/apache/logging-log4cxx/archive/master.zip",
+    #         "https://github.com/apache/logging-log4cxx/archive/master.zip",
+    #     ],
+    # },
+
+    # bazel query @org_apache_logging_log4cxx//...
+    # bazel build @org_apache_logging_log4cxx//:log4cxx
     "org_apache_logging_log4cxx": {
         "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:log4cxx.BUILD",
-        "sha256": "380a22e4422b0e68320a52b455a3f99ae142cb6b41ab5068a64561af20f976e7",
-        # "strip_prefix": "apache-log4cxx-0.12.0",
-        "strip_prefix": "logging-log4cxx-master",
-        # "strip_prefix": "apache-logging-log4cxx-249dd85",
-        # "strip_prefix": "logging-log4cxx-0.11.0",
-        # "strip_prefix": "logging-log4cxx-rel-v0.12.0",
+        "sha256": "{}".format(LOG4CXX_SHA),
+        "strip_prefix": "logging-log4cxx-rel-v{}".format(LOG4CXX_VERSION),
         "urls": [
-    #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-    #         # "https://codeload.github.com/apache/logging-log4cxx/legacy.tar.gz/249dd85494a430d95fd69d89f42b02fd950cda51.tar.gz",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
-            "https://github.com/apache/logging-log4cxx/archive/master.zip",
-    #         # "https://archive.apache.org/dist/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
-    #         # "https://downloads.apache.org/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz",
-    #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
-    #         # "https://github.com/apache/logging-log4cxx/archive/v0.11.0.tar.gz",
-    #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
-    #         "https://github.com/apache/logging-log4cxx/archive/v0.12.0.tar.gz",
-            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.tar.gz",
-            # "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v0.12.0.zip",
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.tar.gz".format(LOG4CXX_VERSION),
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.tar.gz".format(LOG4CXX_VERSION),
+            "https://github.com/apache/logging-log4cxx/archive/refs/tags/rel/v{}.zip".format(LOG4CXX_VERSION),
         ],
     },
 
@@ -224,16 +228,27 @@ cmake(
             "https://github.com/google/crc32c/archive/1.1.1.zip",
         ],
     },
+
+    "com_google_cpu_features": {
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:cpu_features.BUILD",
+        # "sha256": "",
+        "strip_prefix": "cpu_features-master",
+        "urls": [
+            "https://github.com/google/cpu_features/archive/master.zip",
+            "https://github.com/google/cpu_features/archive/refs/heads/master.zip",
+        ],
+    },
 }
 
 dependencies_repositories = {
     # bazel query @com_github_nelhage_rules_boost//...
     # bazel query @boost//...
     "com_github_nelhage_rules_boost": {
-        "commit": "fb9f3c9a6011f966200027843d894923ebc9cd0b", #//1.76.0
+        # "commit": "fce83babe3f6287bccb45d2df013a309fa3194b8", #//1.77.0
+        "commit": "5ce04900fa8f146ddde81cf59cf13fd1b7aca867", #//1.79.0
         "remote": "https://github.com/nelhage/rules_boost",
-        # "shallow_since": "1591047380 -0700",
-        "shallow_since": "1610386445 -0800"
+        # "shallow_since": "1610386445 -0800"
+        "shallow_since": "1650036392 -0700"
     },
 
     "com_github_gflags_gflags": {

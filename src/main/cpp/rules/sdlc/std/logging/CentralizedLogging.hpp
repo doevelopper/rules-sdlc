@@ -4,7 +4,7 @@
 
 #include <rules/sdlc/std/logging/LoggingService.hpp>
 
-namespace cfs::utils::log
+namespace rules::sdlc::stdc::logging
 {
 
 class CentralizedLogging
@@ -42,6 +42,6 @@ private:
     Log4cxxHandler & m_log4cxxHandler;
 };
 
-}     // namespace cfs::utils::log
+}
 
 #endif

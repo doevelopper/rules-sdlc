@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!-- Note that this file is read by the sdk every 60 seconds -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+   <appender name="SDK" class="org.apache.log4j.RollingFileAppender">
+    <!-- The active sdk log file -->
+    <param name="file" value="eiam.cppsdk.log" />
+    <param name="append" value="true" />
+    <param name="BufferedIO" value="false"/>
+    <param name="maxFileSize" value="10000KB" />
+    <param name="maxBackupIndex" value="1" />
+    <layout class="org.apache.log4j.PatternLayout">
+    <!-- The log message pattern -->
+    <param name="ConversionPattern" value="%5p %d{ISO8601} [%t] [%c] %m%n"/>
+    </layout>
+   </appender>
+   <appender name="Network" class="org.apache.log4j.RollingFileAppender">
+    <!-- The file to log Network calls -->
+    <param name="file" value="eiam.network.cpp.log" />
+    <param name="append" value="true" />
+    <param name="BufferedIO" value="true"/>
+    <param name="maxFileSize" value="10000KB" />
+    <param name="maxBackupIndex" value="1" />
+    <layout class="org.apache.log4j.PatternLayout">
+    <!-- The log message pattern -->
+    <param name="ConversionPattern" value="%5p %d{ISO8601} [%t] [%c] %m%n"/>
+    </layout>
+   </appender>
+   <appender name="Performance" class="org.apache.log4j.RollingFileAppender">
+    <!-- The file to log Performance calls -->
+    <param name="file" value="eiam.performance.cpp.log" />
+    <param name="append" value="true" />
+    <param name="BufferedIO" value="true"/>
+    <param name="maxFileSize" value="10000KB" />
+    <param name="maxBackupIndex" value="1" />
+    <layout class="org.apache.log4j.PatternLayout">
+    <!-- The log message pattern -->
+    <param name="ConversionPattern" value="%5p %d{ISO8601} [%t] [%c] %m%n"/>
+    </layout>
+   </appender>
+   <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+    <!-- Logs to Console -->
+    <layout class="org.apache.log4j.PatternLayout">
+    <!-- The log message pattern -->
+    <param name="ConversionPattern" value="%5p %d{ISO8601} [%t] [%c] %m%n"/>
+    </layout>
+   </appender>
+   <!-- Remove comment to enable Performance Logging -->
+   <!--
+   <logger name="Perform" additivity="false">
+    <level value="trace"/>
+    <appender-ref ref="Performance" />
+   </logger>
+   -->
+   <!-- Remove comment to enable Network Logging -->
+   <!--
+   <logger name="Network" additivity="false">
+    <level value="trace"/>
+    <appender-ref ref="Network" />
+   </logger>
+   -->
+   <root>
+    <priority value="error" />
+    <appender-ref ref="SDK" />
+    <!-- <appender-ref ref="Console" /> -->
+   </root>
+</log4j:configuration>
