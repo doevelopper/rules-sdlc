@@ -465,6 +465,7 @@ jobs:
         name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
         run: |
           ls -laFS ${{ github.workspace }}
+          export LOG4CXX_CONFIGURATION=${CI_PROJECT_DIR}/src/main/config/log4cxx.xml
           bazelisk build  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
           bazelisk test  --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/test/...
       -
@@ -473,15 +474,25 @@ jobs:
           ls -laFS ${{ github.workspace }}
           bazelisk run --config linux --action_env CC=${{ matrix.compiler.cc }} --action_env CXX=${{ matrix.compiler.cxx }} --client_env=CC=${{ matrix.compiler.cc }} --client_env=CXX=${{ matrix.compiler.cxx }} @com.github.doevelopper.rules-sdlc//src/main/cpp:rules-sdlc.bin
 
-      -
-        name: Pack builds data for further analysis.
-        run: |
-          ls -laFS ${{ github.workspace }}
-          mkdir -pv /tmp/build-logs
-          chmod -R 777 /tmp/build-logs
-          find -H bazel-out -name "*.log" -type f -exec cp {} /tmp/build-logs \;
-          find -H bazel-out -name "*.xml" -type f -exec cp {} /tmp/build-logs \;
-          tar -czvf ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz build-logs
+      # -
+      #   name: Pack builds data for further analysis.
+      #   run: |
+      #     ls -laFS ${{ github.workspace }}
+      #     mkdir -pv /tmp/build-logs
+      #     chmod -R 777 /tmp/build-logs
+      #     find -H bazel-out -name "*.log" -type f -exec cp -v {} /tmp/build-logs \;
+      #     find -H bazel-out -name "*.xml" -type f -exec cp -v {} /tmp/build-logs \;
+      #     tar -czvf ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz build-logs
+      # -
+      #   name: 'Archive ${{ github.repository }} Logs'
+      #   uses: actions/upload-artifact@v2
+      #   if: always()  # failure() && steps.build.outcome == 'success'
+      #   with:
+      #     name: ci-${{ github.repository }}-${{github.job}}-${{ matrix.compiler.name }} builds artifacts
+      #     path: |
+      #       ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz  # ${{github.workspace}}/build
+      #     retention-days: 5
+
       # -
       #   name: Discord notification
       #   uses: rjstone/discord-webhook-notify@v1
@@ -490,12 +501,3 @@ jobs:
       #     severity: error
       #     details: CI failed on ${{ matrix.os }}
       #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
-      -
-        name: 'Archive ${{ github.repository }} Logs'
-        uses: actions/upload-artifact@v2
-        if: always()  # failure() && steps.build.outcome == 'success'
-        with:
-          name: ci-${{ github.repository }}-${{github.job}}-${{ matrix.compiler.name }} builds artifacts
-          path: |
-            ${{ github.repository }}-${{ matrix.compiler.name }}-ci-logs.tar.gz  # ${{github.workspace}}/build
-          retention-days: 5

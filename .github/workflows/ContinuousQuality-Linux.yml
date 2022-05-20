@@ -54,23 +54,7 @@ env:
   EVENT_NAME: ${{ github.event_name }}
 
 jobs:
-  Lint-and-check-style:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-          fetch-depth: '0'
-      -
-        name: Run any checks to verify the package is valid and meets quality criteria.
-        run: |
-          ls ${{ github.workspace }}
-
 # See: https://google.github.io/oss-fuzz/getting-started/continuous-integration/
-
 
   cpp-check:
     name: ${{ github.repository }} clang format
@@ -190,11 +174,11 @@ jobs:
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
       -
         name: Run build-wrapper
+          # build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
         run: |
           cd main
           mkdir build
           cmake -DBUILD_TESTING=off -S . -B build
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} bazelisk build  --config linux --nobuild //...
       -
         name: Run sonar-scanner

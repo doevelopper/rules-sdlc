@@ -219,7 +219,7 @@ see [Rules SDLC contributors](https://github.com/doevelopper/rules-sdlc/graphs/c
 - [Documentation](https://docs.tbd.acme)
 - [Community Slack](https://slackin.tbd.acme/)
 - [Issue Tracker](https://github.com/doevelopper/rules-sdlc/issues)
-- [Youtube](https://www.youtube.com/channel/UCOMCDRvBVNIS0lCyOmst7eg/videos)
+- [Linux foundation Youtube](https://www.youtube.com/c/LinuxfoundationOrg)
 
 ## TODO
 [Bazel rules sdlc] is a work in progress, so any ideas and patches are appreciated.
