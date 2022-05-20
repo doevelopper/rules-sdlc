@@ -1,0 +1,98 @@
+{
+    "files.exclude": {
+      "out/[^D]*/": true,
+      "out/Debug/[^g]*": false,
+      "out/Debug/g[^e]*": false,
+      "out_*/**": true,
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/.idea": true,
+      "**/node_modules": true,
+      "**/bazel-bin": true,
+      "**/bazel-out": true,
+      "**/bazel-testlogs": true,
+      "**/target": true,
+      "**/bazel-rules-sdlc": true
+    },
+
+    "files.hotExit": "onExit",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/public_gen/**": true
+    },
+
+    "C_Cpp.clang_format_path": "${workspaceRoot}/.clang-format",
+    "C_Cpp.clang_format_sortIncludes": false,
+    "C_Cpp.clang_format_formatOnSave": false,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.rightClickBehavior": "copyPaste",
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.rendererType": "dom",
+
+    //"files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    //"files.trimTrailingWhitespace": true,
+
+    "editor.tabSize": 2,
+    "workbench.colorCustomizations" : {
+      "terminal.foreground" : "#1abe3ee3",
+      "terminal.background" : "#020f299d",
+      "terminal.ansiBrightBlue":"#babd0fe5",
+      "terminalCursor.foreground": "#ebebe1",
+      "titleBar.activeBackground": "#5F9EA0",
+      "titleBar.activeForeground": "#00008B",
+      "titleBar.inactiveBackground": "#0f0f16",
+      "titleBar.inactiveForeground": "#f3fefe",
+      "statusBar.background": "#055737",
+      "editorLineNumber.foreground": "#9e9797ea",
+      "editor.background": "#201e1ee0",
+      "editor.lineHighlightBackground": "#050a0e",
+      "editor.lineHighlightBorder": "#70460fe0",
+      "editor.selectionBackground": "#0a3464",
+      "editorUnnecessaryCode.opacity": "#ffffff",
+      "editorWidget.background": "#555555",
+      "dropdown.background": "#ffffff",
+      "dropdown.listBackground": "#555555",
+      "dropdown.border": "#000000",
+      "dropdown.foreground": "#000000",
+      "scrollbarSlider.hoverBackground": "#080200",
+      "scrollbarSlider.background": "#080200",
+      "editorGroup.border": "#080200",
+      "list.highlightForeground": "#ffff55",
+      "list.hoverBackground": "#aaaaaa",
+      "pickerGroup.foreground": "#ffff55",
+      "contrastActiveBorder": "#000000",
+      "contrastBorder": "#000000",
+      //"editor.scrollbar.verticalScrollbarSize": 0,
+      //"sideBar.background": "#ebebe4",
+      //"sideBar.foreground": "#030303",
+      //"sideBarTitle.foreground": "#0a0a0a",
+      "tab.activeForeground": "#00FFFF"
+    },
+    "bracketPairColorizer.consecutivePairColors": [
+      "()",
+      "[]",
+      "{}",
+      ["#f368e0", "#ff5e57", "#10ac84"],
+      "Red"
+    ],
+
+    "markdownlint.config": {
+      "default": true,
+      // Use #-style section headings without the ending # marks, as that can
+      // cause problems working with the Samples Browser.
+      "MD003": {"style": "atx"},
+      "MD013": false
+  },
+  "python.pythonPath": "/usr/local/bin/python"
+}

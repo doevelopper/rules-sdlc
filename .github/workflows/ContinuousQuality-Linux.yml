@@ -1,0 +1,253 @@
+#
+#       .github/workflows/ContinuousTesting-Linux.yml
+#
+#       Copyright (C) 2014 - 2021  The CFS SW Platform Development Team.
+#                        All rights reserved.
+#
+#
+#    Permission is hereby granted, free of charge, to any person obtaining
+#    a copy of this software and associated documentation files (the
+#    "Software"), to deal in the Software without restriction, including
+#    without limitation the rights to use, copy, modify, merge, publish,
+#    distribute, sublicense, and/or sell copies of the Software, and to
+#    permit persons to whom the Software is furnished to do so, subject to
+#    the following conditions:
+#
+#    The above copyright notice and this permission notice shall be
+#    included in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+#
+
+# GitHub Actions workflow file
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+
+# This action runs GitHub's industry-leading static analysis engine, CodeQL, against a repository's source code to find security vulnerabilities.
+# https://github.com/github/codeql-action
+
+
+name: 🐧🐧 Continuous Code Quality
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+  pull_request:
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+  schedule:
+    - cron: '0 0 1 * *'  # Runs at 00:00 UTC on the 1st of every month
+
+
+env:
+  REPO_NAME: ${{ github.repository }}
+  EVENT_NAME: ${{ github.event_name }}
+
+jobs:
+# See: https://google.github.io/oss-fuzz/getting-started/continuous-integration/
+
+  cpp-check:
+    name: ${{ github.repository }} clang format
+    runs-on: ubuntu-latest
+    needs: check-style
+    steps:
+      -
+        name: Checkout Sources
+        uses: actions/checkout@v1
+      # -
+      #   name: Install CppCheck
+      #   uses: actions/checkout@v2
+      #   run: |
+      #     sudo -H apt-get update -y
+      #     sudo -H apt-get install -y cppcheck
+      #   env:
+      #     DEBIAN_FRONTEND: noninteractive
+      # -
+      #   name: Run Cppcheck
+      #   run: cppcheck --suppress=objectIndex:src/windows/Utils.cpp --std=c++17 --error-exitcode=1 --xml --xml-version=2 --force src 2>cppcheck_res.xml
+      # -
+      #   name: Generate Report
+      #   if: ${{ failure() }}
+      #   run: cppcheck-htmlreport --title=SimpleBLE --file=cppcheck_res.xml --report-dir=report
+      # -
+      #   name: Upload Report
+      #   if: ${{ failure() }}
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: report
+      #     path: report
+
+  Fuzzing:
+    name: 'Fuzz Test'
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, undefined, memory]
+        env:
+          - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "yes"  }
+          - { COMPILER: "gcc",   COMPILER_VERSION: "10", SANITIZE: "no"   }
+          - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "yes"  }
+          - { COMPILER: "clang", COMPILER_VERSION: "12", SANITIZE: "no"   }
+      # env: ${{ matrix.env }}
+        # BeyondSanitizers:
+        #   - { name: "ASan", os: ubuntu-latest, target: "linux" }
+        #   - { name: "TSan", os: ubuntu-latest, target: "linux" }
+        #   - { name: "MSan", os: ubuntu-latest, target: "linux" }
+        #   - { name: "UBSan", os: ubuntu-latest, target: "linux" }
+        #   - { name: "fuzzing", os: ubuntu-latest, target: "linux" }
+    steps:
+      # -
+      #   name: Build Fuzzers (${{ matrix.sanitizer }})
+      #   id: build
+      #   uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      #   with:
+      #     oss-fuzz-project-name: 'util-linux'
+      #     dry-run: false
+      #     allowed-broken-targets-percentage: 0
+      #     sanitizer: ${{ matrix.sanitizer }}
+      # -
+      #   name: Run Fuzzers (${{ matrix.sanitizer }})
+      #   uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      #   with:
+      #     oss-fuzz-project-name: 'util-linux'
+      #     fuzz-seconds: 180
+      #     dry-run: false
+      #     sanitizer: ${{ matrix.sanitizer }}
+      -
+        name: Upload sanitizer Crash
+        uses: actions/upload-artifact@v1
+        if: failure() && steps.build.outcome == 'success'
+        with:
+          name: ${{ runner.os }}-${{ matrix.sanitizer }}-artifacts
+          path: ./out/artifacts
+
+  sonarcloud:
+    name: ${{ github.repository }} SonarCloud static analysis
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    env:
+      CXX: g++
+      CC: gcc
+      SONAR_SCANNER_VERSION: 4.4.0.2170
+      SONAR_SERVER_URL: "https://sonarcloud.io"
+      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+      # env: ${{ matrix.env }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
+      -
+        name: Set up JDK 11 for sonarcloud
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      -
+        name: Download and set up sonar-scanner
+        env:
+          SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
+        run: |
+          mkdir -p $HOME/.sonar
+          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
+          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+          echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
+      -
+        name: Download and set up build-wrapper
+        env:
+          BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
+        run: |
+          curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ env.BUILD_WRAPPER_DOWNLOAD_URL }}
+          unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
+          echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
+      -
+        name: Run build-wrapper
+          # build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+        run: |
+          cd main
+          mkdir build
+          cmake -DBUILD_TESTING=off -S . -B build
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} bazelisk build  --config linux --nobuild //...
+      -
+        name: Run sonar-scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+        run: |
+          cd main
+          sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+
+
+  Valgrind:
+    name: ${{ github.repository }} Valgrind memcheck test
+    runs-on: ubuntu-latest
+    if: github.repository == '${{ github.repository }}'
+    env:
+      CXX: g++
+      CC: gcc
+      # env: ${{ matrix.env }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    # permissions:
+    #   actions: read
+    #   contents: read
+    #   security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp', 'python' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
+        # Learn more:
+        # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+      # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+      # If this step fails, then you should remove it and run the build manually (see below)
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      # ℹ️ Command-line programs to run using the OS shell.
+      # 📚 https://git.io/JvXDl
+
+      # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+      #    and modify them (or add more) to build your code if your project
+      #    uses a compiled language
+
+      #- run: |
+      #   make bootstrap
+      #   make release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1

@@ -1,0 +1,141 @@
+language: cpp
+
+dist: trusty
+sudo: required
+
+branches:
+    only:
+        - master
+        - develop
+        - /feature\/.*/
+        - coverity_scan
+    except:
+        - gh-page
+        - legacy
+        - experimental
+
+cache:
+    ccache: true
+    directories:
+    - $HOME/.sonar/cache
+
+env:
+    global:
+        - CCACHE_MAXSIZE=250M
+        - CCACHE_MAXFILES=2000
+        - CCACHE_COMPRESS=1
+        - CMAKE_OPTIONS="-DOPTION_BUILD_EXAMPLES=On -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=TRUE"
+        - TRAVIS_BUILD_TYPE=Debug
+        - TRAVIS_BUILD_TYPE=Release
+        - TEST_SUITE=integration_tests
+        - TEST_SUITE=unit_tests
+        # Coverity
+        # COVERITY_SCAN_TOKEN
+        # ** specific to your project **
+        - secure: "...."
+        - COVERITY_SCAN_BUILD_COMMAND="bazelisk build //..."
+        - COVERITY_SCAN_PROJECT_NAME="doevelopper/rules-stlc"
+        - COVERITY_SCAN_NOTIFICATION_EMAIL="happyman@hotmail.fr"
+        - COVERITY_SCAN_BRANCH_PATTERN="master"
+        - COVERITY_SCAN_BUILD_URL="https://scan.coverity.com/scripts/travisci_build_coverity_scan.sh"
+        - COVERITY_SCAN_BUILD="curl -s $COVERITY_SCAN_BUILD_URL | bash"
+
+
+matrix:
+    include:
+        # Linux C++14 GCC builds
+        - os: linux
+        compiler: gcc
+        addons: &gcc6
+            apt:
+            sources: ['ubuntu-toolchain-r-test']
+            packages: ['g++-6']
+        env: COMPILER='g++-6' BUILD_TYPE='Release'
+
+        - os: linux
+        compiler: gcc
+        addons: *gcc6
+        env: COMPILER='g++-6' BUILD_TYPE='Debug'
+
+        # Linux C++14 Clang builds
+        - os: linux
+        compiler: clang
+        addons: &clang38
+            apt:
+            sources: ['llvm-toolchain-precise-3.8', 'ubuntu-toolchain-r-test']
+            packages: ['clang-3.8']
+        env: COMPILER='clang++-3.8' BUILD_TYPE='Release'
+
+        - os: linux
+        compiler: clang
+        addons: *clang38
+        env: COMPILER='clang++-3.8' BUILD_TYPE='Debug'
+
+        - os: linux
+        compiler: gcc
+        env: COMPILER=g++-7
+        addons:
+            apt:
+            sources: ['ubuntu-toolchain-r-test']
+            packages: ['cmake', 'g++-7']
+
+        - os: linux
+        compiler: gcc
+        env:
+            COMPILER=g++-7
+            CMAKE_CXX_FLAGS=-std=c++17
+        addons:
+            apt:
+                sources: ['ubuntu-toolchain-r-test']
+                packages: ['cmake', 'g++-7']
+
+        - os: linux
+        compiler: clang
+        env: COMPILER=clang++-6.0
+        addons:
+            apt:
+                sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+                packages: ['cmake', 'clang-6.0', 'g++-6']
+
+before_install:
+    - date -u
+    - uname -a
+    - if [[ "${SYSTEM_BOOST_PACKAGE}" != "" ]]; then sudo add-apt-repository ppa:boost-latest/ppa  && sudo apt-get update -qq; fi
+
+install:
+    - if [[ "${SYSTEM_BOOST_PACKAGE}" != "" ]]; then sudo apt-get install libboost-all-dev; fi
+
+script:
+    - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
+    - if [[ "${BUILD_CONFIG}" == "" ]]; then export BUILD_CONFIG="Release"; fi
+    - uname -a
+    - $CXX --version
+    - cmake --version
+    - cmake -E make_directory build
+    - cmake -E chdir build cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_INSTALL_PREFIX=/opt/dds ..
+    - cmake --build build --target all --clean-first
+    - cmake --build build --target test
+    - cmake --build build --target feature-test
+    - cmake --build build --target coverage
+
+after_success:
+    # Creating report
+  - echo "Uploading code coverate report"
+  - cd build
+  - lcov --directory . --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
+  - lcov --list coverage.info #debug info
+  # Uploading report to CodeCov
+  - bash <(curl -s https://codecov.io/bash) -t "225d6d7a-2b71-4dbe-bf87-fbf75eb7c119" || echo "Codecov did not collect coverage reports"
+  - fi
+
+notifications:
+    email:
+        recipients:
+            - happyman@hotmail.fr
+            - rolland.doe@gmail.com
+        on_success: always  # options: [always|never|change] default: always
+        on_failure: always  # options: [always|never|change] default: always
+        on_start: always    # default: false
+        on_cancel: always   # default: always
+        on_error: always    # default: always

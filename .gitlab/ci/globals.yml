@@ -1,0 +1,454 @@
+#         .gitlab/ci/globals.yml
+#
+#               Copyright (c) 2014-2018 A.H.L
+#
+#        Permission is hereby granted, free of charge, to any person obtaining
+#        a copy of this software and associated documentation files (the
+#        "Software"), to deal in the Software without restriction, including
+#        without limitation the rights to use, copy, modify, merge, publish,
+#        distribute, sublicense, and/or sell copies of the Software, and to
+#        permit persons to whom the Software is furnished to do so, subject to
+#        the following conditions:
+#
+#        The above copyright notice and this permission notice shall be
+#        included in all copies or substantial portions of the Software.
+#
+#        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#        EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#        MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#        LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#        OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#        WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+.Log files: &log_files  [./*.log, ./build/logs/]
+
+.define_config: &configure_artifacts
+    artifacts:
+        paths:
+            - ${PROJECT_LOG_DIR}/configure.log
+        when: always
+        expire_in: 7 days # 5 mins  # see https://docs.gitlab.com/ce/ci/yaml/README.html#artifacts-expire_in
+
+.define_config: &build_artifacts
+    artifacts:
+        paths:
+            - ${PROJECT_LOG_DIR}/build.log
+        when: always
+        expire_in: 7 days
+
+.define_config: &test_artifacts
+    artifacts:
+        paths:
+            - ${PROJECT_LOG_DIR}/test.log
+            - ${PROJECT_LOG_DIR}/ci-test.log
+            - ${PROJECT_LOG_DIR}/rerun-test.log
+        when: always
+        expire_in: 7 days
+
+.define_config: &coverage_artifacts
+    artifacts:
+        paths:
+            - ${PROJECT_LOG_DIR}/coverage.log
+            - ${PROJECT_LOG_DIR}/test-coverage/
+        when: always
+        expire_in: 7 days
+
+.docs-changes:
+    only:
+        refs:
+            - master
+            - merge_requests
+        changes:
+            - "**/*.{md}"
+            - "{doc}/**/*"
+
+.container-changes:
+    only:
+        refs:
+            - master
+            - merge_requests
+        changes:
+
+            - "Dockerfile"
+            - "**/*/Dockerfile"
+            - ".gitlab-ci.yml"
+            - "**/*.{rb,erb,sh,yml,example,types}"
+# Templates with reasonable defaults for builds and tests
+.variables_template: &default_variables
+  BENCHMARK_SERVER: "FINECI"
+  C_COMPILER: gcc
+  CXX_COMPILER: g++
+  BUILD_TYPE: Debug
+  BUILD_REFERENCE: "ON"
+  BUILD_OMP: "OFF"
+  BUILD_CUDA: "OFF"
+  CXX_FLAGS: ""
+  EXTRA_CMAKE_FLAGS: ""
+
+.build_template: &default_build
+  stage: build
+  variables: *default_variables
+  before_script: *default_before_script
+  script:
+    - mkdir -p ${CI_JOB_NAME} && cd ${CI_JOB_NAME}
+    - cmake ${CI_PROJECT_DIR}
+        -DCMAKE_C_COMPILER=${C_COMPILER} -DCMAKE_CXX_COMPILER=${CXX_COMPILER}
+        -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+        -DCMAKE_CUDA_HOST_COMPILER=$(which ${CXX_COMPILER}) ${EXTRA_CMAKE_FLAGS}
+        -DGINKGO_DEVEL_TOOLS=OFF -DGINKGO_BUILD_REFERENCE=${BUILD_REFERENCE}
+        -DGINKGO_BUILD_OMP=${BUILD_OMP} -DGINKGO_BUILD_CUDA=${BUILD_CUDA}
+        -DGINKGO_BUILD_TESTS=ON -DGINKGO_BUILD_EXAMPLES=ON
+    - make -j$(grep "core id" /proc/cpuinfo | sort -u | wc -l)
+  artifacts:
+    paths:
+      - "build/*/*/*/*/*/CMakeCache.txt"
+      - "build/*/*/*/*/*/*.cmake"
+      - "build/*/*/*/*/*/core/test"
+      - "build/*/*/*/*/*/cuda/test"
+      - "build/*/*/*/*/*/omp/test"
+      - "build/*/*/*/*/*/reference/test"
+      - "build/*/*/*/*/*/core/libginkgo*"
+      - "build/*/*/*/*/*/cuda/libginkgo*"
+      - "build/*/*/*/*/*/omp/libginkgo*"
+      - "build/*/*/*/*/*/reference/libginkgo*"
+      - "build/*/*/*/*/*/core/device_hooks/libginkgo*"
+      - "build/*/*/*/*/*/*/CTestTestfile.cmake"
+      - "build/*/*/*/*/*/*/*/CTestTestfile.cmake"
+  except:
+      - schedules
+# ---------------------------------------------------------------------
+#
+# Various functions....
+#
+# ---------------------------------------------------------------------
+.Create issue on failure:
+    stage: Quality assurance
+    script: curl --request POST "https://gitlab.com/api/v4/projects/${PROJECT_ID}/issues?private_token=${BOT_ACCESS_TOKEN}&title=Error%20in%20${CI_PROJECT_NAME}%20with%20pipeline%20${CI_PIPELINE_ID}%20for%20commit%20${CI_COMMIT_SHA}&labels&description=${CI_PIPELINE_URL}"
+    when: on_failure
+    only:
+        refs:
+            - develop
+            - master
+    dependencies: []
+
+# deploy:
+#     when: env.key?(:DO_DEPLOY) and env[:DO_DEPLOY]
+#     script:
+#         - echo "Deployment scripts"
+#     only:
+#         - master@org/repo
+
+
+.notify:
+    image: alpine
+    stage: notification
+    cache: {}
+    before_script:
+        - apk update && apk add git curl bash
+    only:
+        - schedules
+    except:
+        variables:
+            - $CI_SLACK_NOTIFY != "true"
+            - $CI_SLACK_WEBHOOK_URL == null
+            - $CI_SLACK_CHANNEL == null
+
+.Git Untracked files: &save_untracked_files
+    artifacts:
+        name: untracked
+        paths: [$(pwd)]
+        expire_in: 3h45min
+
+.deploy_functions: &deploy_functions |
+    [[ "$TRACE" ]] && set -x
+    skipvar="SKIP_$(echo ${CI_JOB_STAGE} | tr 'a-z' 'A-Z')"
+    [ "$(printenv $skipvar)" ] && echo "Skipping stage!" && exit 0
+# before_script:
+#   - *deploy_functions
+
+# ---------------------------------------------------------------------
+#
+# gitlab-runner selection
+#
+# ---------------------------------------------------------------------
+
+.agent-who:
+    retry:
+        max: 1
+        when:
+            - unknown_failure
+            - api_failure
+            - runner_system_failure
+    tags:
+        - docker
+
+# ---------------------------------------------------------------------
+#
+# Fancy stuffs
+#
+# ---------------------------------------------------------------------
+
+.pre_shared: &pre_shared
+    before_script:
+        - date
+        - docker version || true
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.io
+        - echo -e "\033[0;31m****** Starting Gitlab CI-controlled ...******\033[0m"
+        - echo -e "\033[0;31m******...continuous integration...******\033[0m"
+        - echo -e "\033[0;31m******... continuous deployement...******\033[0m"
+        - echo -e "\033[0;31m******... and Continuous Code Quality!******\033[0m"
+        - env | sort
+
+.post_shared: &post_shared
+    after_script:
+        - date
+        - docker version  || true
+        - docker logout docker.io || true
+
+# ---------------------------------------------------------------------
+#
+# branches selections for differens stages
+#
+# ---------------------------------------------------------------------
+.tumbleweed:
+    only:
+        - develop
+        - /^feature-.*$/
+        - /^hotfix-.*$/
+        - /^bugfix-.*$/
+        - /^bugfix[/]v[0-9.]*$/
+        - /^support-.*$/
+#        - /(develop|feature|bugfix|hotfix)\/?(.*)/
+
+.branch_exceptions:
+    only:
+        - branches
+    except:
+        - coverity_scan
+
+.only_stable:
+    only:
+        - master
+        - /^release-.*$/
+
+.weekly build:
+    only:
+        variables:
+            - $SCHEDULE_TYPE == "weekly"
+
+.define_config: &triggered_by_api_call
+    only:
+        - triggers
+
+.define_config: &triggered_by_schedules
+    only:
+        - schedules
+# ---------------------------------------------------------------------
+#
+#  Caching configurations
+#
+# ---------------------------------------------------------------------
+
+.default-cache: &default-cache
+    key: "dind-${CI_BUILD_REF_NAME}_${CI_BUILD_REF}"
+    paths:
+        - ${CI_PROJECT_PATH}/.cache
+
+.agent-who-default-cache:
+    extends: .agent-who
+    cache:
+        <<: *default-cache
+
+# Jobs that only need to pull cache
+.dedicated-pull-cache-job:
+    extends: .agent-who
+    cache:
+        <<: *default-cache
+        policy: pull
+    stage: Unit testing
+
+.push-cache: &push-cache
+    cache:
+        <<: *default-cache
+    policy: push
+
+.pull-cache: &pull-cache
+    cache:
+        <<: *default-cache
+    policy: pull
+
+.per job caching:
+    cache:
+        key: "$CI_BUILD_NAME"
+        untracked: true
+
+.per branch caching:
+    cache:
+        key: "$CI_BUILD_REF_NAME"
+        untracked: true
+
+.per job and per branch caching:
+    cache:
+        key: "$CI_BUILD_STAGE/$CI_BUILD_REF_NAME"
+        untracked: true
+
+# ---------------------------------------------------------------------
+#
+# common variables for the various stages
+#
+# ---------------------------------------------------------------------
+
+.variables: &common_variables
+#    CI_DEBUG_TRACE: "true"
+#    GIT_SUBMODULE_STRATEGY: "recursive" "none"
+#    GIT_CHECKOUT: "false"
+    GIT_STRATEGY: "fetch"
+    GET_SOURCES_ATTEMPTS: "3"
+    ARTIFACT_DOWNLOAD_ATTEMPTS: "2"
+    GIT_DEPTH: "1"
+    CACHE_KEY: '$(if [[ ! -z ${CI_COMMIT_TAG+x} || "${CI_COMMIT_REF_SLUG}" == "prod" ]]; then echo "${CI_COMMIT_REF_SLUG}"; else echo "not-prod-or-tag"; fi)'
+    STAGING_REGISTRY: "docker.io"
+    BUILD_DATE: $(date +%Y-%m-%d-%H:%M:%S)
+    COMMIT_TIME: $(git show -s --format=%ct $CI_APPLICATION_TAG)
+    DOCKER_TRUSTED_REGISTRY: ${STAGING_REGISTRY}
+    DTR_NAMESPACE: $CI_PROJECT_NAMESPACE
+    PROJECT_SOURCE_DIR: "$CI_PROJECT_DIR"
+    PROJECT_NAME: $CI_PROJECT_NAME
+    TAG: $CI_BUILD_REF_NAME
+    ARCH: amd64
+    COMMIT_ID: ${CI_COMMIT_SHA:0:8}
+    CCACHE_BASEDIR: $CI_PROJECT_DIR
+
+.service-variables:
+    variables: &service-variables
+
+.base-variables:
+    variables: &base-variables
+
+.core-variables:
+    variables: &core-variables
+
+.module-deps-variables:
+    variables: &module-deps-variables
+
+.module-variables:
+    variables: &module-variables
+
+.dind_hub_variables:
+    variables:
+        <<: *common_variables
+        DOCKER_DIRVER: overlay2
+        DOCKER_HOST: tcp://docker:2376
+        DOCKER_TLS_VERIFY: 1
+        DOCKER_TLS_CERTDIR: "/certs"
+        DOCKER_CERT_PATH: "/certs/client"
+        ROOT_IMG_IMAGE: ${STAGING_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+
+# .Build logs: &save_build_logs
+    # artifacts:
+        # name: log
+        # when: always
+        # paths:
+            # <<: *log_file
+
+# ---------------------------------------------------------------------
+#
+# Base template for all jobs that build a Docker image
+#
+# ---------------------------------------------------------------------
+
+.docker-hub-dind:
+    image: docker:19.03.0
+    services:
+        - docker:19.03.0-dind
+    stage: Build in docker image
+    extends:
+        - .agent-who
+        - .dind_hub_variables
+
+# ---------------------------------------------------------------------
+#
+# service images
+#
+# ---------------------------------------------------------------------
+.docker:
+    stage: Build docker image
+    services:
+        - docker:19.03.0-dind
+    extends: .dind_hub_variables
+
+.docker-app-prerequisities:
+    image: ${ROOT_IMG_IMAGE}-dind:0.0.1
+    extends: .docker
+    # only:
+        # refs:
+            # - branches
+        # changes:
+            # - src/main/resources/docker/${ARCH}/Dockerfile
+
+# ---------------------------------------------------------------------
+#
+# base images
+#
+# ---------------------------------------------------------------------
+.create-docker-container:
+    extends:
+        - .agent-who
+        - .docker-app-prerequisities
+    before_script:
+        - echo "${GOAL}ming ${MODULE} in (${MODULE_DIR}) (${CI_JOB_STAGE}[${CI_JOB_NAME}])"
+        - export VERSIONFILE=${CI_PROJECT_DIR}/src/main/resources/docker/${ARCH}/${MODULE_DIR}/VERSION_FILE
+        - "[ -f ${VERSIONFILE} ] && export SEM_VERSION=$(head ${VERSIONFILE}) || export SEM_VERSION=${BUMP_VERSION}"
+        - export BUILD_LOG="2>&1 | tee ${CI_PROJECT_DIR}/${MODULE}.log"
+        - export DTR_PASSWORD=$DOCKER_PASSWORD
+        - export SECOND_LEVEL="omg eprosima adlinktech"
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.io
+    script:
+        - "[[ $SECOND_LEVEL =~ (^|[[:space:]])$MODULE_DIR($|[[:space:]]) ]] && export CHECK_IMG=${ROOT_IMG_IMAGE}-common:latest || export CHECK_IMG=${ROOT_IMG_IMAGE}-${MODULE_DIR}:${SEM_VERSION}"
+        - echo "Check availability of ${CHECK_IMG} in ${DOCKER_TRUSTED_REGISTRY}"
+        - |
+            if DOCKER_CLI_EXPERIMENTAL=enabled docker manifest inspect ${CHECK_IMG} >/dev/null; then
+                echo "== ${CHECK_IMG} already exists =="
+                echo "== SKipping build =="
+                exit 0
+            else
+                make DOCKER_TRUSTED_REGISTRY=${DOCKER_TRUSTED_REGISTRY} DDS_DEV_IMAGE=${CHECK_IMG} DTR_NAMESPACE=${DTR_NAMESPACE} ARCH=${ARCH} GOAL=${GOAL} PLATFORM=${PLATFORM} ${MODULE}
+            fi
+    after_script:
+        - docker logout ${DOCKER_TRUSTED_REGISTRY} || true
+
+# ${MODULE}
+    # artifacts:
+        # when: on_failure
+        # paths:
+            # - $CI_PROJECT_DIR/*.log
+            # - tmp/*.log
+
+.test-docker-container:
+    extends:
+        - .agent-who
+        - .docker-app-prerequisities
+    before_script:
+        - export DTR_PASSWORD=$DOCKER_PASSWORD
+        - export SECOND_LEVEL="omg eprosima adlinktech"
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin docker.io
+    script:
+        - uname -a
+        - lsb_release -d
+        - lsb_release -sc
+        - pkg-config --list-all
+
+    after_script:
+        - docker logout ${DOCKER_TRUSTED_REGISTRY} || true
+# ---------------------------------------------------------------------
+#
+# core images
+#
+# ---------------------------------------------------------------------
+
+# ---------------------------------------------------------------------
+#
+# deploy / cleanup
+#
+# ---------------------------------------------------------------------

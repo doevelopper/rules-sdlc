@@ -1,0 +1,18 @@
+name: Greetings
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    name: Greeting
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Thanks for adding your first issue to rules-sdlc. If you have questions, please do not hesitate to contact us. Please remember to reference [Contributing.md](https://github.com/doevelopper/rules-sdlc/blob/master/Contributing.md)'
+        pr-message: 'Thanks for adding your first pull request to rules-sdlc. If you have questions, please do not hesitate to contact us.'

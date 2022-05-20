@@ -1,0 +1,8 @@
+# # +------------------------------------------------------------+
+# # | Python Configurations                                      |
+# # +------------------------------------------------------------+
+# # run --python_path=/usr/bin/python3
+
+# run --color=yes
+# run --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+# run --python_path=/usr/bin/python3

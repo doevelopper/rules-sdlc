@@ -1,0 +1,3 @@
+bazel_*.zip
+package/WORKSPACE
+package/BUILD.bazel

@@ -1,0 +1,34 @@
+# UNCRUSTIFY_FLAGS = "-q --if-changed --no-backup -l CPP  -c"
+# CPP_HEADER_FORMATER = "//rules_sdlc/tools/style/hpp.cfg"
+# CPP_SRC_FORMATER = "//rules_sdlc/tools/style/cpp.cfg"
+
+# sh_binary(
+#     name = "beautify",
+#     srcs = ["uncrustify.sh"],
+#     args = [
+#      "$(location cfs-platform-main)",
+#   UNCRUSTIFY_FLAGS,
+#      "$(location %s)" % CPP_SRC_FORMATER
+# ],
+#    #data = [
+#    #  CPP_SRC_FORMATER,
+#    #],
+#    deps = [
+#        "@bazel_tools//tools/bash/runfiles"
+#    ],
+#     visibility = ["//visibility:public"],
+# )
+
+#sh_binary(
+#    name = "header-style",
+#    srcs = ["uncrustify.sh"],
+#    args = [
+#      "$(location cfs-platform-main)",
+#      UNCRUSTIFY_FLAGS,
+#      "$(location {})".format(CPP_HEADER_FORMATER)
+#    ],
+#    data = [
+#      CPP_HEADER_FORMATER,
+#    ],
+#    visibility = ["//visibility:public"],
+#)

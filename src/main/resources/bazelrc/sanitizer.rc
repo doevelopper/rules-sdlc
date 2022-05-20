@@ -1,0 +1,105 @@
+build --workspace_status_command=tools/buildstamp/get_workspace_status
+
+# Address sanitizer
+# To use it: bazel build --config asan
+build:asan --crosstool_top //tools/lrte:toolchain
+build:asan --compiler clang
+build:asan --strip=never
+build:asan --copt -fsanitize=address
+build:asan --copt -DADDRESS_SANITIZER
+build:asan --copt -O1
+build:asan --copt -g
+build:asan --copt -fno-omit-frame-pointer
+build:asan --linkopt -fsanitize=address
+
+# Clang ASAN/UBSAN
+build:clang-asan --config=clang
+build:clang-asan --config=asan
+build:clang-asan --linkopt -fuse-ld=lld
+build:clang-asan --linkopt --rtlib=compiler-rt
+build:clang-asan --linkopt --unwindlib=libgcc
+
+# Basic ASAN/UBSAN that works for gcc
+build:asan --action_env=CFS_ASAN=1
+build:asan --config=sanitizer
+# ASAN install its signal handler, disable ours so the stacktrace will be printed by ASAN
+build:asan --define signal_trace=disabled
+build:asan --define CFS_CONFIG_ASAN=1
+build:asan --copt -fsanitize=address,undefined
+build:asan --linkopt -fsanitize=address,undefined
+# vptr and function sanitizer are enabled in clang-asan if it is set up via bazel/setup_clang.sh.
+build:asan --copt -fno-sanitize=vptr,function
+build:asan --linkopt -fno-sanitize=vptr,function
+build:asan --copt -DADDRESS_SANITIZER=1
+build:asan --copt -DUNDEFINED_SANITIZER=1
+build:asan --copt -D__SANITIZE_ADDRESS__
+build:asan --test_env=ASAN_OPTIONS=handle_abort=1:allow_addr2line=true:check_initialization_order=true:strict_init_order=true:detect_odr_violation=1
+build:asan --test_env=UBSAN_OPTIONS=halt_on_error=true:print_stacktrace=1
+build:asan --test_env=ASAN_SYMBOLIZER_PATH
+# ASAN needs -O1 to get reasonable performance.
+build:asan --copt -O1
+build:asan --copt -fno-optimize-sibling-calls
+
+
+# Thread sanitizer
+# bazel build --config tsan
+build:tsan --crosstool_top //tools/lrte:toolchain
+build:tsan --compiler clang
+build:tsan --strip=never
+build:tsan --copt -fsanitize=thread
+build:tsan --copt -DTHREAD_SANITIZER
+build:tsan --copt -DDYNAMIC_ANNOTATIONS_ENABLED=1
+build:tsan --copt -DDYNAMIC_ANNOTATIONS_EXTERNAL_IMPL=1
+build:tsan --copt -O1
+build:tsan --copt -fno-omit-frame-pointer
+build:tsan --linkopt -fsanitize=thread
+
+# Clang TSAN
+build:clang-tsan --action_env=CFS_TSAN=1
+build:clang-tsan --config=sanitizer
+build:clang-tsan --define CFS_CONFIG_TSAN=1
+build:clang-tsan --copt -fsanitize=thread
+build:clang-tsan --linkopt -fsanitize=thread
+build:clang-tsan --linkopt -fuse-ld=lld
+build:clang-tsan --copt -DTHREAD_SANITIZER=1
+build:clang-tsan --build_tag_filters=-no_san,-no_tsan
+build:clang-tsan --test_tag_filters=-no_san,-no_tsan
+build:clang-tsan --copt -DEVENT__DISABLE_DEBUG_MODE
+build:clang-tsan --test_env="TSAN_OPTIONS=report_atomic_races=0"
+
+# --config msan: Memory sanitizer
+build:msan --crosstool_top //tools/lrte:toolchain
+build:msan --compiler clang
+build:msan --strip=never
+build:msan --copt -fsanitize=memory
+build:msan --copt -DADDRESS_SANITIZER
+build:msan --copt -O1
+build:msan --copt -fno-omit-frame-pointer
+build:msan --linkopt -fsanitize=memory
+
+# Clang MSAN - this is the base config for remote-msan and docker-msan. To run this config without
+# our build image, follow https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo
+# with libc++ instruction and provide corresponding `--copt` and `--linkopt` as well.
+build:clang-msan --action_env=CFS_MSAN=1
+build:clang-msan --config=sanitizer
+build:clang-msan --define CFS_CONFIG_MSAN=1
+build:clang-msan --copt -fsanitize=memory
+build:clang-msan --linkopt -fsanitize=memory
+build:clang-msan --linkopt -fuse-ld=lld
+build:clang-msan --copt -fsanitize-memory-track-origins=2
+build:clang-msan --copt -DMEMORY_SANITIZER=1
+build:clang-msan --test_env=MSAN_SYMBOLIZER_PATH
+# MSAN needs -O1 to get reasonable performance.
+build:clang-msan --copt -O1
+build:clang-msan --copt -fno-optimize-sibling-calls
+
+
+# --config ubsan: Undefined Behavior Sanitizer
+build:ubsan --crosstool_top //tools/lrte:toolchain
+build:ubsan --compiler clang
+build:ubsan --strip=never
+build:ubsan --copt -fsanitize=undefined
+build:ubsan --copt -O1
+build:ubsan --copt -fno-omit-frame-pointer
+build:ubsan --linkopt -fsanitize=undefined
+build:ubsan --linkopt -lubsan

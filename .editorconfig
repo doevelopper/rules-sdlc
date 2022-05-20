@@ -1,0 +1,66 @@
+root = true
+
+[.editorconfig]
+charset                    = utf-8
+end_of_line                = lf
+indent_size                = 4
+indent_style               = tab
+insert_final_newline       = true
+tab_width                  = 4
+trim_trailing_whitespace   = true
+
+[*]
+charset                   = utf-8
+end_of_line               = lf
+insert_final_newline      = true
+indent_style              = space
+indent_size               = 4
+trim_trailing_whitespace  = true
+
+[*.py]
+indent_style              = space
+indent_size               = 4
+
+[{*[Mm]akefile*,*.mak,*.mk,depend}]
+indent_style              = tab
+
+[*.{bat, cmd, cmd.*}]
+end_of_line               = crlf
+indent_style              = space
+indent_size               = 4
+
+[*.yml]
+indent_style              = space
+indent_size               = 2
+
+[*.md]
+indent_size               = 4
+trim_trailing_whitespace  = false
+max_line_length           = off
+
+[*.gemspec]
+indent_size               = 2
+
+[*.rb]
+indent_size               = 2
+
+[*.bat]
+end_of_line               = crlf
+
+[*.sh]
+charset                   = utf-8
+end_of_line               = lf
+indent_size               = 2
+indent_style              = space
+insert_final_newline      = true
+tab_width                 = 2
+trim_trailing_whitespace  = true
+
+[CMakeLists.txt]
+charset                   = utf-8
+end_of_line               = lf
+indent_size               = 2
+indent_style              = space
+insert_final_newline      = true
+tab_width                 = 2
+trim_trailing_whitespace  = true

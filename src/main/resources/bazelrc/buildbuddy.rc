@@ -1,0 +1,4 @@
+# BuildBuddy - https://buildbuddy.io/
+# uncomment the following lines to send build events to buildbuddy
+# build --bes_results_url=https://app.buildbuddy.io/invocation/
+# build --bes_backend=grpc://events.buildbuddy.io:1985

@@ -1,0 +1,153 @@
+#!/bin/bash
+
+#  export GPG_TTY=$(tty)
+#  fortuneswip
+
+export GIT_ROOTDIR=$(git rev-parse --show-toplevel)
+export DTR_NAMESPACE=doevelopper
+export RND_NS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+
+function helpFunction()
+{
+    cat <<tac
+Usage: $0 [options]
+
+Options:
+    --base        -b   Run common SW developemment platform.
+    --adlinktech  -a   Run Vortex OpenSplice DDS container for SW dev.
+    --eprosima    -e   Run Fast-RTPS DDS container for SW dev.
+    --opendds     -o   Run OMG OpenDDS container for SW dev.
+    --dind        -d   Run my custum docker in docker container.
+    --rti         -r   Run RTI DDS container.
+
+Note: Combining options (like this: -qkn) not handled.
+tac
+    exit 0
+}
+
+if [ $# -lt 1 ];then
+    helpFunction
+  exit 1
+fi
+
+select_container () {
+    # Parse arguments.
+    #
+    while [ "$1" != "" ]; do
+        ARG="$1"
+        shift
+        if [ -d "$ARG" ]; then
+            WORKINGDIR="$ARG"
+            continue
+        else
+            case $ARG in
+                -b|--base)
+                    export CONTAINER="doevelopper/cfs-dev-tools-common"
+                    run_container
+                    ;;
+                -a|--adlinktech)
+                    export CONTAINER="doevelopper/cfs-dev-tools-adlinktech"
+                    run_container
+                    ;;
+                -o|--opendds)
+                    export CONTAINER="doevelopper/cfs-dev-tools-omg"
+                    run_container
+                    ;;
+                -e|--eprosima)
+                    export CONTAINER="doevelopper/cfs-dev-tools-eprosima"
+                    run_container
+                    ;;
+                -r|--rti)
+                    export CONTAINER="doevelopper/cfs-dev-tools-rti"
+                    run_container
+                    ;;
+                --dind)
+                    export CONTAINER="doevelopper/cfs-dev-tools-dind"
+                    run_container
+                    ;;
+                --rcc)
+                    export CONTAINER="registry.gitlab.com/buildgrid/buildgrid.hub.docker.com/buildgrid:nightly"
+                    run_rbe
+                    ;;
+                --bst)
+                    export CONTAINER="registry.gitlab.com/buildgrid/buildgrid.hub.docker.com/buildgrid:nightly"
+                    run_rbe
+                    ;;
+                --bbox)
+                    export CONTAINER="registry.gitlab.com/buildgrid/buildgrid.hub.docker.com/buildbox:nightly"
+                    run_rbe
+                    ;;
+                *)
+                    helpFunction
+                    ;;
+            esac
+        fi
+    done
+}
+
+# --memory="1024m"
+# --memory=$(($(head -n 1 /proc/meminfo | awk '{print $2}') * 4 / 5))k \
+# --cpus=$((`nproc` - 1))
+# --log-opt max-size=50m  \
+# --volume /etc/passwd:/etc/passwd:ro \
+# --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+# --volume ${HOME}/.Xauthority:/root/.Xauthority \
+# --env DISPLAY=unix${DISPLAY}
+# --env LANG=C.UTF-8 \
+# --env LC_ALL=C.UTF-8 \
+# --env DOCKER_USER=`id -un` \
+# --env DOCKER_USER_ID=`id -u` \
+# --env DOCKER_PASSWORD=`id -un` \
+# --env DOCKER_GROUP_ID=`id -g`
+# --volume /tmp:/tmp:rw
+
+# bazel_rbe(){
+# docker run -v /path/to/cache/dir:/data \
+    # -v /path/to/htpasswd:/etc/bazel-remote/htpasswd \
+    # -v /path/to/server_cert:/etc/bazel-remote/server_cert \
+    # -v /path/to/server_key:/etc/bazel-remote/server_key \
+    # -p 9090:8080 -p 9092:9092 buchgr/bazel-remote-cache \
+    # --tls_enabled=true \
+    # --tls_cert_file=/etc/bazel-remote/server_cert \
+    # --tls_key_file=/etc/bazel-remote/server_key \
+    # --htpasswd_file /etc/bazel-remote/htpasswd --max_size=5
+# }
+
+run_rbe() {
+    docker run --rm \
+        --mount type=bind,src=${PWD}/src/main/resources/configs/rbe,dst=/etc/buildstream \
+		# --mount type=bind,src=${PWD}/recc/config,dst=/etc/recc
+        --network host \
+        ${CONTAINER} \
+        --config /etc/buildstream/buildstream.conf \
+        --directory /app \
+        --colors \
+        build
+}
+
+run_container() {
+    docker run --rm \
+        --volume /etc/passwd:/etc/passwd:ro \
+        --volume /etc/group:/etc/group:ro \
+        --volume /etc/sudoers.d:/etc/sudoers.d:ro \
+        --volume ${HOME}/.ssh:/home/${USER}/.ssh \
+        --volume ${HOME}/.cache:/home/${USER}/.cache \
+        --volume ${HOME}/.conan:/home/${USER}/.conan \
+        --volume ${HOME}/.m2:/home/${USER}/.m2 \
+        --volume ${HOME}/.aws:${HOME}/.aws \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vim:/home/${USER}/.vim \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.vimrc:/home/${USER}/.vimrc  \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.aliases:/home/${USER}/.aliases \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.env:/home/${USER}/.env \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.functions:/home/${USER}/.functions \
+        --volume $GIT_ROOTDIR/src/main/resources/dotfiles/.bashrc:/home/${USER}/.bashrc \
+        --workdir "/home/${USER}/$(basename ${PWD})" \
+        --volume ${PWD}:/home/${USER}/$(basename ${PWD}) \
+        --user $(id -u ${USER}):$(id -g ${USER}) \
+        --name=$(whoami) \
+        --hostname="$(basename ${PWD})-${RND_NS}" \
+        --tty \
+        --interactive ${CONTAINER}:latest
+}
+
+select_container $@
