@@ -1,0 +1,64 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+
+filegroup(
+    name = "all",
+    srcs = glob(["**"]),
+    visibility = ["//visibility:public"]
+)
+
+# sudo apt update
+# sudo apt install locales-all
+
+cmake(
+    name = "fmt",
+
+    build_args = [
+        "--verbose",
+        "--clean-first",
+        "--",  # <- Pass remaining options to the native tool.
+        "-j 1",
+    ],
+
+    lib_source = ":all",
+
+    generate_args=[
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_VERBOSE_MAKEFILE=ON",
+        "-DCMAKE_CXX_STANDARD=17",
+        "-DFMT_DOC=OFF",
+        "-DCMAKE_CXX_VISIBILITY_PRESET=hidden",
+        "-DCMAKE_VISIBILITY_INLINES_HIDDEN=ON",
+        "-DFMT_PEDANTIC=ON",
+        "-DFMT_WERROR=ON",
+
+    ],
+
+    # out_static_libs = select({
+    #     "@bazel_tools//platforms:osx": [
+    #         "libfmt.a",
+    #     ],
+    #     # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+    #     "@platforms//os:windows": [
+    #         "libfmt.lib",
+    #     ],
+    #     "//conditions:default": [
+    #         "libfmt.a",
+    #     ],
+    # }),
+
+    out_shared_libs = select({
+        "@bazel_tools//platforms:osx": [
+            "libfmt.dylib",
+        ],
+        # considere using "@platforms//os:windows": or @bazel_tools//platforms:windows or "@bazel_tools//src/conditions:windows":
+        "@bazel_tools//platforms:windows": [
+            "libfmt.lib",
+        ],
+        "//conditions:default": [
+            "libfmt.so",
+            # "libfmt.so.13",
+            # "libfmt.so.13.0.0",
+        ],
+    }),
+)

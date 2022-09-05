@@ -53,6 +53,7 @@ build:linux --cxxopt="-fdiagnostics-color=always"
 # build --test_tmpdir=/tmp/bazel_tmp --verbose_failures
 # This is so we understand failures better
 # build --verbose_failures
+# build --symlink_prefix=/ # Out of source build
 # # build --symlink_prefix=target/ --worker_sandboxing
 # build --copt="-Werror=sign-compare"
 # build --copt="-Werror=return-type"
