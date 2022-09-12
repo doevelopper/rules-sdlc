@@ -15,8 +15,7 @@ struct FirstSuccessPolicy< Ret ( Args... ) >
 {
     using result_type = Ret;
     template < typename InputIterator >
-    Ret
-        operator( ) ( InputIterator first, InputIterator last )
+    Ret operator( ) ( InputIterator first, InputIterator last )
     {
         std::string err;
         while ( first != last )
@@ -74,8 +73,7 @@ struct FirstProviderPolicy< Ret ( Args... ) >
 {
     using result_type = Ret;
     template < typename InputIterator >
-    Ret
-        operator( ) ( InputIterator first, InputIterator )
+    Ret operator( ) ( InputIterator first, InputIterator )
     {
         return *first;
     }
@@ -86,8 +84,7 @@ struct FirstProviderPolicy< void ( Args... ) >
 {
     using result_type = void;
     template < typename InputIterator >
-    void
-        operator( ) ( InputIterator first, InputIterator )
+    void operator( ) ( InputIterator first, InputIterator )
     {
         *first;
     }
@@ -107,14 +104,11 @@ class SDLC_API_EXPORT Method final : public MethodCaller< FunctionSig, DispatchP
         Handle ( );
         Handle ( const Handle & ) = default;
         Handle ( Handle && )      = default;
-        Handle &
-            operator= ( const Handle & ) = default;
-        Handle &
-            operator= ( Handle && ) = default;
+        Handle & operator= ( const Handle & ) = default;
+        Handle & operator= ( Handle && ) = default;
         virtual ~Handle ( );
 
-        void
-            unregister ( );
+        void unregister ( );
 
     protected:
     private:
@@ -126,14 +120,11 @@ class SDLC_API_EXPORT Method final : public MethodCaller< FunctionSig, DispatchP
 
     Method ( const Method & ) = default;
     Method ( Method && )      = default;
-    Method &
-        operator= ( const Method & ) = default;
-    Method &
-        operator= ( Method && ) = default;
+    Method & operator= ( const Method & ) = default;
+    Method & operator= ( Method && ) = default;
 
     template < typename T >
-    Handle
-        registerProvider ( T provider, int priority = 0 )
+    Handle registerProvider ( T provider, int priority = 0 )
     {
         return Handle ( this->m_signal.connect ( priority, provider ) );
     }
@@ -142,19 +133,16 @@ protected:
     Method ( );
     virtual ~Method ( );
 
-    static void
-        deleter ( void * ErasedMethod )
+    static void deleter ( void * ErasedMethod )
     {
         auto ptr = reinterpret_cast< Method * > ( ErasedMethod );
         delete ptr;
     }
-    static Method *
-        get_method ( ErasedMethod & ptr )
+    static Method * get_method ( ErasedMethod & ptr )
     {
         return reinterpret_cast< Method * > ( ptr.get ( ) );
     }
-    static ErasedMethod
-        make_unique ( )
+    static ErasedMethod make_unique ( )
     {
         return ErasedMethod ( new Method ( ), &deleter );
     }

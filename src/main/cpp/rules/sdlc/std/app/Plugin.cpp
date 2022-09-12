@@ -5,7 +5,8 @@
 using namespace rules::sdlc::stdc::app;
 
 template < typename I >
-log4cxx::LoggerPtr Plugin< I >::logger = log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Plugin" ) );
+log4cxx::LoggerPtr Plugin< I >::logger =
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.Plugin" ) );
 
 template < typename I >
 Plugin< I >::Plugin ( )
@@ -30,31 +31,27 @@ Plugin< I >::~Plugin ( )
 }
 
 template < typename I >
-PluginInterface::State
-    Plugin< I >::state ( ) const
+PluginInterface::State Plugin< I >::state ( ) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     return ( m_pluginState );
 }
 
 template < typename I >
-const std::string &
-    Plugin< I >::name ( ) const
+const std::string & Plugin< I >::name ( ) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     return ( m_pluginName );
 }
 
 template < typename I >
-void
-    Plugin< I >::options ( OptionDesc & cli, OptionDesc & cfg )
+void Plugin< I >::options ( OptionDesc & cli, OptionDesc & cfg )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
 template < typename I >
-void
-    Plugin< I >::initialize ( const OptionMap & options )
+void Plugin< I >::initialize ( const OptionMap & options )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     if ( m_pluginState == State::REGISTERED )
@@ -70,8 +67,7 @@ void
 }
 
 template < typename I >
-void
-    Plugin< I >::handleSignalHangUp ( )
+void Plugin< I >::handleSignalHangUp ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     if ( m_pluginState == State::INITIALIZED )
@@ -87,22 +83,19 @@ void
 }
 
 template < typename I >
-void
-    Plugin< I >::startup ( )
+void Plugin< I >::startup ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
 template < typename I >
-void
-    Plugin< I >::shutdown ( )
+void Plugin< I >::shutdown ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
 template < typename I >
-void
-    Plugin< I >::registerPlugings ( )
+void Plugin< I >::registerPlugings ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     static_cast< I * > ( this )->pluginRequires ( [&] ( auto & plugin ) {} );

@@ -42,8 +42,7 @@ Application::~Application ( )
     Q_D ( Application );
 }
 
-void
-    Application::startup ( )
+void Application::startup ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
@@ -81,29 +80,25 @@ void
 #endif
 }
 
-void
-    Application::shutdown ( )
+void Application::shutdown ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
 }
 
-void
-    Application::exec ( )
+void Application::exec ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
 }
 
-void
-    Application::quit ( )
+void Application::quit ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
 }
 
-bool
-    Application::is_quiting ( ) const
+bool Application::is_quiting ( ) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -111,16 +106,14 @@ bool
     return ( /*d->is_quiting*/ true );
 }
 
-boost::asio::io_service &
-    Application::get_io_service ( )
+boost::asio::io_service & Application::get_io_service ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
     return ( *m_ioService );
 }
 
-void
-    Application::register_config_type_comparison ( std::type_index i, ConfigComparison comp )
+void Application::register_config_type_comparison ( std::type_index i, ConfigComparison comp )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
@@ -128,24 +121,21 @@ void
     // d_ptr->_any_compare_map.emplace(i, comp);
 }
 
-void
-    Application::plugin_initialized ( PluginInterface & plug )
+void Application::plugin_initialized ( PluginInterface & plug )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
     m_initializedPlugins.push_back ( &plug );
 }
 
-void
-    Application::plugin_started ( PluginInterface & plug )
+void Application::plugin_started ( PluginInterface & plug )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     Q_D ( Application );
     m_runningPlugins.push_back ( &plug );
 }
 
-PluginInterface *
-    Application::findPlugin ( const std::string & name ) const
+PluginInterface * Application::findPlugin ( const std::string & name ) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -155,8 +145,7 @@ PluginInterface *
     return ( itr->second.get ( ) );
 }
 
-PluginInterface &
-    Application::getPlugin ( const std::string & name ) const
+PluginInterface & Application::getPlugin ( const std::string & name ) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -168,8 +157,7 @@ PluginInterface &
     return ( *ptr );
 }
 
-void
-    Application::set_thread_priority_max ( )
+void Application::set_thread_priority_max ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 #if __has_include( <pthread.h>)
@@ -179,16 +167,24 @@ void
     };
     int policy = 0;
     int ret    = pthread_getschedparam ( this_thread, &policy, &params );
-    if ( ret != 0 ) { LOG4CXX_ERROR ( logger, "Unable to get thread priority" ); }
+
+    if ( ret != 0 )
+    {
+        LOG4CXX_ERROR ( logger, "Unable to get thread priority" );
+    }
 
     params.sched_priority = sched_get_priority_max ( policy );
-    ret                   = pthread_setschedparam ( this_thread, policy, &params );
-    if ( ret != 0 ) { LOG4CXX_ERROR ( logger, "Unable to set thread priority" ); }
+
+    ret = pthread_setschedparam ( this_thread, policy, &params );
+
+    if ( ret != 0 )
+    {
+        LOG4CXX_ERROR ( logger, "Unable to set thread priority" );
+    }
 #endif
 }
 
-void
-    Application::waitForSignal ( std::shared_ptr< boost::asio::signal_set > ss )
+void Application::waitForSignal ( std::shared_ptr< boost::asio::signal_set > ss )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     ss->async_wait ( [this, ss] ( const boost::system::error_code & ec, int ) {
@@ -202,8 +198,7 @@ void
     } );
 }
 
-void
-    Application::iOServiceSignalHandling ( boost::asio::io_service & ios, bool startup )
+void Application::iOServiceSignalHandling ( boost::asio::io_service & ios, bool startup )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     std::shared_ptr< boost::asio::signal_set > ss = std::make_shared< boost::asio::signal_set > ( ios, SIGINT, SIGTERM );
@@ -216,9 +211,9 @@ void
     waitForSignal ( ss );
 }
 
-void
-    Application::startSighupHandler ( std::shared_ptr< boost::asio::signal_set > sighup_set )
+void Application::startSighupHandler ( std::shared_ptr< boost::asio::signal_set > sighup_set )
 {
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 #ifdef SIGHUP
     sighup_set->async_wait ( [sighup_set, this] ( const boost::system::error_code & err, int /*num*/ ) {
         if ( err ) return;

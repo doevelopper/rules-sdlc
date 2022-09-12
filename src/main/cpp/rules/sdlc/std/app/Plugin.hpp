@@ -19,22 +19,14 @@ public:
     Plugin ( );
     virtual ~Plugin ( );
 
-    virtual State
-        state ( ) const override;
-    virtual const std::string &
-        name ( ) const override;
-    virtual void
-        initialize ( const OptionMap & options ) override;
-    virtual void
-        handleSignalHangUp ( ) override;
-    virtual void
-        startup ( ) override;
-    virtual void
-        shutdown ( ) override;
-    virtual void
-        registerPlugings ( );
-    virtual void
-        options ( OptionDesc & cli, OptionDesc & cfg );
+    virtual State state ( ) const override;
+    virtual const std::string & name ( ) const override;
+    virtual void initialize ( const OptionMap & options ) override;
+    virtual void handleSignalHangUp ( ) override;
+    virtual void startup ( ) override;
+    virtual void shutdown ( ) override;
+    virtual void registerPlugings ( );
+    virtual void options ( OptionDesc & cli, OptionDesc & cfg );
 
 protected:
     Plugin ( const std::string & name );

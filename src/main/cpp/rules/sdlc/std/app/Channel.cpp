@@ -44,16 +44,14 @@ Channel< Data, DispatchPolicy >::Handle::Handle ( HandleType && m_handle )
 }
 
 template < typename Data, typename DispatchPolicy >
-void
-    Channel< Data, DispatchPolicy >::Handle::unsubscribe ( )
+void Channel< Data, DispatchPolicy >::Handle::unsubscribe ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     if ( m_handle.connected ( ) ) { m_handle.disconnect ( ); }
 }
 
 template < typename Data, typename DispatchPolicy >
-bool
-    Channel< Data, DispatchPolicy >::hasSubscribers ( )
+bool Channel< Data, DispatchPolicy >::hasSubscribers ( )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     auto connections = m_signal.num_slots ( );

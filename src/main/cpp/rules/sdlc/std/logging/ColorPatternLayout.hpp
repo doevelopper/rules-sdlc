@@ -19,8 +19,7 @@ public:
 
     ColorPatternLayout ( );
     ColorPatternLayout ( const log4cxx::LogString & s );
-    virtual void
-        format ( log4cxx::LogString & output, const log4cxx::spi::LoggingEventPtr & event,
+    virtual void format ( log4cxx::LogString & output, const log4cxx::spi::LoggingEventPtr & event,
                  log4cxx::helpers::Pool & pool ) const override;
 };
 

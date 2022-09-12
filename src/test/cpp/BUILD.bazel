@@ -94,6 +94,10 @@ cc_test(
         "rules/sdlc/std/app/OptionDescriptionTest.cpp",
         "rules/sdlc/std/app/PluginTest.hpp",
         "rules/sdlc/std/app/PluginTest.cpp",
+        "rules/sdlc/std/semver/VersionTest.hpp",
+        "rules/sdlc/std/semver/VersionTest.cpp",
+        "rules/sdlc/std/semver/VersionErrorTest.hpp",
+        "rules/sdlc/std/semver/VersionErrorTest.cpp",
     ],
 
     includes = [

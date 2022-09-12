@@ -214,29 +214,21 @@ namespace rules::sdlc::stdc::logging
         * @since Huawei LiteOS V100R001C00
         *
         */
-        void
-            configure ( );
+        void configure ( );
 
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_TRACE macro, which has an improved interface" )
-        void
-            trace ( const std::string & s );
+        void trace ( const std::string & s );
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_BEBUG macro, which has an improved interface" )
-        void
-            debug ( const std::string & s );
+        void debug ( const std::string & s );
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_INFO macro, which has an improved interface" )
-        void
-            info ( const std::string & s );
+        void info ( const std::string & s );
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_WARN macro, which has an improved interface" )
-        void
-            warn ( const std::string & s );
+        void warn ( const std::string & s );
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_ERROR macro, which has an improved interface" )
-        void
-            error ( const std::string & s );
+        void error ( const std::string & s );
         SDLC_DEPRECATED_MSG ( "Replaced by LOG4CXX_FATAL macro, which has an improved interface" )
-        void
-            fatal ( const std::string & s );
-        void
-            flush ( );
+        void fatal ( const std::string & s );
+        void flush ( );
 
     protected:
         std::shared_ptr<LoggingServicePrivate> d_ptr;

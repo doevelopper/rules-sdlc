@@ -16,8 +16,7 @@ struct DropExceptions
     using result_type  = void;
 
     template < typename InputIterator >
-    result_type
-        operator( ) ( InputIterator first, InputIterator last )
+    result_type operator( ) ( InputIterator first, InputIterator last )
     {
         while ( first != last )
         {

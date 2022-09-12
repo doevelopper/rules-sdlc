@@ -23,8 +23,7 @@ public:
 
     MethodCaller ( );
 
-    Ret
-        operator( ) ( Args &&... args )
+    Ret operator( ) ( Args &&... args )
     {
         return m_signal ( std::forward< Args > ( args )... );
     }
@@ -41,8 +40,7 @@ public:
     using result_type = void;
 
     MethodCaller ( ) { }
-    void
-        operator( ) ( Args &&... args )
+    void operator( ) ( Args &&... args )
     {
         m_signal ( std::forward< Args > ( args )... );
     }

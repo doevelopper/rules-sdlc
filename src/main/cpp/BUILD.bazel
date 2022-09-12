@@ -94,6 +94,8 @@ cc_library(
         "rules/sdlc/std/logging/LoggingService.cpp",
         "rules/sdlc/std/semver/Version.hpp",
         "rules/sdlc/std/semver/Version.cpp",
+        "rules/sdlc/std/semver/VersionError.hpp",
+        "rules/sdlc/std/semver/VersionError.cpp",
 
     ] + COMMON_SRCS + COMMON_HDRS + select({
         "@bazel_tools//src/conditions:windows": WIN32_SRCS + WIN32_HDRS,

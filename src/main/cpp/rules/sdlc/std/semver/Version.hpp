@@ -12,7 +12,7 @@
  *
  */
 #include <rules/sdlc/std/app/AppInfo.hpp>
-#include <rules/sdlc/std/logging/LoggingService.hpp>
+#include <rules/sdlc/std/semver/VersionError.hpp>
 #include <rules/sdlc/std/semver/GitRevision.hpp>
 
 #include <charconv>
@@ -29,7 +29,7 @@
  */
 #define VERSION_GT( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR > MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH > \
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH >               \
                                                                PATCH ) ) ) )
 
 /*!
@@ -37,7 +37,7 @@
  */
 #define VERSION_GE( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR > MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH >= \
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR > MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH >=              \
                                                                PATCH ) ) ) )
 
 /*!
@@ -45,7 +45,7 @@
  */
 #define VERSION_LT( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR < MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH < \
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH <               \
                                                                PATCH ) ) ) )
 
 /*!
@@ -53,7 +53,7 @@
  */
 #define VERSION_LE( MAJOR, MINOR, PATCH )                                                                              \
     ( ( VERSION_MAJOR < MAJOR ) ||                                                                                     \
-      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH <= \
+      ( VERSION_MAJOR == MAJOR && ( VERSION_MINOR < MINOR || ( VERSION_MINOR == MINOR && VERSION_PATCH <=              \
                                                                PATCH ) ) ) )
 
 /*
@@ -113,19 +113,20 @@ namespace rules::sdlc::stdc::semver
         Version ( Version && ) = delete;
         Version & operator= ( const Version & rhs )
         {
-            // if ((*this) != rhs)
+            if ((*this) != rhs)
             {
-                // m_major = rhs.major();
-                // m_minor = rhs.minor();
-                // m_patch = rhs.patch();
-                //          m_releaseType = rhs.prerelease();
-                //          m_extra = rhs.build();
-                //          m_version = rhs.getRevString();
+                m_major = rhs.major();
+                m_minor = rhs.minor();
+                m_patch = rhs.patch();
+                m_releaseType = rhs.m_releaseType;
+                m_extra = rhs.m_extra;
+                m_tweak = rhs.m_tweak;
+                m_version = rhs.m_version;
             }
             return *this;
         }
-        Version &
-        operator= ( Version && ) = delete;
+
+        Version & operator= ( Version && ) = delete;
         virtual ~Version ( ) noexcept;
 
         explicit Version ( const std::string & version );
@@ -136,36 +137,35 @@ namespace rules::sdlc::stdc::semver
         {
             return m_major || m_minor || m_patch; // anything but 0.0.0
         }
-        std::string
-        to_string ( ) const noexcept;
 
-        bool
-        operator< ( const Version & rhs ) const
+        std::string to_string ( ) const noexcept;
+
+        bool operator< ( const Version & rhs ) const
         {
             return compareVersion ( rhs ) < 0;
         }
-        bool
-        operator> ( const Version & rhs ) const
+
+        bool operator> ( const Version & rhs ) const
         {
             return compareVersion ( rhs )>0;
         }
-        bool
-        operator<= ( const Version & rhs ) const
+
+        bool operator<= ( const Version & rhs ) const
         {
             return compareVersion ( rhs ) <= 0;
         }
-        bool
-        operator>= ( const Version & rhs ) const
+
+        bool operator>= ( const Version & rhs ) const
         {
             return compareVersion ( rhs ) >= 0;
         }
-        bool
-        operator== ( const Version & rhs ) const
+
+        bool operator== ( const Version & rhs ) const
         {
             return compareVersion ( rhs ) == 0;
         }
-        bool
-        operator!= ( const Version & rhs ) const
+
+        bool operator!= ( const Version & rhs ) const
         {
             return compareVersion ( rhs ) != 0;
         }
@@ -174,44 +174,70 @@ namespace rules::sdlc::stdc::semver
 
     private:
 
-        [[nodiscard]] auto
-        major ( ) const &->const std::uint8_t &
+        [[nodiscard]] auto major ( ) const &->const std::uint8_t &
         {
             return m_major;
         }
-        [[nodiscard]] auto
-        major ( ) &&->std::uint8_t &&
+
+        [[nodiscard]] auto major ( ) &&->std::uint8_t &&
         {
             return std::move ( m_major );
         }
-        [[nodiscard]] auto
-        minor ( ) const &->const std::uint8_t &
+
+        [[nodiscard]] auto minor ( ) const &->const std::uint8_t &
         {
             return m_minor;
         }
-        [[nodiscard]] auto
-        minor ( ) &&->std::uint8_t &&
+
+        [[nodiscard]] auto minor ( ) &&->std::uint8_t &&
         {
             return std::move ( m_minor );
         }
-        [[nodiscard]] auto
-        patch ( ) const &->const std::uint8_t &
+
+        [[nodiscard]] auto patch ( ) const &->const std::uint8_t &
         {
             return m_patch;
         }
-        [[nodiscard]] auto
-        patch ( ) &&->std::uint8_t &&
+
+        [[nodiscard]] auto patch ( ) &&->std::uint8_t &&
         {
             return std::move ( m_patch );
         }
-        constexpr int
-        compare ( const Version & rhs ) const noexcept;
-        int
-        compareVersion ( const Version & rhs ) const noexcept;
-        auto
-        to_string ( Version const & ) -> std::string;
-        void
-        buildVersion ( const std::smatch & sm );
+
+        [[nodiscard]] auto tweak ( ) const &->const std::uint8_t &
+        {
+            return m_tweak;
+        }
+
+        [[nodiscard]] auto tweak ( ) &&->std::uint8_t &&
+        {
+            return std::move ( m_tweak );
+        }
+
+        [[nodiscard]] auto extra ( ) const &->const std::string &
+        {
+            return m_extra;
+        }
+
+        [[nodiscard]] auto extra ( ) &&->std::string &&
+        {
+            return std::move ( m_extra );
+        }
+
+        [[nodiscard]] auto version ( ) const &->const std::string &
+        {
+            return m_version;
+        }
+
+        [[nodiscard]] auto version ( ) &&->std::string &&
+        {
+            return std::move ( m_version );
+        }
+
+        constexpr int compare ( const Version & rhs ) const noexcept;
+        int compareVersion ( const Version & rhs ) const noexcept;
+        auto to_string ( Version const & ) -> std::string;
+        void buildVersion ( const std::smatch & sm );
 
         std::uint8_t m_major;             ///< Major version, change only on incompatible API modifications.
         std::uint8_t m_minor;             ///< Minor version, change on backwards-compatible API modifications.

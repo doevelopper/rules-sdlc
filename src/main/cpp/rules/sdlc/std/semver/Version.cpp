@@ -49,6 +49,9 @@ Version::Version (
     m_patch = patch;
     m_releaseType = releaseType;
     m_tweak = tweak;
+
+    oss << m_major << m_minor << m_patch /*<< releaseType*/ << m_tweak;
+    LOG4CXX_DEBUG ( logger, oss.str ( ) );
 }
 
 Version::Version ( const std::string & version )
@@ -68,7 +71,7 @@ Version::Version ( const std::string & version )
         LOG4CXX_TRACE ( logger, "token found: " << *tokens << " " << m.str ( ) );
     }
 
-    // m_major = std::stoi(std::get<0>(data));
+    m_major = std::stoi(std::get<0>(data));
     // m_minor = std::stoi(std::get<1>(data));
     // m_patch = std::stoi(std::get<2>(data));
 
@@ -88,8 +91,7 @@ Version::~Version ( ) noexcept
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
-void
-Version::buildVersion ( const std::smatch & strMatch )
+void Version::buildVersion ( const std::smatch & strMatch )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -129,8 +131,7 @@ Version::buildVersion ( const std::smatch & strMatch )
     }
 }
 
-int
-Version::compareVersion ( const Version & rhs ) const noexcept
+int Version::compareVersion ( const Version & rhs ) const noexcept
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -145,8 +146,7 @@ Version::compareVersion ( const Version & rhs ) const noexcept
     return ( ESL );
 }
 
-std::string
-Version::to_string ( ) const noexcept
+std::string Version::to_string ( ) const noexcept
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
