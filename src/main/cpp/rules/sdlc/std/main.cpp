@@ -69,14 +69,14 @@ int main(
 
     std::uint_fast64_t runStatus = 0;
 
-    std::cout << "argc == " << argc << '\n';
+    std::cout << "argc == " << argc << std::endl;
 
     for(int ndx{}; ndx != argc; ++ndx)
     {
-        std::cout << "argv[" << ndx << "] == " << std::quoted(argv[ndx]) << '\n';
+        std::cout << "argv[" << ndx << "] == " << std::quoted(argv[ndx]) << std::endl;
     }
 
-    std::cout << "argv[" << argc << "] == " << static_cast<void*>(argv[argc]) << '\n';
+    std::cout << "argv[" << argc << "] == " << static_cast<void*>(argv[argc]) << std::endl;
 
     return (runStatus == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }
