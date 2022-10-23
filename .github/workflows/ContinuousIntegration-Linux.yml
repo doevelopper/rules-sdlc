@@ -288,8 +288,22 @@ jobs:
   #         # Optional: Comma seperated list of additional rule directories
   #         # rule_dirs:
 
-  # clang-tidy:
-  #   name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
+  clang-tidy:
+    name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
+    # if: matrix.info == 'clang-14 + debug + sanitize addr+ub'
+    run: |
+        [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/${GITHUB_BASE_REF}
+        echo "${BRANCH_VAR}"
+        echo "$(git diff --name-only ${BRANCH_VAR})"
+        LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
+
+# if [[ -n ${LIST_CHECK_FILES} ]]
+# then
+#   sudo apt install -y clang-tidy-14
+#   python3 ${{ github.workspace }}/src/main/scripts/style/run-clang-tidy.py -clang-tidy-binary clang-tidy-14 -p build_debug -q -j$(nproc) ${LIST_CHECK_FILES}
+# else
+#   echo "Nothing check in clang-tidy"
+# fi
 
   # formatting-check:
   #   name: Formatting Check
@@ -326,6 +340,7 @@ jobs:
         bazelisk: [1.11.0]
         python-version: [3.10]
         # compilation_mode: [ fastbuild, dbg, opt]
+        # shared: [true, false]
         config:
           - { name: "Ubuntu", os: ubuntu-latest, target: "linux" }
         compiler:

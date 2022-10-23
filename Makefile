@@ -56,9 +56,9 @@ else ifeq ($(BRANCH),develop)
 else ifeq ($(BRANCH),release)
     RELEASE_LEVEL := "FINAL"
 else ifeq ($(BRANCH),hotfix)
-    RELEASE_LEVEL := "CANDIDATE"
+    RELEASE_LEVEL := "BETA"
 else ifeq ($(BRANCH),feature)
-    RELEASE_LEVEL := "CANDIDATE"
+    RELEASE_LEVEL := "WIP"
 else
     RELEASE_LEVEL := "SNAPSHOOT"
 endif
