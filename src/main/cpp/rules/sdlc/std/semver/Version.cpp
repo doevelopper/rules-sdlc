@@ -6,16 +6,17 @@
 
 using namespace rules::sdlc::stdc::semver;
 
-log4cxx::LoggerPtr Version::logger = log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.semver.Version" ) );
+log4cxx::LoggerPtr Version::logger =
+    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.semver.Version" ) );
 
 Version::Version ( ) noexcept
     : m_major ( 0 )
     , m_minor ( 0 )
     , m_patch ( 1 )
     , m_releaseType ( ReleaseLevel::SNAPSHOOT )
-    , m_tweak ( 130 )
+    , m_tweak ( 115 )
     , m_extra ( std::string ( GIT_COMMIT_VERSION ) )
-    , m_version ( )
+    , m_build ( )
 
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
@@ -51,86 +52,85 @@ Version::Version (
     m_tweak = tweak;
 }
 
-Version::Version ( const std::string & version )
-    : m_version ( version )
-{
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-
-    const std::regex sep ( "[ .-+]+", std::regex::icase );
-    std::sregex_token_iterator tokens ( version.cbegin ( ), version.cend ( ), sep, -1 );
-    std::sregex_token_iterator end;
-    std::variant< std::string > data;
-
-    for ( ; tokens != end; ++tokens )
-    {
-        data.emplace< std::string > ( *tokens );
-        std::sregex_token_iterator::value_type m = *tokens;
-        LOG4CXX_TRACE ( logger, "token found: " << *tokens << " " << m.str ( ) );
-    }
-
-    // m_major = std::stoi(std::get<0>(data));
-    // m_minor = std::stoi(std::get<1>(data));
-    // m_patch = std::stoi(std::get<2>(data));
-
-    // std::copy( std::sregex_token_iterator(version.begin(), version.end(), sep, -1),
-    //            std::sregex_token_iterator(),
-    //            std::ostream_iterator<std::string>(std::cout, "\n"));
-
-    std::smatch match;
-
-    // if (std::regex_match(version, match, std::regex(FULL)))
-    {
-    }
-}
-
 Version::~Version ( ) noexcept
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
-void
-Version::buildVersion ( const std::smatch & strMatch )
+void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch)
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    this->m_major = major;
+    this->m_minor = minor;
+    this->m_patch = patch;
+    this->m_extra = std::string();
+    this->m_build = std::string();
+}
 
-    const auto isOk = [] ( const auto & m ) {
-                          return m.matched;
-                      };
-    const auto cnt = std::count_if ( strMatch.begin ( ), strMatch.end ( ), isOk );
-    /*
-       <version core> ::= <major> "." <minor> "." <patch>
-       <valid semver> ::= <version core>
-     | <version core> "-" <pre-release>
-     | <version core> "+" <build>
-     | <version core> "-" <pre-release> "+" <build>
-     */
+void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, const char * extra, const char * build)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    this->set(major, minor, patch);
+    this->m_extra = std::string(extra);
+    this->m_build = std::string(build);
+}
 
-    // major.minor.patch-pre-release1.pre-release2+build1.build2.build3
-    switch ( cnt )
+void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, const std::string & extra, const std::string & build)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    this->set(major, minor, patch);
+    this->m_extra = std::string(extra);
+    this->m_build = std::string(build);
+}
+
+void Version::set(const char * pversion)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    std::string version(pversion);
+    this->set(version);
+}
+
+void Version::set(const std::string & version)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+
+    // regex to capture semantic version
+    // the regex matches case insensitive
+    // (1) major version 0 or unlimited number
+    // (2) . minor version (0 or unlimited number)
+    // (3) . patch version (0 or unlimited number)
+    // (4) optional pre-release following a dash consisting of a alphanumeric letters
+    //     and hyphens using a non-capture subclause to exclude the dash from the
+    //     pre-release string
+    // (5) optional build following a plus consisting of alphanumeric letters and
+    //     hyphens using a non-capture subclause to exclude the plus from the build string
+    auto re = std::regex("^(0|[1-9][0-9]*)"                     // (1)
+                         "\\.(0|[1-9][0-9]*)"                   // (2)
+                         "\\.(0|[1-9][0-9]*)"                   // (3)
+                         "(?:\\-([0-9a-z-]+[\\.0-9a-z-]*))?"    // (4)
+                         "(?:\\+([0-9a-z-]+[\\.0-9a-z-]*))?"    // (5)
+                                   ,
+                                   std::regex_constants::ECMAScript |
+                                   std::regex_constants::icase);
+
+    auto items_match = std::smatch();
+
+    if(std::regex_match(version, items_match, re))
     {
-
-        // case 6: // build meta data ([P1, P2, P3])
-        //     m_build = split(sm[5].str(), '.');
-        //     [[fallthrough]];
-        // case 5: // pre-release version ([B1, B2])
-        //     m_pre = split(sm[4].str(), '.');
-        //     [[fallthrough]];
-        // case 4: // patch version (Z)
-        //     m_patch = std::stoull(sm[3].str());
-        //     [[fallthrough]];
-        // case 3: // minor version (Y)
-        //     m_minor = std::stoull(sm[2].str());
-        //     [[fallthrough]];
-        // case 2: // major version (X)
-        //     m_major = std::stoull(sm[1].str());
-        //     [[fallthrough]];
-        default:
-            break;
+        this->set(std::atoi(items_match[1].str().c_str()),
+            std::atoi(items_match[2].str().c_str()),
+            std::atoi(items_match[3].str().c_str()),
+            items_match[4],
+            items_match[5]
+        );
+    }
+    else
+    {
+        LOG4CXX_ERROR(logger, "Bad version format.");
     }
 }
 
-int
-Version::compareVersion ( const Version & rhs ) const noexcept
+int Version::compareVersion ( const Version & rhs ) const noexcept
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
@@ -145,41 +145,66 @@ Version::compareVersion ( const Version & rhs ) const noexcept
     return ( ESL );
 }
 
-std::string
-Version::to_string ( ) const noexcept
+bool Version::isEquals (const Version& rhs) const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return ( this->m_major == rhs.m_major
+        && this->m_minor == rhs.m_minor
+        && this->m_patch == rhs.m_patch
+        && this->m_releaseType == rhs.m_releaseType);
+}
+
+bool Version::isNewerThen (const Version& rhs) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
-    std::string v = std::to_string ( m_major ) + '.' + std::to_string ( m_minor ) + '.' + std::to_string (
-            m_patch );
+    if(this->m_major > rhs.m_major)
+        return true;
 
-    switch ( m_releaseType )
-    {
+    if(this->m_minor > rhs.m_minor)
+        return true;
 
-        case ReleaseLevel::SNAPSHOOT:
-            v.append ( "-SNAPSHOOT" );
-            break;
+    if(this->m_patch > rhs.m_patch)
+        return true;
 
-        case ReleaseLevel::ALPHA:
-            v.append ( "-alpha" );
-            v.append ( std::to_string ( m_tweak ) );
-            break;
+    if(this->m_releaseType > rhs.m_releaseType)
+        return true;
 
-        case ReleaseLevel::BETA:
-            v.append ( "-beta" );
-            v.append ( std::to_string ( m_tweak ) );
-            break;
+    return false;
+}
 
-        case ReleaseLevel::CANDIDATE:
-            v.append ( "-rc" );
-            v.append ( std::to_string ( m_tweak ) );
-            break;
+bool Version::isOlderThen (const Version& rhs) const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    if(this->m_major < rhs.m_major)
+        return true;
 
-        default:
-            break;
-    }
+    if(this->m_minor < rhs.m_minor)
+        return true;
 
-    // m_version = std::string(v);
-    // //m_version.assign(v, 0, v.length()-1);
-    return ( v );
+    if(this->m_patch < rhs.m_patch)
+        return true;
+
+    if(this->m_releaseType < rhs.m_releaseType)
+        return true;
+
+    return false;
+}
+
+bool Version::operator> (const Version& rhs) const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return this->isNewerThen(rhs);
+}
+
+bool Version::operator< (const Version& rhs) const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return this->isOlderThen(rhs);
+}
+
+bool Version::operator== (const Version& rhs) const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return this->isEquals(rhs);
 }

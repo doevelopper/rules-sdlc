@@ -94,7 +94,7 @@ namespace rules::sdlc::stdc::semver
     {
         SNAPSHOOT = 0xD, /**< API is not tested, work in progress. */
         ALPHA     = 0xA, /**< API is in alpha state, i.e. work in progress. */
-        BETA      = 0xB,     /**< API is in beta state, i.e. close to be finished. */
+        BETA      = 0xB, /**< API is in beta state, i.e. close to be finished. */
         CANDIDATE = 0xC, /**< API is in release candidate state. */
         FINAL     = 0xF, /**< API is in final state, i.e. officially approved. */
     };
@@ -104,108 +104,40 @@ namespace rules::sdlc::stdc::semver
 
     class SDLC_API_EXPORT Version
     {
-    LOG4CXX_DECLARE_STATIC_LOGGER
+        LOG4CXX_DECLARE_STATIC_LOGGER
 
     public:
 
         Version ( ) noexcept;
         Version ( const Version & );
         Version ( Version && ) = delete;
-        Version & operator= ( const Version & rhs )
-        {
-            // if ((*this) != rhs)
-            {
-                // m_major = rhs.major();
-                // m_minor = rhs.minor();
-                // m_patch = rhs.patch();
-                //          m_releaseType = rhs.prerelease();
-                //          m_extra = rhs.build();
-                //          m_version = rhs.getRevString();
-            }
-            return *this;
-        }
+        Version & operator= ( const Version & rhs );
         Version & operator= ( Version && ) = delete;
         virtual ~Version ( ) noexcept;
 
         explicit Version ( const std::string & version );
         explicit Version ( const std::uint8_t major, const std::uint8_t minor, const std::uint8_t patch, ReleaseLevel
                            m_releaseType = ReleaseLevel::SNAPSHOOT, std::uint8_t m_tweak = 0 );
+        Version(std::uint8_t, std::uint8_t, std::uint8_t, const std::string &, const std::string &);
 
-        explicit operator bool ( ) const
-        {
-            return m_major || m_minor || m_patch; // anything but 0.0.0
-        }
+        bool isEquals      (const Version& ver) const;
+        bool isNewerThen   (const Version& ver) const;
+        bool isOlderThen   (const Version& ver) const;
 
-        std::string to_string ( ) const noexcept;
-
-        bool operator< ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs ) < 0;
-        }
-
-        bool operator> ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs )>0;
-        }
-
-        bool operator<= ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs ) <= 0;
-        }
-
-        bool operator>= ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs ) >= 0;
-        }
-
-        bool operator== ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs ) == 0;
-        }
-
-        bool operator!= ( const Version & rhs ) const
-        {
-            return compareVersion ( rhs ) != 0;
-        }
+        bool operator>     (const Version& ver) const;
+        bool operator<     (const Version& ver) const;
+        bool operator==    (const Version& ver) const;
 
     protected:
 
     private:
 
-        [[nodiscard]] auto major ( ) const &->const std::uint8_t &
-        {
-            return m_major;
-        }
-
-        [[nodiscard]] auto  major ( ) &&->std::uint8_t &&
-        {
-            return std::move ( m_major );
-        }
-
-        [[nodiscard]] auto minor ( ) const &->const std::uint8_t &
-        {
-            return m_minor;
-        }
-
-        [[nodiscard]] auto minor ( ) &&->std::uint8_t &&
-        {
-            return std::move ( m_minor );
-        }
-
-        [[nodiscard]] auto patch ( ) const &->const std::uint8_t &
-        {
-            return m_patch;
-        }
-
-        [[nodiscard]] auto patch ( ) &&->std::uint8_t &&
-        {
-            return std::move ( m_patch );
-        }
-
-        constexpr int compare ( const Version & rhs ) const noexcept;
+        void set(std::uint8_t, std::uint8_t, std::uint8_t);
+        void set(std::uint8_t, std::uint8_t, std::uint8_t, const char *, const char *);
+        void set(std::uint8_t, std::uint8_t, std::uint8_t, const std::string &, const std::string &);
+        void set(const char *);
+        void set(const std::string &);
         int compareVersion ( const Version & rhs ) const noexcept;
-        auto to_string ( Version const & ) -> std::string;
-        void buildVersion ( const std::smatch & sm );
 
         std::uint8_t m_major;             ///< Major version, change only on incompatible API modifications.
         std::uint8_t m_minor;             ///< Minor version, change on backwards-compatible API modifications.
@@ -213,40 +145,8 @@ namespace rules::sdlc::stdc::semver
         ReleaseLevel m_releaseType;       ///< Release identification.
         std::uint8_t m_tweak;             ///< CI Build Identification.
         std::string m_extra;              ///< GI sha1
-        std::string m_version;            ///< Major.Minor.Patch-[RC|Alpha|...]-Build[0-9]
+        std::string m_build;            ///< Major.Minor.Patch-[RC|Alpha|...]-Build[0-9]
         std::ostringstream oss;
     };
-
-// auto operator<(Version const& lhs, Version const& rhs) noexcept -> bool;
-// auto operator==(Version const & lhs, Version const & rhs) noexcept -> bool
-// {
-// return lhs.compareVersion(rhs) == eSl;
-// }
-
-// auto operator>=(Version const& lhs, Version const& rhs) noexcept -> bool
-// {
-//     return !(lhs < rhs);
-// }
-
-// auto operator<=(Version const& lhs, Version const& rhs) noexcept -> bool
-// {
-//     return (lhs == rhs) || (lhs < rhs);
-// }
-
-// auto operator!=(Version const& lhs, Version const& rhs) noexcept -> bool
-// {
-//     return !(lhs == rhs);
-// }
-
-// auto operator>(const Version& lhs, const Version& rhs) -> bool
-// {
-//   return (lhs != rhs) && (lhs >= rhs);
-// }
-
-// auto
-//     operator<< ( std::ostream & lhs, Version const & rhs ) -> std::ostream &
-// {
-// }
-
 }
 #endif

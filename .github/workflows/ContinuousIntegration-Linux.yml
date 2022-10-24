@@ -288,14 +288,14 @@ jobs:
   #         # Optional: Comma seperated list of additional rule directories
   #         # rule_dirs:
 
-  clang-tidy:
-    name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
-    # if: matrix.info == 'clang-14 + debug + sanitize addr+ub'
-    run: |
-        [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/${GITHUB_BASE_REF}
-        echo "${BRANCH_VAR}"
-        echo "$(git diff --name-only ${BRANCH_VAR})"
-        LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
+  # clang-tidy:
+  #   name: ${{ github.repository }} C++ linter. Diagnoses typical programming errors, like style violations, interface misuse, or bugs
+  #   # if: matrix.info == 'clang-14 + debug + sanitize addr+ub'
+  #   run: |
+  #       [[ -z "${GITHUB_BASE_REF}" ]] && BRANCH_VAR=HEAD~1 || BRANCH_VAR=origin/${GITHUB_BASE_REF}
+  #       echo "${BRANCH_VAR}"
+  #       echo "$(git diff --name-only ${BRANCH_VAR})"
+  #       LIST_CHECK_FILES=$(git diff --name-only ${BRANCH_VAR} | grep --color=never '.cpp' | tr '\n' ' ')
 
 # if [[ -n ${LIST_CHECK_FILES} ]]
 # then

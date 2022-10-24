@@ -52,15 +52,19 @@ export HAS_CLANG := $(shell which clang > /dev/null 2> /dev/null && echo true ||
 ifeq ($(BRANCH),master)
     RELEASE_LEVEL := "CANDIDATE"
 else ifeq ($(BRANCH),develop)
-    RELEASE_LEVEL := "ALPHA"
+    RELEASE_LEVEL := "STABLE"
 else ifeq ($(BRANCH),release)
     RELEASE_LEVEL := "FINAL"
 else ifeq ($(BRANCH),hotfix)
     RELEASE_LEVEL := "BETA"
 else ifeq ($(BRANCH),feature)
-    RELEASE_LEVEL := "WIP"
-else
     RELEASE_LEVEL := "SNAPSHOOT"
+else ifeq ($(BRANCH),support)
+    RELEASE_LEVEL := "SNAPSHOOT"
+else ifeq ($(BRANCH),bugfix)
+    RELEASE_LEVEL := "ALPHA"
+else
+    $(error Bad version arg given, should be one of)
 endif
 
 ifeq ($(HAS_CC),true)
