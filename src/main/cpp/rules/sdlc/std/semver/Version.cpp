@@ -57,9 +57,15 @@ Version::~Version ( ) noexcept
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 }
 
+Version::Version ( const std::string & version )
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ << " " << version);
+    this->set(version);
+}
+
 void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch)
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << std::to_string(major) << " " << std::to_string(minor) << " " << std::to_string(patch));
     this->m_major = major;
     this->m_minor = minor;
     this->m_patch = patch;
@@ -69,7 +75,7 @@ void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch)
 
 void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, const char * extra, const char * build)
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << std::to_string(major) << " " << std::to_string(minor) << " " << std::to_string(patch) << " " << extra << " " << build);
     this->set(major, minor, patch);
     this->m_extra = std::string(extra);
     this->m_build = std::string(build);
@@ -77,7 +83,7 @@ void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, co
 
 void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, const std::string & extra, const std::string & build)
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << std::to_string(major) << " " << std::to_string(minor) << " " << std::to_string(patch) << " " << extra << " " << build);
     this->set(major, minor, patch);
     this->m_extra = std::string(extra);
     this->m_build = std::string(build);
@@ -85,14 +91,14 @@ void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, co
 
 void Version::set(const char * pversion)
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << pversion );
     std::string version(pversion);
     this->set(version);
 }
 
 void Version::set(const std::string & version)
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << version );
 
     // regex to capture semantic version
     // the regex matches case insensitive
@@ -207,4 +213,47 @@ bool Version::operator== (const Version& rhs) const
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
     return this->isEquals(rhs);
+}
+
+std::string
+Version::maturity ( ) const noexcept
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+
+    std::string v = std::to_string ( m_major ) + '.' + std::to_string ( m_minor ) + '.' + std::to_string (m_patch );
+
+    switch ( m_releaseType )
+    {
+
+        case ReleaseLevel::SNAPSHOOT:
+            v.append ( "-SNAPSHOOT" );
+            v.append ( "-Build" );
+            v.append ( std::to_string ( m_tweak ) );
+            break;
+
+        case ReleaseLevel::ALPHA:
+            v.append ( "-alpha" );
+            v.append ( "-Build" );
+            v.append ( std::to_string ( m_tweak ) );
+            break;
+
+        case ReleaseLevel::BETA:
+            v.append ( "-beta" );
+            v.append ( "-Build" );
+            v.append ( std::to_string ( m_tweak ) );
+            break;
+
+        case ReleaseLevel::CANDIDATE:
+            v.append ( "-rc" );
+            v.append ( "-Build" );
+            v.append ( std::to_string ( m_tweak ) );
+            break;
+
+        default:
+            break;
+    }
+
+    // m_version = std::string(v);
+    // //m_version.assign(v, 0, v.length()-1);
+    return ( v );
 }

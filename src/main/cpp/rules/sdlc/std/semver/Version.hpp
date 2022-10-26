@@ -128,6 +128,8 @@ namespace rules::sdlc::stdc::semver
         bool operator<     (const Version& ver) const;
         bool operator==    (const Version& ver) const;
 
+        std::string maturity ( ) const noexcept;
+
     protected:
 
     private:

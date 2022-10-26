@@ -25,7 +25,7 @@ VersionTest::~VersionTest()
 void VersionTest::SetUp()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
-    // testee = new Version();
+    testee = new Version();
 }
 
 void VersionTest::TearDown()
@@ -36,38 +36,39 @@ void VersionTest::TearDown()
 TEST_F(VersionTest, Test_VersionTest_Default_Construction)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-    // EXPECT_EQ(testee->to_string(), "0.0.1-SNAPSHOOT");
-    // EXPECT_TRUE(testee);//operator bool ( )
-    // Version versions(std::string("0.0.0"));
+    Version v(std::string("0.0.0"));
+    EXPECT_FALSE(testee->isEquals(v));
+    EXPECT_FALSE(testee->isOlderThen(v));
+    EXPECT_TRUE(testee->isNewerThen(v));
 
 }
 
-TEST_F(VersionTest, Test_VersionTest_Parsing)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Parsing)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }
 
-TEST_F(VersionTest, Test_VersionTest_Compare)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Compare)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }
 
-TEST_F(VersionTest, Test_VersionTest_Invalid)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Invalid)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }
 
-TEST_F(VersionTest, Test_VersionTest_Parse_Prerelease)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Parse_Prerelease)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }
 
-TEST_F(VersionTest, Test_VersionTest_Invalid_Prerelease)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Invalid_Prerelease)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }
 
-TEST_F(VersionTest, Test_VersionTest_Compare_Prerelease)
-{
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-}
+// TEST_F(VersionTest, Test_VersionTest_Compare_Prerelease)
+// {
+//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+// }

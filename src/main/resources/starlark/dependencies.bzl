@@ -134,6 +134,8 @@ cmake(
             # Use the same URL twice to trick bazel into re-trying if connection fails
             "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
             "https://zlib.net/zlib-{}.tar.gz".format(NET_ZLIB_VERSION),
+            "https://github.com/madler/zlib/archive/refs/tags/v{}.tar.gz".format(NET_ZLIB_VERSION),
+            "https://github.com/madler/zlib/archive/refs/tags/v{}.zip".format(NET_ZLIB_VERSION),
         ],
     },
 
