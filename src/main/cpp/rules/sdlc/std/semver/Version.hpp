@@ -21,7 +21,7 @@
 #include <regex>
 #include <string>
 
-#define RELEASE_INFO   RELEASE_LEVEL
+#define RELEASE_INFO VERSION
 #define RELEASE_SERIAL 0
 
 /*!
@@ -129,7 +129,12 @@ namespace rules::sdlc::stdc::semver
         bool operator==    (const Version& ver) const;
 
         std::string maturity ( ) const noexcept;
-
+        const std::string getVersion() const;
+        const int getMajor() const;
+        const int getMinor() const;
+        const int getPatch() const;
+        const std::string getBuild() const;
+        const bool isStable() const;
     protected:
 
     private:
@@ -141,12 +146,12 @@ namespace rules::sdlc::stdc::semver
         void set(const std::string &);
         int compareVersion ( const Version & rhs ) const noexcept;
 
-        std::uint8_t m_major;             ///< Major version, change only on incompatible API modifications.
-        std::uint8_t m_minor;             ///< Minor version, change on backwards-compatible API modifications.
-        std::uint8_t m_patch;             ///< Patch version, change only on bugfixes.
-        ReleaseLevel m_releaseType;       ///< Release identification.
-        std::uint8_t m_tweak;             ///< CI Build Identification.
-        std::string m_extra;              ///< GI sha1
+        std::uint8_t m_major;           ///< Major version, change only on incompatible API modifications.
+        std::uint8_t m_minor;           ///< Minor version, change on backwards-compatible API modifications.
+        std::uint8_t m_patch;           ///< Patch version, change only on bugfixes.
+        ReleaseLevel m_releaseType;     ///< Release identification.
+        std::uint8_t m_tweak;           ///< CI Build Identification.
+        std::string m_extra;            ///< GI sha1
         std::string m_build;            ///< Major.Minor.Patch-[RC|Alpha|...]-Build[0-9]
         std::ostringstream oss;
     };

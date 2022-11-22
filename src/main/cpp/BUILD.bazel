@@ -17,6 +17,11 @@ load(
     "pkg_zip"
 )
 
+load(
+    "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:Visibility.bzl",
+    "SHARED_LIBRARY_SUPPORT"
+)
+
 
 COMMON_DEFINES = [
     "LOG_LEVEL=1",
@@ -275,10 +280,7 @@ cc_binary(
 # )
 
 
-# load(
-#     "com.github.doevelopper.rules-sdlc//src/main/resources/starlark:Visibility.bzl",
-#     "SHARED_LIBRARY_SUPPORT"
-# )
+
 #     visibility = ["//visibility:public"],
 #     #visibility = ["//src/main/test:__pkg__"],
 # )

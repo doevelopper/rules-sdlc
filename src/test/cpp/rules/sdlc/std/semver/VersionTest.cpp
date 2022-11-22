@@ -43,6 +43,18 @@ TEST_F(VersionTest, Test_VersionTest_Default_Construction)
 
 }
 
+TEST_F(VersionTest, Test_VersionTest_Default_Version)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    EXPECT_EQ(testee->getMajor(),0);
+    EXPECT_EQ(testee->getMinor(),0);
+    EXPECT_EQ(testee->getPatch(),1);
+    EXPECT_EQ(testee->getBuild(),std::string());
+    EXPECT_NE(testee->maturity(),std::string());
+    // Version v(std::string("0.0.2"));
+    // EXPECT_EQ(testee->compareVersion(v),1);
+}
+
 // TEST_F(VersionTest, Test_VersionTest_Parsing)
 // {
 //     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);

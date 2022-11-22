@@ -136,17 +136,22 @@ void Version::set(const std::string & version)
     }
 }
 
-int Version::compareVersion ( const Version & rhs ) const noexcept
+int
+Version::compareVersion ( const Version & rhs ) const noexcept
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
 
-    if ( m_major != rhs.m_major ) return m_major < rhs.m_major ? LSL : USL;
+    if ( m_major != rhs.m_major )
+        return (m_major < rhs.m_major ? LSL : USL);
 
-    if ( m_minor != rhs.m_minor ) return m_minor < rhs.m_minor ? LSL : USL;
+    if ( m_minor != rhs.m_minor )
+        return (m_minor < rhs.m_minor ? LSL : USL);
 
-    if ( m_patch != rhs.m_patch ) return m_patch < rhs.m_patch ? LSL : USL;
+    if ( m_patch != rhs.m_patch )
+        return (m_patch < rhs.m_patch ? LSL : USL);
 
-    if ( m_releaseType != rhs.m_releaseType ) return m_releaseType < rhs.m_releaseType ? LSL : USL;
+    if ( m_releaseType != rhs.m_releaseType )
+        return (m_releaseType < rhs.m_releaseType ? LSL : USL);
 
     return ( ESL );
 }
@@ -253,7 +258,51 @@ Version::maturity ( ) const noexcept
             break;
     }
 
+    LOG4CXX_INFO ( logger, "Current application version is : " << v );
     // m_version = std::string(v);
     // //m_version.assign(v, 0, v.length()-1);
     return ( v );
+}
+
+const std::string
+Version::getVersion() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    const std::string version = maturity();
+    return (version);
+}
+
+const int
+Version::getMajor() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return (m_major);
+}
+
+const int
+Version::getMinor() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return (m_minor);
+}
+
+const int
+Version::getPatch() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return (m_patch);
+}
+
+const std::string
+Version::getBuild() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return (m_build);
+}
+
+const bool
+Version::isStable() const
+{
+    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    return (true);
 }

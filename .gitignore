@@ -459,6 +459,12 @@ Desktop.ini
 __pycache__/
 *.py[cod]
 *$py.class
+.mypy_cache/
+
+# Python: virtual environments
+.env/
+.coverage
+.python-version
 
 # C extensions
 

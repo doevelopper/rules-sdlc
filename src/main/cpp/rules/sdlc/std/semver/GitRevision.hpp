@@ -1,14 +1,14 @@
 
-#ifndef GIT_REVISION_DATA_HPP
-#define GIT_REVISION_DATA_HPP
+#ifndef RULES_SDLC_STD_SEMVER_GIT_REVISION_HPP
+#define RULES_SDLC_STD_SEMVER_GIT_REVISION_HPP
 
-#    define HASH                   ""
-#    define DATE                   ""
-#    define BRANCH                 "GIT_BRANCH"
-#    define GIT_COMMIT_VERSION     "b4ac6391c17d53b712e1341d2f51c3ab7ff2a7b3"
-#    define GIT_COMMIT_DESC        ""
-#    define NB_GIT_COMMIT          ""
-#    define ALL_GIT_COMMIT_COUNT   ""
+#    define HASH                   HASH
+#    define DATE                   DATE
+#    define BRANCH                 GIT_BRANCH
+#    define GIT_COMMIT_VERSION
+#    define GIT_COMMIT_DESC        GIT_DESC
+#    define NB_GIT_COMMIT          GIT_CUR_COMMITS
+#    define ALL_GIT_COMMIT_COUNT   GIT_ALL_COMMITS
 #    define CMAKE_COMMAND          R"(/opt/cmake/bin/cmake) (3.22.2)"
 #    define BUILD_TYPE             ""
 #    define BUILD_PROCESSOR        "x86_64"

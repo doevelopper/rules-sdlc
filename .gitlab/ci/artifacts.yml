@@ -1,0 +1,15 @@
+# Lists of paths for artifacts of various stages.
+.build_artifacts:
+    artifacts:
+        expire_in: 1d
+        paths:
+            # Test specifications.
+
+.unit_test_artifacts:
+    artifacts:
+        expire_in: 1d
+        when: always
+        reports:
+            junit:
+                - bazel-testlogs/src/test/cpp/rules-sdlc.std.test.bin/test.xml
+                - bazel-testlogs/src/test/cpp/rules-sdlc.std.test.bin/test.log

@@ -1,4 +1,32 @@
 .DEFAULT_GOAL:=help
+# %W% %G% %U%
+#        cfs-dev-tools/Makefile
+#
+#               Copyright (c) 2014-2018 A.H.L
+#
+#        Permission is hereby granted, free of charge, to any person obtaining
+#        a copy of this software and associated documentation files (the
+#        "Software"), to deal in the Software without restriction, including
+#        without limitation the rights to use, copy, modify, merge, publish,
+#        distribute, sublicense, and/or sell copies of the Software, and to
+#        permit persons to whom the Software is furnished to do so, subject to
+#        the following conditions:
+#
+#        The above copyright notice and this permission notice shall be
+#        included in all copies or substantial portions of the Software.
+#
+#        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#        EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#        MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#        LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#        OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#
+
+# Assume we have GNU make, but check version.
+ifeq ($(strip $(foreach v, 3.81% 3.82% 4.%, $(filter $v, $(MAKE_VERSION)))), )
+  $(error This version of GNU Make is too low ($(MAKE_VERSION)). Check your path, or upgrade to 3.81 or newer.)
+endif
 
 ifeq ("$(origin V)", "command line")
     KBUILD_VERBOSE = $(V)
@@ -39,11 +67,60 @@ else
     MAKEFLAGS += -s
 endif
 
+export EMPTY               =
+export SPACE               = $(EMPTY) $(EMPTY)
+export MAKEDIR             = mkdir -p
+export DOCKER              = docker
+export RM                  = -rm -rf
+export BIN                 := /usr/bin
+export SHELL               = $(BIN)/env bash
+#export SHELL = /bin/sh
+export RM                  = /opt/bin/cmake -E remove -f
+export PRINTF              := $(BIN)/printf
+export DF                  := $(BIN)/df
+export AWK                 := $(BIN)/awk
+export PERL                := $(BIN)/perl
+export PYTHON              := $(BIN)/python
+export PYTHON3             := $(BIN)/python3
+export MSG                 := @bash -c '  $(PRINTF) $(YELLOW); echo "=> $$1";  $(PRINTF) $(NC)'
+export UNAME_OS            := $(shell uname -s)
+export HOST_RYPE           := $(shell arch)
+export DATE                := $(shell date -u "+%b-%d-%Y")
+export CWD                 := $(shell pwd -P)
+
+export quiet Q KBUILD_VERBOSE
+
 export BUILD_DIRECTORY ?= $(shell basename $(shell git rev-parse --show-toplevel))-build
 export PRJNAME := $(shell basename $(shell git rev-parse --show-toplevel))
 export BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 export HASH := $(shell git rev-parse HEAD)
 export ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+export GIT_BRANCHES := $(shell git for-each-ref --format='%(refname:short)' refs/heads/ | xargs echo)
+export GIT_REMOTES := $(shell git remote | xargs echo )
+export SHA1                := $(shell git rev-parse HEAD)
+export SHORT_SHA1          := $(shell git rev-parse --short=5 HEAD)
+export GIT_STATUS          := $(shell git status --porcelain)
+export GIT_BRANCH          := $(shell git rev-parse --abbrev-ref HEAD)
+export GIT_BRANCH_STR      := $(shell git rev-parse --abbrev-ref HEAD | tr '/' '_')
+export GIT_REPO            := $(shell git config --local remote.origin.url | \
+                                sed -e 's/.git//g' -e 's/^.*\.com[:/]//g' | tr '/' '_' 2> /dev/null)
+
+export GIT_ALL_COMMITS     := $(shell git rev-list --all --count)
+export GIT_CUR_COMMITS     := $(shell git rev-list --count $(BRANCH))
+export GIT_REPOS_URL       := $(shell git config --get remote.origin.url)
+export CURRENT_BRANCH      := $(shell git rev-parse --abbrev-ref HEAD)
+export GIT_BRANCHES        := $(shell git for-each-ref --format='%(refname:short)' refs/heads/ | xargs echo)
+export GIT_REMOTES         := $(shell git remote | xargs echo )
+export GIT_ROOTDIR         := $(shell git rev-parse --show-toplevel)
+export GIT_DIRTY           := $(shell git diff --shortstat 2> /dev/null | tail -n1 )
+export LAST_TAG_COMMIT     := $(shell git rev-list --tags --max-count=1)
+export LAST_TAG := $(shell git describe --tags $(LAST_TAG_COMMIT) )
+export GIT_COMMITS         := $(shell git log --oneline ${LAST_TAG}..HEAD | wc -l | tr -d ' ')
+export GIT_REVISION        := $(shell git rev-parse --short=8 HEAD || echo unknown)
+export GIT_DESC            := $(shell git log --format=%B -n 1 $(git log -1 --pretty=format:"%h") | cat -)
+# total number of commits
+export BUILD := $(shell git log --oneline | wc -l | sed -e "s/[ \t]*//g")
+
 
 export HAS_GCC := $(shell which gcc > /dev/null 2> /dev/null && echo true || echo false)
 export HAS_CC := $(shell which cc > /dev/null 2> /dev/null && echo true || echo false)
@@ -63,8 +140,10 @@ else ifeq ($(BRANCH),support)
     RELEASE_LEVEL := "SNAPSHOOT"
 else ifeq ($(BRANCH),bugfix)
     RELEASE_LEVEL := "ALPHA"
+else ifneq ($(BRANCH) | egrep "feature"),)
+    RELEASE_LEVEL := "ALPHA"
 else
-    $(error Bad version arg given, should be one of)
+    $(error Bad branch $(BRANCH) name provided, should be one of gitflow guidelines)
 endif
 
 ifeq ($(HAS_CC),true)
@@ -85,15 +164,15 @@ else
     endif
 endif
 
-SHELL = /bin/sh
-RM = /opt/bin/cmake -E remove -f
-
 export BAZEL_BIN=$(bazelisk info bazel-bin)/external
 export BAZEL_OUTPUT_BASE=$(bazelisk info output_base)
 export BAZEL_SERVER_PID=$(bazelisk info server_pid)
 export BAZEL_TESTLOGS=$(bazelisk info bazel-testlogs)
 export BAZEL_GENFILES=$(bazelisk info bazel-genfiles)
 export BAZEL_EXTERNAL=$(bazelisk info output_base)/external
+
+export VERSIONFILE     = VERSION_FILE
+export SEM_VERSION     := $(shell [ -f $(VERSIONFILE) ] && head $(VERSIONFILE) || echo "0.0.1")
 
 # bazelisk test  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=gcc --client_env=CXX=g++
 # bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 //cfs-utils/... --client_env=CC=clang --client_env=Cxx=clang++
@@ -139,8 +218,8 @@ export BAZEL_EXTERNAL=$(bazelisk info output_base)/external
 HOST_PLATFORM   =
 COMPILER        =
 TARGET_PLATFORM =
-ARCH 						=
-# ARCH					?=$(shell uname -m | sed "s/^i.86$$/i686/")
+ARCH            =
+# ARCH             ?=$(shell uname -m | sed "s/^i.86$$/i686/")
 RTOS            =
 LKR             =
 
@@ -191,6 +270,12 @@ endif
 ARCH_OS_LINKER := $(ARCH)-$(RTOS)-$(LKR)  #/tmp/bazel_output_root
 # TARGET_TRIPLE :=$(shell $DEFAULT_CC -dumpmachine)
 
+export BAZEL_BUILD_ARGS = \
+    --define=VERSION=$(RELEASE_LEVEL) --define=GIT_BRANCH=$(CURRENT_BRANCH)  --define=DATE=$(DATE)  --define=HASH=$(HASH) --define=GIT_COMMIT_VERSION=$(GIT_COMMIT_VERSION) \
+    --define=BUILD=$(BUILD) --define=GIT_CUR_COMMITS=$(GIT_CUR_COMMITS) --define=GIT_ALL_COMMITS=$(GIT_ALL_COMMITS)
+#  --define=GIT_DESC=$(GIT_DESC)
+#    --define=BUILD=$(BUILD)  --define=GIT_CUR_COMMITS=$(GIT_CUR_COMMITS)  --define=GIT_ALL_COMMITS=$(GIT_ALL_COMMITS) --define=GIT_DESC=$(GIT_DESC) \
+
 .PHONY: format-build
 format-build: ##  create standardized formatting for BUILD and .bzl and source files
 	@bazelisk buildifier $(find . -type f \( -iname BUILD -or -iname BUILD.bazel \))
@@ -208,6 +293,8 @@ build-deps: ##  Exemple of building external deps first into $(ARCH_OS_LINKER)
 	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 @org_apache_logging_log4cxx//:log4cxx --client_env=CC=gcc --client_env=CXX=g++
 	@bazelisk build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/main/...
 
+# @bazelisk query '//... except kind(.*test, //...)' | xargs bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
+# @bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc build --define=VERSION=$(RELEASE_LEVEL)  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
 ## for all targets in cfs-utils ind all dependencies (a transitive closure set), then tell me which ones depend on the gtest
 ## target in the root package of the external workspace com_google_googletest
 ## Bazel reports this reverse dependency set. We request the output in graphviz format and pipe this to dot to generate the figure:
@@ -221,20 +308,24 @@ querybin: ## List binary target
 	@bazelisk query 'kind(cc_binary, //...)'
 
 .PHONY: main-compile
-main-compile: ## Build all xcept Test target rules
-	@bazelisk query '//... except kind(.*test, //...)' | xargs bazelisk build  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++
-
-.PHONY: compile
-compile: ## Build projects main sources
-	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc build --define=VERSION=$(RELEASE_LEVEL)  --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //...
+main-compile: ## Build all main target rules
+	@bazelisk build --config linux $(BAZEL_BUILD_ARGS)  --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/main/cpp/...
 
 .PHONY: test-compile
-main-compile: ## Build all Test target rules
-	@bazelisk build --define=VERSION=$(RELEASE_LEVEL) --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++  @com.github.doevelopper.rules-sdlc//src/test/...
+test-compile: ## Build all Test target rules
+	@bazelisk build --config linux $(BAZEL_BUILD_ARGS)--action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/test/cpp/...
+
+.PHONY: compile
+compile: main-compile test-compile ## Build projects main and test sources
+	@bazelisk build --config linux --define=VERSION=$(RELEASE_LEVEL) --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc //...
 
 .PHONY: test
-test: ## Build projects test sources and run unit test
-	@bazelisk --bazelrc=.github/workflows/ci.bazelrc --bazelrc=.bazelrc test --define=VERSION=$(RELEASE_LEVEL) --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17 --client_env=CC=gcc --client_env=CXX=g++ //... --test_output=all
+test: compile ## Build projects sources and run unit test
+	@bazelisk build --config linux --define=VERSION=$(RELEASE_LEVEL) --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/test/cpp/... --test_output=all
+
+.PHONY: integration-test
+integration-test: test ## Build projects sources and run unit test
+	@bazelisk build --config linux --define=VERSION=$(RELEASE_LEVEL) --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++ @com.github.doevelopper.rules-sdlc//src/test/cpp/... --test_output=all
 
 .PHONY: querybuild
 querybuild: ## List buildable targets
@@ -247,7 +338,6 @@ queryall: ## List all targets
 	@bazelisk query @bazel_tools//tools/cpp/...
 	@bazelisk query //...
 	@bazelisk query //... --output label_kind | sort | column -t
-
 
 .PHONY: coverage
 coverage:  ## Generates code coverage report
@@ -277,6 +367,33 @@ expunge: ## Removes the entire working tree for this bazel instance
 
 .PHONY: all
 all: compile   ## Build test , regression test , coverage and documentations
+
+.PHONY: e2edev
+e2edev: integration-test genhtml  ## Build, test , regression test , coverage and documentations
+
+.PHONY: check-for-artifactory-credentials
+check-for-artifactory-credentials:
+	@printf "\nChecking connectivity to Artifactory. Looking for Artifactory credentials on the environment.\n"
+	@printf "   Checking environment for JFROG_USR variable... "
+	@printf $(if $(JFROG_USR),"Found...\n","Not found! Set JFROG_USR environment variable. (e.g. export JFROG_USR=<ssoid>;)\n")
+	@printf "   Checking environment for JFROG_PSW variable... "
+	@printf $(if $(JFROG_PSW),"Found...\n\n","Not found! Set JFROG_PSW environment variable. (e.g. export JFROG_PSW=<sso api key>;)\n\n")
+	@test "$(JFROG_USR)"
+	@test "$(JFROG_PSW)"
+
+.PHONY: versioninfo
+versioninfo: ## Display informations about the image.
+	$(Q)echo "Version file: $(VERSIONFILE)"
+	$(Q)echo "Current version: $(SEM_VERSION)"
+	$(Q)echo "(major: $(MAJOR), minor: $(MINOR), patch: $(PATCH))"
+	$(Q)echo "Last tag: $(LAST_TAG)"
+	$(Q)echo "Build: $(BUILD) (total number of commits)"
+	$(Q)echo "next major version: $(NEXT_MAJOR_VERSION)"
+	$(Q)echo "next minor version: $(NEXT_MINOR_VERSION)"
+	$(Q)echo "next patch version: $(NEXT_PATCH_VERSION)"
+	$(Q)echo "--------------"
+	$(Q)echo "Previous version file '$(VERSIONFILE)' commit: $(PREVIOUS_VERSIONFILE_COMMIT)"
+	$(Q)echo "Previous version **from** version file: '$(PREVIOUS_VERSION)'"
 
 .PHONY: help
 help: ## Display this help and exits.

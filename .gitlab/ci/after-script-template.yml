@@ -27,11 +27,11 @@
 #
 
 .before_script_git_template: &git_before_script
-    # set up identities
-  - eval $(ssh-agent -s)
-  - echo "${BOT_KEY}" | tr -d '\r' | ssh-add - >/dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan -t rsa gitlab.com github.com >>~/.ssh/known_hosts
-  - git config --global user.name "${BOT_USER}"
-  - git config --global user.email "${BOT_EMAIL}"
+      # set up identities
+    - eval $(ssh-agent -s)
+    - echo "${BOT_KEY}" | tr -d '\r' | ssh-add - >/dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -t rsa gitlab.com github.com >>~/.ssh/known_hosts
+    - git config --global user.name "${BOT_USER}"
+    - git config --global user.email "${BOT_EMAIL}"
