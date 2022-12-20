@@ -30,9 +30,10 @@
 # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
 
 name: 🐧🐧 Continuous Integration
-
+# BUILD TEST MERGE
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }} #${{ github.workflow }}-${{ github.ref }} # group: ci-${{ github.event.pull_request.number || github.ref }}
+  #${{ github.workflow }}-${{ github.ref }} # group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
   cancel-in-progress: true
 
 on:
@@ -337,7 +338,7 @@ jobs:
     # env: ${{ matrix.env }}
       matrix:
         bazel: [5.1.1]
-        bazelisk: [1.11.0]
+        bazelisk: [1.15.0]
         python-version: [3.10]
         # compilation_mode: [ fastbuild, dbg, opt]
         # shared: [true, false]
@@ -417,6 +418,9 @@ jobs:
       #     wget -O bazelisk "https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64"
       #     test "231ec5ca8115e94c75a1f4fbada1a062b48822ca04f21f26e4cb1cd8973cd458  bazelisk" = "$(sha256sum bazelisk)"
       #     chmod +x bazelisk
+      #     mkdir -p "${GITHUB_WORKSPACE}/bin/"
+      #     mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazelisk"
+      #     chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
       #     mv bazelisk /usr/local/bin/bazelisk
 
       -
@@ -516,3 +520,36 @@ jobs:
       #     severity: error
       #     details: CI failed on ${{ matrix.os }}
       #     webhookUrl: ${{ secrets.DISCORD_WEBHOOK }
+
+  # cleanup:
+  #   name: Bazel Cache Cleanup
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+  #   permissions:
+  #     contents: read
+  #     actions: write
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Cleanup older Bazel Caches
+  #       # Per https://github.com/actions/cache/blob/main/tips-and-workarounds.md#force-deletion-of-caches-overriding-default-cache-eviction-policy
+  #       run: |
+  #         gh extension install actions/gh-actions-cache
+  #         REPO=${{ github.repository }}
+  #         BRANCH=${{ github.ref }}
+  #         echo "Fetching list of cache key"
+  #         gh actions-cache list -R $REPO -B $BRANCH
+  #         # Do not fail if unable to clean up (i.e. no cache were found).
+  #         set +e
+  #         caches_for_20_04=($(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 | grep "bazel-cache-20_04"))
+  #         # Delete all except for the latest cache.
+  #         older_caches_for_20_04=${caches_for_20_04[@]:1}
+  #         echo "Deleting caches..."
+  #         for key in ${older_caches_for_20_04[@]}; do
+  #             echo "  ... deleting $key for $REPO and $BRANCH"
+  #             gh actions-cache delete $key -R $REPO -B $BRANCH --confirm
+  #         done
+  #         echo "Done"
+  #         set -e
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

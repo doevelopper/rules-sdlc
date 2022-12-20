@@ -251,3 +251,44 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
+
+  fuzztest:
+    name: Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        config: ['default', 'fuzztest']
+        compilation_mode: ['fastbuild', 'opt', 'dbg']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup --config=fuzztest for Bazel
+        run: |
+          bazel run //bazel:setup_configs > fuzztest.bazelrc
+      - name: Delete Bazel cache (nightly)
+        if: github.event_name == 'schedule'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method DELETE \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/actions/caches?key=bazel-cache-${{ matrix.config }}-${{ matrix.compilation_mode }}
+      - name: Mount Bazel cache
+        uses: actions/cache@v3
+        with:
+          path: "~/.cache/bazel"
+          key: bazel-cache-${{ matrix.config }}-${{ matrix.compilation_mode }}
+      - name: Run all tests with default --config
+        if: matrix.config == 'default'
+        run: |
+          bazel test --build_tests_only --test_output=errors \
+            -c ${{ matrix.compilation_mode }} //...
+      - name: Run end-to-end tests with --config=fuzztest
+        if: matrix.config == 'fuzztest'
+        run: |
+          bazel test --build_tests_only --test_output=errors \
+            -c ${{ matrix.compilation_mode }} --config=fuzztest //e2e_tests:all

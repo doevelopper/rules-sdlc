@@ -15,6 +15,14 @@
 licenses(["notice"])  # Apache 2.0
 package(default_visibility = ["//visibility:public"])
 
+sh_binary(
+    name = "setup_configs",
+    srcs = ["setup_configs.sh"],
+    # To determine if the script runs from the fuzztest repo or from a client repo.
+    args = [repository_name()],
+)
+
+
 # sh_binary(
 #     name = "integration.test.script",
 #     srcs = ["run-it.sh"],

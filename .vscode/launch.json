@@ -1,31 +1,63 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Build All Tests",
-      "type": "shell",
-      "command": "bazel build //test/...",
-      "group": {
-        "kind": "build",
-        "isDefault": true
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "type": "by-gdb",
+          "request": "launch",
+          "name": "(Bazel) Run C/C++ test with GDB",
+          "program": "${workspaceFolder}/bazel-bin/${input:pickCcTest}",
+          "cwd": "${workspaceRoot}",
+          "commandsBeforeExec": [
+              "enable pretty-printer"
+          ],
       }
-    },
-    {
-      "label": "Run All Tests",
-      "type": "shell",
-      "command": "bazel test //test/...",
-      "group": {
-        "kind": "test",
-        "isDefault": true
+  ],
+  "inputs": [
+      {
+          "id": "pickCcTest",
+          "type": "command",
+          "command": "shellCommand.execute",
+          "args": {
+              "description": "Pick a Bazel cc_test target",
+              // Use bazel query to find all test targets. This will automatically pick up any new cc_test added
+              // We need to massage the query output to get the output path
+              // 1. remove the initial // (ex: //orc8r/gateway/c/common/config/test:yaml_utils_test -> orc8r/gateway/c/common/config/test:yaml_utils_test)
+              // 2. replace : -> / (ex: orc8r/gateway/c/common/config/test:yaml_utils_test -> orc8r/gateway/c/common/config/test/yaml_utils_test)
+              "command": "bazel query \"kind('cc_test', //...)\" --output=label | sed 's/\\/\\///' | sed 's/:/\\//'",
+          },
       }
-    },
-    {
-      "label": "Refresh Compilation Database",
-      "type": "shell",
-      "command": "tools/vscode/refresh_compdb.sh",
-      "problemMatcher": []
-    }
   ]
 }
+
+
+// {
+//   // See https://go.microsoft.com/fwlink/?LinkId=733558
+//   // for the documentation about the tasks.json format
+//   "version": "2.0.0",
+//   "tasks": [
+//     {
+//       "label": "Build All Tests",
+//       "type": "shell",
+//       "command": "bazel build //test/...",
+//       "group": {
+//         "kind": "build",
+//         "isDefault": true
+//       }
+//     },
+//     {
+//       "label": "Run All Tests",
+//       "type": "shell",
+//       "command": "bazel test //test/...",
+//       "group": {
+//         "kind": "test",
+//         "isDefault": true
+//       }
+//     },
+//     {
+//       "label": "Refresh Compilation Database",
+//       "type": "shell",
+//       "command": "tools/vscode/refresh_compdb.sh",
+//       "problemMatcher": []
+//     }
+//   ]
+// }

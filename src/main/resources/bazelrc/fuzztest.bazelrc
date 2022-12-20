@@ -1,0 +1,38 @@
+
+# Link with Address Sanitizer (ASAN).
+build:fuzztest-common --linkopt=-fsanitize=address
+# Standard define for \"ifdef-ing\" any fuzz test specific code.
+build:fuzztest-common --copt=-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+# In fuzz tests, we want to catch assertion violations even in optimized builds.
+build:fuzztest-common --copt=-UNDEBUG
+# Enable libc++ assertions.
+# See https://libcxx.llvm.org/UsingLibcxx.html#enabling-the-safe-libc-mode
+build:fuzztest-common --copt=-D_LIBCPP_ENABLE_ASSERTIONS=1
+
+### FuzzTest build configuration.
+#
+# Use with: --config=fuzztest
+build:fuzztest --config=fuzztest-common
+# Link statically.
+build:fuzztest --dynamic_mode=off
+# We rely on the following flag instead of the compiler provided
+# __has_feature(address_sanitizer) to know that we have an ASAN build even in
+# the uninstrumented runtime.
+build:fuzztest --copt=-DADDRESS_SANITIZER
+
+### libFuzzer compatibility mode.
+#
+# Use with: --config=libfuzzer
+build:libfuzzer --config=fuzztest-common
+build:libfuzzer --copt=-DFUZZTEST_COMPATIBILITY_MODE
+build:libfuzzer --copt=-fsanitize=fuzzer-no-link
+build:libfuzzer --per_file_copt=+//,-${FUZZTEST_FILTER},-googletest/.*,-googlemock/.*@-fsanitize=address
+build:libfuzzer --linkopt=$(find $(${LLVM_CONFIG} --libdir) -name libclang_rt.fuzzer_no_main-x86_64.a | head -1)
+
+### OSS-Fuzz compatibility mode.
+#
+# Use with: --config=oss-fuzz
+build:oss-fuzz --copt=-DFUZZTEST_COMPATIBILITY_MODE
+build:oss-fuzz --dynamic_mode=off
+build:oss-fuzz --action_env=CC=${CC}
+build:oss-fuzz --action_env=CXX=${CXX}

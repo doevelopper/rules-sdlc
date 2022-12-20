@@ -6,28 +6,34 @@
 ####################################################################################################################
 
 # start up options settings
-try-import %workspace%/src/main/resources/bazelrc/bazel.rc
+try-import %workspace%/src/main/resources/bazelrc/startup.bazelrc
 
 # build phase settings
-try-import %workspace%/src/main/resources/bazelrc/build.rc
+try-import %workspace%/src/main/resources/bazelrc/build.bazelrc
 
 # Setting for on premise RBE
-try-import %workspace%/src/main/resources/bazelrc/buildbuddy.rc
+try-import %workspace%/src/main/resources/bazelrc/buildbuddy.bazelrc
 
 # Setting for environmentg utils
-try-import %workspace%/src/main/resources/bazelrc/env.rc
+try-import %workspace%/src/main/resources/bazelrc/env.bazelrc
 
 # proxy settings
-try-import %workspace%/src/main/resources/bazelrc/proxy.rc
+try-import %workspace%/src/main/resources/bazelrc/proxy.bazelrc
 
 # Runtime util settings
-try-import %workspace%/src/main/resources/bazelrc/run.rc
+try-import %workspace%/src/main/resources/bazelrc/run.bazelrc
 
 # Sanitizer util settings
-# try-import %workspace%/src/main/resources/bazelrc/sanitizer.rc
+# try-import %workspace%/src/main/resources/bazelrc/sanitizer.bazelrc
 
 # Test utils
-try-import %workspace%/src/main/resources/bazelrc/test.rc
+try-import %workspace%/src/main/resources/bazelrc/test.bazelrc
 
 # Try to import user-specific configuration local to workspace.
 try-import %workspace%/user.bazelrc
+
+# # Force the use of Clang for all builds.
+# build --action_env=CC=clang
+# build --action_env=CXX=clang++
+# # Use the C++17 standard.
+# build --cxxopt=-std=c++17

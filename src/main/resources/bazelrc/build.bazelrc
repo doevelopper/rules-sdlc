@@ -9,6 +9,23 @@ build --announce_rc
 # build --output_filter="^//"
 
 
+###############################                GCC  Compiler                  ###############################
+build:gnu-gcc --action_env=CC=gcc
+build:gnu-gcc --action_env=CXX=g++
+build:gnu-gcc --client_env=CC=gcc
+build:gnu-gcc --client_env=CXX=g++
+
+###############################                LLVM Compiler                  ###############################
+
+# TODO(leary): 2020-09-09 Make it possible to enable this option.
+# Currently m4 doesn't seem to work as a dependency.
+# build --crosstool_top=@llvm_toolchain_llvm//:toolchain
+
+build:llvm --action_env=CC=clang
+build:llvm --action_env=CXX=clang++
+build:llvm --client_env=CC=clang
+build:llvm --client_env=CXX=clang++
+
 ###############################                Linux build quirks                  ###############################
 
 build:linux --action_env=PYTHON_BIN_PATH=python3

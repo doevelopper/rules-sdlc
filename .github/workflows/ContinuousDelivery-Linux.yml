@@ -33,7 +33,8 @@
 
 
 name: 🐧🐧 Continuous Delivery
-
+# MANUAL: code changes are prepared to be released to production
+# BUILD TEST MERGE  to ARTIFACTORY
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

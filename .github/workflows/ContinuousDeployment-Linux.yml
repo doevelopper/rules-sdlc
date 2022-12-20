@@ -33,7 +33,8 @@
 
 
 name: 🐧🐧 Continuous Deployment
-
+# AUTO:  code changes are continuously released into the production environment.
+# BUILD TEST MERGE  AUTO to PRODUCTION
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
