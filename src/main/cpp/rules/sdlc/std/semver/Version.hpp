@@ -82,13 +82,13 @@ namespace rules::sdlc::stdc::semver
     constexpr int ESL = 0;
     constexpr int USL = 1;
 
-/*!
- * @brief ReleaseLevel indicates the release level of this API
- *          This enum follows the release level convention used by python.
- * @ref https://docs.python.org/3/c-api/apiabiversion.html
- * @ref https://docs.python.org/3.7/c-api/apiabiversion.html
- * @ref https://hg.python.org/cpython/file/3.6/Include/patchlevel.h
- */
+    /*!
+    * @brief ReleaseLevel indicates the release level of this API
+    *          This enum follows the release level convention used by python.
+    * @ref https://docs.python.org/3/c-api/apiabiversion.html
+    * @ref https://docs.python.org/3.7/c-api/apiabiversion.html
+    * @ref https://hg.python.org/cpython/file/3.6/Include/patchlevel.h
+    */
 
     enum class ReleaseLevel : std::uint8_t
     {
@@ -118,7 +118,7 @@ namespace rules::sdlc::stdc::semver
         explicit Version ( const std::string & version );
         explicit Version ( const std::uint8_t major, const std::uint8_t minor, const std::uint8_t patch, ReleaseLevel
                            m_releaseType = ReleaseLevel::SNAPSHOOT, std::uint8_t m_tweak = 0 );
-        Version(std::uint8_t, std::uint8_t, std::uint8_t, const std::string &, const std::string &);
+        explicit Version(std::uint8_t, std::uint8_t, std::uint8_t, const std::string &, const std::string &);
 
         bool isEquals      (const Version& ver) const;
         bool isNewerThen   (const Version& ver) const;

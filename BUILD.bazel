@@ -72,6 +72,13 @@ filegroup(
     ),
 )
 
+# @unused
+GLOBAL_CXX_OPTION = select({
+    "@bazel_tools//compiler:msvc": [""],
+    "@bazel_tools//compiler:clang": [""],
+    "@bazel_tools//compiler:gcc": [""],
+})
+
 config_setting(
     name = "linux",
     constraint_values = [

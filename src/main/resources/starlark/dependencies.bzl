@@ -29,8 +29,11 @@ COM_GOOGLE_PROTOBUF_VERSION = "3.17.3"
 COM_GITHUB_OPENSSL_SHA = "b92f9d3d12043c02860e5e602e50a73ed21a69947bcc74d391f41148e9f6aa95"
 COM_GITHUB_OPENSSL_VERSION = "1_1_1k"
 
+COM_GITHUB_OPENSSL3_SHA = "b92f9d3d12043c02860e5e602e50a73ed21a69947bcc74d391f41148e9f6aa95"
+COM_GITHUB_OPENSSL3_VERSION = "3.1.0-beta1"
+
 NET_ZLIB_SHA = ""
-NET_ZLIB_VERSION = "1.2.12"
+NET_ZLIB_VERSION = "1.2.13"
 
 LOG4CXX_VERSION = "0.13.0"
 LOG4CXX_SHA = "d7f8d5af5f69e26b99de61fe1585bc48713ced78d18eb0979bb4844d21aed253"
@@ -148,6 +151,16 @@ cmake(
             "https://github.com/openssl/openssl/archive/refs/tags/OpenSSL_{}.zip".format(COM_GITHUB_OPENSSL_VERSION),
             # "https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.0-beta2.tar.gz".format(COM_GITHUB_OPENSSL_VERSION),
             # "https://github.com/openssl/openssl/archive/refs/tags/openssl-3.0.0-beta2.zip".format(COM_GITHUB_OPENSSL_VERSION),
+        ],
+    },
+
+    "com_github_openssl3": {
+        "sha256": COM_GITHUB_OPENSSL3_SHA,
+        "build_file": "@com.github.doevelopper.rules-sdlc//src/main/resources/soup:openssl.BUILD",
+        "strip_prefix": "openssl-OpenSSL-{}".format(COM_GITHUB_OPENSSL3_VERSION),
+        "urls": [
+            "https://github.com/openssl/openssl/archive/refs/tags/OpenSSL-{}.tar.gz".format(COM_GITHUB_OPENSSL3_VERSION),
+            "https://github.com/openssl/openssl/archive/refs/tags/OpenSSL-{}.zip".format(COM_GITHUB_OPENSSL3_VERSION),
         ],
     },
 

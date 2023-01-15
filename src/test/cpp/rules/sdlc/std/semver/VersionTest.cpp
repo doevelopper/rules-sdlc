@@ -55,10 +55,15 @@ TEST_F(VersionTest, Test_VersionTest_Default_Version)
     // EXPECT_EQ(testee->compareVersion(v),1);
 }
 
-// TEST_F(VersionTest, Test_VersionTest_Parsing)
-// {
-//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-// }
+TEST_F(VersionTest, Test_VersionTest_Parsing)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    Version v(std::string("1.0.0-alpha"));
+    EXPECT_EQ(v.getMajor(),1);
+    EXPECT_EQ(v.getMinor(),0);
+    EXPECT_EQ(v.getPatch(),0);
+    EXPECT_EQ(v.maturity(),"1.0.0");
+}
 
 // TEST_F(VersionTest, Test_VersionTest_Compare)
 // {

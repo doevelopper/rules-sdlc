@@ -23,12 +23,14 @@ Version::Version ( ) noexcept
     oss << "Compiled using"
         << " ("
 #if defined( __INTEL_COMPILER )
-        << "Intel " << __INTEL_COMPILER << " " << __INTEL_COMPILER_BUILD_DATE
+    << "Intel " << __INTEL_COMPILER << " " << __INTEL_COMPILER_BUILD_DATE
 #elif defined( __clang__ )
-        << "Clang " << __clang__ << "." << __clang_major__ << "." << __clang_minor__ << "." <<
+    << "Clang " << __clang__ << "." << __clang_major__ << "." << __clang_minor__ << "." <<
         __clang_patchlevel__
 #elif ( defined( __GNUC__ ) || defined( __GNUG__ ) ) && !defined( __clang__ )
-        << "GNU " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__
+    << "GNU " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__
+#elif (defined( _MSC_VER ) || defined(__MINGW32__)) && !defined( __INTEL_COMPILER )
+    << "Microsoft Visual Studio " << (_MSC_VER / 100) << (_MSC_VER % 100) << "." << _MSC_FULL_VER
 #else
         << "unknown compiler"
 #endif
@@ -61,6 +63,12 @@ Version::Version ( const std::string & version )
 {
     LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ << " " << version);
     this->set(version);
+}
+
+Version::Version(std::uint8_t major, std::uint8_t minor, std::uint8_t patch, const std::string & extra, const std::string & build)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ << " " << std::to_string(major) << " " << std::to_string(minor) << " " << std::to_string(patch) << " " << extra << " " << build);
+    this->set(major, minor, patch, extra.c_str(), build.c_str());
 }
 
 void Version::set(std::uint8_t major, std::uint8_t minor, std::uint8_t patch)
