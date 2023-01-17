@@ -28,9 +28,9 @@
 
 
 // namespace po = boost::program_options;
-int main(
+auto main(
     [[maybe_unused]] int argc,
-    [[maybe_unused]] char**argv)
+    [[maybe_unused]] char**argv) -> int
 {
     // rules::sdlc::stdc::logging::LoggingService * loggingService = new rules::sdlc::stdc::logging::LoggingService();
 

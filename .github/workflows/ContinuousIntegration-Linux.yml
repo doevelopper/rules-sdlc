@@ -38,7 +38,7 @@ concurrency:
 
 on:
   push:
-    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/**, defects/** ]
     paths-ignore:
       - '**.md'
       # - 'docs/**'
@@ -53,7 +53,7 @@ on:
     # tags-ignore:
     #   - 'v*.*.*'
   pull_request:
-    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/** ]
+    branches: [ main, master, develop, feature/**, bugfix/**, hotfix/**, support/**, defects/** ]
     paths-ignore:
       - '**.md'
       # - 'docs/**'

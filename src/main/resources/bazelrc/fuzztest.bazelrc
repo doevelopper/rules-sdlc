@@ -36,3 +36,11 @@ build:oss-fuzz --copt=-DFUZZTEST_COMPATIBILITY_MODE
 build:oss-fuzz --dynamic_mode=off
 build:oss-fuzz --action_env=CC=${CC}
 build:oss-fuzz --action_env=CXX=${CXX}
+
+# Fuzz builds
+build:asan-fuzzer --config=clang-asan
+build:asan-fuzzer --define=FUZZING_ENGINE=libfuzzer
+build:asan-fuzzer --copt=-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+build:asan-fuzzer --copt=-fsanitize=fuzzer-no-link
+# Remove UBSAN halt_on_error to avoid crashing on protobuf errors.
+build:asan-fuzzer --test_env=UBSAN_OPTIONS=print_stacktrace=1
