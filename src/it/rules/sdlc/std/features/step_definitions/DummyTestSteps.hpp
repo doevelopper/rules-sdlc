@@ -11,7 +11,7 @@
 
 #include <cucumber-cpp/generic.hpp>
 #include <gtest/gtest.h>
-#include <rules/sdlc/std/Dummy.hpp>
+#include <rules/sdlc/common/Dummy.hpp>
 
 namespace rules::sdlc::stdc::features::it
 {

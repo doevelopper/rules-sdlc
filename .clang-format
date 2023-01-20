@@ -7,181 +7,179 @@
 #   https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 #
 ---
+Language: Cpp
+# BasedOnStyle: WebKit
 AccessModifierOffset: -4
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
-#AlignEscapedNewlines: Left # Unknown to clang-format-4.0
-AlignOperands: true
+AlignAfterOpenBracket: AlwaysBreak
+AlignArrayOfStructures: Left
+AlignConsecutiveMacros: None
+AlignConsecutiveAssignments: None
+AlignConsecutiveBitFields: None
+AlignConsecutiveDeclarations: None
+AlignEscapedNewlines: Right
+AlignOperands: AlignAfterOperator
 AlignTrailingComments: false
-AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: false
+AllowAllArgumentsOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
-AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: false
+AlwaysBreakTemplateDeclarations: Yes
+AttributeMacros: []
 BinPackArguments: true
 BinPackParameters: true
-
-# Control of individual brace wrapping cases
 BraceWrapping:
-  AfterClass: false
-  AfterControlStatement: false
-  AfterEnum: false
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
   AfterFunction: true
   AfterNamespace: true
-  AfterObjCDeclaration: false
-  AfterStruct: false
-  AfterUnion: false
-  #AfterExternBlock: false
-  BeforeCatch: false
-  BeforeElse: false
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: true
   IndentBraces: false
-  #SplitEmptyFunction: true # Unknown to clang-format-4.0
-  #SplitEmptyRecord: true # Unknown to clang-format-4.0
-  #SplitEmptyNamespace: true # Unknown to clang-format-4.0
-BreakBeforeBinaryOperators: None
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeConceptDeclarations: true
 BreakBeforeBraces: Custom
-#BreakBeforeInheritanceComma: false # Unknown to clang-format-4.0
-BreakBeforeTernaryOperators: false
+BreakBeforeInheritanceComma: false
+BreakInheritanceList: BeforeColon
+BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
-#BreakConstructorInitializers: BeforeComma # Unknown to clang-format-4.0
+BreakConstructorInitializers: BeforeComma
 BreakAfterJavaFieldAnnotations: false
-BreakStringLiterals: false
+BreakStringLiterals: true
 ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
-#CompactNamespaces: false # Unknown to clang-format-4.0
+CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ConstructorInitializerIndentWidth: 8
-ContinuationIndentWidth: 8
-Cpp11BracedListStyle: false
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DeriveLineEnding: true
 DerivePointerAlignment: false
 DisableFormat: false
+EmptyLineAfterAccessModifier: Always
+EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
-#FixNamespaceComments: false # Unknown to clang-format-4.0
-
-# Taken from:
-#   git grep -h '^#define [^[:space:]]*FOR_EACH[^[:space:]]*(' include/ \
-#   | sed "s,^#define \([^[:space:]]*FOR_EACH[^[:space:]]*\)(.*$,  - '\1'," \
-#   | sort | uniq
-ForEachMacros:
-  - 'FOR_EACH'
-  - 'FOR_EACH_FIXED_ARG'
-  - 'RB_FOR_EACH'
-  - 'RB_FOR_EACH_CONTAINER'
-  - 'SYS_DLIST_FOR_EACH_CONTAINER'
-  - 'SYS_DLIST_FOR_EACH_CONTAINER_SAFE'
-  - 'SYS_DLIST_FOR_EACH_NODE'
-  - 'SYS_DLIST_FOR_EACH_NODE_SAFE'
-  - 'SYS_SFLIST_FOR_EACH_CONTAINER'
-  - 'SYS_SFLIST_FOR_EACH_CONTAINER_SAFE'
-  - 'SYS_SFLIST_FOR_EACH_NODE'
-  - 'SYS_SFLIST_FOR_EACH_NODE_SAFE'
-  - 'SYS_SLIST_FOR_EACH_CONTAINER'
-  - 'SYS_SLIST_FOR_EACH_CONTAINER_SAFE'
-  - 'SYS_SLIST_FOR_EACH_NODE'
-  - 'SYS_SLIST_FOR_EACH_NODE_SAFE'
-  - 'Z_GENLIST_FOR_EACH_CONTAINER'
-  - 'Z_GENLIST_FOR_EACH_CONTAINER_SAFE'
-  - 'Z_GENLIST_FOR_EACH_NODE'
-  - 'Z_GENLIST_FOR_EACH_NODE_SAFE'
-  - '_WAIT_Q_FOR_EACH'
-
-#IncludeBlocks: Preserve
+FixNamespaceComments: false
+ForEachMacros: []
+IfMacros: []
+IncludeBlocks: Preserve
 IncludeCategories:
+  - Regex: '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '^(<|"(gtest|gmock|isl|json)/)'
+    Priority: 3
+    SortPriority: 0
+    CaseSensitive: false
   - Regex: '.*'
     Priority: 1
-  # port_platform.h is before almost everything
-  - Regex: '^<grpc/(support|impl/codegen)/port_platform.h>'
-    Priority: -100
-  # ruby.h is even more first if it's included
-  - Regex: '^<ruby/ruby.h>'
-    Priority: -200
-  # Some platforms (namely msys) need wchar to be included BEFORE
-  # anything else, especially strsafe.h.
-  - Regex: '^<wchar.h>'
-    Priority: 5
-  # use priority 100+ for grpc headers so they sort last
-  # 'system' headers - include things that have " in the names to make them
-  # stand out and get fixed
-  - Regex: '^(<|")grpc'
-    Priority: 100
-  # similary using include/ to get system headers should stand out and get
-  # fixed
-  - Regex: '^"include/'
-    Priority: 100
-  # source headers go last
-  - Regex: '^"(src|test)/'
-    Priority: 101
-  # not-grpc headers follow
-  # first, non system headers that are included like <> - these are all
-  # local carveouts, and get sorted below c++ but before non grpc "" files
-  - Regex: '^<(openssl/|uv\.h|ares\.h|address_sorting/|gmock/|gtest/|zlib|benchmark/|google/)'
-    Priority: 30
-  # first C system headers - they have a . in the filename
-  - Regex: '^<.*\.'
-    Priority: 10
-  # then C++ system headers - no ., the only thing that will match now
-  - Regex: '^<'
-    Priority: 20
-  # finally other "" includes go between system headers and our headers
-  - Regex: '^"'
-    Priority: 40
+    SortPriority: 0
+    CaseSensitive: false
 IncludeIsMainRegex: '(Test)?$'
+IncludeIsMainSourceRegex: ''
+IndentAccessModifiers: false
 IndentCaseLabels: false
-#IndentPPDirectives: None
-IndentWidth: 8
+IndentCaseBlocks: false
+IndentGotoLabels: true
+IndentPPDirectives: None
+IndentExternBlock: AfterExternBlock
+IndentRequires: false
+IndentWidth: 4
 IndentWrappedFunctionNames: false
+InsertTrailingCommas: None
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: Signature
 MacroBlockBegin: ''
 MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 1
-NamespaceIndentation: Inner
-#ObjCBinPackProtocolList: Auto
-ObjCBlockIndentWidth: 8
+NamespaceIndentation: All
+ObjCBinPackProtocolList: Auto
+ObjCBlockIndentWidth: 4
+ObjCBreakBeforeNestedBlockParam: true
 ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: true
-
-# Taken from git's rules
-#PenaltyBreakAssignment: 10 # Unknown to clang-format-4.0
-PenaltyBreakBeforeFirstCallParameter: 30
-PenaltyBreakComment: 10
-PenaltyBreakFirstLessLess: 0
-PenaltyBreakString: 10
-PenaltyExcessCharacter: 100
-PenaltyReturnTypeOnItsOwnLine: 60
-
-PointerAlignment: Right
-ReflowComments: false
-SortIncludes: false
-#SortUsingDeclarations: false # Unknown to clang-format-4.0
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 120
+PenaltyIndentedWhitespace: 0
+PointerAlignment: Middle
+PPIndentWidth: -1
+ReferenceAlignment: Pointer
+ReflowComments: true
+ShortNamespaceLines: 1
+SortIncludes: CaseInsensitive
+SortJavaStaticImport: Before
+SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
-#SpaceBeforeCtorInitializerColon: true
-#SpaceBeforeInheritanceColon: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
-#SpaceBeforeRangeBasedForLoopColon: true
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceInEmptyBlock: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles: false
-SpacesInContainerLiterals: false
+SpacesInAngles: Never
+SpacesInConditionalStatement: false
+SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp17
+SpaceBeforeSquareBrackets: false
+BitFieldColonSpacing: Both
+Standard: Latest
+StatementAttributeLikeMacros:
+  - Q_EMIT
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
 TabWidth: 8
+UseCRLF: false
 UseTab: Never
-
+WhitespaceSensitiveMacros:
+  - STRINGIZE
+  - PP_STRINGIZE
+  - BOOST_PP_STRINGIZE
+  - NS_SWIFT_NAME
+  - CF_SWIFT_NAME
 ---
 Language: Proto
-ColumnLimit: 100
+ColumnLimit: 80
 SpacesInContainerLiterals: false
 AllowShortFunctionsOnASingleLine: false
 ReflowComments: false
@@ -248,6 +246,8 @@ ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
+  - FOR_EACH
+  - FOR_EACH_FIXED_ARG
 IncludeBlocks: Preserve
 IncludeCategories:
   - Regex: '^"(llvm|llvm-c|clang|clang-c)/'
@@ -299,7 +299,7 @@ SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
+Standard: Cpp17
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION

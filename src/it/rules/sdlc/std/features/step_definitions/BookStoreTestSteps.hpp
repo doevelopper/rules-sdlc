@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <cucumber-cpp/autodetect.hpp>
 
-#include <rules/sdlc/std/demo/BookStore.hpp>
+#include <rules/sdlc/common/demo/BookStore.hpp>
 
 namespace details {
 

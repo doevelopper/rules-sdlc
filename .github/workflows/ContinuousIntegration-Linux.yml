@@ -165,7 +165,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         architecture: x64
     - run: pip install cpplint cpplint-junit  tox tox-gh-actions
-        #cpplint --recursive src/main/cpp/rules/sdlc/std/app > ${{ github.workspace }}/lint.xml 2>&1
+        #cpplint --recursive src/main/cpp/rules/sdlc/common/app > ${{ github.workspace }}/lint.xml 2>&1
         #cpplint_junit ${{ github.workspace }}/cpplint.txt ${{ github.workspace }}/cpplint-2-junit.xml
 
     # - run: |
