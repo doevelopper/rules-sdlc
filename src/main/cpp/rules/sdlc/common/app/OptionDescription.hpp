@@ -43,10 +43,10 @@ namespace rules::sdlc::stdc::app
 
         OptionDescription() noexcept;
         OptionDescription(boost::shared_ptr<boost::program_options::option_description> option) noexcept;
-        OptionDescription(const OptionDescription &) noexcept = default;
-        OptionDescription(OptionDescription &&) noexcept = default;
+        OptionDescription(const OptionDescription &) noexcept             = default;
+        OptionDescription(OptionDescription &&) noexcept                  = default;
         OptionDescription & operator=(const OptionDescription &) noexcept = default;
-        OptionDescription & operator=(OptionDescription &&) noexcept = default;
+        OptionDescription & operator=(OptionDescription &&) noexcept      = default;
         virtual ~OptionDescription();
 
         void usage();

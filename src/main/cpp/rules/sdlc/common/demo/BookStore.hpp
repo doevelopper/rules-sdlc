@@ -32,10 +32,10 @@ namespace rules::sdlc::stds::demo
     public:
 
         BookStore();
-        BookStore(const BookStore &) = default;
-        BookStore(BookStore &&) = default;
+        BookStore(const BookStore &)             = default;
+        BookStore(BookStore &&)                  = default;
         BookStore & operator=(const BookStore &) = default;
-        BookStore & operator=(BookStore &&) = default;
+        BookStore & operator=(BookStore &&)      = default;
         ~BookStore();
 
     protected:

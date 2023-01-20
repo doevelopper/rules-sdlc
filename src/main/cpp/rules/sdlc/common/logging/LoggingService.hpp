@@ -170,7 +170,7 @@ private:                                                                        
 
 #define DEBUG(x)                                                                                                       \
     {                                                                                                                  \
-        time_t now = time(0);                                                                                          \
+        time_t now    = time(0);                                                                                       \
         std::string s = std::string(ctime(&now));                                                                      \
         std::clog << s.substr(0, s.size() - 1) << " " << x << std::endl;                                               \
     }
@@ -185,10 +185,10 @@ namespace rules::sdlc::stdc::logging
     public:
 
         explicit LoggingService(unsigned long delay);
-        LoggingService(const LoggingService &) = delete;
-        LoggingService(LoggingService &&) = delete;
+        LoggingService(const LoggingService &)             = delete;
+        LoggingService(LoggingService &&)                  = delete;
         LoggingService & operator=(const LoggingService &) = delete;
-        LoggingService & operator=(LoggingService &&) = delete;
+        LoggingService & operator=(LoggingService &&)      = delete;
         virtual ~LoggingService();
         /*!
          * @ingroup los_membox

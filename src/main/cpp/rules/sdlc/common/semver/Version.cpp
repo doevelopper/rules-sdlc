@@ -42,11 +42,11 @@ Version::Version(
     std::uint8_t tweak)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-    m_major = major;
-    m_minor = minor;
-    m_patch = patch;
+    m_major       = major;
+    m_minor       = minor;
+    m_patch       = patch;
     m_releaseType = releaseType;
-    m_tweak = tweak;
+    m_tweak       = tweak;
 }
 
 Version::~Version() noexcept

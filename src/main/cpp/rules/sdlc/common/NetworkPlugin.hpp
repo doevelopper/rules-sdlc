@@ -15,10 +15,10 @@ namespace rules::sdlc::stdc
     public:
 
         NetworkPlugin();
-        NetworkPlugin(const NetworkPlugin &) = default;
-        NetworkPlugin(NetworkPlugin &&) = default;
+        NetworkPlugin(const NetworkPlugin &)             = default;
+        NetworkPlugin(NetworkPlugin &&)                  = default;
         NetworkPlugin & operator=(const NetworkPlugin &) = default;
-        NetworkPlugin & operator=(NetworkPlugin &&) = default;
+        NetworkPlugin & operator=(NetworkPlugin &&)      = default;
         virtual ~NetworkPlugin();
 
         // virtual void initialize(const OptionMap & options) override;

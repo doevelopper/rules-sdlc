@@ -25,10 +25,10 @@ namespace rules::sdlc::stdc::logging
 
         CentralizedLogging();
         CentralizedLogging(Log4cxxHandler & log4cxxHandler);
-        CentralizedLogging(const CentralizedLogging &) = delete;
-        CentralizedLogging(CentralizedLogging &&) = delete;
+        CentralizedLogging(const CentralizedLogging &)             = delete;
+        CentralizedLogging(CentralizedLogging &&)                  = delete;
         CentralizedLogging & operator=(const CentralizedLogging &) = delete;
-        CentralizedLogging & operator=(CentralizedLogging &&) = delete;
+        CentralizedLogging & operator=(CentralizedLogging &&)      = delete;
         virtual ~CentralizedLogging();
 
     protected:

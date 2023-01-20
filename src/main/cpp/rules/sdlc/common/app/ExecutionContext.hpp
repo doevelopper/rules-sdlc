@@ -12,13 +12,13 @@ namespace rules::sdlc::stdc::app
 
     struct Priority
     {
-        static constexpr int LOWEST = std::numeric_limits<int>::min();
-        static constexpr int LOW = 10;
-        static constexpr int MEDIUM_LOW = 25;
-        static constexpr int MEDIUM = 50;
+        static constexpr int LOWEST      = std::numeric_limits<int>::min();
+        static constexpr int LOW         = 10;
+        static constexpr int MEDIUM_LOW  = 25;
+        static constexpr int MEDIUM      = 50;
         static constexpr int MEDIUM_HIGH = 75;
-        static constexpr int HIGH = 100;
-        static constexpr int HIGHEST = std::numeric_limits<int>::max();
+        static constexpr int HIGH        = 100;
+        static constexpr int HIGHEST     = std::numeric_limits<int>::max();
     };
 
     class SDLC_API_EXPORT ExecutionContext : public boost::asio::execution_context
@@ -132,10 +132,10 @@ namespace rules::sdlc::stdc::app
         };
 
         ExecutionContext();
-        ExecutionContext(const ExecutionContext &) = default;
-        ExecutionContext(ExecutionContext &&) = default;
+        ExecutionContext(const ExecutionContext &)             = default;
+        ExecutionContext(ExecutionContext &&)                  = default;
         ExecutionContext & operator=(const ExecutionContext &) = default;
-        ExecutionContext & operator=(ExecutionContext &&) = default;
+        ExecutionContext & operator=(ExecutionContext &&)      = default;
         virtual ~ExecutionContext();
 
         template <typename Function>

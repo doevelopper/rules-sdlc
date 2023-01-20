@@ -26,22 +26,22 @@
  */
 #define SDLC_DECLARE(type) type
 
-#define SDLC_NULLPTR nullptr
-#define SDLC_DECL_EQ_DEFAULT noexcept = default
-#define SDLC_DECL_EQ_DELETE noexcept = delete
-#define SDLC_DECL_CONSTEXPR constexpr
-#define SDLC_CONSTEXPR const
-#define SDLC_DECL_OVERRIDE override
-#define SDLC_DECL_FINAL final
-#define SDLC_DECL_NOEXCEPT noexcept
-#define SDLC_DECL_NOEXCEPT_EXPR(x) noexcept(x)
-#define SDLC_FUNC_INFO __PRETTY_FUNCTION__
-#define SDLC_FOREVER for (;;)
-#define SDLC_REQUIRED_RESULT [[nodiscard]]
+#define SDLC_NULLPTR                  nullptr
+#define SDLC_DECL_EQ_DEFAULT          noexcept = default
+#define SDLC_DECL_EQ_DELETE           noexcept = delete
+#define SDLC_DECL_CONSTEXPR           constexpr
+#define SDLC_CONSTEXPR                const
+#define SDLC_DECL_OVERRIDE            override
+#define SDLC_DECL_FINAL               final
+#define SDLC_DECL_NOEXCEPT            noexcept
+#define SDLC_DECL_NOEXCEPT_EXPR(x)    noexcept(x)
+#define SDLC_FUNC_INFO                __PRETTY_FUNCTION__
+#define SDLC_FOREVER                  for (;;)
+#define SDLC_REQUIRED_RESULT          [[nodiscard]]
 #define SDLC_REQUIRED_RESULT_MSG(MSG) [[nodiscard(MSG)]]
-#define SDLC_DEPRECATED [[deprecated]]
-#define SDLC_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
-#define SDLC_MAYBE_UNUSED [[maybe_unused]]
+#define SDLC_DEPRECATED               [[deprecated]]
+#define SDLC_DEPRECATED_MSG(MSG)      [[deprecated(MSG)]]
+#define SDLC_MAYBE_UNUSED             [[maybe_unused]]
 #define SDLC_UNUSED_ARG(x)                                                                                             \
     do                                                                                                                 \
     { /* null */                                                                                                       \
@@ -56,7 +56,7 @@
 #define UNUSED(x) x
 #endif
 
-#define SDLC_FORWARD_DECLARE_CLASS(name) class name;
+#define SDLC_FORWARD_DECLARE_CLASS(name)  class name;
 #define SDLC_FORWARD_DECLARE_STRUCT(name) struct name;
 
 #if defined(__cplusplus)
@@ -78,9 +78,9 @@
 #endif
 
 #ifdef __GNUC__
-#define SDLC_NEVER_INLINE __attribute__((noinline))
+#define SDLC_NEVER_INLINE  __attribute__((noinline))
 #define SDLC_ALWAYS_INLINE inline __attribute__((always_inline))
-#define SDLC_NORETURN __attribute__((__noreturn__))
+#define SDLC_NORETURN      __attribute__((__noreturn__))
 #else
 #define SDLC_NEVER_INLINE
 #define SDLC_ALWAYS_INLINE inline
@@ -219,9 +219,9 @@ private:                                                                        
  #pragma GCC diagnostic pop
  */
 
-#define QT_DO_PRAGMA(text) _Pragma(#text)
-#define QT_WARNING_PUSH QT_DO_PRAGMA(GCC diagnostic push)
-#define QT_WARNING_POP QT_DO_PRAGMA(GCC diagnostic pop)
+#define QT_DO_PRAGMA(text)           _Pragma(#text)
+#define QT_WARNING_PUSH              QT_DO_PRAGMA(GCC diagnostic push)
+#define QT_WARNING_POP               QT_DO_PRAGMA(GCC diagnostic pop)
 #define QT_WARNING_DISABLE_GCC(text) QT_DO_PRAGMA(GCC diagnostic ignored text)
 
 // The body must be a statement:

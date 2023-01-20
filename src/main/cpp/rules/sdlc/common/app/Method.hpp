@@ -108,10 +108,10 @@ namespace rules::sdlc::stdc::app
         public:
 
             Handle();
-            Handle(const Handle &) = default;
-            Handle(Handle &&) = default;
+            Handle(const Handle &)             = default;
+            Handle(Handle &&)                  = default;
             Handle & operator=(const Handle &) = default;
-            Handle & operator=(Handle &&) = default;
+            Handle & operator=(Handle &&)      = default;
             virtual ~Handle();
 
             void unregister();
@@ -125,10 +125,10 @@ namespace rules::sdlc::stdc::app
             friend class Method;
         };
 
-        Method(const Method &) = default;
-        Method(Method &&) = default;
+        Method(const Method &)             = default;
+        Method(Method &&)                  = default;
         Method & operator=(const Method &) = default;
-        Method & operator=(Method &&) = default;
+        Method & operator=(Method &&)      = default;
 
         template <typename T>
         Handle registerProvider(T provider, int priority = 0)
@@ -161,7 +161,7 @@ namespace rules::sdlc::stdc::app
     struct method_decl
     {
         using method_type = Method<FunctionSig, DispatchPolicy<FunctionSig>>;
-        using tag_type = Tag;
+        using tag_type    = Tag;
     };
 
     template <typename Tag, typename FunctionSig, template <typename> class DispatchPolicy>

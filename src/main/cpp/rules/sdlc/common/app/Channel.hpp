@@ -12,7 +12,7 @@ namespace rules::sdlc::stdc::app
     using erased_channel_ptr = std::unique_ptr<void, void (*)(void *)>;
     struct DropExceptions
     {
-        DropExceptions() = default;
+        DropExceptions()  = default;
         using result_type = void;
 
         template <typename InputIterator>
@@ -47,10 +47,10 @@ namespace rules::sdlc::stdc::app
         public:
 
             Handle();
-            Handle(const Handle &) = default;
-            Handle(Handle &&) = default;
+            Handle(const Handle &)             = default;
+            Handle(Handle &&)                  = default;
             Handle & operator=(const Handle &) = delete;
-            Handle & operator=(Handle &&) = delete;
+            Handle & operator=(Handle &&)      = delete;
             virtual ~Handle();
 
             void unsubscribe();
@@ -64,10 +64,10 @@ namespace rules::sdlc::stdc::app
             friend class Channel;
         };
 
-        Channel(const Channel &) = default;
-        Channel(Channel &&) = default;
+        Channel(const Channel &)             = default;
+        Channel(Channel &&)                  = default;
         Channel & operator=(const Channel &) = default;
-        Channel & operator=(Channel &&) = default;
+        Channel & operator=(Channel &&)      = default;
 
         void publish(int priority, const Data & data);
         template <typename Callback>
@@ -124,7 +124,7 @@ namespace rules::sdlc::stdc::app
     struct channel_decl
     {
         using channel_type = Channel<Data, DispatchPolicy>;
-        using tag_type = Tag;
+        using tag_type     = Tag;
     };
 
     template <typename... Ts>

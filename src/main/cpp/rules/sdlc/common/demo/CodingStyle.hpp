@@ -51,7 +51,7 @@ public:
      * @returns CodingStyle reference.
      */
     CodingStyle & operator=(CodingStyle && orig) = default;
-    virtual ~CodingStyle() = default;
+    virtual ~CodingStyle()                       = default;
     /*!
      * @brief Change the internal value
      *

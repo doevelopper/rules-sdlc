@@ -15,7 +15,7 @@ namespace rules::sdlc::stdc::app
     public:
 
         using OptionDesc = boost::program_options::options_description;
-        using OptionMap = boost::program_options::variables_map;
+        using OptionMap  = boost::program_options::variables_map;
 
         Plugin();
         virtual ~Plugin();

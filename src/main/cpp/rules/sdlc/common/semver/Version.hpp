@@ -21,7 +21,7 @@
 #include <regex>
 #include <string>
 
-#define RELEASE_INFO VERSION
+#define RELEASE_INFO   VERSION
 #define RELEASE_SERIAL 0
 
 /*!
@@ -89,10 +89,10 @@ namespace rules::sdlc::stdc::semver
     enum class ReleaseLevel : std::uint8_t
     {
         SNAPSHOOT = 0xD, /**< API is not tested, work in progress. */
-        ALPHA = 0xA, /**< API is in alpha state, i.e. work in progress. */
-        BETA = 0xB, /**< API is in beta state, i.e. close to be finished. */
+        ALPHA     = 0xA, /**< API is in alpha state, i.e. work in progress. */
+        BETA      = 0xB, /**< API is in beta state, i.e. close to be finished. */
         CANDIDATE = 0xC, /**< API is in release candidate state. */
-        FINAL = 0xF, /**< API is in final state, i.e. officially approved. */
+        FINAL     = 0xF, /**< API is in final state, i.e. officially approved. */
     };
 
     const std::regex rex("([a-z]+)\\.([a-z]+)");

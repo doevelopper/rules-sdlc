@@ -172,14 +172,14 @@ void Application::set_thread_priority_max()
     {
     };
     int policy = 0;
-    int ret = pthread_getschedparam(this_thread, &policy, &params);
+    int ret    = pthread_getschedparam(this_thread, &policy, &params);
     if (ret != 0)
     {
         LOG4CXX_ERROR(logger, "Unable to get thread priority");
     }
 
     params.sched_priority = sched_get_priority_max(policy);
-    ret = pthread_setschedparam(this_thread, policy, &params);
+    ret                   = pthread_setschedparam(this_thread, policy, &params);
     if (ret != 0)
     {
         LOG4CXX_ERROR(logger, "Unable to set thread priority");

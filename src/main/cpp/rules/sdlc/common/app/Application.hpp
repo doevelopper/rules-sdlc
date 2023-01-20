@@ -111,8 +111,8 @@ namespace rules::sdlc::stdc::app
         {
             LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
             using method_type = typename MethodDecl::method_type;
-            auto key = std::type_index(typeid(MethodDecl));
-            auto itr = m_methods.find(key);
+            auto key          = std::type_index(typeid(MethodDecl));
+            auto itr          = m_methods.find(key);
 
             if (itr != m_methods.end())
             {
@@ -131,8 +131,8 @@ namespace rules::sdlc::stdc::app
         {
             LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
             using channel_type = typename ChannelDecl::channel_type;
-            auto key = std::type_index(typeid(ChannelDecl));
-            auto itr = m_channels.find(key);
+            auto key           = std::type_index(typeid(ChannelDecl));
+            auto itr           = m_channels.find(key);
 
             if (itr != m_channels.end())
             {

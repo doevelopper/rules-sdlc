@@ -15,10 +15,10 @@ namespace rules::sdlc::stdc
     public:
 
         DummyPlugin();
-        DummyPlugin(const DummyPlugin &) = default;
-        DummyPlugin(DummyPlugin &&) = default;
+        DummyPlugin(const DummyPlugin &)             = default;
+        DummyPlugin(DummyPlugin &&)                  = default;
         DummyPlugin & operator=(const DummyPlugin &) = default;
-        DummyPlugin & operator=(DummyPlugin &&) = default;
+        DummyPlugin & operator=(DummyPlugin &&)      = default;
         virtual ~DummyPlugin();
 
         // virtual void initialize(const OptionMap & options) override;

@@ -13,7 +13,7 @@
 namespace rules::sdlc::stdc::app
 {
     using OptionDesc = boost::program_options::options_description;
-    using OptionMap = boost::program_options::variables_map;
+    using OptionMap  = boost::program_options::variables_map;
 
     class SDLC_API_EXPORT PluginInterface
     {
@@ -33,14 +33,14 @@ namespace rules::sdlc::stdc::app
         PluginInterface();
         virtual ~PluginInterface();
 
-        virtual State state() const = 0;
-        virtual const std::string & name() const = 0;
+        virtual State state() const                                        = 0;
+        virtual const std::string & name() const                           = 0;
         virtual const rules::sdlc::stdc::semver::Version & version() const = 0;
-        virtual void programOptions(OptionDesc & cli, OptionDesc & cfg) = 0;
-        virtual void initialize(const OptionMap & options) = 0;
-        virtual void handleSignalHangUp() = 0;
-        virtual void startup() = 0;
-        virtual void shutdown() = 0;
+        virtual void programOptions(OptionDesc & cli, OptionDesc & cfg)    = 0;
+        virtual void initialize(const OptionMap & options)                 = 0;
+        virtual void handleSignalHangUp()                                  = 0;
+        virtual void startup()                                             = 0;
+        virtual void shutdown()                                            = 0;
 
     protected:
     private:

@@ -40,10 +40,10 @@ namespace rules::sdlc::stdc
          * @param world_string 'World' in my language
          */
         // Dummy(const std::string& hello_string, const std::string& world_string);
-        Dummy(const Dummy &) = default;
-        Dummy(Dummy &&) = default;
+        Dummy(const Dummy &)             = default;
+        Dummy(Dummy &&)                  = default;
         Dummy & operator=(const Dummy &) = default;
-        Dummy & operator=(Dummy &&) = default;
+        Dummy & operator=(Dummy &&)      = default;
         virtual ~Dummy();
 
         // std::string speak() const;
