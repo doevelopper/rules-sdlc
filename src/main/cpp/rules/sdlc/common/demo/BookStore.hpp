@@ -23,14 +23,14 @@ namespace rules::sdlc::stds::demo
 
         bool operator==(const Book & rhs) const
         {
-            return this->m_author.compare(rhs.m_author) == 0
-                && this->m_title.compare(rhs.m_title) == 0;
+            return this->m_author.compare(rhs.m_author) == 0 && this->m_title.compare(rhs.m_title) == 0;
         }
     };
 
     class BookStore
     {
     public:
+
         BookStore();
         BookStore(const BookStore &) = default;
         BookStore(BookStore &&) = default;
@@ -40,6 +40,7 @@ namespace rules::sdlc::stds::demo
 
     protected:
     private:
+
         std::unordered_map<std::size_t, Book> m_books;
     };
 } // namespace rules::sdlc::stds::demo

@@ -6,176 +6,170 @@
 
 namespace rules::sdlc::stdc::app
 {
-using ErasedMethod = std::unique_ptr< void, void ( * ) ( void * ) >;
-template < typename FunctionSig >
-struct FirstSuccessPolicy;
+    using ErasedMethod = std::unique_ptr<void, void (*)(void *)>;
+    template <typename FunctionSig>
+    struct FirstSuccessPolicy;
 
-template < typename Ret, typename... Args >
-struct FirstSuccessPolicy< Ret ( Args... ) >
-{
-    using result_type = Ret;
-    template < typename InputIterator >
-    Ret
-        operator( ) ( InputIterator first, InputIterator last )
+    template <typename Ret, typename... Args>
+    struct FirstSuccessPolicy<Ret(Args...)>
     {
-        std::string err;
-        while ( first != last )
+        using result_type = Ret;
+        template <typename InputIterator>
+        Ret operator()(InputIterator first, InputIterator last)
         {
-            try
+            std::string err;
+            while (first != last)
             {
-                return *first;     // de-referencing the iterator causes the provider to run
-            }
-            catch ( ... )
-            {
-                if ( ! err.empty ( ) ) { err += "\",\""; }
+                try
+                {
+                    return *first; // de-referencing the iterator causes the provider to run
+                }
+                catch (...)
+                {
+                    if (!err.empty())
+                    {
+                        err += "\",\"";
+                    }
 
-                err += boost::current_exception_diagnostic_information ( );
+                    err += boost::current_exception_diagnostic_information();
+                }
+                ++first;
             }
-            ++first;
+
+            throw std::length_error(std::string("No Result Available, All providers returned exceptions[") + err + "]");
         }
+    };
 
-        throw std::length_error ( std::string ( "No Result Available, All providers returned exceptions[" ) + err + "]" );
-    }
-};
-
-template < typename... Args >
-struct FirstSuccessPolicy< void ( Args... ) >
-{
-    using result_type = void;
-    template < typename InputIterator >
-    void
-        operator( ) ( InputIterator first, InputIterator last )
+    template <typename... Args>
+    struct FirstSuccessPolicy<void(Args...)>
     {
-        std::string err;
-
-        while ( first != last )
+        using result_type = void;
+        template <typename InputIterator>
+        void operator()(InputIterator first, InputIterator last)
         {
-            try
-            {
-                *first;     // de-referencing the iterator causes the provider to run
-            }
-            catch ( ... )
-            {
-                if ( ! err.empty ( ) ) { err += "\",\""; }
+            std::string err;
 
-                err += boost::current_exception_diagnostic_information ( );
+            while (first != last)
+            {
+                try
+                {
+                    *first; // de-referencing the iterator causes the provider to run
+                }
+                catch (...)
+                {
+                    if (!err.empty())
+                    {
+                        err += "\",\"";
+                    }
+
+                    err += boost::current_exception_diagnostic_information();
+                }
+                ++first;
             }
-            ++first;
+            throw std::length_error(std::string("No Result Available, All providers returned exceptions[") + err + "]");
         }
-        throw std::length_error ( std::string ( "No Result Available, All providers returned exceptions[" ) + err + "]" );
-    }
-};
+    };
 
-template < typename FunctionSig >
-struct FirstProviderPolicy;
+    template <typename FunctionSig>
+    struct FirstProviderPolicy;
 
-template < typename Ret, typename... Args >
-struct FirstProviderPolicy< Ret ( Args... ) >
-{
-    using result_type = Ret;
-    template < typename InputIterator >
-    Ret
-        operator( ) ( InputIterator first, InputIterator )
+    template <typename Ret, typename... Args>
+    struct FirstProviderPolicy<Ret(Args...)>
     {
-        return *first;
-    }
-};
+        using result_type = Ret;
+        template <typename InputIterator>
+        Ret operator()(InputIterator first, InputIterator)
+        {
+            return *first;
+        }
+    };
 
-template < typename... Args >
-struct FirstProviderPolicy< void ( Args... ) >
-{
-    using result_type = void;
-    template < typename InputIterator >
-    void
-        operator( ) ( InputIterator first, InputIterator )
+    template <typename... Args>
+    struct FirstProviderPolicy<void(Args...)>
     {
-        *first;
-    }
-};
+        using result_type = void;
+        template <typename InputIterator>
+        void operator()(InputIterator first, InputIterator)
+        {
+            *first;
+        }
+    };
 
-template < typename FunctionSig, typename DispatchPolicy >
+    template <typename FunctionSig, typename DispatchPolicy>
 
-class SDLC_API_EXPORT Method final : public MethodCaller< FunctionSig, DispatchPolicy >
-{
-    LOG4CXX_DECLARE_STATIC_LOGGER
-
-    class Handle
+    class SDLC_API_EXPORT Method final : public MethodCaller<FunctionSig, DispatchPolicy>
     {
         LOG4CXX_DECLARE_STATIC_LOGGER
 
-    public:
-        Handle ( );
-        Handle ( const Handle & ) = default;
-        Handle ( Handle && )      = default;
-        Handle &
-            operator= ( const Handle & ) = default;
-        Handle &
-            operator= ( Handle && ) = default;
-        virtual ~Handle ( );
+        class Handle
+        {
+            LOG4CXX_DECLARE_STATIC_LOGGER
 
-        void
-            unregister ( );
+        public:
+
+            Handle();
+            Handle(const Handle &) = default;
+            Handle(Handle &&) = default;
+            Handle & operator=(const Handle &) = default;
+            Handle & operator=(Handle &&) = default;
+            virtual ~Handle();
+
+            void unregister();
+
+        protected:
+        private:
+
+            using HandleType = boost::signals2::connection;
+            HandleType m_handle;
+            Handle(HandleType && m_handle);
+            friend class Method;
+        };
+
+        Method(const Method &) = default;
+        Method(Method &&) = default;
+        Method & operator=(const Method &) = default;
+        Method & operator=(Method &&) = default;
+
+        template <typename T>
+        Handle registerProvider(T provider, int priority = 0)
+        {
+            return Handle(this->m_signal.connect(priority, provider));
+        }
 
     protected:
-    private:
-        using HandleType = boost::signals2::connection;
-        HandleType m_handle;
-        Handle ( HandleType && m_handle );
-        friend class Method;
+
+        Method();
+        virtual ~Method();
+
+        static void deleter(void * ErasedMethod)
+        {
+            auto ptr = reinterpret_cast<Method *>(ErasedMethod);
+            delete ptr;
+        }
+        static Method * get_method(ErasedMethod & ptr)
+        {
+            return reinterpret_cast<Method *>(ptr.get());
+        }
+        static ErasedMethod make_unique()
+        {
+            return ErasedMethod(new Method(), &deleter);
+        }
+        friend class Application;
     };
 
-    Method ( const Method & ) = default;
-    Method ( Method && )      = default;
-    Method &
-        operator= ( const Method & ) = default;
-    Method &
-        operator= ( Method && ) = default;
-
-    template < typename T >
-    Handle
-        registerProvider ( T provider, int priority = 0 )
+    template <typename Tag, typename FunctionSig, template <typename> class DispatchPolicy = FirstSuccessPolicy>
+    struct method_decl
     {
-        return Handle ( this->m_signal.connect ( priority, provider ) );
-    }
+        using method_type = Method<FunctionSig, DispatchPolicy<FunctionSig>>;
+        using tag_type = Tag;
+    };
 
-protected:
-    Method ( );
-    virtual ~Method ( );
+    template <typename Tag, typename FunctionSig, template <typename> class DispatchPolicy>
+    std::true_type is_method_decl_impl(const method_decl<Tag, FunctionSig, DispatchPolicy> *);
 
-    static void
-        deleter ( void * ErasedMethod )
-    {
-        auto ptr = reinterpret_cast< Method * > ( ErasedMethod );
-        delete ptr;
-    }
-    static Method *
-        get_method ( ErasedMethod & ptr )
-    {
-        return reinterpret_cast< Method * > ( ptr.get ( ) );
-    }
-    static ErasedMethod
-        make_unique ( )
-    {
-        return ErasedMethod ( new Method ( ), &deleter );
-    }
-    friend class Application;
-};
+    std::false_type is_method_decl_impl(...);
 
-template < typename Tag, typename FunctionSig, template < typename > class DispatchPolicy = FirstSuccessPolicy >
-struct method_decl
-{
-    using method_type = Method< FunctionSig, DispatchPolicy< FunctionSig > >;
-    using tag_type    = Tag;
-};
-
-template < typename Tag, typename FunctionSig, template < typename > class DispatchPolicy >
-std::true_type
-    is_method_decl_impl ( const method_decl< Tag, FunctionSig, DispatchPolicy > * );
-
-std::false_type
-    is_method_decl_impl ( ... );
-
-template < typename T >
-using is_method_decl = decltype ( is_method_decl_impl ( std::declval< T * > ( ) ) );
+    template <typename T>
+    using is_method_decl = decltype(is_method_decl_impl(std::declval<T *>()));
 }
 #endif

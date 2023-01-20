@@ -11,6 +11,7 @@ namespace log4cxx
     class LOG4CXX_EXPORT ColorPatternLayout : public log4cxx::PatternLayout
     {
     public:
+
         DECLARE_LOG4CXX_OBJECT(ColorPatternLayout)
         BEGIN_LOG4CXX_CAST_MAP()
         LOG4CXX_CAST_ENTRY(ColorPatternLayout)

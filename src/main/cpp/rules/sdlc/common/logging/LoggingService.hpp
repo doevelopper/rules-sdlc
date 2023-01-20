@@ -31,6 +31,7 @@
 
 #define LOG4CXX_DECLARE_STATIC_LOGGER                                                                                  \
 private:                                                                                                               \
+                                                                                                                       \
     static log4cxx::LoggerPtr logger;
 
 /*!
@@ -46,6 +47,7 @@ private:                                                                        
 
 #define LOG4CXX_DECLARE_STATIC_TEST_LOGGER                                                                             \
 protected:                                                                                                             \
+                                                                                                                       \
     static log4cxx::LoggerPtr logger;
 
 /*!
@@ -56,6 +58,7 @@ protected:                                                                      
 
 #define LOG4CXX_DECLARE_CLASS_LOGGER(name)                                                                             \
 private:                                                                                                               \
+                                                                                                                       \
     log4cxx::LoggerPtr name;
 
 /*!
@@ -180,6 +183,7 @@ namespace rules::sdlc::stdc::logging
     class LoggingService
     {
     public:
+
         explicit LoggingService(unsigned long delay);
         LoggingService(const LoggingService &) = delete;
         LoggingService(LoggingService &&) = delete;
@@ -230,10 +234,12 @@ namespace rules::sdlc::stdc::logging
         void flush();
 
     protected:
+
         std::shared_ptr<LoggingServicePrivate> d_ptr;
         // rules::sdlc::stdc::PimplPtr< LoggingServicePrivate > d_ptr;
 
     private:
+
         Q_DECLARE_PRIVATE(LoggingService);
     };
 

@@ -8,46 +8,46 @@
 
 namespace rules::sdlc::stdc::app
 {
-template < typename FunctionSig, typename DispatchPolicy >
+    template <typename FunctionSig, typename DispatchPolicy>
 
-class MethodCaller;
+    class MethodCaller;
 
-template < typename Ret, typename... Args, typename DispatchPolicy >
-class SDLC_API_EXPORT MethodCaller< Ret ( Args... ), DispatchPolicy >
-{
-    LOG4CXX_DECLARE_STATIC_LOGGER
-
-public:
-    using signal_type = boost::signals2::signal< Ret ( Args... ), DispatchPolicy >;
-    using result_type = Ret;
-
-    MethodCaller ( );
-
-    Ret
-        operator( ) ( Args &&... args )
+    template <typename Ret, typename... Args, typename DispatchPolicy>
+    class SDLC_API_EXPORT MethodCaller<Ret(Args...), DispatchPolicy>
     {
-        return m_signal ( std::forward< Args > ( args )... );
-    }
-    signal_type m_signal;
-};
+        LOG4CXX_DECLARE_STATIC_LOGGER
 
-template < typename... Args, typename DispatchPolicy >
-class SDLC_API_EXPORT MethodCaller< void ( Args... ), DispatchPolicy >
-{
-    LOG4CXX_DECLARE_STATIC_LOGGER
+    public:
 
-public:
-    using signal_type = boost::signals2::signal< void ( Args... ), DispatchPolicy >;
-    using result_type = void;
+        using signal_type = boost::signals2::signal<Ret(Args...), DispatchPolicy>;
+        using result_type = Ret;
 
-    MethodCaller ( ) { }
-    void
-        operator( ) ( Args &&... args )
+        MethodCaller();
+
+        Ret operator()(Args &&... args)
+        {
+            return m_signal(std::forward<Args>(args)...);
+        }
+        signal_type m_signal;
+    };
+
+    template <typename... Args, typename DispatchPolicy>
+    class SDLC_API_EXPORT MethodCaller<void(Args...), DispatchPolicy>
     {
-        m_signal ( std::forward< Args > ( args )... );
-    }
-    signal_type m_signal;
-};
+        LOG4CXX_DECLARE_STATIC_LOGGER
+
+    public:
+
+        using signal_type = boost::signals2::signal<void(Args...), DispatchPolicy>;
+        using result_type = void;
+
+        MethodCaller() { }
+        void operator()(Args &&... args)
+        {
+            m_signal(std::forward<Args>(args)...);
+        }
+        signal_type m_signal;
+    };
 
 }
 

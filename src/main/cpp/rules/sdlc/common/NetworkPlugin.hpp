@@ -15,10 +15,10 @@ namespace rules::sdlc::stdc
     public:
 
         NetworkPlugin();
-        NetworkPlugin(const NetworkPlugin&) = default;
-        NetworkPlugin(NetworkPlugin&&) = default;
-        NetworkPlugin& operator=(const NetworkPlugin&) = default;
-        NetworkPlugin& operator=(NetworkPlugin&&) = default;
+        NetworkPlugin(const NetworkPlugin &) = default;
+        NetworkPlugin(NetworkPlugin &&) = default;
+        NetworkPlugin & operator=(const NetworkPlugin &) = default;
+        NetworkPlugin & operator=(NetworkPlugin &&) = default;
         virtual ~NetworkPlugin();
 
         // virtual void initialize(const OptionMap & options) override;
@@ -29,18 +29,17 @@ namespace rules::sdlc::stdc
         // virtual void registerPlugings();
         // virtual void shutdown() override;
         // virtual State state() const override;
-/*
-        virtual const std::string & name() const override;
-        virtual void initialize(const OptionMap & options) override;
-        virtual void handleSignalHangUp() override;
-        virtual State state() const override;
-        virtual void startup() override;
-        virtual void shutdown() override;
-        virtual void registerPlugings() override;
-        virtual void options( OptionDesc & cli, OptionDesc & cfg ) override;
-*/
+        /*
+                virtual const std::string & name() const override;
+                virtual void initialize(const OptionMap & options) override;
+                virtual void handleSignalHangUp() override;
+                virtual State state() const override;
+                virtual void startup() override;
+                virtual void shutdown() override;
+                virtual void registerPlugings() override;
+                virtual void options( OptionDesc & cli, OptionDesc & cfg ) override;
+        */
     private:
-
     };
 }
 

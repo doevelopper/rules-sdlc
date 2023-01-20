@@ -19,8 +19,8 @@
 #ifndef RULES_SDLC_STDC_DUMMY_HPP
 #define RULES_SDLC_STDC_DUMMY_HPP
 
-#include <string>
 #include <rules/sdlc/common/logging/LoggingService.hpp>
+#include <string>
 
 namespace rules::sdlc::stdc
 {
@@ -31,29 +31,29 @@ namespace rules::sdlc::stdc
     {
         // LOG4CXX_DECLARE_STATIC_LOGGER
 
-        public:
+    public:
 
-            Dummy();
-            /*!
-             * @brief Dummy who knows how to say hello world
-             * @param hello_string 'Hello' in my language
-             * @param world_string 'World' in my language
-             */
-            // Dummy(const std::string& hello_string, const std::string& world_string);
-            Dummy(const Dummy&) = default;
-            Dummy(Dummy&&) = default;
-            Dummy& operator=(const Dummy&) = default;
-            Dummy& operator=(Dummy&&) = default;
-            virtual ~Dummy();
+        Dummy();
+        /*!
+         * @brief Dummy who knows how to say hello world
+         * @param hello_string 'Hello' in my language
+         * @param world_string 'World' in my language
+         */
+        // Dummy(const std::string& hello_string, const std::string& world_string);
+        Dummy(const Dummy &) = default;
+        Dummy(Dummy &&) = default;
+        Dummy & operator=(const Dummy &) = default;
+        Dummy & operator=(Dummy &&) = default;
+        virtual ~Dummy();
 
-            // std::string speak() const;
-            bool speechless() const;
+        // std::string speak() const;
+        bool speechless() const;
 
-        private:
+    private:
 
-            std::string m_hello{};
-            std::string m_world{};
-            bool        m_speechless {true};
+        std::string m_hello {};
+        std::string m_world {};
+        bool m_speechless {true};
     };
 }
 #endif

@@ -63,6 +63,7 @@ class ColorStdOuputLogMsg : public log4cxx::helpers::DateLayout
     class Term
     {
     public:
+
         Term();
         virtual ~Term();
         FILE * getStandardStream(const std::ostream & stream)
@@ -141,6 +142,7 @@ class ColorStdOuputLogMsg : public log4cxx::helpers::DateLayout
     };
 
 public:
+
     ColorStdOuputLogMsg();
     ColorStdOuputLogMsg(const ColorStdOuputLogMsg & orig);
     virtual ~ColorStdOuputLogMsg();
@@ -179,6 +181,7 @@ public:
     std::ostream & onWhite(std::ostream & stream);
 
 private:
+
     bool colorless;
     bool printLocation;
     static const char * const COLOR_TYPE[];

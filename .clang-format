@@ -12,8 +12,8 @@ Language: Cpp
 AccessModifierOffset: -4
 AlignAfterOpenBracket: AlwaysBreak
 AlignArrayOfStructures: Left
-AlignConsecutiveMacros: None
-AlignConsecutiveAssignments: None
+AlignConsecutiveMacros: true
+AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveBitFields: None
 AlignConsecutiveDeclarations: None
 AlignEscapedNewlines: Right
@@ -299,9 +299,9 @@ SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp17
-StatementMacros:
-  - Q_UNUSED
-  - QT_REQUIRE_VERSION
-TabWidth: 4
-UseTab: Never
+# Standard: Cpp17
+# StatementMacros:
+#   - Q_UNUSED
+#   - QT_REQUIRE_VERSION
+# TabWidth: 4
+# UseTab: Never

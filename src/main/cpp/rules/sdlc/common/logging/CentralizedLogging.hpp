@@ -12,9 +12,11 @@ namespace rules::sdlc::stdc::logging
         LOG4CXX_DECLARE_STATIC_LOGGER
 
     public:
+
         class Log4cxxHandler
         {
         public:
+
             virtual void log(const std::string & message) = 0;
 
         protected:
@@ -30,10 +32,12 @@ namespace rules::sdlc::stdc::logging
         virtual ~CentralizedLogging();
 
     protected:
+
         void run();
         void error(const std::exception & exception);
 
     private:
+
         Log4cxxHandler & m_log4cxxHandler;
     };
 

@@ -2,41 +2,41 @@
 #ifndef RULES_SDLC_STDC_POISON_HPP
 #define RULES_SDLC_STDC_POISON_HPP
 
-    #ifdef __GNUC__
+#ifdef __GNUC__
 
-    /* String handling functions */
-    #    pragma GCC poison strcpy wcscpy stpcpy                wcpcpy
-    #    pragma GCC poison scanf sscanf vscanf fwscanf swscanf wscanf
-    #    pragma GCC poison gets                                puts
-    #    pragma GCC poison strcat                              wcscat
-    #    pragma GCC poison wcrtomb                             wctob
-    #    pragma GCC poison sprintf vsprintf                    vfprintf
-    #    pragma GCC poison asprintf                            vasprintf
-    #    pragma GCC poison strncpy                             wcsncpy
-    #    pragma GCC poison strtok                              wcstok
-    #    pragma GCC poison strdupa                             strndupa
+/* String handling functions */
+#pragma GCC poison strcpy wcscpy stpcpy wcpcpy
+#pragma GCC poison scanf sscanf vscanf fwscanf swscanf wscanf
+#pragma GCC poison gets puts
+#pragma GCC poison strcat wcscat
+#pragma GCC poison wcrtomb wctob
+#pragma GCC poison sprintf vsprintf vfprintf
+#pragma GCC poison asprintf vasprintf
+#pragma GCC poison strncpy wcsncpy
+#pragma GCC poison strtok wcstok
+#pragma GCC poison strdupa strndupa
 
-    /* Signal related */
-    #    pragma GCC poison longjmp siglongjmp
-    #    pragma GCC poison setjmp  sigsetjmp
+/* Signal related */
+#pragma GCC poison longjmp siglongjmp
+#pragma GCC poison setjmp sigsetjmp
 
-    /* Memory allocation */
-    #    pragma GCC poison alloca
-    #    pragma GCC poison mallopt
+/* Memory allocation */
+#pragma GCC poison alloca
+#pragma GCC poison mallopt
 
-    /* File API's */
-    #    pragma GCC poison               remove
-    #    pragma GCC poison mktemp tmpnam tempnam
-    #    pragma GCC poison               getwd
+/* File API's */
+#pragma GCC poison remove
+#pragma GCC poison mktemp tmpnam tempnam
+#pragma GCC poison getwd
 
-    /* Misc */
-    #    pragma GCC poison getlogin getpass cuserid
-    #    pragma GCC poison rexec            rexec_af
+/* Misc */
+#pragma GCC poison getlogin getpass cuserid
+#pragma GCC poison rexec rexec_af
 
-    /* Your custom insecure APIs here */
+/* Your custom insecure APIs here */
 
-    //#	pragma GCC poison ouat-ize-phoque
+//#	pragma GCC poison ouat-ize-phoque
 
-    #endif
+#endif
 
 #endif

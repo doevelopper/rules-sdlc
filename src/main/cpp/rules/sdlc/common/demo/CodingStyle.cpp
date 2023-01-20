@@ -6,38 +6,44 @@
 
 #include <path/to/folder/CodingStyle.hpp>
 
-CodingStyle::CodingStyle() {
-}
+CodingStyle::CodingStyle() { }
 
-CodingStyle::CodingStyle(const CodingStyle& orig) {
-}
+CodingStyle::CodingStyle(const CodingStyle & orig) { }
 
-CodingStyle::CodingStyle(CodingStyle&& other) {
-}
+CodingStyle::CodingStyle(CodingStyle && other) { }
 
-CodingStyle & CodingStyle::operator=(const CodingStyle& other) {
+CodingStyle & CodingStyle::operator=(const CodingStyle & other)
+{
     return *this;
 }
 
-CodingStyle& CodingStyle::operator=(CodingStyle&& other) {
+CodingStyle & CodingStyle::operator=(CodingStyle && other)
+{
     return *this;
 }
 
-CodingStyle::~CodingStyle() {
-}
+CodingStyle::~CodingStyle() { }
 
 void CodingStyle::protectedMethod()
 {
-    try 
+    try
     {
         doSomeStuff();
-    } catch (const std::overflow_error& e) {
+    }
+    catch (const std::overflow_error & e)
+    {
         // this executes if f() throws std::overflow_error (same type rule)
-    } catch (const std::runtime_error& e) {
+    }
+    catch (const std::runtime_error & e)
+    {
         // this executes if f() throws std::underflow_error (base class rule)
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception & e)
+    {
         // this executes if f() throws std::logic_error (base class rule)
-    } catch (...) {
+    }
+    catch (...)
+    {
         // this executes if f() throws std::string or int or any other unrelated type
     }
 }
@@ -45,9 +51,7 @@ void CodingStyle::protectedMethod()
 void CodingStyle::privateMethod()
 {
     Variant typedValue;
-    switch (someType()) 
+    switch (someType())
     {
-        
     }
 }
-    

@@ -3,20 +3,14 @@
 
 using namespace rules::sdlc::stdc::app;
 
-OptionDescription::OptionDescription ( ) { }
+OptionDescription::OptionDescription() { }
 
-OptionDescription::OptionDescription ( boost::shared_ptr< boost::program_options::option_description > option ) noexcept
-{
-}
+OptionDescription::OptionDescription(boost::shared_ptr<boost::program_options::option_description> option) noexcept { }
 
-OptionDescription::~OptionDescription ( ) { }
+OptionDescription::~OptionDescription() { }
 
-void
-OptionDescription::usage ( )
-{
-}
+void OptionDescription::usage() { }
 
-void
-OptionDescription::checkIfPositional ( const boost::program_options::positional_options_description & positionalDesc )
+void OptionDescription::checkIfPositional(const boost::program_options::positional_options_description & positionalDesc)
 {
 }

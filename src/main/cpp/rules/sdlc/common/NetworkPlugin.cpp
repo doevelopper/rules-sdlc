@@ -8,10 +8,10 @@ log4cxx::LoggerPtr NetworkPlugin::logger =
 
 NetworkPlugin::NetworkPlugin()
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
 NetworkPlugin::~NetworkPlugin()
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }

@@ -6,10 +6,10 @@
 #ifndef PATH_TO_FOLDER_CODINGSTYLE_HPP
 #define PATH_TO_FOLDER_CODINGSTYLE_HPP
 
-#include <System/headers>
 #include <3rtparty/headers>
-#include <standard/library/headers>
 #include <project/headers>
+#include <standard/library/headers>
+#include <System/headers>
 
 /*!
  *  @class CodingStyle
@@ -24,10 +24,11 @@ class CodingStyle
     enum anEnumeration
     {
         en = 0,
-	none
+        none
     };
 
 public:
+
     /*!
      * @brief default constructor.
      */
@@ -35,16 +36,16 @@ public:
     /*!
      * @brief copy constructor.
      */
-    CodingStyle(const CodingStyle& orig) = default;
+    CodingStyle(const CodingStyle & orig) = default;
     /*!
      * @brief Move constructor  noexcept is deduced.
      */
-    CodingStyle(CodingStyle&& orig) = default;
+    CodingStyle(CodingStyle && orig) = default;
     /*!
      * @brief Copy assignment: clean up target and copy  noexcept is deduced
      * @returns CodingStyle reference.
      */
-    CodingStyle & operator=(const CodingStyle& orig) = default;
+    CodingStyle & operator=(const CodingStyle & orig) = default;
     /*!
      * @brief Move assignment: clean up target and move
      * @returns CodingStyle reference.
@@ -56,13 +57,13 @@ public:
      *
      * @param Value const reference
      */
-    void setValue( const type & value );
+    void setValue(const type & value);
     /*!
      * @brief Returns the internal value for reading
      *
      * @returns type const reference
      */
-     type & getValue( void ) const;
+    type & getValue(void) const;
 
     void publicMethod();
     /*!
@@ -76,14 +77,17 @@ public:
      *
      *  @return A description of the returned object
      */
-  template<typename T>
-  T MyFunction(int Parameter1, int& Parameter2);
+    template <typename T>
+    T MyFunction(int Parameter1, int & Parameter2);
 
-protected:  // Not required if there are none.
+protected: // Not required if there are none.
+
     void protectedMethod();
-private:    // Not required if there are none.
+
+private: // Not required if there are none.
+
     void privateMethod();
-    int member ;/*! A brief description */
+    int member; /*! A brief description */
 };
 
 #endif

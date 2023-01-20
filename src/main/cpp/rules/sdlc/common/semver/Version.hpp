@@ -103,6 +103,7 @@ namespace rules::sdlc::stdc::semver
         LOG4CXX_DECLARE_STATIC_LOGGER
 
     public:
+
         Version() noexcept;
         Version(const Version &);
         Version(Version &&) = delete;
@@ -134,6 +135,7 @@ namespace rules::sdlc::stdc::semver
 
     protected:
     private:
+
         void set(std::uint8_t, std::uint8_t, std::uint8_t);
         void set(std::uint8_t, std::uint8_t, std::uint8_t, const char *, const char *);
         void set(std::uint8_t, std::uint8_t, std::uint8_t, const std::string &, const std::string &);

@@ -3,18 +3,18 @@
 
 using namespace rules::sdlc::stdc::app;
 
-log4cxx::LoggerPtr ExecutionContext::logger = log4cxx::Logger::getLogger (
-    std::string ( "rules.sdlc.stdc.app.ExecutionContext" ) );
+log4cxx::LoggerPtr ExecutionContext::logger =
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.app.ExecutionContext"));
 
-log4cxx::LoggerPtr ExecutionContext::QueuedHandleBase::logger = log4cxx::Logger::getLogger (
-    std::string ( "rules.sdlc.stdc.app.ExecutionContext.QueuedHandleBase" ) );
+log4cxx::LoggerPtr ExecutionContext::QueuedHandleBase::logger =
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.app.ExecutionContext.QueuedHandleBase"));
 
-template < typename F >
-log4cxx::LoggerPtr ExecutionContext::QueuedHandler< F >::logger =
-    log4cxx::Logger::getLogger ( std::string ( "rules.sdlc.stdc.app.ExecutionContext.QueuedHandler" ) );
+template <typename F>
+log4cxx::LoggerPtr ExecutionContext::QueuedHandler<F>::logger =
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.app.ExecutionContext.QueuedHandler"));
 
-log4cxx::LoggerPtr ExecutionContext::Executor::logger = log4cxx::Logger::getLogger (
-    std::string ( "rules.sdlc.stdc.app.ExecutionContext.Executor" ) );
+log4cxx::LoggerPtr ExecutionContext::Executor::logger =
+    log4cxx::Logger::getLogger(std::string("rules.sdlc.stdc.app.ExecutionContext.Executor"));
 /*
    ExecutionContext::Executor::Executor()
    : m_context()
@@ -23,96 +23,105 @@ log4cxx::LoggerPtr ExecutionContext::Executor::logger = log4cxx::Logger::getLogg
    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
    }
  */
-ExecutionContext::Executor::Executor ( ExecutionContext & q, int p )
-    : m_context ( q )
-    , m_priority ( p )
+ExecutionContext::Executor::Executor(ExecutionContext & q, int p)
+    : m_context(q)
+    , m_priority(p)
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-ExecutionContext::Executor::~Executor ( ) { LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ ); }
-
-ExecutionContext &
-    ExecutionContext::Executor::context ( ) const noexcept
+ExecutionContext::Executor::~Executor()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-    return ( m_context );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-ExecutionContext::QueuedHandleBase::QueuedHandleBase ( ) { LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ ); }
+ExecutionContext & ExecutionContext::Executor::context() const noexcept
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    return (m_context);
+}
 
-ExecutionContext::QueuedHandleBase::QueuedHandleBase ( int p, std::size_t order )
-    : m_priority ( p )
-    , m_order ( order )
+ExecutionContext::QueuedHandleBase::QueuedHandleBase()
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+ExecutionContext::QueuedHandleBase::QueuedHandleBase(int p, std::size_t order)
+    : m_priority(p)
+    , m_order(order)
 {
 }
 
-ExecutionContext::QueuedHandleBase::~QueuedHandleBase ( ) { LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ ); }
-
-int
-    ExecutionContext::QueuedHandleBase::priority ( ) const
+ExecutionContext::QueuedHandleBase::~QueuedHandleBase()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-    return ( m_priority );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-template < typename F >
-ExecutionContext::QueuedHandler< F >::QueuedHandler ( )
+int ExecutionContext::QueuedHandleBase::priority() const
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    return (m_priority);
 }
 
-template < typename F >
-ExecutionContext::QueuedHandler< F >::QueuedHandler ( int p, std::size_t order, F f )
-    : QueuedHandleBase ( p, order )
-    , m_function ( std::move ( f ) )
+template <typename F>
+ExecutionContext::QueuedHandler<F>::QueuedHandler()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-template < typename F >
-ExecutionContext::QueuedHandler< F >::~QueuedHandler ( )
+template <typename F>
+ExecutionContext::QueuedHandler<F>::QueuedHandler(int p, std::size_t order, F f)
+    : QueuedHandleBase(p, order)
+    , m_function(std::move(f))
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-template < typename F >
-void
-    ExecutionContext::QueuedHandler< F >::execute ( )
+template <typename F>
+ExecutionContext::QueuedHandler<F>::~QueuedHandler()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-    m_function ( );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-ExecutionContext::ExecutionContext ( ) { LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ ); }
-
-ExecutionContext::~ExecutionContext ( ) { LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ ); }
-
-void
-    ExecutionContext::executeAll ( )
+template <typename F>
+void ExecutionContext::QueuedHandler<F>::execute()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-    while ( ! m_handlers.empty ( ) )
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    m_function();
+}
+
+ExecutionContext::ExecutionContext()
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+ExecutionContext::~ExecutionContext()
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+void ExecutionContext::executeAll()
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    while (!m_handlers.empty())
     {
-        m_handlers.top ( )->execute ( );
-        m_handlers.pop ( );
+        m_handlers.top()->execute();
+        m_handlers.pop();
     }
 }
 
-bool
-    ExecutionContext::executeHighest ( )
+bool ExecutionContext::executeHighest()
 {
-    LOG4CXX_TRACE ( logger, __LOG4CXX_FUNC__ );
-    while ( ! m_handlers.empty ( ) )
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    while (!m_handlers.empty())
     {
-        m_handlers.top ( )->execute ( );
-        m_handlers.pop ( );
+        m_handlers.top()->execute();
+        m_handlers.pop();
     }
-    return ! m_handlers.empty ( );
+    return !m_handlers.empty();
 }
 
-std::size_t
-    ExecutionContext::size ( )
+std::size_t ExecutionContext::size()
 {
-    return ( m_handlers.size ( ) );
+    return (m_handlers.size());
 }

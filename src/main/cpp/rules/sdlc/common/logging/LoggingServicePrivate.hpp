@@ -38,6 +38,7 @@ namespace rules::sdlc::stdc::logging
     class LoggingServicePrivate
     {
     public:
+
         LoggingServicePrivate(unsigned long delay = 5000L);
         LoggingServicePrivate(const LoggingServicePrivate & rsh);
         virtual ~LoggingServicePrivate();

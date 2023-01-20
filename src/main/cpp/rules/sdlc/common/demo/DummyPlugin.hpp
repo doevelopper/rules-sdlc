@@ -15,10 +15,10 @@ namespace rules::sdlc::stdc
     public:
 
         DummyPlugin();
-        DummyPlugin(const DummyPlugin&) = default;
-        DummyPlugin(DummyPlugin&&) = default;
-        DummyPlugin& operator=(const DummyPlugin&) = default;
-        DummyPlugin& operator=(DummyPlugin&&) = default;
+        DummyPlugin(const DummyPlugin &) = default;
+        DummyPlugin(DummyPlugin &&) = default;
+        DummyPlugin & operator=(const DummyPlugin &) = default;
+        DummyPlugin & operator=(DummyPlugin &&) = default;
         virtual ~DummyPlugin();
 
         // virtual void initialize(const OptionMap & options) override;
@@ -29,18 +29,17 @@ namespace rules::sdlc::stdc
         // virtual void registerPlugings();
         // virtual void shutdown() override;
         // virtual State state() const override;
-/*
-        virtual const std::string & name() const override;
-        virtual void initialize(const OptionMap & options) override;
-        virtual void handleSignalHangUp() override;
-        virtual State state() const override;
-        virtual void startup() override;
-        virtual void shutdown() override;
-        virtual void registerPlugings() override;
-        virtual void options( OptionDesc & cli, OptionDesc & cfg ) override;
-*/
+        /*
+                virtual const std::string & name() const override;
+                virtual void initialize(const OptionMap & options) override;
+                virtual void handleSignalHangUp() override;
+                virtual State state() const override;
+                virtual void startup() override;
+                virtual void shutdown() override;
+                virtual void registerPlugings() override;
+                virtual void options( OptionDesc & cli, OptionDesc & cfg ) override;
+        */
     private:
-
     };
 }
 

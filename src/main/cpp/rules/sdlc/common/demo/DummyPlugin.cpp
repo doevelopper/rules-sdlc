@@ -3,17 +3,16 @@
 
 using namespace rules::sdlc::stdc;
 
-log4cxx::LoggerPtr DummyPlugin::logger =
-    log4cxx::Logger::getLogger(std::string("project.object.model.DummyPlugin"));
+log4cxx::LoggerPtr DummyPlugin::logger = log4cxx::Logger::getLogger(std::string("project.object.model.DummyPlugin"));
 
 DummyPlugin::DummyPlugin()
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
 DummyPlugin::~DummyPlugin()
 {
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 /*
 State DummyPlugin::state() const override

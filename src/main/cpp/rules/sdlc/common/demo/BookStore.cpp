@@ -19,8 +19,7 @@
 
 using namespace rules::sdlc::stds::demo;
 
-log4cxx::LoggerPtr BookStore::logger =
-    log4cxx::Logger::getLogger(std::string("rules.sdlc.stds.demo.BookStore"));
+log4cxx::LoggerPtr BookStore::logger = log4cxx::Logger::getLogger(std::string("rules.sdlc.stds.demo.BookStore"));
 
 BookStore::BookStore()
 {

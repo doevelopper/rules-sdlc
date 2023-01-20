@@ -16,9 +16,8 @@
     permissions and limitations under the License.
  */
 
-
-#include <string>
 #include <rules/sdlc/common/Dummy.hpp>
+#include <string>
 
 using namespace rules::sdlc::stdc;
 
@@ -26,12 +25,12 @@ using namespace rules::sdlc::stdc;
 
 Dummy::Dummy()
 {
-    //LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
 Dummy::~Dummy()
 {
-    //LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 /*
 Dummy::Dummy(const std::string& hello,  const std::string& world)

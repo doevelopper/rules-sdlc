@@ -16,28 +16,24 @@
     permissions and limitations under the License.
  */
 
-
+#include <cstdlib>
 #include <iostream>
-#include <cstdlib>
-#include <cstdlib>
 
 #include <rules/sdlc/common/app/Application.hpp>
 
 // #include <boost/program_options.hpp>
 // #include <rules/sdlc/common/logging/LoggingService.hpp>
 
-
 // namespace po = boost::program_options;
-auto main(
-    [[maybe_unused]] int argc,
-    [[maybe_unused]] char**argv) -> int
+auto main([[maybe_unused]] int argc, [[maybe_unused]] char ** argv) -> int
 {
     // rules::sdlc::stdc::logging::LoggingService * loggingService = new rules::sdlc::stdc::logging::LoggingService();
 
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "CPP-101: C++ Object Oriented Programming!");
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "A Few Things All Freshmen Should Know...");
     // LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-    //               "The course is current to ANSI standard C++ and is designed so that it can be taught in any environment with an ANSI C++ compiler.");
+    //               "The course is current to ANSI standard C++ and is designed so that it can be taught in any
+    //               environment with an ANSI C++ compiler.");
 
     // po::options_description desc("Allowed options");
     // std::vector<std::vector<std::string> > Lists(2);
@@ -46,9 +42,9 @@ auto main(
     //     ("List0", po::value<vector<string> >(&Lists[0])->multitoken(), "List0.")
     //     ("List1", po::value<vector<string> >(&Lists[1])->multitoken(), "List1.")
     // ;
-	// po::variables_map vm;
-	// po::store(po::parse_command_line(argc, argv, desc), vm);
-	// po::notify(vm); //assign the variables (if they were specified)
+    // po::variables_map vm;
+    // po::store(po::parse_command_line(argc, argv, desc), vm);
+    // po::notify(vm); //assign the variables (if they were specified)
     // if (vm.count("help"))
     //     LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "Usage: " << desc);
 
@@ -57,7 +53,8 @@ auto main(
     //     LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "List: " << list);
     //     for(unsigned int item = 0; item < Lists[list].size(); item++)
     //     {
-    //         LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "List: " << list << " Opt: " << item << " " << Lists[list][item]);
+    //         LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "List: " << list << " Opt: " << item << " " <<
+    //         Lists[list][item]);
     //     }
     // }
 
@@ -71,12 +68,12 @@ auto main(
 
     std::cout << "argc == " << argc << std::endl;
 
-    for(int ndx{}; ndx != argc; ++ndx)
+    for (int ndx {}; ndx != argc; ++ndx)
     {
         std::cout << "argv[" << ndx << "] == " << std::quoted(argv[ndx]) << std::endl;
     }
 
-    std::cout << "argv[" << argc << "] == " << static_cast<void*>(argv[argc]) << std::endl;
+    std::cout << "argv[" << argc << "] == " << static_cast<void *>(argv[argc]) << std::endl;
 
     return (runStatus == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }
