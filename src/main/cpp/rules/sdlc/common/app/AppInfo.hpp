@@ -3,8 +3,8 @@
 #ifndef RULES_SDLC_STD_APP_APPINFO_HPP
 #define RULES_SDLC_STD_APP_APPINFO_HPP
 
-#include <boost/preprocessor/stringize.hpp>
 #include <rules/sdlc/common/semver/Version.hpp>
+#include <boost/preprocessor/stringize.hpp>
 
 /*
  * AUTO-GENERATION WARNING:

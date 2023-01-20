@@ -11,6 +11,11 @@
 #include <standard/library/headers>
 #include <System/headers>
 
+#include << Project specific headers>
+#include <C system files>
+#include <C++ system files>
+#include <Other libraries' .h files>
+
 /*!
  *  @class CodingStyle
  *  @brief     Pretty nice class.

@@ -1,10 +1,10 @@
 
 #ifndef RULES_SDLC_STD_LOG_COLORSTDOUPUTLOGMSG_HPP
 #define RULES_SDLC_STD_LOG_COLORSTDOUPUTLOGMSG_HPP
-#include <iomanip>
 #include <log4cxx/helpers/datelayout.h>
 #include <log4cxx/layout.h>
 #include <log4cxx/spi/loggingevent.h>
+#include <iomanip>
 #include <sstream>
 /*
  * @brief The following snippet of code detects the current OS and

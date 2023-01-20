@@ -7,13 +7,13 @@
 #ifndef RULES_SDLC_STD_LOG_LOGGER_HPP
 #define RULES_SDLC_STD_LOG_LOGGER_HPP
 
+#include <rules/sdlc/common/API_Export.hpp>
 #include <boost/core/demangle.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <log4cxx/logger.h>
-#include <memory>
-#include <rules/sdlc/common/API_Export.hpp>
-#include <string>
 #include <time.h>
+#include <memory>
+#include <string>
 #include <typeinfo>
 
 /*!

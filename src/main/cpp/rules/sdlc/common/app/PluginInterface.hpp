@@ -2,9 +2,9 @@
 #ifndef RULES_SDLC_STD_APP_PLUGININTERFACE_HPP
 #define RULES_SDLC_STD_APP_PLUGININTERFACE_HPP
 
+#include <rules/sdlc/common/semver/Version.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/program_options.hpp>
-#include <rules/sdlc/common/semver/Version.hpp>
 
 #include <map>
 #include <string>

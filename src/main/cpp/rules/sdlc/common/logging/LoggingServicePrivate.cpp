@@ -1,10 +1,10 @@
 
 #include <rules/sdlc/common/logging/LoggingServicePrivate.hpp>
 
+#include <unistd.h>
 #include <filesystem>
 #include <iostream>
 #include <typeinfo>
-#include <unistd.h>
 
 using namespace rules::sdlc::stdc::logging;
 

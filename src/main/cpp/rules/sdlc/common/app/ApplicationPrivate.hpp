@@ -2,9 +2,9 @@
 #ifndef RULES_SDLC_STD_APP_APPLICATIONPRIVATE_HPP
 #define RULES_SDLC_STD_APP_APPLICATIONPRIVATE_HPP
 
+#include <rules/sdlc/common/app/PluginInterface.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/asio/signal_set.hpp>
-#include <rules/sdlc/common/app/PluginInterface.hpp>
 
 #include <filesystem>
 #include <fstream>

@@ -32,6 +32,7 @@
 .gitattributes export-ignore
 .gitignore     export-ignore
 .mailmap       export-ignore
+.git-blame-ignore-revs   text eol=lf
 .github export-ignore
 .coveragerc export-ignore
 .readthedocs.yml export-ignore
@@ -50,3 +51,12 @@ CMakeLists.txt linguist-generated=true
 
 *.bzl linguist-language=Python
 *BUILD linguist-language=Python
+LICENSE text eol=lf
+LICENSE.* text eol=lf
+MAJOR_BRANCH_DATE   text eol=lf
+OWNERS   text eol=lf
+README   text eol=lf
+README.*   text eol=lf
+WATCHLISTS   text eol=lf
+VERSION   text eol=lf
+DIR_METADATA   text eol=lf

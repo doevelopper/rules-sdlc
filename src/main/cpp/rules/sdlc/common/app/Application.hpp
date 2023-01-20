@@ -2,13 +2,13 @@
 #ifndef RULES_SDLC_STD_APP_APPLICATION_HPP
 #define RULES_SDLC_STD_APP_APPLICATION_HPP
 
-#include <boost/core/demangle.hpp>
 #include <rules/sdlc/common/app/Channel.hpp>
 #include <rules/sdlc/common/app/ExecutionContext.hpp>
 #include <rules/sdlc/common/app/Method.hpp>
 #include <rules/sdlc/common/app/Plugin.hpp>
 #include <rules/sdlc/common/PimplPtr.hpp>
 #include <rules/sdlc/common/semver/Version.hpp>
+#include <boost/core/demangle.hpp>
 
 #include <filesystem>
 #include <typeindex>

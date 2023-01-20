@@ -2,8 +2,8 @@
 #ifndef RULES_SDLC_STD_APP_EXECUTIONCONTEXT_HPP
 #define RULES_SDLC_STD_APP_EXECUTIONCONTEXT_HPP
 
-#include <boost/asio.hpp>
 #include <rules/sdlc/common/logging/LoggingService.hpp>
+#include <boost/asio.hpp>
 
 #include <queue>
 

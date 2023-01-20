@@ -1,6 +1,6 @@
 
-#include <boost/core/demangle.hpp>
 #include <rules/sdlc/common/app/Plugin.hpp>
+#include <boost/core/demangle.hpp>
 
 using namespace rules::sdlc::stdc::app;
 

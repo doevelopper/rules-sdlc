@@ -1,6 +1,6 @@
 
-#include <boost/algorithm/string.hpp>
 #include <rules/sdlc/common/semver/Version.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <variant>
 

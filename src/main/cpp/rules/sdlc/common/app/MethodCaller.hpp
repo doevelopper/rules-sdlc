@@ -2,9 +2,9 @@
 #ifndef RULES_SDLC_STD_APP_METHODCALLER_HPP
 #define RULES_SDLC_STD_APP_METHODCALLER_HPP
 
+#include <rules/sdlc/common/logging/LoggingService.hpp>
 #include <boost/exception/diagnostic_information.hpp>
 #include <boost/signals2.hpp>
-#include <rules/sdlc/common/logging/LoggingService.hpp>
 
 namespace rules::sdlc::stdc::app
 {

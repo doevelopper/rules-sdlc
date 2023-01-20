@@ -2,8 +2,8 @@
 #ifndef RULES_SDLC_STDC_EXPORT_HPP
 #define RULES_SDLC_STDC_EXPORT_HPP
 
-#include <functional>
 #include <rules/sdlc/common/CompilerDetection.hpp>
+#include <functional>
 
 // #include <rules/sdlc/common/Poison.hpp>
 // Generic helper definitions for shared library support

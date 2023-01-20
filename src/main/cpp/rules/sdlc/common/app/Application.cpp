@@ -1,9 +1,9 @@
 
+#include <rules/sdlc/common/app/Application.hpp>
+#include <rules/sdlc/common/app/ApplicationPrivate.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/asio/signal_set.hpp>
 #include <boost/filesystem.hpp>
-#include <rules/sdlc/common/app/Application.hpp>
-#include <rules/sdlc/common/app/ApplicationPrivate.hpp>
 
 #include <fstream>
 #include <future>
