@@ -1,0 +1,38 @@
+
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/com_github_libexpat/copy_expat/expat/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr/copy_apr/apr/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_apr_util/copy_aprutil/aprutil/lib/
+# test --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:bazel-bin/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib/
+
+# bazel-bin/external/com_google_googletest/
+
+# --test_env=LOG4CXX_CONFIGURATION=${PWD}/src/main/resources/configs/log4cxx.xml
+# --test_env=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(bazelisk info bazel-bin)/external/org_apache_apr/copy_apr/apr/lib:$(bazelisk info bazel-bin)/external/org_apache_apr_util/copy_aprutil/aprutil/lib:$(bazelisk info bazel-bin)/external/com_github_libexpat/expat/lib:$(bazelisk info bazel-bin)/external/org_apache_logging_log4cxx/log4cxx/lib:$(bazelisk info bazel-bin)/external/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib
+
+# test --build_tests_only
+# test --host_force_python=PY3
+# test --cxxopt=-std=c++17 --host_cxxopt=-std=c++17 --client_env=BAZEL_CXXOPTS=-std=c++17
+# test --test_output=errors
+test --test_output=all
+
+# test --workspace_status_command=src/main/resources/tools/ws.sh
+# # test --test_env=PATH=${PATH}:$(bazel info output_base)/external/org_ruby_lang_ruby_toolchain/build/bin
+# # test --test_env=/home/happyman/.cache/bazel/_bazel_happyman/91edf1392e043c4e0ef3d7a75813f3d1/external/org_ruby_lang_ruby_toolchain/build/bin
+# # show all coverage outputs
+# coverage --test_output=all --verbose_failures
+# coverage --instrumentation_filter=
+# # Coverage tests
+# test:coverage --test_tag_filters=-cpplint
+# test:coverage --copt=--coverage
+# test:coverage --cxxopt=--coverage
+# test:coverage --cxxopt=-fprofile-arcs
+# test:coverage --cxxopt=-ftest-coverage
+# test:coverage --linkopt=-coverage
+# test:coverage --linkopt=-lgcov
+# test:coverage --linkopt=-lgcc
+# test:coverage --linkopt=-lc
+
+# # Coverage
+# #coverage --combined_report=lcov
+# #coverage --coverage_report_generator=@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main
+# #coverage --experimental_cc_coverage

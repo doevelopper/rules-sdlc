@@ -1,0 +1,38 @@
+
+load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+
+all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//visibility:public"])"""
+
+
+# http_archive(
+#     name = "libevent",
+#     build_file_content = all_content,
+#     strip_prefix = "libevent-2.1.11-stable",
+#     urls = ["https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"],
+# )
+
+configure_make(
+    name = "libevent",
+    configure_options = [
+        "--enable-shared=no",
+        "--enable-static=yes",
+        "--disable-libevent-regress",
+        "--disable-samples",
+    ],
+    lib_source = "@libevent//:all_content",
+    out_lib_dir = "lib",
+    # libevent script uses it's own libtool for linking;
+    # so do not specify linker tool for it
+    # (otherwise, if the libtool from bazel's toolchain is supplied,
+    # the build script has problems with passing output file to libtool)
+    # see #315
+    configure_env_vars = {
+        "AR": "",
+    },
+    deps = [
+      "//openssl",
+    ],
+    static_libraries = [ "libevent.a", ],
+        visibility = ["//visibility:public"],
+
+)

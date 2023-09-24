@@ -1,0 +1,14 @@
+variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches,
+                    # required by the analysis task
+    GIT_SUBMODULE_STRATEGY: recursive # install submodules
+    BUILD_DIR: ${CI_PROJECT_DIR}/build
+    GIT_FETCH_EXTRA_FLAGS: "--depth=5000"
+    CCACHE_DIR: "${CI_PROJECT_DIR}/ccache"
+
+    SAST_DISABLED: 1
+    DAST_DISABLED: 1
+    TEST_DISABLED: 1
+    CODE_QUALITY_DISABLED: 1
+    CONTAINER_SCANNING_DISABLED: 1
+    LICENSE_MANAGEMENT_DISABLED: 1

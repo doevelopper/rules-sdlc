@@ -1,0 +1,6 @@
+PyYAML
+python-gitlab
+requests
+envparse
+cryptography
+wcmatch

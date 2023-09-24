@@ -1,0 +1,170 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "configure_make", "make_variant")
+
+LIB_NAME = "apr"
+
+CONFIGURE_OPTIONS = [
+    "--enable-threads",
+    "--enable-posix-shm",
+    "--enable-allocator-guard-pages",
+    "--enable-pool-concurrency-check",
+    "--enable-other-child",
+    #  "--with-pic",
+]
+
+filegroup(
+    name = "all_srcs",
+    srcs = glob(
+        include = ["**"],
+        exclude = ["*.bazel"],
+    ),
+)
+
+config_setting(
+    name = "msvc_compiler",
+    flag_values = {
+        "@bazel_tools//tools/cpp:compiler": "msvc-cl",
+    },
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "apr",
+    actual = select({
+        ":msvc_compiler": "apr_msvc",
+        "//conditions:default": "apr_default",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+make_variant(
+    name = "apr_msvc",
+    args = [
+        "-F Makefile.win",
+        "ARCH=\"x64 Release\"",
+    ],
+    lib_name = LIB_NAME,
+    lib_source = ":all_srcs",
+    out_static_libs = ["apr-1.lib"],
+    targets = [
+        "buildall",
+        "install",
+    ],
+    toolchain = "@rules_foreign_cc//toolchains:preinstalled_nmake_toolchain",
+    visibility = ["//visibility:public"],
+)
+
+# configure_make(
+#     name = "apr_default",
+#     configure_in_place = True,
+#     # configure_options = [
+#     #     "--disable-shared",
+#     # ],
+#     configure_options = select({
+#         "@bazel_tools//src/conditions:darwin": [
+#             "-fPIC",
+#         ] + CONFIGURE_OPTIONS,
+#         "@bazel_tools//src/conditions:linux": [
+
+#         ] + CONFIGURE_OPTIONS,
+#         "//conditions:default": [
+#             "-fPIC",
+#             "no-shared",
+#         ] + CONFIGURE_OPTIONS,
+#     }),
+
+#     defines = select({
+#         "@bazel_tools//src/conditions:darwin": [
+
+#         ],
+#         "@bazel_tools//src/conditions:windows": [
+
+#         ],
+#         "@bazel_tools//src/conditions:linux": [
+#             "_GNU_SOURCE",
+#             "_REENTRANT",
+#             "HAVE_CONFIG_H",
+#             "LINUX",
+#         ],
+#         "//conditions:default": [
+#         ],
+#     }),
+
+#     env = select({
+#         "@platforms//os:macos": {"AR": ""},
+#         "//conditions:default": {},
+#     }),
+#     lib_name = LIB_NAME,
+#     lib_source = ":all_srcs",
+#     out_static_libs = ["libapr-1.a"],
+#     visibility = ["//visibility:public"],
+# )
+
+configure_make(
+    name = "apr_default",
+    configure_command = "configure",
+
+    # configure_env_vars = select({
+    #     # "@bazel_tools//platforms:osx": {"AR": ""},
+    #     "//conditions:default": {},
+    # }),
+
+    configure_in_place = True,
+
+    configure_options = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "-fPIC",
+        ] + CONFIGURE_OPTIONS,
+        "@bazel_tools//src/conditions:linux": [
+            # "--prefix=${INSTALLDIR}",
+        ] + CONFIGURE_OPTIONS,
+        "//conditions:default": [
+            "-fPIC",
+            "no-shared",
+        ] + CONFIGURE_OPTIONS,
+    }),
+
+    lib_source = ":all_srcs",
+    lib_name = LIB_NAME,
+    linkopts = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "-lpthread",
+        ],
+        "@bazel_tools//src/conditions:linux": [
+            "-ldl",
+        ],
+        "//conditions:default": [ ],
+    }),
+
+    # out_include_dir = "include/apr",
+    # out_lib_dir = "lib",
+
+    out_static_libs = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "libapr-1.a",
+        ],
+
+        "@bazel_tools//src/conditions:windows": [
+            "libapr-1.lib",
+        ],
+        "//conditions:default": [
+            "libapr-1.a",
+        ],
+    }),
+
+    out_shared_libs = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "libapr-1.dylib",
+        ],
+
+        "@bazel_tools//src/conditions:windows": [
+            "libapr-1.lib",
+        ],
+        "//conditions:default": [
+            "libapr-1.so",
+            "libapr-1.so.0",
+            "libapr-1.so.0.7.2",
+        ],
+    }),
+
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,39 @@
+stages:
+    - create secret
+    - use secret
+
+image: python
+
+build:
+    variables:
+        ARTIFACTS_ENCRYPTED: 'true'
+    stage: create secret
+    script:
+        - echo "secret" > pass.txt
+    artifacts:
+        paths:
+            - 'pass.txt'
+            - '*.pwd'
+        expire_in: 2 hours
+
+deploy:
+    stage: use secret
+    script:
+        - cat pass.txt
+
+.decryption_helper: &decryption_helper |
+    echo "Running before script tasks"
+    pip install -r requirements.txt > /dev/null
+    python decrypt.py
+
+.encryption_helper: &encryption_helper |
+    echo "Running after script tasks"
+    pip install -r requirements.txt > /dev/null
+    python encrypt.py
+
+
+before_script:
+    - *decryption_helper
+
+after_script:
+    - *encryption_helper

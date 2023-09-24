@@ -1,93 +1,167 @@
-#           Copyright (C) 2021 Adrien H.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-#
-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
+# # # Intentionally left empty (for now).
 
-# Intentionally left empty (for now).
+load(
+    "@rules_cc//cc:defs.bzl",
+    "cc_library",
+    "cc_test"
+)
 
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
-load("@rules_pkg//:pkg.bzl", "pkg_tar", "pkg_deb")
+load(
+    "@rules_pkg//:pkg.bzl",
+    "pkg_tar",
+    "pkg_deb"
+  )
 
 licenses(["notice"])  # Apache License
 
-# cc_library(
-#     name = "pom.test.utils",
-#     srcs = [
-#         "project/object/model/extra/ConfigurableEventListener.hpp",
-#         "project/object/model/extra/ConfigurableEventListener.cpp",
-#         "project/object/model/extra/GTestEventListener.hpp",
-#         "project/object/model/extra/GTestEventListener.cpp",
-#         "project/object/model/extra/CustomEnvironment.hpp",
-#         "project/object/model/extra/CustomEnvironment.cpp",
-#         "project/object/model/extra/Test.hpp",
-#         "project/object/model/extra/Test.cpp",
-#     ],
-#     copts = [
-#         "-D_REENTRANT",
-#         "-I/usr/local/include/",
-#     ],
-#     includes = [
-#         ".",
-#     ],
-#     linkopts = [
-#         "-L/usr/local/lib",
-#         "-pthread",
-#     ],
-#     visibility = ["//visibility:public"],
+cc_library(
+    name = "com.github.doevelopper.rules.sdlc.test",
+    srcs = [
+        "com/github/doevelopper/rules/sdlc/guide/DummyTest.cpp",
+        "com/github/doevelopper/rules/sdlc/guide/DummyTest.hpp",
+
+        "com/github/doevelopper/rules/sdlc/app/ApplicationTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/ApplicationTest.hpp",
+
+        "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.hpp",
+        "com/github/doevelopper/rules/sdlc/extensions/CustomEnvironment.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/CustomEnvironment.hpp",
+        "com/github/doevelopper/rules/sdlc/extensions/GTestEventListener.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/GTestEventListener.hpp",
+        "com/github/doevelopper/rules/sdlc/extensions/UnitTestBuilder.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/UnitTestBuilder.hpp",
+
+        "com/github/doevelopper/rules/sdlc/logging/LoggingServicePrivateTest.cpp",
+        "com/github/doevelopper/rules/sdlc/logging/LoggingServicePrivateTest.hpp",
+        # "com/github/doevelopper/rules/sdlc/logging/LoggingServiceTest.cpp",
+        # "com/github/doevelopper/rules/sdlc/logging/LoggingServiceTest.hpp",
+
+        "com/github/doevelopper/rules/sdlc/semver/VersionTest.cpp",
+        "com/github/doevelopper/rules/sdlc/semver/VersionTest.hpp",
+    ],
+
+    copts = [
+        "-D_REENTRANT",
+        "-DGTEST_REMOVE_LEGACY_TEST_CASEAPI_=1",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [
+              "-I/usr/local/include/",
+          ],
+        "@bazel_tools//src/conditions:darwin": [],
+    }),
+
+    includes = [
+        ".",
+    ],
+
+    linkopts = [
+
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [
+          "-pthread",
+          "-L/usr/local/lib",
+          ],
+        "@bazel_tools//src/conditions:darwin": [],
+    }),
+
+    deps = [
+        "@com.github.doevelopper.rules-sdlc//src/main/cpp:com.github.doevelopper.rules.sdlc.main",
+        "@com_google_googletest//:gtest",
+#         # "@org_apache_apr_util//:aprutil",
+#         # "@org_apache_logging_log4cxx//:log4cxx",
+#         # "@com_github_tencent_rapidjson//:rapidjson",
+        "@com_google_absl//absl/strings",
+#         # "@org_apache_apr//:apr",
+    ],
+
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "com.github.doevelopper.rules.sdlc.test.bin",
+    size = "small",
+    srcs = [
+        "unitTestRunner.cpp",
+    ],
+
+    copts = [
+        "-D_REENTRANT",
+        "-DGTEST_REMOVE_LEGACY_TEST_CASEAPI_=1",
+        # "-DROOT_DIR=$(workspace)",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [
+              "-I/usr/local/include/",
+          ],
+        "@bazel_tools//src/conditions:darwin": [],
+    }),
+    deps = [
+        "@com.github.doevelopper.rules-sdlc//src/test/cpp:com.github.doevelopper.rules.sdlc.test",
+    ],
+
+    # env = [
+    #   "GTEST_INSTALL_FAILURE_SIGNAL_HANDLER:1",
+    #     # $(location log4cxx) ,
+    # ],
+    # env = {"ENVVAR:foo"},
+    visibility = ["//visibility:public"],
+)
+
+
+# cc_test(
+#     name = "first_fuzz_test",
+#     srcs = ["first_fuzz_test.cc"],
+#     shard_count = 50,
 #     deps = [
-#         "//src/main/cpp:pom.lib.main",
-#         "@com_google_googletest//:gtest",
-#         "@org_apache_logging_log4cxx//:log4cxx",
+#         "@com_google_fuzztest//fuzztest",
+#         "@com_google_fuzztest//fuzztest:fuzztest_gtest_main",
+#         "@com_google_googletest//:gtest"
 #     ],
 # )
 
+# Can be run with or without `--config=fuzztest`. When running without, the
+# fuzzing mode tests are skipped.
 # cc_test(
-#     name = "pom.test.bin",
-#     srcs = [
-#         "project/object/model/unitTest.cpp",
-#         "project/object/model/DummyTest.hpp",
-#         "project/object/model/DummyTest.cpp",
+#     name = "functional_test",
+#     timeout = "long",
+#     srcs = ["functional_test.cc"],
+#     data = [
+#         "@com_google_fuzztest//e2e_tests/testdata:fuzz_tests_for_functional_testing.stripped",
+#         "@com_google_fuzztest//e2e_tests/testdata:fuzz_tests_with_invalid_seeds.stripped",
 #     ],
-#     linkopts = [
-#         "-pthread",
-#          "-lrt",
-#     ],
+#     shard_count = 50,
 #     deps = [
-#         "//src/test/cpp:pom.test.utils",
-#         "//src/main/cpp:pom.main",
-#         "@com_github_tencent_rapidjson//:rapidjson",
+#         "@com_google_absl//absl/container:flat_hash_map",
 #         "@com_google_absl//absl/strings",
-#         # "//src/main/cpp:pom.lib.main",
-#         # "@com_google_googletest//:gtest",
-#         # "@org_apache_apr//:apr",
-#         # "@org_apache_logging_log4cxx//:log4cxx",
+#         "@com_google_absl//absl/strings:str_format",
+#         "@com_google_absl//absl/time",
+#         "@com_google_fuzztest//fuzztest:io",
+#         "@com_google_fuzztest//fuzztest:logging",
+#         "@com_google_fuzztest//fuzztest:serialization",
+#         "@com_google_fuzztest//fuzztest:subprocess",
+#         "@com_google_fuzztest//fuzztest:type_support",
+#         "@com_google_googletest//:gtest_main",
+#         "@com_googlesource_code_re2//:re2",
 #     ],
-#     args = [
-#         "--use_xxx",
-#         "",
-#         "--iterration=42"
+# )
+
+# Must be run with `--config=fuzztest`, as it benchmarks fuzzing mode, which
+# needs coverage instrumentation.
+# cc_binary(
+#     name = "benchmark_test",
+#     testonly = 1,
+#     srcs = ["benchmark_test.cc"],
+#     data = ["@com_google_fuzztest//e2e_tests/testdata:fuzz_tests_for_microbenchmarking.stripped"],
+#     deps = [
+#         "@com_google_absl//absl/flags:flag",
+#         "@com_google_absl//absl/flags:parse",
+#         "@com_google_absl//absl/strings",
+#         "@com_google_absl//absl/strings:str_format",
+#         "@com_google_absl//absl/time",
+#         "@com_google_fuzztest//fuzztest:logging",
+#         "@com_google_fuzztest//fuzztest:subprocess",
 #     ],
-#     shard_count = 1,
-#     # data = [
-#     #     "//src/main/resources/configs/log4cxx.xml",
-#     # ],
 # )

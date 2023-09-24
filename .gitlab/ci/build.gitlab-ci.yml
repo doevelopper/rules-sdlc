@@ -1,0 +1,16 @@
+# Build
+
+.build_template: &build_definition
+    stage: build
+    variables:
+        ARCH: arch # to build (no default)
+    <<: *only-default
+    before_script:
+        - set -euo pipefail
+
+    artifacts:
+        name: dist-${ARCH}-${CI_PIPELINE_ID}
+        when: always
+        paths:
+          - build.log
+        expire_in: 2 mos

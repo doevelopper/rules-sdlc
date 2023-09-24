@@ -1,0 +1,55 @@
+default_scope: other
+names:
+  new-feature: New features
+  security-fix: Security fixes
+  fix: Bug fixes
+  maintenance: Maintenance
+  sdlc-distribution: Rules Infra distribution
+  documentation: Documentation changes
+  other: Other changes
+order:
+    - new-feature
+    - security-fix
+    - fix
+    - maintenance
+    - sdlc-distribution
+    - documentation
+    - other
+label_matchers:
+  - labels:
+        - sdlc-distribution
+    scope: sdlc-distribution
+  - labels:
+        - type::feature
+    scope: new-feature
+  - labels:
+        - feature::addition
+    scope: new-feature
+  - labels:
+        - security
+    scope: security-fix
+  - labels:
+        - type::bug
+    scope: fix
+  - labels:
+        - type::maintenance
+    scope: maintenance
+  - labels:
+        - feature::enhancement
+    scope: maintenance
+  - labels:
+        - technical debt
+    scope: maintenance
+  - labels:
+        - tooling::pipelines
+    scope: maintenance
+  - labels:
+        - tooling::workflow
+    scope: maintenance
+  - labels:
+        - documentation
+    scope: documentation
+authorship_labels:
+    - Community contribution
+skip_changelog_labels:
+    - skip-changelog

@@ -1,0 +1,47 @@
+variables:
+  RELEASE_VERSION: 0.0.1
+  SENDER_RELEASE_VERSION: $RELEASE_VERSION
+  SERVER_RELEASE_VERSION: $RELEASE_VERSION
+  VIEWER_RELEASE_VERSION: $RELEASE_VERSION
+
+
+.deploy_docker_template: &deploy_docker_definition
+    stage: deploy
+    image: registry.gitlab.com/doevelopper/dind
+    services:
+        - docker:dind
+    script:
+        - docker login --username "$SRC_REGISTRY_USER" --password "$SRC_REGISTRY_PASSWORD" "$CI_REGISTRY"
+        - docker pull "$SRC_REGISTRY_IMAGE:$SRC_REGISTRY_IMAGE_TAG"
+        - docker tag  "$SRC_REGISTRY_IMAGE:$SRC_REGISTRY_IMAGE_TAG" "$DST_REGISTRY_IMAGE:$DST_REGISTRY_IMAGE_TAG"
+        - docker tag  "$SRC_REGISTRY_IMAGE:$SRC_REGISTRY_IMAGE_TAG" "$DST_REGISTRY_IMAGE:latest"
+        - docker logout
+        - docker login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+        - docker push "$DST_REGISTRY_IMAGE:$DST_REGISTRY_IMAGE_TAG"
+        - docker push "$DST_REGISTRY_IMAGE:latest"
+    after_script:
+        - docker logout
+    rules:
+        - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
+
+release-sender-docker:
+    <<: *deploy_docker_definition
+    variables:
+        RELEASE_TAG:            "$SENDER_RELEASE_VERSION"
+        SRC_REGISTRY_USER:      "$CI_SENDER_REGISTRY_USER"
+        SRC_REGISTRY_PASSWORD:  "$CI_SENDER_REGISTRY_PASSWORD"
+        SRC_REGISTRY_IMAGE:     "$CI_SENDER_REGISTRY_IMAGE"
+        SRC_REGISTRY_IMAGE_TAG: "$RELEASE_TAG-centos"
+        DST_REGISTRY_IMAGE:     "$CI_REGISTRY_IMAGE/sender"
+        DST_REGISTRY_IMAGE_TAG: "$RELEASE_TAG"
+
+
+release-server-docker:
+    <<: *deploy_docker_definition
+    variables:
+        SRC_REGISTRY_USER:      "$CI_SERVER_REGISTRY_USER"
+        SRC_REGISTRY_PASSWORD:  "$CI_SERVER_REGISTRY_PASSWORD"
+        SRC_REGISTRY_IMAGE:     "$CI_SERVER_REGISTRY_IMAGE"
+        SRC_REGISTRY_IMAGE_TAG: "$SERVER_RELEASE_VERSION"
+        DST_REGISTRY_IMAGE:     "$CI_REGISTRY_IMAGE/server"
+        DST_REGISTRY_IMAGE_TAG: "$SRC_REGISTRY_IMAGE_TAG"

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+BASE_DIR="$(dirname "$0")"
+
+BIN_XVFB_RUN="$(which xvfb-run)" || {
+    echo "need xvfb-run !"
+    echo "apt-get install xvfb"
+    exit 1
+}
+
+$BIN_XVFB_RUN --server-args="-screen 0 1600x1200x24" ${BASE_DIR}/cucumber "$@"

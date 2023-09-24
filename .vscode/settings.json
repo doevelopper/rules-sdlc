@@ -14,9 +14,21 @@
       "**/bazel-bin": true,
       "**/bazel-out": true,
       "**/bazel-testlogs": true,
+      "**/bazel-rules-sdlc": true,
       "**/target": true,
-      "**/bazel-rules-sdlc": true
+      "**/bin/**": true,
+      "**/obj/**": true,
+      "**/packages/**": true,
+      "**/Generated Files/**": true
     },
+    "search.exclude": {
+      "${workspaceFolder}/build": true,
+      "**/bazel-bin": true,
+      "**/bazel-out": true,
+      "**/bazel-testlogs": true,
+      "**/target": true,
+      "**/bazel-rules_sdlc": true
+  },
 
     "files.hotExit": "onExit",
     "files.trimTrailingWhitespace": true,
@@ -43,12 +55,20 @@
     "files.trimFinalNewlines": true,
     //"files.trimTrailingWhitespace": true,
 
-    "editor.tabSize": 2,
+    "editor.tabSize": 4,
+    // Insert spaces when pressing Tab. This setting is overriden
+    // based on the file contents when `editor.detectIndentation` is true.
+    // When opening a file, `editor.tabSize` and `editor.insertSpaces`
+    // will be detected based on the file contents. Set to false to keep
+    // the values you've explicitly set, above.
+    "editor.detectIndentation": false,
+    "editor.renderWhitespace": "all",
+    "editor.insertSpaces": true,
     "workbench.colorCustomizations" : {
-      "terminal.foreground" : "#1abe3ee3",
-      "terminal.background" : "#020f299d",
-      "terminal.ansiBrightBlue":"#babd0fe5",
-      "terminalCursor.foreground": "#ebebe1",
+    //   "terminal.foreground" : "#1abe3ee3",
+    //   "terminal.background" : "#020f299d",
+    //   "terminal.ansiBrightBlue":"#babd0fe5",
+    //   "terminalCursor.foreground": "#ebebe1",
       "titleBar.activeBackground": "#5F9EA0",
       "titleBar.activeForeground": "#00008B",
       "titleBar.inactiveBackground": "#0f0f16",
@@ -79,11 +99,487 @@
       //"sideBarTitle.foreground": "#0a0a0a",
       "tab.activeForeground": "#00FFFF"
     },
+    "git.ignoredRepositories": [
+      "benchmarks/google-benchmark",
+      "boost-math",
+      "llvm-project"
+    ],
     "bracketPairColorizer.consecutivePairColors": [
       "()",
       "[]",
       "{}",
       ["#f368e0", "#ff5e57", "#10ac84"],
       "Red"
-    ]
+    ],
+    "C_Cpp.doxygen.generatedStyle": "/*!",
+    "C_Cpp.default.browse.path": [
+        "${workspaceFolder}"
+    ],
+    "C_Cpp.loggingLevel": "None",
+    "C/C++ Include Guard.Header Extensions": [
+        ".h",
+        ".hpp",
+        ".h++",
+        ".hh",
+        ".ipp"
+    ],
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "[ruby][html]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
+    "[csharp][typescript]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "[python]": {
+        "editor.tabSize": 4,
+      // Auto sort imports
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+      },
+    },
+
+    "cmake.configureOnOpen": false,
+
+    "cpplint.filters": [
+        "-runtime/references",
+        "-legal/copyright",
+        "-build/header_guard",
+        "-build/include_subdir",
+        "-whitespace/braces",
+        "-readability/casting",
+        "-build/c++11",
+        "-build/namespaces"
+      ],
+      "clang-tidy.executable": "/usr/local/opt/llvm/bin/clang-tidy",
+      "clang-tidy.compilerArgs": [
+        "-xc++",
+        "-std=c++17",
+        "-I/usr/local/opt/llvm/include/c++/v1/"
+      ],
+      "clang-tidy.lintOnSave": false,
+      "clang-tidy.buildPath": "${workspaceFolder}/build/vscode/x64-Release",
+      "clang-tidy.checks": [
+        "clang-diagnostic-*",
+        "clang-analyzer-*",
+        "performance-*",
+        "readability-*",
+        "-readability-braces-around-statements",
+        "-readability-uppercase-literal-suffix",
+        "-readability-magic-numbers",
+        "-readability-qualified-auto",
+        "-readability-else-after-return",
+        "-readability-isolate-declaration",
+        "portability-*",
+        "bugprone-*",
+        "-bugprone-narrowing-conversions",
+        "-bugprone-branch-clone",
+        "cppcoreguidelines-*",
+        "-cppcoreguidelines-avoid-magic-numbers",
+        "-cppcoreguidelines-pro-type-vararg",
+        "-cppcoreguidelines-pro-bounds-pointer-arithmetic",
+        "-cppcoreguidelines-narrowing-conversions",
+        "-cppcoreguidelines-special-member-functions",
+        "-cppcoreguidelines-pro-bounds-constant-array-index",
+        "modernize-*",
+        "-modernize-use-nodiscard",
+        "-modernize-use-trailing-return-type"
+      ],
+      "python.pythonPath": "/usr/local/bin/python3",
+
+      "[bat]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[c]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[csharp]": {
+        "editor.tabSize": 4
+      },
+      "[cpp]": {
+        "editor.rulers": [
+          {
+            "column": 80,
+            "color": "#ff00FF"
+          },
+          100,  // <- a ruler in the default color or as customized (with "editorRuler.foreground") at column 100
+          {
+            "column": 120,
+            "color": "#ff0000"
+          },
+        ]
+      },
+      "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[csv]": {
+        "editor.rulers": []
+      },
+      "[clojure]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[coffeescript]": {
+        "editor.rulers": [
+          79
+        ]
+      },
+      "[diff]": {
+        "editor.rulers": []
+      },
+      "[dockerfile]": {
+        "editor.rulers": []
+      },
+      "[excel]": {
+        "editor.rulers": []
+      },
+      "[fsharp]": {
+        "editor.tabSize": 4
+      },
+      "[git-commit]": {
+        "editor.rulers": []
+      },
+      "[git-rebase]": {
+        "editor.rulers": []
+      },
+      "[go]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+      },
+      "[go.sum]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+      },
+      "[go.mod]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+      },
+      "[groovy]": {
+        "editor.tabSize": 4
+      },
+      "[hlsl]": {
+        "editor.tabSize": 4
+      },
+      "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[handlebars]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[ignore]": {
+        "editor.rulers": []
+      },
+      "[ini]": {
+        "editor.rulers": []
+      },
+      "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": []
+      },
+      "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": []
+      },
+      "[java]": {
+        "editor.tabSize": 4
+      },
+      "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[jinja]": {
+        // Wait for support
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[jupyter]": {
+        "editor.rulers": [],
+        "editor.tabSize": 1
+      },
+      "[less]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[log]": {
+        "editor.rulers": []
+      },
+      "[lua]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[makefile]": {
+        "editor.insertSpaces": false,
+        "editor.rulers": [],
+        "editor.tabSize": 4
+      },
+      "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[objective-c]": {},
+      "[objective-cpp]": {},
+      "[php]": {
+        "editor.rulers": [
+          80,
+          120
+        ],
+        "editor.tabSize": 4
+      },
+      "[perl]": {
+        "editor.rulers": [
+          72
+        ]
+      },
+      "[perl6]": {
+        "editor.rulers": [
+          72
+        ]
+      },
+      "[powershell]": {
+        "editor.tabSize": 4
+      },
+      "[properties]": {
+        "editor.rulers": []
+      },
+      "[pug]": {
+        // Need to use plugin `@prettier/plugin-pug`
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[python]": {
+        "editor.rulers": [
+          72,
+          79,
+          99
+        ],
+        "editor.tabSize": 4
+      },
+      "[r]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[razor]": {
+        // Wait for support
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[ruby]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[rust]": {
+        "editor.rulers": [
+          80,
+          100
+        ],
+        "editor.tabSize": 4
+      },
+      "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[sql]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[ssh_config]": {
+        "editor.insertSpaces": false,
+        "editor.rulers": [],
+        "editor.tabSize": 4
+      },
+      "[search-result]": {
+        "editor.rulers": []
+      },
+      "[shaderlab]": {
+        "editor.tabSize": 4
+      },
+      "[shellscript]": {
+        "editor.rulers": [
+          80
+        ]
+      },
+      "[swift]": {},
+      "[toml]": {
+        // Need to use plugin `prettier-plugin-toml`
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[tsv]": {
+        "editor.insertSpaces": false,
+        "editor.rulers": [],
+        "editor.tabSize": 4
+      },
+      "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[vb]": {
+        "editor.tabSize": 4
+      },
+      "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[vue-postcss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[vue-html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[xml]": {
+        // Need to use plugin `@prettier/plugin-xml`
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[xsl]": {
+        // Need to use plugin `@prettier/plugin-xml`
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": []
+      },
+      "[aspnetcorerazor]": {
+        // Wait for support
+        // "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[code-runner-output]": {
+        "editor.rulers": []
+      },
+      "[graphql]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "[pip-requirements]": {
+        "editor.rulers": []
+      },
+      "[scminput]": {
+        "editor.rulers": []
+      },
+      "[wallaby-output]": {
+        "editor.rulers": []
+      },
+      "[plaintext]": {
+        "editor.insertSpaces": false,
+        "editor.rulers": [],
+        "editor.tabSize": 4
+      },
+      "bracket-pair-colorizer-2.colors": [
+          "Gold",
+          "Orchid",
+          "LightSkyBlue"
+      ],
+
+    "commentAnchors.tags.anchors": {
+        "ANCHOR": {
+            "iconColor": "default",
+            "highlightColor": "#A8C023",
+            "scope": "file"
+        },
+        "TODO": {
+            "iconColor": "blue",
+            "highlightColor": "#3ea8ff",
+            "scope": "workspace"
+        },
+        "OPTIMIZE": {
+            "iconColor": "teal",
+            "highlightColor": "#00cec9",
+            "scope": "workspace",
+            "styleComment": true
+          },
+
+        "FIXME": {
+            "iconColor": "red",
+            "highlightColor": "#F44336",
+            "isItalic": false,
+            "isBold": true,
+            "scope": "workspace"
+        },
+        "STUB": {
+            "iconColor": "purple",
+            "highlightColor": "#BA68C8",
+            "scope": "file"
+        },
+        "NOTE": {
+            "iconColor": "orange",
+            "highlightColor": "#FFB300",
+            "scope": "file"
+        },
+        "REVIEW": {
+            "iconColor": "green",
+            "highlightColor": "#64DD17",
+            "scope": "workspace"
+        },
+        "SECTION": {
+            "iconColor": "blurple",
+            "highlightColor": "#896afc",
+            "scope": "workspace",
+            "behavior": "region"
+        },
+        "LINK": {
+            "iconColor": "#2ecc71",
+            "highlightColor": "#2ecc71",
+            "scope": "workspace",
+            "behavior": "link"
+        },
+        "BUG": {
+          "iconColor": "red",
+          "highlightColor": "#F44336",
+          "scope": "workspace",
+          "styleComment": true
+        },
+        "WORK IN PROGRESS": {
+          "iconColor": "blue",
+          "highlightColor": "#CD5C5C",
+          "scope": "workspace",
+          "styleComment": true,
+          "enabled": true
+        },
+        "PENDING": {
+          "iconColor": "#b808b0",
+          "highlightColor": "#b808b0",
+          "scope": "file",
+          "isRegion": true,
+          "styleComment": true,
+          "isBold": true
+        },
+        "WORKAROUND": {
+          "iconColor": "#2ec115",
+          "highlightColor": "#2ec115",
+          "scope": "file",
+          "styleComment": true
+        },
+        "REMOVE ME": {
+          "iconColor": "#9ff115",
+          "highlightColor": "#9ff115",
+          "scope": "file",
+          "styleComment": true
+        },
+        "REFACTOR": {
+          "iconColor": "#f9ff33",
+          "highlightColor": "#f9ff33",
+          "scope": "file",
+          "styleComment": true
+        },
+        "LEGACY": {
+          "iconColor": "#14f705",
+          "highlightColor": "#14f705",
+          "scope": "file",
+          "styleComment": true
+        },
+        "TESTME": {
+          "iconColor": "#f705da",
+          "highlightColor": "#f705da",
+          "scope": "file",
+          "styleComment": true
+        },
+
+
+    }
 }

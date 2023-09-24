@@ -1,0 +1,36 @@
+# Lists of paths for artifacts of various stages.
+
+.cmake_build_artifacts:
+    artifacts:
+        expire_in: 1d
+        paths:
+            # Test specifications.
+            - build/**/CTestTestfile.cmake
+
+            # Allow CMake to find CMAKE_ROOT.
+            - build/CMakeFiles/CMakeSourceDir.txt
+
+            # Take the install tree.
+            - build/install/
+
+            # We need the main binaries.
+            - build/bin/
+            # The cache is needed for the installation test.
+            - build/CMakeCache.txt
+            # Test binaries. Eventually these might be better under
+            # `Source/Tests` or the like.
+            - build/Tests/EnforceConfig.cmake
+            # Test directories.
+            - build/Tests/CTest*
+            - build/Tests/Find*
+            - build/Tests/Qt*
+            - build/Tests/RunCMake/
+            - build/Tests/CMakeOnly/
+            - build/Tests/CMakeTests/
+            - build/Tests/CMakeGUI/
+            - build/Tests/FortranC/
+
+            # CTest/CDash information.
+            - build/Testing/
+            - build/DartConfiguation.tcl
+            - build/CTestCustom.cmake

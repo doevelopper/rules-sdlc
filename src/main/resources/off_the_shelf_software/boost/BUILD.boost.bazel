@@ -1,0 +1,161 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "boost_build")
+package(default_visibility = ["//visibility:public"])
+
+# boost_build(
+#    name = "libboos-dev-all",
+#     bootstrap_options ["--with-libraries=all" "--with-toolset=gcc"]
+#     user_options = [ "toolset=gcc"]
+# )
+
+# boost_build(
+#     name = "headers",
+#     headers_only = True,
+#     lib_source = "@org_boost_boost//:all_content",
+#     user_options = [
+#         "-j`nproc`",
+#         "--with-headers",
+#     ],
+#     visibility = ["//visibility:public"],
+# )
+
+LIBS = [
+# keep sorted
+# aptitude show libboost-all-dev
+# List of installable libs obtained with command './bootstrap.sh --show-libraries '
+    "atomic",
+    "chrono",
+    "container",
+    "context",
+    "contract",
+    "coroutine",
+    "date_time",
+    "exception",
+    "fiber",
+    "filesystem",
+    # "graph",
+    # "graph_parallel",
+    "headers",
+    "iostreams",
+    # "json",
+    "locale",
+    # "log",
+    # "math",
+    # "mpi",
+    # "nowide",
+    "program_options",
+    # "python",
+    "random",
+    "regex",
+    "serialization",
+    "stacktrace",
+    "system",
+    # "test",
+    "thread",
+    "timer",
+    "type_erasure",
+    "url",
+    "wave"
+]
+
+boost_build(
+    name = "boost",
+    # bootstrap_options = [
+    #     "--without-icu",
+    # ],
+    lib_source = "@org_boost_boost//:all_content",
+    out_static_libs = ["libboost_{}.a".format(lib) for lib in LIBS],
+    user_options = [
+        "-j`nproc`",
+        "link=static",
+        "runtime-link=static",
+        "variant=release",
+        # "threading=multi",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+[
+    boost_build(
+        name = LIB,
+        lib_source = "@org_boost_boost//:all_content",
+        out_static_libs = ["libboost_{}.a".format(LIB)],
+        user_options = [
+            "-j`nproc`",
+            "--with-{}".format(LIB),
+        ],
+        deps = [
+            "@com_github_facebook_zstd//:zstd",
+            # "@com_github_google_snappy//:snappy",
+            # "@lz4",
+            # "@org_bzip_bzip2//:bzip2",
+            "@org_bzip_bzip2//:bz2lib",
+            "@org_lzma_lzma//:lzma",
+            "@net_zlib_zlib//:zlib",
+        ],
+    )
+    for LIB in LIBS
+]
+
+# boost_build(
+#     name = "filesystem",
+#     lib_source = "@org_boost_boost//:all_content",
+
+#     out_shared_libs = [
+#         "libboost_filesystem.so.1.82.0",
+#         "libboost_system.so.1.82.0",
+#     ],
+
+#     copts = [
+#         "-DWHAT=1",
+#     ] + select({
+#             "@bazel_tools//src/conditions:windows": [
+#                 "/std:c++17"
+#             ],
+#             "//conditions:default": [
+#             "--std=c++17",
+#           ],
+#     }),  #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
+
+#     user_options = [
+#         # "threading=multi",
+#         "link=shared",
+#         "cxxflags=-std=c++17",
+#         "variant=release",
+#         "-d0",  # Minimal output
+#         "-j2",  # Build with parallel processes
+#         "--with-filesystem",
+#         "--no-cmake-config",
+#     ],
+
+#     visibility = ["//visibility:public"],
+# )
+
+
+# boost_build(
+#     name = "chrono",
+#     lib_source = ":all_content",
+#     static_libraries = ["libboost_chrono.a"],
+#     user_options = ["--with-chrono"],
+#     visibility = ["//visibility:public"],
+# )
+
+# boost_build(
+#     name = "filesystem",
+#     lib_source = ":all_srcs",
+
+#     # shared_libraries = [
+#     #     "libboost_filesystem.so.1.68.0",
+#     #     "libboost_system.so.1.68.0",
+#     # ],
+#     user_options = [
+#         # "threading=multi",
+#         "link=static",
+#         "cxxflags=-std=c++17",
+#         "variant=release",
+#         "-d0",  # Minimal output
+#         "-j2",  # Build with parallel processes
+#         "--with-filesystem",
+#         "--no-cmake-config",
+#     ],
+#     visibility = ["//visibility:public"],
+# )

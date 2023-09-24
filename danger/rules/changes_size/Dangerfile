@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+thresholds = helper.config.code_size_thresholds
+
+old_names = git.renamed_files.map {|f| f[:before] }
+new_names = git.renamed_files.map {|f| f[:after] }
+
+lines_changed = (git.added_files + git.modified_files + new_names - old_names).sum do |file|
+  next 0 if file.end_with?('.pb.go') || file.end_with?('_pb.rb')
+
+  info = git.info_for_file(file)
+
+  next 0 if info.nil?
+
+  info[:insertions]
+end
+
+if lines_changed > thresholds[:high]
+  warn "This merge request is definitely too big (#{lines_changed} lines changed), please split it into multiple merge requests."
+elsif lines_changed > thresholds[:medium]
+  warn "This merge request is quite big (#{lines_changed} lines changed), please consider splitting it into multiple merge requests."
+end

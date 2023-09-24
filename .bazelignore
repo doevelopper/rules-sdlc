@@ -1,0 +1,8 @@
+e2e/
+bazel_*.zip
+package/WORKSPACE
+package/BUILD.bazel
+.bazel-cache/
+.bazel-cache-repo/
+.cache
+bazel-rules-sdlc

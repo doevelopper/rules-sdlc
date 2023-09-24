@@ -1,0 +1,64 @@
+
+.no_cache:
+    cache: {}
+
+.no_dependencies:
+    dependencies: []
+
+.no_cache_and_dependencies:
+    extends:
+        - .no_cache
+        - .no_dependencies
+
+.docker:
+    services:
+        - docker:${DOCKER_VERSION}-dind
+    variables:
+        DOCKER_DRIVER: overlay2
+        DOCKER_HOST: tcp://docker:2376
+        DOCKER_TLS_VERIFY: 1
+        DOCKER_TLS_CERTDIR: "/certs"
+        DOCKER_CERT_PATH: "/certs/client"
+    tags:
+        - docker
+
+.bazel-cache:
+    variables:
+        BAZEL_CACHE: $CI_PROJECT_DIR/.cache-$CI_COMMIT_REF_PROTECTED
+    before_script:
+        - mkdir -p "$BAZEL_CACHE"
+    cache:
+        paths:
+            - $CI_PROJECT_DIR/.cache-false/
+        key: "${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}"
+
+.bazel-cache-windows:
+    variables:
+        BAZEL_CACHE: $CI_PROJECT_DIR\.cache-$CI_COMMIT_REF_PROTECTED
+    before_script:
+        - New-Item -Path "$Env:BAZEL_CACHE" -Type Directory -Force
+    cache:
+        paths:
+            - $CI_PROJECT_DIR\.BAZEL_CACHE-false\
+        key: "${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}"
+
+.danger-review:
+    needs: []
+    stage: build
+    allow_failure: true
+    variables:
+        GITLAB_DANGERFILES_VERSION: "3.1.0"
+
+.only-default: &only-default
+    only:
+        - master
+        - merge_requests
+        - tags
+
+# Lint
+
+.lint_template: &lint_definition
+    stage: lint
+    variables:
+      GIT_SUBMODULE_STRATEGY: none
+    <<: *only-default

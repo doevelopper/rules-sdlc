@@ -1,0 +1,21 @@
+unless gitlab.mr_json["milestone"]
+  issues = gitlab.api.merge_request_closes_issues(helper.mr_target_project_id, helper.mr_iid)
+
+  milestone_id = issues
+    .map { |i| i.milestone }
+    .compact
+    .reject { |m| m.state == "closed" || m.due_date.nil? }
+    .sort_by { |m| m.due_date }
+    .first
+    &.id
+
+  if milestone_id
+    gitlab.api.update_merge_request(
+      helper.mr_target_project_id,
+      helper.mr_iid,
+      milestone_id: milestone_id
+    )
+  else
+    warn "No milestone was set, nor could it be detected from the issues this merge request closes."
+  end
+end

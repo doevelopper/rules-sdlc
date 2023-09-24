@@ -81,7 +81,7 @@ jobs:
       # -
       #   name: Build Fuzzers (${{ matrix.sanitizer }})
       #   id: build
-      #   uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+      #   uses: google/oss-fuzz/sdlc/cifuzz/actions/build_fuzzers@master
       #   with:
       #     oss-fuzz-project-name: 'util-linux'
       #     dry-run: false
@@ -89,7 +89,7 @@ jobs:
       #     sanitizer: ${{ matrix.sanitizer }}
       # -
       #   name: Run Fuzzers (${{ matrix.sanitizer }})
-      #   uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+      #   uses: google/oss-fuzz/sdlc/cifuzz/actions/run_fuzzers@master
       #   with:
       #     oss-fuzz-project-name: 'util-linux'
       #     fuzz-seconds: 180

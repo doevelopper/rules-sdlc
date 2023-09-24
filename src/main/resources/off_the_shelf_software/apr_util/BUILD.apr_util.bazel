@@ -1,0 +1,60 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "configure_make")
+
+filegroup(
+    name = "all_srcs",
+    srcs = glob(
+        include = ["**"],
+        exclude = ["*.bazel"],
+    ),
+)
+
+configure_make(
+    name = "apr_util",
+    configure_in_place = True,
+    configure_options = [
+        "--with-apr=$EXT_BUILD_DEPS/apr",
+        "--with-expat=$EXT_BUILD_DEPS/expat",
+        "--with-openssl=$EXT_BUILD_DEPS/openssl",
+        "--with-crypto" ,
+        #  "--with-pic",
+    ],
+    env = select({
+        "@platforms//os:macos": {"AR": ""},
+        "//conditions:default": {},
+    }),
+    lib_source = ":all_srcs",
+    # out_static_libs = ["libaprutil-1.a"],
+    out_static_libs = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "libaprutil-1.a",
+        ],
+        "@bazel_tools//src/conditions:windows": [
+            "libaprutil-1.lib",
+        ],
+        "//conditions:default": [
+            "libaprutil-1.a",
+        ],
+    }),
+
+    out_shared_libs = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "libaprutil.dylib",
+        ],
+
+        "@bazel_tools//src/conditions:windows": [
+            "libaprutil-1.lib",
+        ],
+        "//conditions:default": [
+            "libaprutil-1.so",
+            "libaprutil-1.so.0",
+            "libaprutil-1.so.0.6.3"
+        ],
+    }),
+
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_apache_apr//:apr",
+        "@com_github_openssl_openssl//:openssl",
+        "@io_github_libexpat//:expat",
+    ],
+)

@@ -1,15 +1,43 @@
-# Import legacy .bazelrc file.
-#
-try-import %workspace%/src/main/resources/bazel/bazel.rc
+# Bazel settings that apply to this repository.
+# Take care to document any settings that you expect users to apply.
+# Settings that apply only to CI are in .github/workflows/ci.bazelrc
 
-# Import environment-specific configuration. required once CI is configured to always run
-# `install_prereqs_user_environment`.
-try-import %workspace%/src/main/resources/bazel/environment.bazelrc
-try-import %workspace%/gen/environment.bazelrc
+####################################################################################################################
+###############################          Import legacy .bazelrc file.                ###############################
+####################################################################################################################
 
-# Try to import user-specific configuration local to workspace.
-try-import %workspace%/user.bazelrc
+# start up options settings
+# try-import %workspace%/src/main/resources/bazelrc/startup.bazelrc
 
-build --show_timestamps --color=yes
-build:default --verbose_failures
-build --test_tmpdir=/tmp/bazel_tmp --verbose_failures
+# # build phase settings
+try-import %workspace%/src/main/resources/bazelrc/build.bazelrc
+
+# # Setting for on premise RBE
+# try-import %workspace%/src/main/resources/bazelrc/buildbuddy.bazelrc
+
+# # Setting for environmentg utils
+# try-import %workspace%/src/main/resources/bazelrc/env.bazelrc
+
+# # proxy settings
+# try-import %workspace%/src/main/resources/bazelrc/proxy.bazelrc
+
+# # Runtime util settings
+# try-import %workspace%/src/main/resources/bazelrc/run.bazelrc
+
+# # Sanitizer util settings
+# # try-import %workspace%/src/main/resources/bazelrc/sanitizer.bazelrc
+
+# # Test utils
+# try-import %workspace%/src/main/resources/bazelrc/test.bazelrc
+
+# try-import %workspace%/src/main/resources/bazelrc/fuzztest.bazelrc
+
+
+# Load any settings specific to the current user.
+# .bazelrc.user should appear in .gitignore so that settings are not shared with team members
+# This needs to be last statement in this
+# config, as the user configuration should be able to overwrite flags from this file.
+# See https://bazel.build/configure/best-practices#bazelrc
+# (Note that we use .bazelrc.user so the file appears next to .bazelrc in directory listing,
+# rather than user.bazelrc as suggested in the Bazel docs)
+try-import %workspace%/.bazelrc.user

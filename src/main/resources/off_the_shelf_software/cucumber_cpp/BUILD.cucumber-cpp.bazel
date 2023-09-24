@@ -1,0 +1,82 @@
+
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+
+filegroup(
+    name = "all",
+    srcs = glob(["**"]),
+)
+
+_CACHE_ENTRIES = {
+    "BUILD_SHARED_LIBS": "off",
+    "BUILD_CURL_EXE": "off",
+    "CMAKE_C_FLAGS": "-fPIC",
+    "CUKE_ENABLE_EXAMPLES": "OFF",
+    "CUKE_USE_STATIC_GTEST": "OFF",
+    "CUKE_ENABLE_BOOST_TEST": "OFF",
+    "CUKE_ENABLE_GTEST": "OFF",
+    "CUKE_ENABLE_QT": "OFF",
+    "CUKE_TESTS_E2E": "OFF",
+    "CUKE_TESTS_UNIT": "OFF",
+    "Boost_NO_WARN_NEW_VERSIONS": "ON", # get rid of New Boost version may have incorrect or missing dependencies and imported
+    "Boost_USE_STATIC_LIBS": "ON",
+    "Boost_NO_BOOST_CMAKE": "ON", #Could NOT find Boost (missing: thread system regex date_time program_options filesystem) (found suitable version "1.81.0", minimum required is "1.46")
+    # "CMAKE_PREFIX_PATH": "$$EXT_BUILD_DEPS$$/org_boost;$$EXT_BUILD_DEPS$$/boost",
+}
+
+_MACOS_CACHE_ENTRIES = dict(_CACHE_ENTRIES.items() + {
+    "CMAKE_AR": "",
+    "CMAKE_C_ARCHIVE_CREATE": "",
+}.items())
+
+_LINUX_CACHE_ENTRIES = dict(_CACHE_ENTRIES.items() + {
+    "CMAKE_C_FLAGS": "$CMAKE_C_FLAGS -fPIC",
+}.items())
+
+cmake(
+    name = "cucumber_cpp",
+    cache_entries = select({
+    #     "@bazel_tools//src/conditions:darwin": _MACOS_CACHE_ENTRIES,
+    #     "@bazel_tools//src/conditions:linux_x86_64": _LINUX_CACHE_ENTRIES,
+        "//conditions:default": _CACHE_ENTRIES,
+    }),
+    lib_source = ":all",
+
+    # out_interface_libs = select({
+    #     "@bazel_tools//src/conditions:windows": ["libcucumber_cpp.lib"],
+    #     "//conditions:default": [],
+    # }),
+
+    # out_shared_libs = select({
+    #     "@bazel_tools//src/conditions:darwin": ["libcucumber_cpp.dylib"],
+    #     "@bazel_tools//src/conditions:windows": ["libcucumber_cpp.dll"],
+    #     "//conditions:default": ["libcucumber_cpp.so"],
+    # }),
+
+    out_static_libs = select({
+        # TODO: I'm guessing at this name. Needs to be checked on windows.
+        # "@platforms//os:windows": [
+        #     "libcucumber-cpp.lib"
+        # ],
+        "//conditions:default": [
+            "libcucumber-cpp.a",
+            "libcucumber-cpp-nomain.a",
+        ],
+    }),
+    deps = [
+        "@org_boost//:core",
+        "@org_boost//:serialization",
+        "@org_boost//:atomic",
+        "@org_boost//:date_time",
+        "@org_boost//:algorithm",
+        "@org_boost//:program_options",
+        "@org_boost//:asio",
+        "@org_boost//:regex",
+        "@org_boost//:chrono",
+        "@org_boost//:filesystem",
+        "@org_boost//:locale",
+        "@org_boost//:system",
+        "@org_boost//:thread",
+        "@org_boost//:signals2",
+    ],
+    visibility = ["//visibility:public"],
+)

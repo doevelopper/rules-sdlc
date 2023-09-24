@@ -26,6 +26,21 @@
       "args": [ "-NoProfile" ]
   },
 
+  "presentation": {
+    "echo": false,
+    "reveal": "always",
+    "focus": true,
+    "panel": "shared",
+    "clear": false,
+    "showReuseMessage": true,
+    "revealProblems": "never"
+    },
+    "options": {
+        "env": {
+            "LINUX_BUILD": "--config linux --action_env CC=gcc --action_env CXX=g++ --client_env=CC=gcc --client_env=CXX=g++"
+        }
+    },
+
   "tasks": [
         {
             "label": "Build (debug)",

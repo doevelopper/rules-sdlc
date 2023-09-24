@@ -1,0 +1,19 @@
+root_groups:
+- acme/development
+
+approval_rules:
+- name: QA
+  approvals_required: 1
+  groups:
+  - acme/approvers/qa
+  users: []
+  protected_branches:
+  - main
+- name: Leadership
+  approvals_required: 3
+  groups:
+  - acme/approvers/leadership
+  users:
+  - doevelopper
+  protected_branches:
+  - main

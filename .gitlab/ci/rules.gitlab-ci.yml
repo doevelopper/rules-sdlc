@@ -1,0 +1,96 @@
+################################################################################################################################################################
+#############################################################             Changes patterns        #############################################################
+################################################################################################################################################################
+
+.code-backstage-patterns: &code-backstage-patterns
+    - ".gitlab-ci.yml"
+    - ".gitlab/ci/**/*"
+    - ".gitattributes"
+    - "Makefile*"
+    - "**/*.bzl"
+    - "{ci,dockerfiles,packaging,scripts,tests}/**/*"
+    - "VERSION"
+
+.docs-patterns: &docs-patterns
+    - ".markdownlint.yml"
+    - "src/site/**/*"
+    - "scripts/lint-docs"
+
+################################################################################################################################################################
+#############################################################             Conditions               #############################################################
+################################################################################################################################################################
+.if-not-canonical-namespace: &if-not-canonical-namespace
+    if: '$CI_PROJECT_NAMESPACE !~ /^rules-sdlc($|\/)/'
+
+.if-default-branch: &if-default-branch
+    if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+.if-release-candidate-tag: &if-release-candidate-tag
+    if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+/'
+
+.if-stable-release-tag: &if-stable-release-tag
+    if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+.if-merge-request-pipeline: &if-merge-request-pipeline
+    if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+.web: &web
+  if: '$CI_PIPELINE_SOURCE == "web"'
+
+.mr: &mr
+    if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+.schedule: &schedule
+    if: '$CI_PIPELINE_SOURCE == "schedule"'
+
+.tag: &tag
+    if: $CI_COMMIT_TAG
+
+.smoke: &trigger-schedule-smoke
+    if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "pipeline" || $CI_PIPELINE_SOURCE == "schedule") && $SMOKE_ONLY == "true"'
+
+.full: &trigger-schedule-full
+    if: '($CI_PIPELINE_SOURCE == "trigger" || $CI_PIPELINE_SOURCE == "pipeline" || $CI_PIPELINE_SOURCE == "schedule") && $FULL_ONLY == "true"'
+
+
+.rules:mr:
+    rules:
+        - *mr
+
+.rules:tag:
+    rules:
+        - *tag
+
+.rules:docs:skip:
+    rules:
+        - changes: *docs-patterns
+          when: never
+        - when: on_success
+
+.rules:docs:review:
+    rules:
+        - <<: *if-not-canonical-namespace
+          when: never
+        - <<: *if-merge-request-pipeline
+          when: manual
+
+.com:qa:rules:trigger-schedule-full:
+    rules:
+        - <<: *trigger-schedule-full
+          variables:
+              QA_SAVE_TEST_METRICS: "true"
+        - <<: *web
+          when: manual
+        - <<: *mr
+          when: manual
+          allow_failure: true
+
+# Commits that have been approved and merged. Run automatically in the main
+# repo and allow manual runs in the web UI and in forks.
+.if-merged:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "master" && $CI_PROJECT_URL =~ /.*gitlab.com\/doevelopper\/rules-sdlc/'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_PROJECT_URL !~ /.*gitlab.com\/doevelopper\/rules-sdlc/'
+      when: manual

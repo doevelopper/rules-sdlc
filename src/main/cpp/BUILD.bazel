@@ -1,4 +1,9 @@
 
+# load("@rules_license//examples/vendor/constant_gen:defs.bzl", "constant_gen")
+# load("@rules_license//rules:compliance.bzl", "licenses_used")
+# load("@rules_license//rules:license_policy_check.bzl", "license_policy_check")
+# load("@rules_license//rules:license.bzl", "license")
+
 load(
     "@rules_cc//cc:defs.bzl",
     "cc_binary",
@@ -8,27 +13,110 @@ load(
 load(
     "@rules_pkg//:pkg.bzl",
     "pkg_tar",
-    "pkg_deb"
+    "pkg_deb",
+    "pkg_zip"
 )
 
+load(
+    "@rules_pkg//:mappings.bzl",
+    "pkg_attributes",
+    "pkg_filegroup",
+    "pkg_files",
+    "strip_prefix",
+)
+
+COMMON_DEFINES = [
+    "LOG_LEVEL=1",
+    "DLOG4CXX_STATIC",
+]
+
+COMMON_HDRS = [
+
+]
+
+COMMON_SRCS = [
+]
+
+#===== win32 =====
+WIN32_DEFINES = [
+    "RTX_WIN32",
+]
+WIN32_HDRS = []
+WIN32_SRCS = []
+WIN32_LINKOPTS = []
+
+# ===== linux =====
+LINUX_DEFINES = [
+    "RT_LINUX",
+]
+LINUX_HDRS = []
+LINUX_SRCS = []
+LINUX_LINKOPTS = [
+    "-L/usr/local/lib",
+    "-lpthread",
+    "-lrt",
+    #  coometed out below because /usr/bin/gcc @bazel-out/k8-fastbuild/bin/src/main/cpp/libcom.github.doevelopper.rules.sdlc.main.so-2.params)
+    "-luuid", #avoid having libapr-1.a(rand.o):rand.c:function apr_os_uuid_get: error: undefined reference to 'uuid_generate'
+
+]
+
+# ===== darwin =====
+DARWIN_DEFINES = []
+DARWIN_HDRS = []
+DARWIN_SRCS = []
+DARWIN_LINKOPTS = []
+
 cc_library(
-    name = "rules-sdlc.main",
-    srcs = [
-        "rules/sdlc/std/Dummy.hpp",
-        "rules/sdlc/std/Dummy.cpp",
-        "rules/sdlc/std/log/LoggingServicePrivate.hpp",
-        "rules/sdlc/std/log/LoggingServicePrivate.cpp",
+    # linkshared/linkstatic=True,
+    name = "com.github.doevelopper.rules.sdlc.main",
+    hdrs = [
+        "com/github/doevelopper/rules/sdlc/API_Export.hpp",
+        "com/github/doevelopper/rules/sdlc/CompilerDetection.hpp",
+        "com/github/doevelopper/rules/sdlc/Poison.hpp",
     ],
+    srcs = [
+      "com/github/doevelopper/rules/sdlc/guide/Dummy.cpp",
+      "com/github/doevelopper/rules/sdlc/guide/Dummy.hpp",
+
+      "com/github/doevelopper/rules/sdlc/logging/LoggingServicePrivate.cpp",
+      "com/github/doevelopper/rules/sdlc/logging/LoggingServicePrivate.hpp",
+      "com/github/doevelopper/rules/sdlc/logging/LoggingService.cpp",
+      "com/github/doevelopper/rules/sdlc/logging/LoggingService.hpp",
+      "com/github/doevelopper/rules/sdlc/logging/Singleton.hpp",
+
+      "com/github/doevelopper/rules/sdlc/app/AppInfo.hpp",
+      "com/github/doevelopper/rules/sdlc/app/Application.cpp",
+      "com/github/doevelopper/rules/sdlc/app/Application.hpp",
+
+      "com/github/doevelopper/rules/sdlc/semver/GitRevision.hpp",
+      "com/github/doevelopper/rules/sdlc/semver/Version.cpp",
+      "com/github/doevelopper/rules/sdlc/semver/Version.hpp",
+
+    ] + COMMON_SRCS + COMMON_HDRS + select({
+        "@bazel_tools//src/conditions:windows": WIN32_SRCS + WIN32_HDRS,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_SRCS + LINUX_HDRS,
+        "//conditions:default": [],
+    }),
+
+    defines =  COMMON_DEFINES + select({
+        "@bazel_tools//src/conditions:windows": WIN32_DEFINES,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_DEFINES,
+        "//conditions:default": [],
+    }),
+
     copts = [
-        "-std=c++17",
         "-DLOG_LEVEL=1",
-        "-D_REENTRANT",
-        "-I/usr/local/include/",
-        "-fdiagnostics-color=always",
-    ], #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
+    ] + select({
+            "@bazel_tools//src/conditions:windows": [
+                "/std:c++17"
+            ],
+            "//conditions:default": [
+            "-D_REENTRANT",
+          ],
+    }),  #+ SHARED_LIBRARY_SUPPORT + DEFAULT_COPTS,
 
     features = select({
-        #        ":windows": ["windows_export_all_symbols"],
+        "@bazel_tools//src/conditions:windows": ["windows_export_all_symbols"],
         "//conditions:default": [],
     }),
 
@@ -37,92 +125,62 @@ cc_library(
     ],
 
     linkopts = [
-        "-L/usr/local/lib",
-        # "-lapr-1",
-        # "-laprutil-1",
-        # "-llog4cxx",
-        # "-lboost_program_options",
-        # "-lboost_context",
-        # "-lxerces-c",
-    ], # + FLAG_LINKOPTS,
-
-    target_compatible_with = [
-        "@platforms//cpu:x86_64",
-        "@platforms//os:linux",
-    ],
+    #     # "-L$$EXT_BUILD_DEPS$$/log4cxx",
+    #     # "-L$$EXT_BUILD_DEPS$$/org_apache_logging_log4cxx/copy_log4cxx/log4cxx/lib",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": WIN32_LINKOPTS,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_LINKOPTS,
+        "@bazel_tools//src/conditions:darwin": DARWIN_LINKOPTS,
+    }),
 
     deps = [
-        # "@com_google_absl//absl/strings",
-        # "@com_google_absl//absl/strings:str_format",
-        # "@com_google_absl//absl/debugging:failure_signal_handler",
-        # "@com_google_absl//absl/random",
-        # "@com_github_tencent_rapidjson//:rapidjson",
-        "@org_apache_apr//:apr",
-        "@com_github_libexpat//:expat",
-        "@org_apache_apr_util//:aprutil",
-        "@org_apache_logging_log4cxx//:log4cxx",
-        "@boost//:date_time",
-        "@com_github_openssl//:openssl",
-        "@net_zlib_fossils//:zlib",
-    ],
+        # "@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software/boost:boost",
+        "@org_apache_log4cxx//:log4cxx",
+        # "@boost//:algorithm",
+        # "@org_boost_boost//:filesystem",
+        # "@org_boost//:serialization",
+        # "@org_boost//:atomic",
+        # "@org_boost//:date_time",
+        # "@org_boost//:algorithm",
+        # "@org_boost//:program_options",
+        # "@org_boost//:asio",
+        # "@org_boost//:chrono",
+        # "@org_boost//:filesystem",
+        # # "@org_boost//:locale", #1.81
+        # "@org_boost//:system",
+        # "@org_boost//:thread",
+        # "@org_boost//:signals2",
+        # "@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software/boost:filesystem",
+        "@com_github_Tencent_rapidjson//:rapidjson",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [],
+        "@bazel_tools//src/conditions:linux_x86_64": [],
+        "@bazel_tools//src/conditions:darwin": [],
+        "//conditions:default": [],
+    }),
 
-    # Uncomment this to enable full static link.
-    # features = ['fully_static_link'],
+# #     # Uncomment this to enable full static link.
+# #     # features = ['fully_static_link'],
 
-    # Comment this out to use system malloc runtime.
-    # malloc = '@com_google_tcmalloc//tcmalloc'
+# #     # Comment this out to use system malloc runtime.
+# #     # malloc = '@com_google_tcmalloc//tcmalloc'
 
     visibility = ["//visibility:public"],
 )
 
 cc_binary(
-    name = "rules-sdlc.bin",
+    name = "com.github.doevelopper.rules.sdlc.main.bin",
     srcs = [
-        "rules/sdlc/std/main.cpp",
+        "main.cpp",
     ],
-    copts = [
-        "-std=c++17",
-        "-D_REENTRANT",
-        "-I/usr/local/include/",
-    ],
-    includes = [
-        ".",
-    ],
+
     deps = [
-        ":rules-sdlc.main",
+        ":com.github.doevelopper.rules.sdlc.main",
     ],
+
+    # env = [
+    #     $(location log4cxx) ,
+    # ],
+
     visibility = ["//visibility:public"],
 )
-
-# pkg_tar(
-#     name = "rules-sdlc-exe",
-#     strip_prefix = "/src",
-#     package_dir = "/usr/bin",
-#     srcs = ["//src/main/cpp:pom.main"],
-#     mode = "0755",
-# )
-
-# pkg_tar(
-#     name = "rules-sdlc-libs",
-#     strip_prefix = "/",
-#     package_dir = "/usr/share/lib/rules-sdlc/tools",
-#     srcs = ["//tools:package-srcs"],
-#     mode = "0644",
-# )
-
-# pkg_tar(
-#     name = "rules-sdlc",
-#     extension = "tar.gz",
-#     deps = [
-#         ":rules-sdlc-exe",
-#         ":rules-sdlc-libs",
-#     ],
-# )
-
-# load(
-#     "com.github.doevelopper.rules-sdlc//src/main/resources/starlark:Visibility.bzl",
-#     "SHARED_LIBRARY_SUPPORT"
-# )
-#     visibility = ["//visibility:public"],
-#     #visibility = ["//src/main/test:__pkg__"],
-# )

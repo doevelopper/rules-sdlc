@@ -1,0 +1,20 @@
+INHERITABLE_LABELS = %w[
+  type::bug
+  type::feature
+  type::maintenance
+  feature::addition
+  security
+  performance
+  Deliverable
+]
+
+def inherited_labels
+  gitlab.api
+    .merge_request_closes_issues( gitlab.mr_json['project_id'], gitlab.mr_json['iid'])
+    .flat_map { |i| i.labels }
+    .compact
+    .uniq
+    .select { |label| INHERITABLE_LABELS.include?(label) }
+end
+
+helper.labels_to_add.concat(%w[devops::systems] | inherited_labels)

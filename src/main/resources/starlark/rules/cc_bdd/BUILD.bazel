@@ -1,0 +1,29 @@
+package(default_visibility = ["//visibility:public"])
+
+exports_files([
+    "cc_gherkin_wire_test.sh.tpl",
+    "cc_gherkin_wire_steps.sh.tpl",
+])
+
+exports_files(
+    [
+        "Gemfile.lock",
+        "Gemfile",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+# toolchain_type(name = "toolchain_type")
+
+# load(
+#     "@bazelruby_rules_ruby//ruby:defs.bzl",
+#     "ruby_binary",
+# )
+
+
+# ruby_binary(
+#     name = "cucumber_ruby",
+#     main = "@cucumber//:bin/cucumber",
+#     visibility = ["//visibility:public"],
+#     deps = ["@cucumber"],
+# )

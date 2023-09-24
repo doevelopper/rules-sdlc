@@ -1,4 +1,4 @@
-#           Copyright (C) 2021 Adrien H.
+#           Copyright (C) 2023 Adrien H.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -23,56 +23,134 @@
 # SUCH DAMAGE.
 
 
-""" Workspace for all dependencies en toll used in all my bazel projects """
+""" Workspace for all dependencies en tool used in all my bazel projects """
 
 workspace(
-    name = "com.github.doevelopper.rules-sdlc" # com.github.doevelopper.rules-sdlc / io_rules_sdlc
+    # If your ruleset is "official"
+    # (i.e. is in the bazelbuild GitHub org)
+    # then this should just be named "rules_infra"
+    # see https://bazel.build/rules/deploying#workspace
+    name = "com.github.doevelopper.rules-sdlc",
 )
 
-BEHIND_PROXY_PLACE_HOLDER = "file://" + __workspace_dir__ + "/src/main/resources/place_holder_4_proxy/"
-JUNIT_JUPITER_VERSION = "5.7.1"
-JUNIT_PLATFORM_VERSION = "1.7.1"
+load(
+    "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:internal_deps.bzl",
+    "rules_infra_internal_deps"
+)
+# # Fetch deps needed only locally for development
+rules_infra_internal_deps()
 
-load("@com.github.doevelopper.rules-sdlc//configs:version.bzl","MAX_VERSION", "MIN_VERSION", "check_version",)
-check_version(MIN_VERSION, MAX_VERSION)
+load(
+    "@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software:soup.bzl",
+    "soup_dependencies"
+)
 
-load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_dev.bzl","dev_repositories")
-dev_repositories()
+soup_dependencies()
 
-#  Defined for building 3rd party libraries  that rely on another build system: cmake make autotools ...
-load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+load(
+    "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules:sw_qa.bzl",
+    "qa_repositories"
+)
+
+qa_repositories()
+
+load(
+    "@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software:of_the_shell_repositories.bzl",
+    "of_the_shell_repositories"
+)
+
+of_the_shell_repositories()
+
+load(
+  "@rules_foreign_cc//foreign_cc:repositories.bzl",
+  "rules_foreign_cc_dependencies"
+)
+
 rules_foreign_cc_dependencies()
-#   https://stackoverflow.com/questions/57764066/bazel-rules-foreign-cc-using-cmake-binary-built-from-source-at-build-time
 
-# rules_foreign_cc_dependencies(
-#     native_tools_toolchains = [
-#         ":built_cmake_toolchain_linux",
-#         ":built_cmake_toolchain_osx",
-#         ":built_ninja_toolchain_linux",
-#         ":built_ninja_toolchain_osx",
-#     ],
-#     register_default_tools = False,
-# )
+load(
+    "@rules_license//:deps.bzl",
+    "rules_license_dependencies"
+)
+rules_license_dependencies()
+
+load("@rules_fuzzing//fuzzing:repositories.bzl", "rules_fuzzing_dependencies")
+rules_fuzzing_dependencies()
+
+load("@rules_fuzzing//fuzzing:init.bzl", "rules_fuzzing_init")
+rules_fuzzing_init()
+
+# # For running our own unit tests
+load(
+    "@bazel_skylib//:workspace.bzl",
+    "bazel_skylib_workspace"
+)
+bazel_skylib_workspace()
 
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 rules_pkg_dependencies()
 
-load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:sw_qa.bzl","qa_repositories")
+load(
+    "@bazelruby_rules_ruby//ruby:deps.bzl",
+    "rules_ruby_dependencies",
+    "rules_ruby_select_sdk",
+)
+
+# rules_ruby_select_sdk(version = "2.6.3")
+# # rules_ruby_select_sdk(version = "host")
+
+
+# load(
+#     "@bazelruby_rules_ruby//ruby:defs.bzl",
+#     "ruby_bundle",
+# )
+
+# ruby_bundle(
+#     name = "bundle",
+#     gemfile = "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules/cc_bdd:Gemfile",
+#     gemfile_lock = "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules/cc_bdd:Gemfile.lock",
+# )
+
+# load(
+#     "@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules:repositories.bzl",
+#     "rules_infra_register_toolchains",
+#     "rules_infra_register_dependencies"
+# )
+
+# # Fetch dependencies which users need as well
+# rules_infra_register_dependencies()
+
+# rules_infra_register_toolchains(
+#     name = "rules_infra_14",
+#     rules_infra_version = "1.14.2",
+# )
+
+
+
+load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules:sw_qa.bzl","qa_repositories")
 qa_repositories()
 
-load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark:dependencies.bzl","rules_sdlc_dependencies")
-rules_sdlc_dependencies()
+# load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules/cc_bdd:cc_bdd_deps.bzl","cc_bdd_deps")
+# cc_bdd_deps()
 
-load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
-boost_deps()
+# load("@com.github.doevelopper.rules-sdlc//src/main/resources/starlark/rules/cc_bdd:bdd_ws_tools.bzl","bdd_ws_tools")
+# bdd_ws_tools()
 
-# #load("@com.github.doevelopper.rules-sdlc//utils:pkg_config.bzl", "pkg_config_repository")
+############################################
+# Gazelle, for generating bzl_library targets
+load(
+    "@io_bazel_rules_go//go:deps.bzl",
+    "go_register_toolchains",
+    "go_rules_dependencies"
+)
 
-# load("@com.github.doevelopper.rules-sdlc//repos:local.bzl","omg_local_repository")
-# omg_local_repository()
+load(
+    "@bazel_gazelle//:deps.bzl",
+    "gazelle_dependencies"
+)
 
-#load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+go_rules_dependencies()
 
-#buildifier(
-#    name = "buildifier",
-#)
+go_register_toolchains(version = "1.19.3")
+
+gazelle_dependencies()
