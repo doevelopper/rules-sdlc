@@ -43,5 +43,5 @@ stages:
 include:
     - local: .gitlab/ci/globals.yml
     - local: .gitlab/ci/before-script-template.yml
-    - local: .gitlab/ci/before-script-template.yml
+    - local: .gitlab/ci/after-script-template.yml
     - local: .gitlab/ci/bazel.yml

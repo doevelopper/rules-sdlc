@@ -63,69 +63,70 @@ namespace com::github::doevelopper::rules::sdlc::extensions::test
         ConfigurableEventListener & operator=(ConfigurableEventListener &&)      = delete;
         virtual ~ConfigurableEventListener(); // If the base destructor is not virtual then the compile crashes
 
-        /*!
-        * @brief Before any test activity starts.
-        */
-        virtual void OnTestProgramStart(const testing::UnitTest & unit_test) override;
-        /*!
-        * @brief Fired after all test activities have ended.
-        */
-        virtual void OnTestProgramEnd(const testing::UnitTest & unit_test) override;
-        /*!
-        * @brief Fired before each iteration of tests starts.iteration is the iteration index, starting from 0.
-        */
-        virtual void OnTestIterationStart(const testing::UnitTest & unit_test, int iteration) override;
-        /*!
-        * @brief  Fired after each iteration of tests finishes.
-        */
-        virtual void OnTestIterationEnd(const testing::UnitTest & unit_test, int iteration) override;
-        /*!
-        * @brief Fired before environment set-up for each iteration of tests starts.
-        */
-        virtual void OnEnvironmentsSetUpStart(const testing::UnitTest & unit_test) override;
-        /*!
-        * @brief ired after environment set-up for each iteration of tests ends.
-        */
-        virtual void OnEnvironmentsSetUpEnd(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief Before any test activity starts.
+        //         */
+        //         virtual void OnTestProgramStart(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief Fired after all test activities have ended.
+        //         */
+        //         virtual void OnTestProgramEnd(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief Fired before each iteration of tests starts.iteration is the iteration index, starting from
+        //         0.
+        //         */
+        //         virtual void OnTestIterationStart(const testing::UnitTest & unit_test, int iteration) override;
+        //         /*!
+        //         * @brief  Fired after each iteration of tests finishes.
+        //         */
+        //         virtual void OnTestIterationEnd(const testing::UnitTest & unit_test, int iteration) override;
+        //         /*!
+        //         * @brief Fired before environment set-up for each iteration of tests starts.
+        //         */
+        //         virtual void OnEnvironmentsSetUpStart(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief ired after environment set-up for each iteration of tests ends.
+        //         */
+        //         virtual void OnEnvironmentsSetUpEnd(const testing::UnitTest & unit_test) override;
 
-        /*!
-        * @brief Fired before the test suite starts.
-        */
-        virtual void OnTestSuiteStart(const testing::TestSuite& test_suite)  override;
-        /*!
-        * @brief Fired after the test suite ends.
-        */
-        virtual void OnTestSuiteEnd(const testing::TestSuite& /*test_suite*/)  override;
-        //  Legacy API is deprecated but still available
-#ifndef GTEST_REMOVE_LEGACY_TEST_CASEAPI_
-        virtual void OnTestCaseStart(const testing::TestCase & test_case) override;
-        virtual void OnTestCaseEnd(const testing::TestCase & test_case) override;
-#endif
+        //         /*!
+        //         * @brief Fired before the test suite starts.
+        //         */
+        //         virtual void OnTestSuiteStart(const testing::TestSuite& test_suite)  override;
+        //         /*!
+        //         * @brief Fired after the test suite ends.
+        //         */
+        //         virtual void OnTestSuiteEnd(const testing::TestSuite& /*test_suite*/)  override;
+        //         //  Legacy API is deprecated but still available
+        // #ifndef GTEST_REMOVE_LEGACY_TEST_CASEAPI_
+        //         virtual void OnTestCaseStart(const testing::TestCase & test_case) override;
+        //         virtual void OnTestCaseEnd(const testing::TestCase & test_case) override;
+        // #endif
 
-        /*!
-        * @brief Fired before the test starts.
-        */
-        virtual void OnTestStart(const testing::TestInfo & test_info) override;
-        /*!
-        * @brief Fired after the test ends.
-        */
-        virtual void OnTestEnd(const testing::TestInfo & test_info) override;
-        /*!
-        * @brief  Fired when a test is disabled.
-        */
-        virtual void OnTestDisabled(const testing::TestInfo& test_info) override;
-        /*!
-        * @brief  Fired before environment tear-down for each iteration of tests starts.
-        */
-        virtual void OnEnvironmentsTearDownStart(const testing::UnitTest & unit_test) override;
-        /*!
-        * @brief Fired after environment tear-down for each iteration of tests ends.
-        */
-        virtual void OnEnvironmentsTearDownEnd(const testing::UnitTest & unit_test) override;
-        /*!
-        * @brief Fired after a failed assertion or a SUCCEED() invocation.
-        */
-        virtual void OnTestPartResult(const testing::TestPartResult & result) override;
+        //         /*!
+        //         * @brief Fired before the test starts.
+        //         */
+        //         virtual void OnTestStart(const testing::TestInfo & test_info) override;
+        //         /*!
+        //         * @brief Fired after the test ends.
+        //         */
+        //         virtual void OnTestEnd(const testing::TestInfo & test_info) override;
+        //         /*!
+        //         * @brief  Fired when a test is disabled.
+        //         */
+        //         virtual void OnTestDisabled(const testing::TestInfo& test_info) override;
+        //         /*!
+        //         * @brief  Fired before environment tear-down for each iteration of tests starts.
+        //         */
+        //         virtual void OnEnvironmentsTearDownStart(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief Fired after environment tear-down for each iteration of tests ends.
+        //         */
+        //         virtual void OnEnvironmentsTearDownEnd(const testing::UnitTest & unit_test) override;
+        //         /*!
+        //         * @brief Fired after a failed assertion or a SUCCEED() invocation.
+        //         */
+        //         virtual void OnTestPartResult(const testing::TestPartResult & result) override;
 
     protected:
     private:

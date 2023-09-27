@@ -22,6 +22,10 @@ cc_library(
 
         "com/github/doevelopper/rules/sdlc/app/ApplicationTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/ApplicationTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/NoOpTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/NoOpTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/NotificationTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/NotificationTest.hpp",
 
         "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.cpp",
         "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.hpp",

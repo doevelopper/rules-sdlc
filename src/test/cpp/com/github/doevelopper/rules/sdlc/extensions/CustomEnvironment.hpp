@@ -20,8 +20,8 @@ namespace com::github::doevelopper::rules::sdlc::extensions::test
         CustomEnvironment & operator=(CustomEnvironment &&)      = delete;
         virtual ~CustomEnvironment();
 
-        virtual void SetUp() override;      // Override this to define how to set up the environment.
-        virtual void TearDown() override;   // Override this to define how to tear down the environment.
+        virtual void SetUp() override; // Override this to define how to set up the environment.
+        virtual void TearDown() override; // Override this to define how to tear down the environment.
 
     protected:
     private:

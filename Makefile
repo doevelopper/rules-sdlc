@@ -23,6 +23,8 @@
 #        OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 #
 
+GIT_VERSION          ?= $(shell git describe --tags --always)
+
 ifeq ("$(origin V)", "command line")
     KBUILD_VERBOSE = $(V)
 endif
@@ -117,9 +119,10 @@ expunge: ## Removes the entire working tree for this bazel instance
 
 .PHONY: help
 help: ## Display this help and exits.
-	$(Q)echo "$@ ->"
+	$(Q)echo
 	$(Q)echo '---------------$(CURDIR)------------------'
 	$(Q)echo '+----------------------------------------------------------------------+'
-	$(Q)echo '|                        Available Commands                            |'
+	$(Q)echo '|                     $@ Available Commands                            |'
 	$(Q)echo '+----------------------------------------------------------------------+'
 	$(Q)echo
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

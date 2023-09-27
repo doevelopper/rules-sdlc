@@ -7,7 +7,7 @@ using namespace com::github::doevelopper::rules::sdlc::logging::test;
 //     log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.logging.test.LoggingServicePrivateTest"));
 
 LoggingServicePrivateTest::LoggingServicePrivateTest()
-    // : m_targetUnderTest()
+// : m_targetUnderTest()
 {
     // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
 }

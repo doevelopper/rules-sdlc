@@ -20,26 +20,26 @@ namespace com::github::doevelopper::rules::sdlc::extensions::test
         GTestEventListener & operator=(GTestEventListener &&)      = delete;
         virtual ~GTestEventListener();
 
-        void OnEnvironmentsSetUpStart(const testing::UnitTest & unit_test) override;
-        void OnEnvironmentsSetUpEnd(const testing::UnitTest & unit_test) override;
-        void OnTestSuiteStart(const testing::TestSuite & test_suite) override;
-        void OnTestSuiteEnd(const testing::TestSuite & test_suite) override;
-#ifndef GTEST_REMOVE_LEGACY_TEST_CASEAPI_
-        void OnTestCaseStart(const testing::TestCase &) override;
-        void OnTestCaseEnd(const testing::TestCase &) override;
-#endif
-        void OnTestProgramStart(const testing::UnitTest & unit_test) override;
-        void OnTestProgramEnd(const testing::UnitTest & unit_test) override;
-        void OnTestStart(const testing::TestInfo & test_info) override;
-        void OnTestEnd(const testing::TestInfo & test_info) override;
-        void OnTestIterationStart(const testing::UnitTest & unit_test, int /*iteration*/) override;
-        void OnTestIterationEnd(const testing::UnitTest & unit_test, int iteration) override;
-        void OnEnvironmentsTearDownStart(const testing::UnitTest & unit_test) override;
-        void OnEnvironmentsTearDownEnd(const testing::UnitTest & unit_test) override;
-        void OnTestPartResult(const testing::TestPartResult & test_part_result) override;
-        void OnTestDisabled(testing::TestInfo const& test_info) override;
+        //         void OnEnvironmentsSetUpStart(const testing::UnitTest & unit_test) override;
+        //         void OnEnvironmentsSetUpEnd(const testing::UnitTest & unit_test) override;
+        //         void OnTestSuiteStart(const testing::TestSuite & test_suite) override;
+        //         void OnTestSuiteEnd(const testing::TestSuite & test_suite) override;
+        // #ifndef GTEST_REMOVE_LEGACY_TEST_CASEAPI_
+        //         void OnTestCaseStart(const testing::TestCase &) override;
+        //         void OnTestCaseEnd(const testing::TestCase &) override;
+        // #endif
+        //         void OnTestProgramStart(const testing::UnitTest & unit_test) override;
+        //         void OnTestProgramEnd(const testing::UnitTest & unit_test) override;
+        //         void OnTestStart(const testing::TestInfo & test_info) override;
+        //         void OnTestEnd(const testing::TestInfo & test_info) override;
+        //         void OnTestIterationStart(const testing::UnitTest & unit_test, int /*iteration*/) override;
+        //         void OnTestIterationEnd(const testing::UnitTest & unit_test, int iteration) override;
+        //         void OnEnvironmentsTearDownStart(const testing::UnitTest & unit_test) override;
+        //         void OnEnvironmentsTearDownEnd(const testing::UnitTest & unit_test) override;
+        //         void OnTestPartResult(const testing::TestPartResult & test_part_result) override;
+        //         void OnTestDisabled(testing::TestInfo const& test_info) override;
 
-    protected:
+        //     protected:
     private:
 
         std::string m_currentTestCaseName;

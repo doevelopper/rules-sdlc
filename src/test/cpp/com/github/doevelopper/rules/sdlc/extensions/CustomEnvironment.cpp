@@ -14,12 +14,13 @@ CustomEnvironment::CustomEnvironment()
 CustomEnvironment::~CustomEnvironment()
 {
     // FIXME: No appender could be found for logger
-    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__ );
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
 void CustomEnvironment::SetUp()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    setenv("TERM", "xterm-256color", 0);
 }
 
 void CustomEnvironment::TearDown()
