@@ -4,8 +4,7 @@
 
 using namespace com::github::doevelopper::rules::sdlc::app;
 
-log4cxx::LoggerPtr NoOp::logger =
-    log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.app.NoOp"));
+log4cxx::LoggerPtr NoOp::logger = log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.app.NoOp"));
 
 NoOp::NoOp()
 {

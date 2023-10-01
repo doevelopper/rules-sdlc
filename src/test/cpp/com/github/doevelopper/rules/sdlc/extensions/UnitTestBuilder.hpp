@@ -25,11 +25,13 @@ namespace com::github::doevelopper::rules::sdlc::extensions::test
         int run(int argc = 0, char * argv[] = NULL);
         static void showUsage(std::string name);
         static void notYetImplemented();
+        void moduleUnderTest(char * argv[]);
 
     protected:
     private:
 
         std::string m_testSuites;
+        std::string_view m_moduleUnderTest;
         unsigned int m_numberOfTestIteration;
         static const unsigned long LOGGER_WATCH_DELAY;
         com::github::doevelopper::rules::sdlc::logging::LoggingService * m_loggerService;

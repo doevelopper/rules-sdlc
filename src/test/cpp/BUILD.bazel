@@ -33,6 +33,10 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/extensions/CustomEnvironment.hpp",
         "com/github/doevelopper/rules/sdlc/extensions/GTestEventListener.cpp",
         "com/github/doevelopper/rules/sdlc/extensions/GTestEventListener.hpp",
+        "com/github/doevelopper/rules/sdlc/extensions/SDLCPrinter.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/SDLCPrinter.hpp",
+        "com/github/doevelopper/rules/sdlc/extensions/TestDriver.cpp",
+        "com/github/doevelopper/rules/sdlc/extensions/TestDriver.hpp",
         "com/github/doevelopper/rules/sdlc/extensions/UnitTestBuilder.cpp",
         "com/github/doevelopper/rules/sdlc/extensions/UnitTestBuilder.hpp",
 
@@ -43,6 +47,8 @@ cc_library(
 
         "com/github/doevelopper/rules/sdlc/semver/VersionTest.cpp",
         "com/github/doevelopper/rules/sdlc/semver/VersionTest.hpp",
+        "com/github/doevelopper/rules/sdlc/semver/TokenTest.cpp",
+        "com/github/doevelopper/rules/sdlc/semver/TokenTest.hpp",
     ],
 
     copts = [
@@ -78,6 +84,7 @@ cc_library(
 #         # "@org_apache_logging_log4cxx//:log4cxx",
 #         # "@com_github_tencent_rapidjson//:rapidjson",
         "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/types:span",
 #         # "@org_apache_apr//:apr",
     ],
 

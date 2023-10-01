@@ -19,6 +19,9 @@ using namespace com::github::doevelopper::rules::sdlc::extensions::test;
  */
 int main([[maybe_unused]] int argc, [[maybe_unused]] char ** argv)
 {
+    // char loggersConfiguratorPath[]="TEMP=/opt/log4cxx.xml";
+    // putenv( loggersConfiguratorPath );
+
     std::uint_fast64_t runStatus = 0;
 
     std::cout << "argc == " << argc << '\n';
@@ -33,13 +36,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char ** argv)
     try
     {
         UnitTestBuilder unit_test;
-
-        LOG4CXX_INFO(
-            log4cxx::Logger::getRootLogger(), "###################################################################");
-        LOG4CXX_INFO(
-            log4cxx::Logger::getRootLogger(), "@@@                       TEST     Utils                        @@@");
-        LOG4CXX_INFO(
-            log4cxx::Logger::getRootLogger(), "###################################################################");
 
         runStatus = unit_test.run(argc, argv);
 

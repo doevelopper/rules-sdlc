@@ -24,7 +24,7 @@ bazel-testlogs
 bazel-vagrant
 bazel-bazel-example
 .vagrant/
-Vagrantfile
+# Vagrantfile
 .idea/
 
 ### C++ ###

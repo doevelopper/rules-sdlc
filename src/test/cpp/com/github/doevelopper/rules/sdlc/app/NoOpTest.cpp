@@ -8,7 +8,7 @@ log4cxx::LoggerPtr NoOpTest::logger =
     log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.app.test.NoOpTest"));
 
 NoOpTest::NoOpTest()
-: m_targetUnderTest()
+    : m_targetUnderTest()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }

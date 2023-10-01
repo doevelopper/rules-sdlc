@@ -43,8 +43,7 @@ TYPED_TEST_P(NotificationTest, Test_Not_Yet_Implemented)
     // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-
-REGISTER_TYPED_TEST_SUITE_P(NotificationTest , Test_Not_Yet_Implemented);
+REGISTER_TYPED_TEST_SUITE_P(NotificationTest, Test_Not_Yet_Implemented);
 
 INSTANTIATE_TYPED_TEST_SUITE_P(TestOfNotification, NotificationTest, ParameterValueTypes);
 // INSTANTIATE_TYPED_TEST_SUITE_P(TestActivator, ActivatorTest, bool);

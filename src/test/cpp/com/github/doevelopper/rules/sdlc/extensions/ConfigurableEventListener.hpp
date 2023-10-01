@@ -31,14 +31,15 @@ namespace com::github::doevelopper::rules::sdlc::extensions::test
 
             Builder showProgramStartEnd();
             Builder showIterationsStartEnd();
-            Builder showTestCases();
+            Builder showTestCasesStartEnd();
             Builder showTestNames();
             Builder showSuccesses();
             Builder showFailures();
             Builder showInlineFailures();
             Builder showEnvironment();
             Builder showSkips();
-            Builder showTestSuite();
+            Builder showTestSuiteStartEnd();
+            Builder showEnvironmentsSetUpStartEnd();
             ConfigurableEventListener * build();
 
         protected:

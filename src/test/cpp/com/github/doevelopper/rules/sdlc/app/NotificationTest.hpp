@@ -29,8 +29,9 @@ namespace com::github::doevelopper::rules::sdlc::app::test
 
         // com::github::doevelopper::rules::sdlc::app::Notification * m_targetUnderTest;
         // ::testing::MockFunction notification;
-        using  testee = com::github::doevelopper::rules::sdlc::app::Notification<V>;
-        using  ValueType = V;
+        using testee    = com::github::doevelopper::rules::sdlc::app::Notification<V>;
+        using ValueType = V;
+
     private:
     };
 

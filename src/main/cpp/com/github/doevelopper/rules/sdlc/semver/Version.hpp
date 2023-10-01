@@ -14,9 +14,13 @@
 namespace com::github::doevelopper::rules::sdlc::semver
 {
 
-    constexpr int LSL = -1;
-    constexpr int ESL = 0;
-    constexpr int USL = 1;
+    constexpr int LSL              = -1;
+    constexpr int ESL              = 0;
+    constexpr int USL              = 1;
+    const std::string any_space    = " \n\r\t\v\f";
+    const std::string any_number   = "0123456789";
+    const std::string any_alphabat = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
     /*!
      * @brief ReleaseLevel indicates the release level of this API
      *          This enum follows the release level convention used by python.
@@ -213,6 +217,7 @@ namespace com::github::doevelopper::rules::sdlc::semver
         void set(const char *);
         void set(const std::string &);
         int compareVersion(const Version & rhs) const noexcept;
+        std::string str() const;
 
         // clang-format off
         std::uint8_t        m_major;       ///< Major version, change only on incompatible API modifications.

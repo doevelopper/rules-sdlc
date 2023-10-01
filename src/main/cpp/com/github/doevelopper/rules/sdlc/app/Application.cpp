@@ -11,6 +11,7 @@ log4cxx::LoggerPtr Application::logger =
 
 Application::Application() noexcept
     : m_loggerService(nullptr)
+    , m_version()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }

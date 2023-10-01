@@ -37,7 +37,7 @@ ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showItera
     return (*this);
 }
 
-ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showTestCases()
+ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showTestCasesStartEnd()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
     this->m_testCases = true;
@@ -86,7 +86,7 @@ ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showSkips
     return (*this);
 }
 
-ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showTestSuite()
+ConfigurableEventListener::Builder ConfigurableEventListener::Builder::showTestSuiteStartEnd()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
     this->m_TestSuite = true;
@@ -129,6 +129,9 @@ ConfigurableEventListener::ConfigurableEventListener(
 ConfigurableEventListener::~ConfigurableEventListener()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    if (this->m_eventListener)
+        delete m_eventListener;
+    this->m_eventListener = nullptr;
 }
 
 // void ConfigurableEventListener::OnTestProgramEnd(const testing::UnitTest & unit_test)

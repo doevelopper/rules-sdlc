@@ -5,28 +5,33 @@
 using namespace com::github::doevelopper::rules::sdlc::semver;
 using namespace com::github::doevelopper::rules::sdlc::semver::test;
 
-log4cxx::LoggerPtr VersionTest::logger =
+template <typename V>
+log4cxx::LoggerPtr VersionTest<V>::logger =
     log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.semver.test.VersionTest"));
 
-VersionTest::VersionTest()
+template <typename V>
+VersionTest<V>::VersionTest()
     : m_targetUnderTest()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-VersionTest::~VersionTest()
+template <typename V>
+VersionTest<V>::~VersionTest()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-void VersionTest::SetUp()
+template <typename V>
+void VersionTest<V>::SetUp()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 
-    // m_targetUnderTest = new Version<???>();
+    // m_targetUnderTest = new Version<V>();
 }
 
-void VersionTest::TearDown()
+template <typename V>
+void VersionTest<V>::TearDown()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
     if (this->m_targetUnderTest)
@@ -34,8 +39,12 @@ void VersionTest::TearDown()
     this->m_targetUnderTest = nullptr;
 }
 
-TEST_F(VersionTest, Test_Not_Yet_Implemented)
+TYPED_TEST_P(VersionTest, Test_Not_Yet_Implemented)
 {
     // UnitTestBuilder::notYetImplemented();
-    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
+
+REGISTER_TYPED_TEST_SUITE_P(VersionTest, Test_Not_Yet_Implemented);
+
+INSTANTIATE_TYPED_TEST_SUITE_P(TestVersion, VersionTest, com::github::doevelopper::rules::sdlc::app::NoOp);

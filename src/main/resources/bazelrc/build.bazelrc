@@ -51,7 +51,7 @@ build --show_progress_rate_limit=5
 
 # # Do not show warnings from external dependencies.
 # build --output_filter="^//"
-# build --copt='-std=c++17' --linkopt='-L/usr/local/lib'
+# build --copt='-std=c++20' --linkopt='-L/usr/local/lib'
 
 
 ###############################                GCC  Compiler                  ###############################
@@ -87,11 +87,11 @@ build:linux --action_env=PYTHON_BIN_PATH=python3
 # build:linux --action_env=BAZEL_LINKLIBS=-l%:libstdc++.a
 # build:linux --action_env=BAZEL_LINKOPTS=-lm
 # build:linux --action_env=CXXFLAGS=-Wno-unused-variable
-build:linux --client_env=BAZEL_CXXOPTS=-std=c++17
+build:linux --client_env=BAZEL_CXXOPTS=-std=c++20
 build:linux --repo_env=PYTHON_BIN_PATH=python3
 build:linux --host_force_python=PY3
 build:linux --python_path=python3
-build:linux --cxxopt=-std=c++17 --host_cxxopt=-std=c++17
+build:linux --cxxopt=-std=c++20 --host_cxxopt=-std=c++20
 # Enable colorful output of GCC/clang
 build:linux --cxxopt="-fdiagnostics-color=always"
 
@@ -111,7 +111,7 @@ build:linux --cxxopt="-fdiagnostics-color=always"
 # build --cxxopt -Wnon-virtual-dtor
 # build --cxxopt -Wformat
 # build --cxxopt -Wformat-security
-# build --cxxopt "-std=c++17"
+# build --cxxopt "-std=c++20"
 # build --copt "-Wno-sign-compare"
 # build --copt "-Wno-comment"
 # build --host_copt "-Wno-sign-compare"
@@ -157,7 +157,7 @@ build:linux --cxxopt="-fdiagnostics-color=always"
 # build:windows --define tcmalloc=disabled
 # build:windows --define wasm=disabled
 # build:windows --define manual_stamp=manual_stamp
-# build:windows --cxxopt="/std:c++17"
+# build:windows --cxxopt="/std:c++20"
 # build:windows --copt=-DWIN32_LEAN_AND_MEAN
 # build:windows --host_copt=-DWIN32_LEAN_AND_MEAN
 # build:windows --copt=-DNOGDI

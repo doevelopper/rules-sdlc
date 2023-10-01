@@ -20,6 +20,53 @@ Version<B>::~Version() noexcept
 }
 
 template <typename B>
+bool Version<B>::isEquals(const Version & ver) const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    return (
+        this->m_major == ver.m_major && this->m_minor == ver.m_minor && this->m_patch == ver.m_patch
+        && this->m_releaseType == ver.m_releaseType);
+}
+
+template <typename B>
+bool Version<B>::isNewerThen(const Version & ver) const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    if (this->m_major > ver.m_major)
+        return (true);
+
+    if (this->m_minor > ver.m_minor)
+        return (true);
+
+    if (this->m_patch > ver.m_patch)
+        return (true);
+
+    if (this->m_releaseType > ver.m_releaseType)
+        return (true);
+
+    return (false);
+}
+
+template <typename B>
+bool Version<B>::isOlderThen(const Version & ver) const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    if (this->m_major < ver.m_major)
+        return true;
+
+    if (this->m_minor < ver.m_minor)
+        return true;
+
+    if (this->m_patch < ver.m_patch)
+        return true;
+
+    if (this->m_releaseType < ver.m_releaseType)
+        return true;
+
+    return false;
+}
+
+template <typename B>
 void Version<B>::set(std::uint8_t, std::uint8_t, std::uint8_t)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
@@ -228,4 +275,25 @@ int Version<B>::patchlevel() const
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
     return VersionInfo::patchlevel();
+}
+
+template <typename B>
+std::string Version<B>::str() const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+
+    std::ostringstream stream;
+
+    stream << this->m_major << '.' << this->m_minor << '.' << this->m_patch;
+
+    // if (this->pre_release.length() > 0)
+    // {
+    //     stream << '-' << this->pre_release;
+    // }
+    // if (this->build.length() > 0)
+    // {
+    //     stream << '+' << this->build;
+    // }
+
+    return stream.str();
 }
