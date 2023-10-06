@@ -269,10 +269,11 @@ dependencies_repositories = {
     # bazel query @boost//...
     "com_github_nelhage_rules_boost": {
         # "commit": "fce83babe3f6287bccb45d2df013a309fa3194b8", #//1.77.0
-        "commit": "5ce04900fa8f146ddde81cf59cf13fd1b7aca867", #//1.79.0
+        # "commit": "5ce04900fa8f146ddde81cf59cf13fd1b7aca867", #//1.79.0
+        "commit": "4ab574f9a84b42b1809978114a4664184716f4bf", #//1.
         "remote": "https://github.com/nelhage/rules_boost",
         # "shallow_since": "1610386445 -0800"
-        "shallow_since": "1650036392 -0700"
+        # "shallow_since": "1650036392 -0700"
     },
 
     "com_github_gflags_gflags": {

@@ -27,6 +27,20 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.hpp",
 
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncPromiseTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncPromiseTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncTaskTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/AsyncTaskTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/MessageQueueTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/MessageQueueTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/SemaphoreTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/SemaphoreTest.hpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/SemaphoreLockTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/SemaphoreLockTest.hpp",
+
+
         "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.cpp",
         "com/github/doevelopper/rules/sdlc/extensions/ConfigurableEventListener.hpp",
         "com/github/doevelopper/rules/sdlc/extensions/CustomEnvironment.cpp",
@@ -53,7 +67,7 @@ cc_library(
 
     copts = [
         "-D_REENTRANT",
-        "-DGTEST_REMOVE_LEGACY_TEST_CASEAPI_=1",
+        # "-DGTEST_REMOVE_LEGACY_TEST_CASEAPI_=1",
     ] + select({
         "@bazel_tools//src/conditions:windows": [],
         "@bazel_tools//src/conditions:linux_x86_64": [

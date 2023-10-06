@@ -22,12 +22,12 @@ namespace com::github::doevelopper::rules::sdlc::app
         LOG4CXX_DECLARE_STATIC_LOGGER
     public:
 
-        NoOp();
+        NoOp() noexcept;
         NoOp(NoOp const &)             = delete;
         NoOp(NoOp &&)                  = delete;
         NoOp & operator=(NoOp const &) = delete;
         NoOp & operator=(NoOp &&)      = delete;
-        ~NoOp();
+        ~NoOp() noexcept;
 
         template <class... Args>
         constexpr void operator()(Args &&... args) const

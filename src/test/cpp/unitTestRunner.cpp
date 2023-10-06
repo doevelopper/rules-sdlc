@@ -82,29 +82,29 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char ** argv)
         }
         else
         {
-            LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(), "");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "");
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 " ::::::::  :::    :::  ::::::::   ::::::::  :::::::::: ::::::::   ::::::::  ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 ":+:    :+: :+:    :+: :+:    :+: :+:    :+: :+:       :+:    :+: :+:    :+: ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 "+:+        +:+    +:+ +:+        +:+        +:+       +:+        +:+        ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 "+#++:++#++ +#+    +:+ +#+        +#+        +#++:++#  +#++:++#++ +#++:++#++ ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 "       +#+ +#+    +#+ +#+        +#+        +#+              +#+        +#+ ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 "#+#    #+# #+#    #+# #+#    #+# #+#    #+# #+#       #+#    #+# #+#    #+# ");
-            LOG4CXX_ERROR(
+            LOG4CXX_INFO(
                 log4cxx::Logger::getRootLogger(),
                 " ########   ########   ########   ########  ########## ########   ########  ");
-            LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(), "");
+            LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "");
         }
     }
     catch (const std::exception & e)

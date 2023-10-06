@@ -42,11 +42,11 @@ def boost_repositories():
     #     # When you first run this tool, it'll recommend a sha256 hash to put here with a message like: "DEBUG: Rule 'com_github_nelhage_rules_boost' indicated that a canonical reproducible form can be obtained by modifying arguments sha256 = ..."
     # )
 
-    # rules_boost_commit = "6c400f472f18a208eb5b32f8ecb50febea243329"
+    # rules_boost_commit = "4ab574f9a84b42b1809978114a4664184716f4bf"
     # maybe(
     #     http_archive,
     #     name = "com_github_nelhage_rules_boost_latest",
-    #     sha256 = "e3768d0cbcc3b5edc6429f124a848d0d2521cfb481db244629b74a80bc048497",
+    #     # sha256 = "2215e6910eb763a971b1f63f53c45c0f2b7607df38c96287666d94d954da8cdc",
     #     strip_prefix = "rules_boost-{}".format(rules_boost_commit),
     #     urls = [
     #         "https://github.com/nelhage/rules_boost/archive/{}.tar.gz".format(rules_boost_commit),

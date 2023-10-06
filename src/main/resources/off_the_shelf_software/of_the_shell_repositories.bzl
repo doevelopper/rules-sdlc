@@ -21,7 +21,6 @@ load("@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_softw
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software/cucumber_cpp:cucumber_cpp_repositories.bzl","cucumber_cpp_repositories")
 load("@com.github.doevelopper.rules-sdlc//src/main/resources/off_the_shelf_software/iconv:iconv_repositories.bzl","iconv_repositories")
 
-
 # buildifier: disable=unnamed-macro
 def of_the_shell_repositories():
   """

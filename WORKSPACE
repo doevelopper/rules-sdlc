@@ -96,6 +96,9 @@ load(
     "rules_ruby_select_sdk",
 )
 
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+boost_deps()
+
 # rules_ruby_select_sdk(version = "2.6.3")
 # # rules_ruby_select_sdk(version = "host")
 

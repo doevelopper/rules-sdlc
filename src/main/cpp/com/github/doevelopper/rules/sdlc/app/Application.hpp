@@ -6,7 +6,7 @@
 
 namespace com::github::doevelopper::rules::sdlc::app
 {
-    class Application
+    class SDLC_API_EXPORT Application
     {
         LOG4CXX_DECLARE_STATIC_LOGGER
 

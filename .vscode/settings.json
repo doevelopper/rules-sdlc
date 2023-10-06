@@ -664,6 +664,10 @@
         "locale": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "future": "cpp",
+        "__memory": "cpp",
+        "fstream": "cpp",
+        "typeindex": "cpp"
     }
 }
