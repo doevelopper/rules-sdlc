@@ -1,8 +1,8 @@
 
 #include <com/github/doevelopper/rules/sdlc/app/NoOp.hpp>
+#include <com/github/doevelopper/rules/sdlc/app/utils/AsyncPromise.hpp>
 #include <com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.hpp>
 #include <com/github/doevelopper/rules/sdlc/app/utils/AsyncTask.hpp>
-#include <com/github/doevelopper/rules/sdlc/app/utils/AsyncPromise.hpp>
 
 using namespace com::github::doevelopper::rules::sdlc::app;
 using namespace com::github::doevelopper::rules::sdlc::app::utils;
@@ -77,37 +77,40 @@ AsyncRequest<V> AsyncRequestTest<V>::requestDelayedInteger()
 
 TYPED_TEST_P(AsyncRequestTest, Test_Destruction)
 {
-    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-//     // {
-//     //     AsyncTask<int> request([](std::stop_token sstoken) {
-//     //         while (!sstoken.stop_requested())
-//     //         {
-//     //             // endless loop
-//     //             std::this_thread::yield();
-//     //         }
-//     //         return 0;
-//     //     });
-//     // }
-//     // SUCCEED();
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
+    //     // {
+    //     //     AsyncTask<int> request([](std::stop_token sstoken) {
+    //     //         while (!sstoken.stop_requested())
+    //     //         {
+    //     //             // endless loop
+    //     //             std::this_thread::yield();
+    //     //         }
+    //     //         return 0;
+    //     //     });
+    //     // }
+    //     // SUCCEED();
 }
 
 TYPED_TEST_P(AsyncRequestTest, Test_Move)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncRequest<int> request = requestInteger();
     // EXPECT_EQ(request.await(), 123);
 }
 
 TYPED_TEST_P(AsyncRequestTest, Test_Void_Request)
 {
-//     AsyncTask<void> request([]() {
-//         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-//         // do nothing
-//     });
-//     EXPECT_NO_THROW(request.await());
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
+    //     AsyncTask<void> request([]() {
+    //         std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    //         // do nothing
+    //     });
+    //     EXPECT_NO_THROW(request.await());
 }
 
 TYPED_TEST_P(AsyncRequestTest, Test_Await)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncTask<int> request([]() {
     //     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     //     return 123;
@@ -119,6 +122,7 @@ TYPED_TEST_P(AsyncRequestTest, Test_Await)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Is_Ready)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncTask<int> request([]() {
     //     std::this_thread::sleep_for(std::chrono::milliseconds(1));
     //     return 123;
@@ -132,6 +136,7 @@ TYPED_TEST_P(AsyncRequestTest, Test_Is_Ready)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Request_Stop)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // std::atomic_bool never_true = false;
     // AsyncTask<int> request([&](std::stop_token sstoken) {
     //     std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -149,12 +154,14 @@ TYPED_TEST_P(AsyncRequestTest, Test_Request_Stop)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Delayed_Creation)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncRequest<int> request = requestDelayedInteger();
     // EXPECT_EQ(request.await(), 123);
 }
 
 TYPED_TEST_P(AsyncRequestTest, Test_Then)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncRequest<int> request = requestInteger();
     // request.then([](int value) { EXPECT_EQ(value, 123); });
     // request.wait();
@@ -162,6 +169,7 @@ TYPED_TEST_P(AsyncRequestTest, Test_Then)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Then_Sstoken)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncRequest<int> request = requestInteger();
     // request.then([](std::stop_token sstoken, int value) { EXPECT_EQ(value, 123); });
     // request.wait();
@@ -169,6 +177,7 @@ TYPED_TEST_P(AsyncRequestTest, Test_Then_Sstoken)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Then_Cancel)
 {
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncRequest<int> request = requestInteger();
     // request.then([](std::stop_token sstoken, int value) { FAIL() << "should never be reached"; });
     // request.cancel();
@@ -176,24 +185,29 @@ TYPED_TEST_P(AsyncRequestTest, Test_Then_Cancel)
 
 TYPED_TEST_P(AsyncRequestTest, Test_Request_With_Exception)
 {
-//     // AsyncTask<void> request([]() {
-//     //     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-//     //     throw std::runtime_error("expected failure");
-//     // });
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
+    //     // AsyncTask<void> request([]() {
+    //     //     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //     //     throw std::runtime_error("expected failure");
+    //     // });
 
-//     // EXPECT_THROW(request.await(), std::runtime_error);
+    //     // EXPECT_THROW(request.await(), std::runtime_error);
 }
 
 TYPED_TEST_P(AsyncRequestTest, Test_Request_With_Exception_Cancel)
 {
-//     // AsyncTask<void> request([]() {
-//     //     std::this_thread::sleep_for(std::chrono::milliseconds(10));
-//     //     throw std::runtime_error("expected failure");
-//     // });
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
+    //     // AsyncTask<void> request([]() {
+    //     //     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //     //     throw std::runtime_error("expected failure");
+    //     // });
 
-//     // EXPECT_NO_THROW(request.wait());
+    //     // EXPECT_NO_THROW(request.wait());
 }
 
-REGISTER_TYPED_TEST_SUITE_P(AsyncRequestTest, Test_Destruction,Test_Move,Test_Void_Request,Test_Await,Test_Is_Ready,Test_Request_Stop,Test_Delayed_Creation,Test_Then,Test_Then_Sstoken,Test_Then_Cancel,Test_Request_With_Exception,Test_Request_With_Exception_Cancel);
+REGISTER_TYPED_TEST_SUITE_P(
+    AsyncRequestTest, Test_Destruction, Test_Move, Test_Void_Request, Test_Await, Test_Is_Ready, Test_Request_Stop,
+    Test_Delayed_Creation, Test_Then, Test_Then_Sstoken, Test_Then_Cancel, Test_Request_With_Exception,
+    Test_Request_With_Exception_Cancel);
 
 INSTANTIATE_TYPED_TEST_SUITE_P(TestOfAsyncRequest, AsyncRequestTest, NoOp);

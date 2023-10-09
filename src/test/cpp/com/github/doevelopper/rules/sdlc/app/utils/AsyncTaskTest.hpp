@@ -2,6 +2,7 @@
 #ifndef COM_GITHUB_DOEVELOPPER_RULES_SDLC_APP_UTILS_ASYNCTASKTEST_HPP
 #define COM_GITHUB_DOEVELOPPER_RULES_SDLC_APP_UTILS_ASYNCTASKTEST_HPP
 
+#include <com/github/doevelopper/rules/sdlc/app/NoOp.hpp>
 #include <com/github/doevelopper/rules/sdlc/app/utils/AsyncTask.hpp>
 #include <gtest/gtest.h>
 
@@ -31,6 +32,10 @@ namespace com::github::doevelopper::rules::sdlc::app::utils::test
     private:
     };
 
+    using FundamentalTypes = ::testing::Types<
+        char, unsigned char, wchar_t, short int, unsigned short int, int, unsigned int, long int, unsigned long int,
+        long long int, unsigned long long int, float, double, long double>;
+    using NoOpTypes = ::testing::Types<com::github::doevelopper::rules::sdlc::app::NoOp>;
     TYPED_TEST_SUITE_P(AsyncTaskTest);
 }
 #endif

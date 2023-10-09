@@ -40,7 +40,7 @@ void NotificationTest<V>::TearDown()
 
 TYPED_TEST_P(NotificationTest, Test_Not_Yet_Implemented)
 {
-    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
 }
 
 REGISTER_TYPED_TEST_SUITE_P(NotificationTest, Test_Not_Yet_Implemented);

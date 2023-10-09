@@ -27,6 +27,11 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.hpp",
 
+        "com/github/doevelopper/rules/sdlc/app/PluginInterfaceMock.cpp",
+        "com/github/doevelopper/rules/sdlc/app/PluginInterfaceMock.hpp",
+        "com/github/doevelopper/rules/sdlc/app/PluginInterfaceTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/PluginInterfaceTest.hpp",
+
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncPromiseTest.hpp",
@@ -63,6 +68,15 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/semver/VersionTest.hpp",
         "com/github/doevelopper/rules/sdlc/semver/TokenTest.cpp",
         "com/github/doevelopper/rules/sdlc/semver/TokenTest.hpp",
+
+        "com/github/doevelopper/rules/sdlc/timers/TimerQueueTest.cpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerQueueTest.hpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerStateBaseTest.cpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerStateBaseTest.hpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerStateTest.cpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerStateTest.hpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerTest.cpp",
+        "com/github/doevelopper/rules/sdlc/timers/TimerTest.hpp",
     ],
 
     copts = [

@@ -43,7 +43,7 @@ void AsyncPromiseTest<V>::TearDown()
 
 TYPED_TEST_P(AsyncPromiseTest, Test_Not_Yet_Implemented)
 {
-    // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // AsyncPromise<int> promise;
     // AsyncRequest<int> request = promise.get_request();
 }

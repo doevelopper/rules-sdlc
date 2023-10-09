@@ -1,6 +1,3 @@
-
-#include <com/github/doevelopper/rules/sdlc/app/NoOp.hpp>
-
 #include <com/github/doevelopper/rules/sdlc/app/utils/AsyncTaskTest.hpp>
 
 using namespace com::github::doevelopper::rules::sdlc::app;
@@ -43,10 +40,11 @@ void AsyncTaskTest<V>::TearDown()
 
 TYPED_TEST_P(AsyncTaskTest, Test_Not_Yet_Implemented)
 {
-    // LOG4CXX_TRACE(AsyncTaskTest<ValueType>::logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // TypeParam n = this->ValueType;
 }
 
 REGISTER_TYPED_TEST_SUITE_P(AsyncTaskTest, Test_Not_Yet_Implemented);
 
-INSTANTIATE_TYPED_TEST_SUITE_P(TestOfAsyncTaskTest, AsyncTaskTest, NoOp);
+// INSTANTIATE_TYPED_TEST_SUITE_P(TestOfAsyncTaskTest, AsyncTaskTest, NoOp);
+INSTANTIATE_TYPED_TEST_SUITE_P(TestOfAsyncTaskTest, AsyncTaskTest, NoOpTypes);

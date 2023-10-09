@@ -45,7 +45,7 @@ void MessageQueueTest<V>::TearDown()
 
 TYPED_TEST_P(MessageQueueTest, Test_push_pop)
 {
-    //     // LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     //     // MessageQueue<int> queue;
     //     // EXPECT_TRUE(queue.try_push(1));
     //     // EXPECT_TRUE(queue.try_push(2));
@@ -64,7 +64,7 @@ TYPED_TEST_P(MessageQueueTest, Test_push_pop)
 TYPED_TEST_P(MessageQueueTest, Test_push_pop_limit)
 {
     //     // MessageQueue<int> queue(3);
-
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     //     // EXPECT_TRUE(queue.try_push(1));
     //     // EXPECT_FALSE(queue.full());
     //     // EXPECT_TRUE(queue.try_push(2));
@@ -86,7 +86,7 @@ TYPED_TEST_P(MessageQueueTest, Test_push_pop_limit)
 TYPED_TEST_P(MessageQueueTest, Test_wait_and_pushpop)
 {
     //     // MessageQueue<int> queue(3);
-
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     //     // std::jthread thread([&] {
     //     //     for (int i = 0; i < 10; ++i)
     //     //     {
@@ -106,7 +106,7 @@ TYPED_TEST_P(MessageQueueTest, Test_wait_and_pushpop)
 TYPED_TEST_P(MessageQueueTest, Test_wait_and_push_interruption)
 {
     //     //     MessageQueue<int> queue(3);
-
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     //     //     std::jthread thread([&](std::stop_token stoken) {
     //     //         for (int i = 0; i < 10; ++i)
     //     //         {
@@ -120,7 +120,7 @@ TYPED_TEST_P(MessageQueueTest, Test_wait_and_push_interruption)
 TYPED_TEST_P(MessageQueueTest, Test_wait_and_pop_interruption)
 {
     // //     // MessageQueue<int> queue(3);
-
+    LOG4CXX_TRACE(TestFixture::logger, __LOG4CXX_FUNC__);
     // //     // std::jthread thread([&](std::stop_token stoken) {
     // //     //     int value;
     // //     //     queue.wait_and_pop(value, stoken);

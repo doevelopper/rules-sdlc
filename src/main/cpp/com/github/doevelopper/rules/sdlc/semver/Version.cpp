@@ -11,6 +11,16 @@ template <typename B>
 Version<B>::Version() noexcept
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    oss << " written using "
+        << " ("
+#if defined(__INTEL_COMPILER)
+        << "Intel " << __INTEL_COMPILER << " " << __INTEL_COMPILER_BUILD_DATE
+#elif defined(__GNUC__)
+        << "GNU " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__
+#else
+        << "unknown compiler"
+#endif
+        << ')';
 }
 
 template <typename B>
