@@ -26,12 +26,12 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/app/NoOpTest.hpp",
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/NotificationTest.hpp",
-
         "com/github/doevelopper/rules/sdlc/app/PluginInterfaceMock.cpp",
         "com/github/doevelopper/rules/sdlc/app/PluginInterfaceMock.hpp",
         "com/github/doevelopper/rules/sdlc/app/PluginInterfaceTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/PluginInterfaceTest.hpp",
-
+        "com/github/doevelopper/rules/sdlc/app/TimeoutGuardTest.cpp",
+        "com/github/doevelopper/rules/sdlc/app/TimeoutGuardTest.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.cpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequestTest.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncPromiseTest.hpp",

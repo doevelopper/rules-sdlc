@@ -29,6 +29,9 @@ namespace com::github::doevelopper::rules::sdlc::app
         TimeoutGuard(clock::duration timeout, std::function<void(void)> alarm, clock::duration naptime);
         TimeoutGuard(clock::duration timeout, std::function<void(void)> alarm);
 
+        void watch();
+        void touch();
+
     private:
 
         void guard();
@@ -38,10 +41,11 @@ namespace com::github::doevelopper::rules::sdlc::app
 
         std::function<void(void)> m_alarm;
 
-        std::atomic_bool m_idle;
-        std::atomic_bool m_live;
+        std::atomic_bool m_idle {true};
+        std::atomic_bool m_live {true};
 
-        std::atomic<clock::time_point> m_touched;
+        std::atomic<clock::time_point> m_touched {clock::now()};
+        ;
 
         std::thread m_guard_thread;
         std::mutex m_guard_mutex;

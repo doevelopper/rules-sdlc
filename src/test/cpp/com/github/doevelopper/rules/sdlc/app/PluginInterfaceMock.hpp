@@ -6,10 +6,11 @@
 
 namespace com::github::doevelopper::rules::sdlc::app::test
 {
-    class PluginInterfaceMock: public ::testing::NiceMock<PluginInterface>
+    class PluginInterfaceMock : public ::testing::NiceMock<PluginInterface>
     {
         LOG4CXX_DECLARE_STATIC_LOGGER
     public:
+
         PluginInterfaceMock();
         PluginInterfaceMock(const PluginInterfaceMock &)             = delete;
         PluginInterfaceMock(PluginInterfaceMock &&)                  = delete;
@@ -17,19 +18,16 @@ namespace com::github::doevelopper::rules::sdlc::app::test
         PluginInterfaceMock & operator=(PluginInterfaceMock &&)      = delete;
         virtual ~PluginInterfaceMock();
 
-
         MOCK_METHOD(State, state, (), (const, override));
         MOCK_METHOD(const std::string &, name, (), (const, override));
-        MOCK_METHOD(void, programOptions,(OptionDesc & cli, OptionDesc & cfg), (override));
-        MOCK_METHOD(void, initialize, (const OptionMap& options), (override));
+        MOCK_METHOD(void, programOptions, (OptionDesc & cli, OptionDesc & cfg), (override));
+        MOCK_METHOD(void, initialize, (const OptionMap & options), (override));
         MOCK_METHOD(void, handleSignalHangUp, (), (override));
         MOCK_METHOD(void, startup, (), (override));
         MOCK_METHOD(void, shutdown, (), (override));
 
     protected:
-
     private:
-
     };
 }
 #endif

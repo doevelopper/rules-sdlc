@@ -117,6 +117,8 @@ cc_library(
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncRequest.cpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncTask.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/AsyncTask.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/Checksum.cpp",
+        "com/github/doevelopper/rules/sdlc/app/utils/Checksum.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/MessageQueue.cpp",
         "com/github/doevelopper/rules/sdlc/app/utils/MessageQueue.hpp",
         "com/github/doevelopper/rules/sdlc/app/utils/Semaphore.cpp",

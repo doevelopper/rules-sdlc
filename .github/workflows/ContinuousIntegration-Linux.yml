@@ -125,6 +125,7 @@ jobs:
           echo "build --config github_actions" > user.bazelrc
           echo "build --disk_cache ${{ github.workspace }}/.bazel-cache/disk-cache" >> user.bazelrc
           echo "build --repository_cache ${{ github.workspace }}/.bazel-cache/repo-cache" >> user.bazelrc
+          make compile
 
       -
         name: Execute linting with clang-format
@@ -181,6 +182,7 @@ jobs:
         name: Compile the source code of the project.
         run: |
           ls ${{ github.workspace }}
+          make compile
       -
         name: Post-process the generated files from compilation,
         run: |
@@ -213,6 +215,7 @@ jobs:
         name: Run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
         run: |
           ls ${{ github.workspace }}
+          make test
 
       -
         name: 'Archive ${{ github.repository }} Logs'
