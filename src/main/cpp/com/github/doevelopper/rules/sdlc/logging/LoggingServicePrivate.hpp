@@ -116,6 +116,10 @@ namespace com::github::doevelopper::rules::sdlc::logging
         void fatal(const std::string & s);
         void flush();
 
+        auto watchPeriod() const& -> const unsigned long& { return m_watchPeriod; }
+        auto watchPeriod() &      -> unsigned long&       { return m_watchPeriod; }
+        auto watchPeriod() &&     -> unsigned long&&      { return std::move(m_watchPeriod); }
+
     protected:
     private:
 

@@ -10,13 +10,14 @@ LoggingService::LoggingService()
     : d_ptr(new LoggingServicePrivate())
 {
     Q_D(LoggingService);
+    // d->watchPeriod(100000LUL);
 }
 
 LoggingService::LoggingService(unsigned long loggerWatchDelay)
     : d_ptr(new LoggingServicePrivate(loggerWatchDelay))
 {
     Q_D(LoggingService);
-
+    // d->watchPeriod(loggerWatchDelay);
     // d->loggerSvce = log4cxx::Logger::getLogger (name.toStdString().c_str());
     this->configure();
 }

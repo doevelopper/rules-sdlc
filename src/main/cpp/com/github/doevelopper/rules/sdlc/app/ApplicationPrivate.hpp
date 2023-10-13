@@ -17,12 +17,12 @@
 
 namespace com::github::doevelopper::rules::sdlc::app::internal
 {
-    namespace fs = std::filesystem;
     using AnyTypeCmpMap =
         std::unordered_map<std::type_index, std::function<bool(const boost::any & a, const boost::any & b)>>;
 
     class SDLC_API_EXPORT ApplicationPrivate
     {
+        Q_DISABLE_COPY_MOVE(ApplicationPrivate)
         LOG4CXX_DECLARE_STATIC_LOGGER
 
     public:
@@ -32,27 +32,25 @@ namespace com::github::doevelopper::rules::sdlc::app::internal
 
         std::string version() const;
         std::string fullVersionInfo() const;
-        fs::path dataDirectory() const;
-        void dataDirectory(const fs::path dir = "data") const;
-        fs::path configDirectory() const;
-        void configDirectory(const fs::path & dir = "conf");
-
-        ApplicationPrivate(int & argc, char ** argv);
+        std::filesystem::path dataDirectory() const;
+        void dataDirectory(const std::filesystem::path dir = "data") const;
+        std::filesystem::path configDirectory() const;
+        void configDirectory(const std::filesystem::path & dir = "conf");
 
     protected:
     private:
-
-        Q_DISABLE_COPY_MOVE(ApplicationPrivate)
-
+        com::github::doevelopper::rules::sdlc::logging::LoggingService * m_loggerService;
         com::github::doevelopper::rules::sdlc::app::OptionDesc m_appplicationOptions;
         com::github::doevelopper::rules::sdlc::app::OptionDesc m_appplicationConfigOptions;
         com::github::doevelopper::rules::sdlc::app::OptionMap m_optionMap;
-        fs::path m_data_dir {"data"};
-        fs::path m_config_dir {"conf"};
-        fs::path m_logging_conf {"logging.json"};
-        fs::path m_config_file_name;
+        std::filesystem::path m_data_dir {"data"};
+        std::filesystem::path m_config_dir {"conf"};
+        std::filesystem::path m_logging_conf {"logging.json"};
+        std::filesystem::path m_config_file_name;
         std::atomic_bool m_is_quiting {false};
         AnyTypeCmpMap m_anyCompareMap;
+
+        static const unsigned long LOGGER_WATCH_DELAY;
     };
 
 } // namespace com::github::doevelopper::rules::sdlc::app

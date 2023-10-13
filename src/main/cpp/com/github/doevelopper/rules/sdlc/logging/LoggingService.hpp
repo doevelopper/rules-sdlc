@@ -90,13 +90,12 @@ namespace com::github::doevelopper::rules::sdlc::logging
 
     class LoggingService
     {
+        std::shared_ptr<LoggingServicePrivate> d_ptr;
+        Q_DECLARE_PRIVATE(LoggingService)
+        Q_DEFAULT_COPY_MOVE(LoggingService)
     public:
 
         LoggingService() noexcept;
-        LoggingService(const LoggingService &) noexcept             = default;
-        LoggingService(LoggingService &&) noexcept                  = default;
-        LoggingService & operator=(const LoggingService &) noexcept = default;
-        LoggingService & operator=(LoggingService &&) noexcept      = default;
         virtual ~LoggingService() noexcept;
 
         explicit LoggingService(unsigned long delay);
@@ -118,9 +117,7 @@ namespace com::github::doevelopper::rules::sdlc::logging
 
     protected:
     private:
-
-        std::shared_ptr<LoggingServicePrivate> d_ptr;
-        Q_DECLARE_PRIVATE(LoggingService)
+        unsigned long loggerConfigWatchDelay;
     };
 }
 

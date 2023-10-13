@@ -13,6 +13,8 @@ using namespace com::github::doevelopper::rules::sdlc::extensions::test;
 log4cxx::LoggerPtr UnitTestBuilder::logger =
     log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.extensions.test.UnitTestBuilder"));
 
+const unsigned long UnitTestBuilder::LOGGER_WATCH_DELAY = 30000UL;
+
 UnitTestBuilder::UnitTestBuilder()
     : m_testSuites(std::string())
     , m_moduleUnderTest(std::string())

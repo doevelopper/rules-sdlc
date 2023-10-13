@@ -35,7 +35,7 @@ std::string Checksum::toHex(std::vector<std::uint8_t> const & digest)
 std::vector<std::uint8_t> Checksum::sha256sum(void const * data, size_t len)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-    std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
+    std::vector<std::uint8_t> digest(SHA256_DIGEST_LENGTH);
     SHA256_CTX ctx;
     SHA256_Init(&ctx);
     SHA256_Update(&ctx, data, len);
@@ -58,7 +58,7 @@ std::vector<std::uint8_t> Checksum::sha256sum(std::vector<std::uint8_t> const & 
 std::vector<std::uint8_t> Checksum::md5sum(void const * data, size_t len)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-    std::vector<uint8_t> digest(MD5_DIGEST_LENGTH);
+    std::vector<std::uint8_t> digest(MD5_DIGEST_LENGTH);
     MD5_CTX ctx;
     MD5_Init(&ctx);
     MD5_Update(&ctx, data, len);
