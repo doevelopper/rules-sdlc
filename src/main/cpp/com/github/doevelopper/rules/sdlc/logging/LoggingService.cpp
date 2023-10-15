@@ -13,7 +13,7 @@ LoggingService::LoggingService()
     // d->watchPeriod(100000LUL);
 }
 
-LoggingService::LoggingService(unsigned long loggerWatchDelay)
+LoggingService::LoggingService(std::uint32_t loggerWatchDelay)
     : d_ptr(new LoggingServicePrivate(loggerWatchDelay))
 {
     Q_D(LoggingService);

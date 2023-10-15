@@ -98,7 +98,7 @@ namespace com::github::doevelopper::rules::sdlc::logging
         LoggingService() noexcept;
         virtual ~LoggingService() noexcept;
 
-        explicit LoggingService(unsigned long delay);
+        LoggingService(std::uint32_t delay);
         void configure();
 
         SDLC_DEPRECATED_MSG("Replaced by LOG4CXX_TRACE macro, which has an improved interface")
@@ -117,7 +117,8 @@ namespace com::github::doevelopper::rules::sdlc::logging
 
     protected:
     private:
-        unsigned long loggerConfigWatchDelay;
+
+        std::uint32_t loggerConfigWatchDelay;
     };
 }
 

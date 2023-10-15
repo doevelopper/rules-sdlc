@@ -9,12 +9,12 @@
 using namespace com::github::doevelopper::rules::sdlc::logging;
 
 LoggingServicePrivate::LoggingServicePrivate()
-    : m_watchPeriod(5000UL)
+    : m_watchPeriod(50000UL)
 {
     std::cerr << "Env variable: LOG4CXX_CONFIGURATION  yet not set!!!";
 }
 
-LoggingServicePrivate::LoggingServicePrivate(unsigned long delay)
+LoggingServicePrivate::LoggingServicePrivate(std::uint32_t delay)
     : m_watchPeriod(delay)
 {
     std::cout << "Using log monitoring delay " << delay << std::endl;

@@ -7,9 +7,8 @@ using namespace com::github::doevelopper::rules::sdlc::app;
 using namespace com::github::doevelopper::rules::sdlc::logging;
 using namespace com::github::doevelopper::rules::sdlc::semver;
 
-
 log4cxx::LoggerPtr Application::logger =
-    log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.app.Application"));
+    log4cxx::Logger::getLogger(std::string("com.github.doevelopper.rules.sdlc.app.ApplicationPrivate"));
 
 Application::Application() noexcept
     // : d_ptr ( new ApplicationPrivate ( ) )
@@ -54,10 +53,19 @@ int Application::start()
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 }
 
-// bool Application::initialize(int argc, char ** argv)
-// {
-//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-// }
+bool Application::initialize(int argc, char ** argv)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+template <typename T>
+void Application::registerConfigType(T type)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    registerConfigTypeComparison(typeid(T), [](const auto & a, const auto & b) {
+        return boost::any_cast<const T &>(a) == boost::any_cast<const T &>(b);
+    });
+}
 
 // void Application::startup()
 // {
@@ -84,10 +92,32 @@ int Application::start()
 //     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 // }
 
-// void Application::register_config_type_comparison(std::type_index i, ConfigComparison comp)
-// {
-//     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-//     // Q_D ( Application );
+void Application::registerConfigTypeComparison(std::type_index i, ConfigComparison comp)
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+    // Q_D ( Application );
 
-//     // d_ptr->_any_compare_map.emplace(i, comp);
-// }
+    // d_ptr->_any_compare_map.emplace(i, comp);
+}
+
+PluginInterface * Application::findPlugin(const std::string & name) const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+PluginInterface & Application::getPlugin(const std::string & name) const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+template <typename Plugin>
+Plugin & Application::getPlugin() const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}
+
+template <typename Plugin>
+Plugin * Application::findPlugin() const
+{
+    LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
+}

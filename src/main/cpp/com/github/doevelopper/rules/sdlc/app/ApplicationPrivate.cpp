@@ -10,10 +10,10 @@ using bpo::variables_map;
 log4cxx::LoggerPtr ApplicationPrivate::logger =
     log4cxx::Logger::getLogger(std::string("cfs.utils.app.ApplicationPrivate"));
 
-const unsigned long ApplicationPrivate::LOGGER_WATCH_DELAY = 100000;
+const std::uint32_t ApplicationPrivate::LOGGER_WATCH_DELAY = 100000;
 
 ApplicationPrivate::ApplicationPrivate()
-    // :  m_loggerService(100000)
+// :  m_loggerService(LOGGER_WATCH_DELAY)
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 

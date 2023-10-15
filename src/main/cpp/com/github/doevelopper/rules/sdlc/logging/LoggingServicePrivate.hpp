@@ -33,7 +33,7 @@ namespace com::github::doevelopper::rules::sdlc::logging
     public:
 
         LoggingServicePrivate() noexcept;
-        LoggingServicePrivate(unsigned long delay);
+        LoggingServicePrivate(std::uint32_t delay);
         LoggingServicePrivate(const LoggingServicePrivate &) noexcept             = default;
         LoggingServicePrivate(LoggingServicePrivate &&) noexcept                  = default;
         LoggingServicePrivate & operator=(const LoggingServicePrivate &) noexcept = default;
@@ -116,9 +116,20 @@ namespace com::github::doevelopper::rules::sdlc::logging
         void fatal(const std::string & s);
         void flush();
 
-        auto watchPeriod() const& -> const unsigned long& { return m_watchPeriod; }
-        auto watchPeriod() &      -> unsigned long&       { return m_watchPeriod; }
-        auto watchPeriod() &&     -> unsigned long&&      { return std::move(m_watchPeriod); }
+        auto watchPeriod() const & -> const std::uint32_t &
+        {
+            return m_watchPeriod;
+        }
+
+        auto watchPeriod() & -> std::uint32_t &
+        {
+            return m_watchPeriod;
+        }
+
+        auto watchPeriod() && -> std::uint32_t &&
+        {
+            return std::move(m_watchPeriod);
+        }
 
     protected:
     private:
@@ -129,7 +140,7 @@ namespace com::github::doevelopper::rules::sdlc::logging
          *  @brief Value for periodical check if configFilename has been created
          * or modified!
          */
-        unsigned long m_watchPeriod;
+        std::uint32_t m_watchPeriod;
     };
 }
 #endif

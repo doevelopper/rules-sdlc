@@ -7,6 +7,7 @@
 
 namespace com::github::doevelopper::rules::sdlc::app::test
 {
+    template <typename V>
     class QueuedHandlerTest : public ::testing::Test
     {
         LOG4CXX_DECLARE_STATIC_TEST_LOGGER
@@ -24,9 +25,10 @@ namespace com::github::doevelopper::rules::sdlc::app::test
 
     protected:
 
-        com::github::doevelopper::rules::sdlc::app::QueuedHandler * m_targetUnderTest;
+        // com::github::doevelopper::rules::sdlc::app::QueuedHandler<V> * m_targetUnderTest;
 
     private:
     };
+    TYPED_TEST_SUITE_P(QueuedHandlerTest);
 }
 #endif

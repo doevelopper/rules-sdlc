@@ -39,6 +39,7 @@ namespace com::github::doevelopper::rules::sdlc::app::internal
 
     protected:
     private:
+
         com::github::doevelopper::rules::sdlc::logging::LoggingService * m_loggerService;
         com::github::doevelopper::rules::sdlc::app::OptionDesc m_appplicationOptions;
         com::github::doevelopper::rules::sdlc::app::OptionDesc m_appplicationConfigOptions;
@@ -50,7 +51,7 @@ namespace com::github::doevelopper::rules::sdlc::app::internal
         std::atomic_bool m_is_quiting {false};
         AnyTypeCmpMap m_anyCompareMap;
 
-        static const unsigned long LOGGER_WATCH_DELAY;
+        static const std::uint32_t LOGGER_WATCH_DELAY;
     };
 
 } // namespace com::github::doevelopper::rules::sdlc::app

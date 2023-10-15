@@ -22,7 +22,7 @@ void QueuedHandleBaseTest::SetUp()
 {
     LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
 
-    m_targetUnderTest = new QueuedHandleBase();
+    // m_targetUnderTest = new QueuedHandleBase();
 }
 
 void QueuedHandleBaseTest::TearDown()

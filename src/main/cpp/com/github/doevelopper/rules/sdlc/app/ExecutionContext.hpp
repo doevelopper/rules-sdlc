@@ -2,7 +2,8 @@
 #ifndef COM_GITHUB_DOEVELOPPER_RULES_SDLC_APP_EXECUTIONCONTEXT_HPP
 #define COM_GITHUB_DOEVELOPPER_RULES_SDLC_APP_EXECUTIONCONTEXT_HPP
 
-#include <com/github/doevelopper/rules/sdlc/logging/LoggingService.hpp>
+#include <com/github/doevelopper/rules/sdlc/app/Executor.hpp>
+#include <com/github/doevelopper/rules/sdlc/app/QueuedHandler.hpp>
 #include <boost/asio.hpp>
 
 #include <queue>
@@ -24,49 +25,6 @@ namespace com::github::doevelopper::rules::sdlc::app
     class SDLC_API_EXPORT ExecutionContext : public boost::asio::execution_context
     {
         LOG4CXX_DECLARE_STATIC_LOGGER
-
-        class QueuedHandleBase
-        {
-            LOG4CXX_DECLARE_STATIC_LOGGER
-
-        public:
-
-            QueuedHandleBase();
-            QueuedHandleBase(int p, size_t order);
-            virtual ~QueuedHandleBase();
-            virtual void execute() = 0;
-            int priority() const;
-
-            friend bool operator<(const QueuedHandleBase & lhs, const QueuedHandleBase & rhs) noexcept
-            {
-                return std::tie(lhs.m_priority, lhs.m_order) < std::tie(rhs.m_priority, rhs.m_order);
-            }
-
-        private:
-
-            int m_priority;
-            std::size_t m_order;
-            Q_DISABLE_COPY_MOVE(QueuedHandleBase)
-        };
-
-        template <typename F>
-
-        class QueuedHandler : public QueuedHandleBase
-        {
-            LOG4CXX_DECLARE_STATIC_LOGGER
-
-        public:
-
-            QueuedHandler();
-            QueuedHandler(int p, size_t order, F f);
-            ~QueuedHandler();
-            void execute() override;
-
-        private:
-
-            F m_function;
-        };
-
         struct derefLess
         {
             template <typename Pointer>
@@ -77,66 +35,6 @@ namespace com::github::doevelopper::rules::sdlc::app
         };
 
     public:
-
-        class Executor
-        {
-            LOG4CXX_DECLARE_STATIC_LOGGER
-
-        public:
-
-            Executor() = delete;
-            ~Executor();
-            Executor(ExecutionContext & q, int p);
-            ExecutionContext & context() const noexcept;
-
-            template <typename Function, typename Allocator>
-            void dispatch(Function f, const Allocator &) const
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-                m_context.add(m_priority, std::move(f));
-            }
-
-            template <typename Function, typename Allocator>
-            void post(Function f, const Allocator &) const
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-                m_context.add(m_priority, std::move(f));
-            }
-
-            template <typename Function, typename Allocator>
-            void defer(Function f, const Allocator &) const
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-                m_context.add(m_priority, std::move(f));
-            }
-
-            void on_work_started() const noexcept
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-            }
-
-            void on_work_finished() const noexcept
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-            }
-
-            bool operator==(const Executor & rhs) const noexcept
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-                return (&m_context == &rhs.m_context) && (m_priority == rhs.m_priority);
-            }
-
-            bool operator!=(const Executor & rhs) const noexcept
-            {
-                LOG4CXX_TRACE(logger, __LOG4CXX_FUNC__);
-                return !operator==(rhs);
-            }
-
-        private:
-
-            ExecutionContext & m_context;
-            int m_priority;
-        };
 
         ExecutionContext();
         ExecutionContext(const ExecutionContext &)             = default;
